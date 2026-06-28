@@ -158,66 +158,100 @@ export default function PracticeSession({
 
   // ─── Bottom-left interview panel content ────────────────────────────────
 
+  const PANEL_PROMPTS: Record<string, { practice: string; assessment: string }> = {
+    clarification: {
+      practice:
+        "Before you start coding, ask any clarifying questions. Consider the inputs and outputs, edge cases, constraints, and expected return format.",
+      assessment:
+        "Note your clarifying questions and any assumptions you are making.",
+    },
+    approach: {
+      practice:
+        "Describe your approach before writing any code. Start with a brute-force solution, then consider optimisations. Explain which data structures you will use and why.",
+      assessment: "Describe your approach and the reasoning behind it.",
+    },
+    testing: {
+      practice: "Describe how you would test your solution.",
+      assessment: "Describe your testing approach.",
+    },
+    complexity: {
+      practice:
+        "Analyse the time and space complexity of your solution. Explain your reasoning for both.",
+      assessment: "State the time and space complexity of your solution.",
+    },
+  };
+
   function renderInterviewPanel() {
+    const promptText =
+      PANEL_PROMPTS[draft.currentPanel]?.[isPractice ? "practice" : "assessment"] ?? "";
+
     switch (draft.currentPanel) {
       case "clarification":
         return (
-          <textarea
-            value={draft.clarification}
-            onChange={(e) => updateDraft({ clarification: e.target.value })}
-            placeholder={
-              isPractice
-                ? "Ask your clarifying questions before coding. What are the inputs and outputs? Are there edge cases? What constraints should you assume?"
-                : "Your clarification notes and assumptions..."
-            }
-            className="w-full flex-1 resize-none bg-transparent p-3 text-sm leading-6 placeholder-[#4b5563] text-[#d1d5db] outline-none"
-          />
+          <div className="flex flex-1 flex-col overflow-hidden">
+            <p className="flex-shrink-0 px-3 pt-3 text-xs leading-6" style={{ color: "#9ca3af" }}>
+              {promptText}
+            </p>
+            <textarea
+              value={draft.clarification}
+              onChange={(e) => updateDraft({ clarification: e.target.value })}
+              className="flex-1 resize-none bg-transparent px-3 pb-3 pt-2 text-sm leading-6 text-[#d1d5db] outline-none"
+            />
+          </div>
         );
 
       case "approach":
         return (
-          <textarea
-            value={draft.approach}
-            onChange={(e) => updateDraft({ approach: e.target.value })}
-            placeholder={
-              isPractice
-                ? "Describe your approach before writing code. Brute force first, then an optimised solution. What data structures will you use and why?"
-                : "Describe your approach and reasoning..."
-            }
-            className="w-full flex-1 resize-none bg-transparent p-3 text-sm leading-6 placeholder-[#4b5563] text-[#d1d5db] outline-none"
-          />
+          <div className="flex flex-1 flex-col overflow-hidden">
+            <p className="flex-shrink-0 px-3 pt-3 text-xs leading-6" style={{ color: "#9ca3af" }}>
+              {promptText}
+            </p>
+            <textarea
+              value={draft.approach}
+              onChange={(e) => updateDraft({ approach: e.target.value })}
+              className="flex-1 resize-none bg-transparent px-3 pb-3 pt-2 text-sm leading-6 text-[#d1d5db] outline-none"
+            />
+          </div>
         );
 
       case "testing":
         return (
-          <div className="flex flex-1 flex-col gap-2 overflow-auto p-3">
+          <div className="flex flex-1 flex-col overflow-hidden">
+            <p className="flex-shrink-0 px-3 pt-3 text-xs leading-6" style={{ color: "#9ca3af" }}>
+              {promptText}
+            </p>
             <textarea
               value={draft.testingPlan}
               onChange={(e) => updateDraft({ testingPlan: e.target.value })}
-              placeholder="Testing strategy — what cases will you verify?"
-              rows={3}
-              className="w-full resize-none rounded p-2 text-xs leading-5 placeholder-[#4b5563] text-[#d1d5db] outline-none"
-              style={{ background: "#24292f" }}
+              className="flex-1 resize-none bg-transparent px-3 pb-2 pt-2 text-sm leading-6 text-[#d1d5db] outline-none"
+              style={{ borderBottom: "1px solid #3a4048" }}
             />
+            <p
+              className="flex-shrink-0 px-3 pt-2 text-xs leading-6"
+              style={{ color: "#9ca3af" }}
+            >
+              List specific edge cases to verify.
+            </p>
             <textarea
               value={draft.edgeCases}
               onChange={(e) => updateDraft({ edgeCases: e.target.value })}
-              placeholder="Edge cases — empty input, single element, negatives, duplicates, max values..."
-              rows={3}
-              className="w-full resize-none rounded p-2 text-xs leading-5 placeholder-[#4b5563] text-[#d1d5db] outline-none"
-              style={{ background: "#24292f" }}
+              className="flex-1 resize-none bg-transparent px-3 pb-3 pt-2 text-sm leading-6 text-[#d1d5db] outline-none"
             />
           </div>
         );
 
       case "complexity":
         return (
-          <textarea
-            value={draft.complexity}
-            onChange={(e) => updateDraft({ complexity: e.target.value })}
-            placeholder="Time: O(?) because... Space: O(?) because... Explain your reasoning clearly."
-            className="w-full flex-1 resize-none bg-transparent p-3 text-sm leading-6 placeholder-[#4b5563] text-[#d1d5db] outline-none"
-          />
+          <div className="flex flex-1 flex-col overflow-hidden">
+            <p className="flex-shrink-0 px-3 pt-3 text-xs leading-6" style={{ color: "#9ca3af" }}>
+              {promptText}
+            </p>
+            <textarea
+              value={draft.complexity}
+              onChange={(e) => updateDraft({ complexity: e.target.value })}
+              className="flex-1 resize-none bg-transparent px-3 pb-3 pt-2 text-sm leading-6 text-[#d1d5db] outline-none"
+            />
+          </div>
         );
 
       case "submit": {
@@ -344,7 +378,7 @@ export default function PracticeSession({
 
           {/* TOP-LEFT: Problem (~2/3) — always visible, scrollable */}
           <div
-            className="flex-[2] overflow-y-auto p-5"
+            className="flex-1 overflow-y-auto p-5"
             style={{ borderBottom: "1px solid #3a4048" }}
           >
             {/* Meta row */}
@@ -461,7 +495,7 @@ export default function PracticeSession({
           </div>
 
           {/* BOTTOM-LEFT: Interview panel (~1/3) */}
-          <div className="flex flex-[1] flex-col overflow-hidden" style={{ minHeight: 0 }}>
+          <div className="flex flex-1 flex-col overflow-hidden" style={{ minHeight: 0 }}>
             {/* Panel header with prev/next */}
             <div
               className="flex flex-shrink-0 items-center justify-between px-3 py-2"
