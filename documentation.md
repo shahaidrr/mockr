@@ -203,15 +203,22 @@ The app reads from these tables (already created and seeded in production Supaba
 
 Each question has 3 public test cases (`is_hidden = false`). No hidden tests exist in Phase 1.
 
-### Practice Workspace Stepper
+### Practice Workspace Layout (integrated coding environment)
 
-1. **Problem** — problem statement, input/output, constraints, examples
-2. **Clarification** — textarea with mode-sensitive guidance
-3. **Approach** — textarea for brute force + optimal approach
-4. **Coding** — Monaco editor, starter code from `questions.starter_code[language]`, language switcher
-5. **Testing Plan** — textarea for testing strategy + edge cases, given examples shown for reference
-6. **Complexity** — time and space complexity, reference values shown from question
-7. **Submit** — summary checklist, submit button
+`/practice/[questionId]` is one full-screen coding workspace — not a multi-page stepper.
+
+**Left column (40%)**
+- Top-left (~2/3): Problem panel — always visible and scrollable. Shows title, topic, difficulty, estimated time, problem statement, input/output descriptions, constraints, and examples. Example values are formatted with `JSON.stringify` so they never display as `[object Object]`.
+- Bottom-left (~1/3): Interview panel — cycles through 5 embedded stages with ‹ prev / next › arrows and `Stage N of 5` progress text. Changing this panel does not change the rest of the screen.
+  1. Clarification
+  2. Approach
+  3. Testing & Edge Cases
+  4. Complexity
+  5. Submit Review (checklist + submit button)
+
+**Right column (60%)**
+- Top-right (~2/3): Monaco editor — always visible. Loads starter code from `questions.starter_code[language]`. Language switcher tabs at top. Run button is disabled and labelled "Phase 2".
+- Bottom-right (~1/3): Output panel — static placeholder. No execution, no fake results.
 
 Drafts persist in localStorage per `userId:questionId:mode`. Drafts restore on refresh. Reset Draft clears the draft and restores starter code.
 

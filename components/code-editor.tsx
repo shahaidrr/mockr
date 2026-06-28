@@ -6,9 +6,10 @@ type CodeEditorProps = {
   code: string;
   language: string;
   onChange: (value: string) => void;
+  disableSuggestions?: boolean;
 };
 
-export default function CodeEditor({ code, language, onChange }: CodeEditorProps) {
+export default function CodeEditor({ code, language, onChange, disableSuggestions = false }: CodeEditorProps) {
   return (
     <Editor
       height="100%"
@@ -34,6 +35,13 @@ export default function CodeEditor({ code, language, onChange }: CodeEditorProps
         wordWrap: "on",
         padding: { top: 16 },
         fontFamily: "ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace",
+        ...(disableSuggestions && {
+          quickSuggestions: false,
+          suggestOnTriggerCharacters: false,
+          parameterHints: { enabled: false },
+          wordBasedSuggestions: "off",
+          inlineSuggest: { enabled: false },
+        }),
       }}
     />
   );
