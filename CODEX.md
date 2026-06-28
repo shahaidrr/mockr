@@ -43,17 +43,13 @@ graphify update .
 
 ---
 
-<!-- BEGIN:nextjs-agent-rules -->
 # This is NOT the Next.js you know
 
 This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` before writing any code. Heed deprecation notices.
-<!-- END:nextjs-agent-rules -->
 
 ## graphify
 
 This project has a knowledge graph at graphify-out/ with god nodes, community structure, and cross-file relationships.
-
-When the user types `/graphify`, invoke the `skill` tool with `skill: "graphify"` before doing anything else.
 
 Rules:
 - For codebase questions, first run `graphify query "<question>"` when graphify-out/graph.json exists. Use `graphify path "<A>" "<B>"` for relationships and `graphify explain "<concept>"` for focused concepts. These return a scoped subgraph, usually much smaller than GRAPH_REPORT.md or raw grep output.
@@ -64,14 +60,14 @@ Rules:
 
 ## Graphify Usage
 
-Before modifying code, query the project graph to understand the relevant files and dependencies.
+Before making code changes, inspect the current project graph.
 
-Use:
+Use Graphify to understand relevant files, routes, components, and dependencies before editing:
 
 ```bash
-graphify query "What existing files are relevant to this task?"
+graphify query "What files are relevant to this task?"
+graphify query "How does this feature connect to the current app structure?"
 graphify query "What components, routes, and utilities may be affected?"
-graphify query "What existing patterns should be followed?"
 ```
 
 After meaningful changes, update the graph:
@@ -80,4 +76,4 @@ After meaningful changes, update the graph:
 graphify update .
 ```
 
-If the change affects project structure, architecture, auth, database, UI flows, or product behaviour, update `documentation.md` as well.
+If the task changes routes, components, auth, database structure, architecture, UI flows, product behaviour, or documentation, update `documentation.md` as well.

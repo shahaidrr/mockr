@@ -1,6 +1,6 @@
 import { redirect, notFound } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
-import { fetchQuestionById } from "@/lib/questions-service";
+import { fetchQuestionById, fetchPublicTestCases } from "@/lib/questions-service";
 import PracticeSession from "./practice-session";
 import type { PracticeMode, SupportedLanguage } from "@/types/practice";
 
@@ -25,7 +25,11 @@ export default async function PracticePage({ params, searchParams }: Props) {
     redirect(`/login?next=/practice/${questionId}`);
   }
 
-  const question = await fetchQuestionById(questionId);
+  const [question, testCases] = await Promise.all([
+    fetchQuestionById(questionId),
+    fetchPublicTestCases(questionId),
+  ]);
+
   if (!question) notFound();
 
   const mode: PracticeMode = VALID_MODES.includes(sp.mode as PracticeMode)
@@ -39,6 +43,7 @@ export default async function PracticePage({ params, searchParams }: Props) {
   return (
     <PracticeSession
       question={question}
+      testCases={testCases}
       initialMode={mode}
       initialLanguage={language}
       userId={user.id}

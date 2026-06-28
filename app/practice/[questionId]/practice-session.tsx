@@ -11,8 +11,10 @@ import {
   clearDraft,
   buildEmptyDraft,
 } from "@/lib/practice-draft";
-import type { Question, QuestionExample } from "@/types/question";
+import { runPublicTests } from "@/lib/public-test-runner";
+import type { Question, QuestionExample, QuestionTestCase } from "@/types/question";
 import type { PracticeMode, SupportedLanguage, PracticeDraft, InterviewPanel } from "@/types/practice";
+import type { PublicTestRunSummary, PublicTestRunResult } from "@/types/test-run";
 
 const CodeEditor = dynamic(() => import("@/components/code-editor"), { ssr: false });
 
@@ -49,8 +51,15 @@ function formatExampleValue(value: unknown): string {
   return JSON.stringify(value, null, 2);
 }
 
+function formatValue(value: unknown): string {
+  if (value === undefined) return "";
+  if (typeof value === "string") return JSON.stringify(value);
+  return JSON.stringify(value, null, 0);
+}
+
 type Props = {
   question: Question;
+  testCases: QuestionTestCase[];
   initialMode: PracticeMode;
   initialLanguage: SupportedLanguage;
   userId: string;
@@ -58,6 +67,7 @@ type Props = {
 
 export default function PracticeSession({
   question,
+  testCases,
   initialMode,
   initialLanguage,
   userId,
@@ -77,11 +87,14 @@ export default function PracticeSession({
 
   const [showResetConfirm, setShowResetConfirm] = useState(false);
   const [langSwitchTarget, setLangSwitchTarget] = useState<SupportedLanguage | null>(null);
+  const [testSummary, setTestSummary] = useState<PublicTestRunSummary | null>(null);
+  const [isRunning, setIsRunning] = useState(false);
 
   const currentLanguage = draft.selectedLanguage;
   const starterCode = question.starter_code?.[currentLanguage] ?? "";
   const currentCode = draft.codeByLanguage[currentLanguage] ?? starterCode;
   const currentPanelIdx = INTERVIEW_PANELS.indexOf(draft.currentPanel);
+  const isJavaScript = currentLanguage === "javascript";
 
   // Assessment mode timer
   useEffect(() => {
@@ -138,10 +151,32 @@ export default function PracticeSession({
     clearDraft(draftKey);
     setDraft(buildEmptyDraft(initialLanguage));
     setTimerSeconds(0);
+    setTestSummary(null);
     setShowResetConfirm(false);
   }
 
-  function handleSubmit() {
+  async function handleRun() {
+    if (!isJavaScript || isRunning || testCases.length === 0) return;
+    setIsRunning(true);
+    setTestSummary(null);
+    try {
+      const summary = await runPublicTests(currentCode, question.function_name, testCases);
+      setTestSummary(summary);
+    } finally {
+      setIsRunning(false);
+    }
+  }
+
+  async function handleSubmit() {
+    if (isJavaScript && testCases.length > 0) {
+      setIsRunning(true);
+      try {
+        const summary = await runPublicTests(currentCode, question.function_name, testCases);
+        setTestSummary(summary);
+      } finally {
+        setIsRunning(false);
+      }
+    }
     const attemptId = `local-${Date.now()}`;
     router.push(`/results/${attemptId}?questionId=${question.id}`);
   }
@@ -280,21 +315,119 @@ export default function PracticeSession({
               ))}
             </div>
 
-            <p className="text-[10px] leading-4" style={{ color: "#4b5563" }}>
-              Phase 1 — local submission only. Scoring and attempt storage are coming in a future phase.
-            </p>
+            {isJavaScript ? (
+              <p className="text-[10px] leading-4" style={{ color: "#4b5563" }}>
+                Submit will run public tests one final time, then record a local attempt.
+              </p>
+            ) : (
+              <p className="text-[10px] leading-4" style={{ color: "#4b5563" }}>
+                JavaScript public test execution is available in Phase 2. Other languages are
+                editor-only for now. Submit will record a local attempt without running tests.
+              </p>
+            )}
 
             <button
               onClick={handleSubmit}
-              className="w-full rounded px-3 py-2 text-xs font-bold transition hover:brightness-110 active:brightness-90"
+              disabled={isRunning}
+              className="w-full rounded px-3 py-2 text-xs font-bold transition hover:brightness-110 active:brightness-90 disabled:opacity-50"
               style={{ background: "#31d67b", color: "#000" }}
             >
-              Submit Attempt →
+              {isRunning ? "Running tests…" : "Submit Attempt →"}
             </button>
           </div>
         );
       }
     }
+  }
+
+  // ─── Output panel ────────────────────────────────────────────────────────
+
+  function renderOutputPanel() {
+    if (!isJavaScript) {
+      return (
+        <div className="flex h-full flex-col justify-center px-4 py-4">
+          <p style={{ color: "#6b7280", fontFamily: "ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace", fontSize: 12 }}>
+            JavaScript public test execution is available in Phase 2.
+          </p>
+          <p style={{ color: "#374151", fontFamily: "ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace", fontSize: 12, marginTop: 4 }}>
+            Other languages are editor-only for now.
+          </p>
+        </div>
+      );
+    }
+
+    if (testCases.length === 0) {
+      return (
+        <div className="flex h-full flex-col justify-center px-4 py-4">
+          <p style={{ color: "#6b7280", fontFamily: "ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace", fontSize: 12 }}>
+            No public test cases found for this question.
+          </p>
+        </div>
+      );
+    }
+
+    if (isRunning) {
+      return (
+        <div className="flex h-full flex-col justify-center px-4 py-4">
+          <p style={{ color: "#9ca3af", fontFamily: "ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace", fontSize: 12 }}>
+            Running {testCases.length} public test{testCases.length !== 1 ? "s" : ""}…
+          </p>
+        </div>
+      );
+    }
+
+    if (!testSummary) {
+      return (
+        <div className="flex h-full flex-col justify-center px-4 py-4">
+          <p style={{ color: "#4b5563", fontFamily: "ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace", fontSize: 12 }}>
+            Ready. Click Run to execute {testCases.length} public test{testCases.length !== 1 ? "s" : ""}.
+          </p>
+        </div>
+      );
+    }
+
+    return (
+      <div className="h-full overflow-auto px-4 py-3">
+        {/* Summary row */}
+        <div className="mb-3 flex items-center gap-3">
+          {testSummary.timedOut ? (
+            <span
+              className="rounded px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider"
+              style={{ background: "#7c3aed22", color: "#a78bfa" }}
+            >
+              Timeout
+            </span>
+          ) : (
+            <>
+              <span
+                className="rounded px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider"
+                style={{ background: "#10b98122", color: "#10b981" }}
+              >
+                {testSummary.passed} passed
+              </span>
+              {testSummary.failed > 0 && (
+                <span
+                  className="rounded px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider"
+                  style={{ background: "#ef444422", color: "#ef4444" }}
+                >
+                  {testSummary.failed} failed
+                </span>
+              )}
+              <span className="text-[10px]" style={{ color: "#4b5563" }}>
+                of {testSummary.total} public test{testSummary.total !== 1 ? "s" : ""}
+              </span>
+            </>
+          )}
+        </div>
+
+        {/* Per-test results */}
+        <div className="space-y-2">
+          {testSummary.results.map((r: PublicTestRunResult, idx: number) => (
+            <TestResultRow key={r.testCaseId} result={r} index={idx} />
+          ))}
+        </div>
+      </div>
+    );
   }
 
   // ─── Render ─────────────────────────────────────────────────────────────
@@ -358,13 +491,6 @@ export default function PracticeSession({
           {LANGUAGE_OPTIONS.find((l) => l.id === currentLanguage)?.label ?? currentLanguage}
         </span>
 
-        <button
-          onClick={() => setShowResetConfirm(true)}
-          className="flex-shrink-0 rounded px-2.5 py-1 text-[10px] font-medium transition hover:text-white"
-          style={{ background: "#3a4048", color: "#9ca3af" }}
-        >
-          Reset Draft
-        </button>
       </div>
 
       {/* ── Main two-column layout ── */}
@@ -567,19 +693,57 @@ export default function PracticeSession({
 
             <div className="flex-1" />
 
-            {/* Run — disabled, Phase 2 */}
+            {/* Reload starter code */}
             <button
-              disabled
-              title="Code execution coming in Phase 2"
-              className="flex cursor-not-allowed items-center gap-1.5 rounded px-3 py-1 text-xs font-bold opacity-40"
-              style={{ background: "#31d67b", color: "#000" }}
+              onClick={() => setShowResetConfirm(true)}
+              aria-label="Reload starter code"
+              title="Reload starter code"
+              className="flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full transition hover:text-white"
+              style={{ background: "#3a4048", color: "#9ca3af" }}
             >
-              <svg width="7" height="9" viewBox="0 0 9 11" fill="currentColor">
-                <path d="M0 0L9 5.5L0 11V0Z" />
+              <svg width="10" height="10" viewBox="-1 -1 26 26" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                {/* Arc: 3 o'clock → clockwise 300° → 1 o'clock */}
+                <path d="M20 12A8 8 0 1 1 16 5" />
+                {/* Arrowhead at 1 o'clock, arms 2× original */}
+                <polyline points="12 1 16 5 12 9" />
               </svg>
-              Run
             </button>
-            <span className="text-[9px]" style={{ color: "#4b5563" }}>Phase 2</span>
+
+            {/* Run button — active for JS, disabled for other languages */}
+            {isJavaScript ? (
+              <button
+                onClick={handleRun}
+                disabled={isRunning || testCases.length === 0}
+                className="flex items-center gap-1.5 rounded px-3 py-1 text-xs font-bold transition hover:brightness-110 active:brightness-90 disabled:cursor-not-allowed disabled:opacity-50"
+                style={{ background: "#31d67b", color: "#000" }}
+              >
+                {isRunning ? (
+                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="animate-spin">
+                    <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" strokeLinecap="round" />
+                  </svg>
+                ) : (
+                  <svg width="7" height="9" viewBox="0 0 9 11" fill="currentColor">
+                    <path d="M0 0L9 5.5L0 11V0Z" />
+                  </svg>
+                )}
+                {isRunning ? "Running…" : "Run"}
+              </button>
+            ) : (
+              <>
+                <button
+                  disabled
+                  title="JavaScript public test execution is available in Phase 2. Other languages are editor-only for now."
+                  className="flex cursor-not-allowed items-center gap-1.5 rounded px-3 py-1 text-xs font-bold opacity-40"
+                  style={{ background: "#31d67b", color: "#000" }}
+                >
+                  <svg width="7" height="9" viewBox="0 0 9 11" fill="currentColor">
+                    <path d="M0 0L9 5.5L0 11V0Z" />
+                  </svg>
+                  Run
+                </button>
+                <span className="text-[9px]" style={{ color: "#4b5563" }}>JS only</span>
+              </>
+            )}
           </div>
 
           {/* Monaco editor (~2/3 of right column) */}
@@ -592,21 +756,38 @@ export default function PracticeSession({
 
           {/* Output panel (~1/3 of right column) */}
           <div
-            className="flex-[1] overflow-auto p-4"
+            className="flex-[1] overflow-hidden"
             style={{ background: "#161b22", minHeight: 0 }}
           >
-            <p
-              className="mb-2 text-[10px] font-semibold uppercase tracking-wider"
-              style={{ color: "#4b5563" }}
-            >
-              Output
-            </p>
-            <p style={{ color: "#4b5563", fontFamily: "ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace", fontSize: 12, lineHeight: "1.75" }}>
-              Ready to run your solution.
-            </p>
-            <p style={{ color: "#374151", fontFamily: "ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace", fontSize: 12, lineHeight: "1.75" }}>
-              Code execution and public test cases will be added in Phase 2.
-            </p>
+            <div className="flex h-full flex-col">
+              {/* Output header */}
+              <div
+                className="flex flex-shrink-0 items-center gap-2 px-4 py-2"
+                style={{ borderBottom: "1px solid #1e242b" }}
+              >
+                <p
+                  className="text-[10px] font-semibold uppercase tracking-wider"
+                  style={{ color: "#4b5563" }}
+                >
+                  Output
+                </p>
+                {testSummary && !testSummary.timedOut && (
+                  <span
+                    className="text-[10px]"
+                    style={{ color: testSummary.failed === 0 ? "#10b981" : "#ef4444" }}
+                  >
+                    {testSummary.failed === 0
+                      ? `All ${testSummary.total} tests passed`
+                      : `${testSummary.passed}/${testSummary.total} passed`}
+                  </span>
+                )}
+              </div>
+
+              {/* Output content */}
+              <div className="flex-1 overflow-hidden">
+                {renderOutputPanel()}
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -674,6 +855,119 @@ export default function PracticeSession({
           </div>
         </div>
       )}
+    </div>
+  );
+}
+
+// ─── Test result row component ───────────────────────────────────────────────
+
+function TestResultRow({ result, index }: { result: PublicTestRunResult; index: number }) {
+  const [expanded, setExpanded] = useState(false);
+
+  const statusColor: Record<string, string> = {
+    passed: "#10b981",
+    failed: "#ef4444",
+    error: "#f59e0b",
+    timeout: "#a78bfa",
+  };
+
+  const statusBg: Record<string, string> = {
+    passed: "#10b98122",
+    failed: "#ef444422",
+    error: "#f59e0b22",
+    timeout: "#7c3aed22",
+  };
+
+  const color = statusColor[result.status] ?? "#9ca3af";
+  const bg = statusBg[result.status] ?? "#3a404822";
+
+  const label = result.label ?? `Test ${index + 1}`;
+
+  return (
+    <div
+      className="rounded overflow-hidden"
+      style={{ border: `1px solid ${color}33`, background: "#1f2328" }}
+    >
+      {/* Header row */}
+      <button
+        className="flex w-full items-center gap-2 px-3 py-2 text-left transition hover:brightness-110"
+        style={{ background: bg }}
+        onClick={() => setExpanded((v) => !v)}
+      >
+        <span
+          className="flex-shrink-0 rounded px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wider"
+          style={{ background: `${color}33`, color }}
+        >
+          {result.status}
+        </span>
+        <span className="flex-1 truncate text-[11px] font-medium" style={{ color: "#d1d5db" }}>
+          {label}
+        </span>
+        {result.durationMs !== undefined && (
+          <span className="flex-shrink-0 text-[9px]" style={{ color: "#4b5563" }}>
+            {result.durationMs}ms
+          </span>
+        )}
+        <svg
+          width="10"
+          height="10"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2.5"
+          style={{ color: "#4b5563", transform: expanded ? "rotate(180deg)" : "none", flexShrink: 0 }}
+        >
+          <polyline points="6 9 12 15 18 9" />
+        </svg>
+      </button>
+
+      {/* Expanded details */}
+      {expanded && (
+        <div className="space-y-2 p-3" style={{ borderTop: `1px solid ${color}22` }}>
+          <DetailRow label="Input" value={result.input} />
+          <DetailRow label="Expected" value={result.expected} />
+          {result.status !== "timeout" && result.actual !== undefined && (
+            <DetailRow label="Actual" value={result.actual} highlight={result.status === "failed"} />
+          )}
+          {result.error && (
+            <div>
+              <p className="mb-1 text-[9px] font-semibold uppercase tracking-wider" style={{ color: "#6b7280" }}>
+                {result.status === "timeout" ? "Message" : "Error"}
+              </p>
+              <p
+                className="font-mono text-[11px] leading-5"
+                style={{ color: result.status === "timeout" ? "#a78bfa" : "#f59e0b" }}
+              >
+                {result.error}
+              </p>
+            </div>
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
+
+function DetailRow({
+  label,
+  value,
+  highlight,
+}: {
+  label: string;
+  value: unknown;
+  highlight?: boolean;
+}) {
+  return (
+    <div>
+      <p className="mb-0.5 text-[9px] font-semibold uppercase tracking-wider" style={{ color: "#6b7280" }}>
+        {label}
+      </p>
+      <p
+        className="font-mono text-[11px] leading-5 break-all"
+        style={{ color: highlight ? "#ef4444" : "#d1d5db" }}
+      >
+        {formatValue(value)}
+      </p>
     </div>
   );
 }
