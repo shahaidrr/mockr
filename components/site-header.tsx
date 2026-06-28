@@ -58,7 +58,7 @@ export default function SiteHeader({
 
           <Link
             href={primaryAction.href}
-            className="inline-flex rounded-full bg-slate-900 px-4 py-2 text-sm font-medium text-white transition hover:bg-slate-700"
+            className="inline-flex rounded-full border border-slate-950 bg-slate-950 px-4 py-2 text-sm font-semibold text-slate-50 shadow-[inset_0_1px_0_rgba(255,255,255,0.14)] transition hover:bg-slate-800"
           >
             {primaryAction.label}
           </Link>

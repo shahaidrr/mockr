@@ -90,7 +90,7 @@ export default async function DashboardPage() {
           <div className="flex flex-col gap-3 sm:flex-row">
             <Link
               href="/practice/demo"
-              className="inline-flex items-center justify-center rounded-full bg-slate-900 px-5 py-3 text-sm font-semibold text-white transition hover:bg-slate-700"
+              className="inline-flex items-center justify-center rounded-full border border-slate-950 bg-slate-950 px-5 py-3 text-sm font-semibold text-slate-50 shadow-[inset_0_1px_0_rgba(255,255,255,0.14)] transition hover:bg-slate-800"
             >
               Start new practice
             </Link>
