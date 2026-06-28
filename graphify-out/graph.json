@@ -4,6 +4,2136 @@
   "graph": {},
   "nodes": [
     {
+      "label": "route.ts",
+      "file_type": "code",
+      "source_file": "app/auth/callback/route.ts",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "callback_route",
+      "community": 6,
+      "norm_label": "route.ts"
+    },
+    {
+      "label": "GET()",
+      "file_type": "code",
+      "source_file": "app/auth/callback/route.ts",
+      "source_location": "L4",
+      "_origin": "ast",
+      "id": "callback_route_get",
+      "community": 6,
+      "norm_label": "get()"
+    },
+    {
+      "label": "route.ts",
+      "file_type": "code",
+      "source_file": "app/auth/signout/route.ts",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "signout_route",
+      "community": 6,
+      "norm_label": "route.ts"
+    },
+    {
+      "label": "POST()",
+      "file_type": "code",
+      "source_file": "app/auth/signout/route.ts",
+      "source_location": "L4",
+      "_origin": "ast",
+      "id": "signout_route_post",
+      "community": 6,
+      "norm_label": "post()"
+    },
+    {
+      "label": "page.tsx",
+      "file_type": "code",
+      "source_file": "app/dashboard/page.tsx",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "dashboard_page",
+      "community": 4,
+      "norm_label": "page.tsx"
+    },
+    {
+      "label": "stats",
+      "file_type": "code",
+      "source_file": "app/dashboard/page.tsx",
+      "source_location": "L7",
+      "_origin": "ast",
+      "id": "dashboard_page_stats",
+      "community": 4,
+      "norm_label": "stats"
+    },
+    {
+      "label": "recentAttempts",
+      "file_type": "code",
+      "source_file": "app/dashboard/page.tsx",
+      "source_location": "L30",
+      "_origin": "ast",
+      "id": "dashboard_page_recentattempts",
+      "community": 4,
+      "norm_label": "recentattempts"
+    },
+    {
+      "label": "scoreBreakdown",
+      "file_type": "code",
+      "source_file": "app/dashboard/page.tsx",
+      "source_location": "L51",
+      "_origin": "ast",
+      "id": "dashboard_page_scorebreakdown",
+      "community": 4,
+      "norm_label": "scorebreakdown"
+    },
+    {
+      "label": "weaknesses",
+      "file_type": "code",
+      "source_file": "app/dashboard/page.tsx",
+      "source_location": "L59",
+      "_origin": "ast",
+      "id": "dashboard_page_weaknesses",
+      "community": 4,
+      "norm_label": "weaknesses"
+    },
+    {
+      "label": "DashboardPage()",
+      "file_type": "code",
+      "source_file": "app/dashboard/page.tsx",
+      "source_location": "L65",
+      "_origin": "ast",
+      "id": "dashboard_page_dashboardpage",
+      "community": 4,
+      "norm_label": "dashboardpage()"
+    },
+    {
+      "label": "page.tsx",
+      "file_type": "code",
+      "source_file": "app/landingPage/page.tsx",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "landingpage_page",
+      "community": 3,
+      "norm_label": "page.tsx"
+    },
+    {
+      "label": "LandingPageRoute()",
+      "file_type": "code",
+      "source_file": "app/landingPage/page.tsx",
+      "source_location": "L3",
+      "_origin": "ast",
+      "id": "landingpage_page_landingpageroute",
+      "community": 3,
+      "norm_label": "landingpageroute()"
+    },
+    {
+      "label": "layout.tsx",
+      "file_type": "code",
+      "source_file": "app/layout.tsx",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "app_layout",
+      "community": 12,
+      "norm_label": "layout.tsx"
+    },
+    {
+      "label": "metadata",
+      "file_type": "code",
+      "source_file": "app/layout.tsx",
+      "source_location": "L4",
+      "_origin": "ast",
+      "id": "app_layout_metadata",
+      "community": 12,
+      "norm_label": "metadata"
+    },
+    {
+      "label": "RootLayout()",
+      "file_type": "code",
+      "source_file": "app/layout.tsx",
+      "source_location": "L13",
+      "_origin": "ast",
+      "id": "app_layout_rootlayout",
+      "community": 12,
+      "norm_label": "rootlayout()"
+    },
+    {
+      "label": "page.tsx",
+      "file_type": "code",
+      "source_file": "app/login/page.tsx",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "login_page",
+      "community": 6,
+      "norm_label": "page.tsx"
+    },
+    {
+      "label": "LoginPage()",
+      "file_type": "code",
+      "source_file": "app/login/page.tsx",
+      "source_location": "L8",
+      "_origin": "ast",
+      "id": "login_page_loginpage",
+      "community": 6,
+      "norm_label": "loginpage()"
+    },
+    {
+      "label": "page.tsx",
+      "file_type": "code",
+      "source_file": "app/page.tsx",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "app_page",
+      "community": 3,
+      "norm_label": "page.tsx"
+    },
+    {
+      "label": "Home()",
+      "file_type": "code",
+      "source_file": "app/page.tsx",
+      "source_location": "L3",
+      "_origin": "ast",
+      "id": "app_page_home",
+      "community": 3,
+      "norm_label": "home()"
+    },
+    {
+      "label": "page.tsx",
+      "file_type": "code",
+      "source_file": "app/practice/[questionId]/page.tsx",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "questionid_page",
+      "community": 9,
+      "norm_label": "page.tsx"
+    },
+    {
+      "label": "VALID_MODES",
+      "file_type": "code",
+      "source_file": "app/practice/[questionId]/page.tsx",
+      "source_location": "L7",
+      "_origin": "ast",
+      "id": "questionid_page_valid_modes",
+      "community": 9,
+      "norm_label": "valid_modes"
+    },
+    {
+      "label": "VALID_LANGUAGES",
+      "file_type": "code",
+      "source_file": "app/practice/[questionId]/page.tsx",
+      "source_location": "L8",
+      "_origin": "ast",
+      "id": "questionid_page_valid_languages",
+      "community": 9,
+      "norm_label": "valid_languages"
+    },
+    {
+      "label": "Props",
+      "file_type": "code",
+      "source_file": "app/practice/[questionId]/page.tsx",
+      "source_location": "L10",
+      "_origin": "ast",
+      "id": "questionid_page_props",
+      "community": 9,
+      "norm_label": "props"
+    },
+    {
+      "label": "PracticePage()",
+      "file_type": "code",
+      "source_file": "app/practice/[questionId]/page.tsx",
+      "source_location": "L15",
+      "_origin": "ast",
+      "id": "questionid_page_practicepage",
+      "community": 9,
+      "norm_label": "practicepage()"
+    },
+    {
+      "label": "practice-session.tsx",
+      "file_type": "code",
+      "source_file": "app/practice/[questionId]/practice-session.tsx",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "questionid_practice_session",
+      "community": 9,
+      "norm_label": "practice-session.tsx"
+    },
+    {
+      "label": "CodeEditor",
+      "file_type": "code",
+      "source_file": "app/practice/[questionId]/practice-session.tsx",
+      "source_location": "L17",
+      "_origin": "ast",
+      "id": "questionid_practice_session_codeeditor",
+      "community": 9,
+      "norm_label": "codeeditor"
+    },
+    {
+      "label": "STAGES",
+      "file_type": "code",
+      "source_file": "app/practice/[questionId]/practice-session.tsx",
+      "source_location": "L19",
+      "_origin": "ast",
+      "id": "questionid_practice_session_stages",
+      "community": 9,
+      "norm_label": "stages"
+    },
+    {
+      "label": "STAGE_LABELS",
+      "file_type": "code",
+      "source_file": "app/practice/[questionId]/practice-session.tsx",
+      "source_location": "L29",
+      "_origin": "ast",
+      "id": "questionid_practice_session_stage_labels",
+      "community": 9,
+      "norm_label": "stage_labels"
+    },
+    {
+      "label": "LANGUAGE_OPTIONS",
+      "file_type": "code",
+      "source_file": "app/practice/[questionId]/practice-session.tsx",
+      "source_location": "L39",
+      "_origin": "ast",
+      "id": "questionid_practice_session_language_options",
+      "community": 9,
+      "norm_label": "language_options"
+    },
+    {
+      "label": "Props",
+      "file_type": "code",
+      "source_file": "app/practice/[questionId]/practice-session.tsx",
+      "source_location": "L45",
+      "_origin": "ast",
+      "id": "questionid_practice_session_props",
+      "community": 9,
+      "norm_label": "props"
+    },
+    {
+      "label": "PracticeSession()",
+      "file_type": "code",
+      "source_file": "app/practice/[questionId]/practice-session.tsx",
+      "source_location": "L52",
+      "_origin": "ast",
+      "id": "questionid_practice_session_practicesession",
+      "community": 9,
+      "norm_label": "practicesession()"
+    },
+    {
+      "label": "page.tsx",
+      "file_type": "code",
+      "source_file": "app/practice/demo/page.tsx",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "demo_page",
+      "community": 6,
+      "norm_label": "page.tsx"
+    },
+    {
+      "label": "DemoPracticePage()",
+      "file_type": "code",
+      "source_file": "app/practice/demo/page.tsx",
+      "source_location": "L5",
+      "_origin": "ast",
+      "id": "demo_page_demopracticepage",
+      "community": 6,
+      "norm_label": "demopracticepage()"
+    },
+    {
+      "label": "practice-workspace.tsx",
+      "file_type": "code",
+      "source_file": "app/practice/demo/practice-workspace.tsx",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "demo_practice_workspace",
+      "community": 7,
+      "norm_label": "practice-workspace.tsx"
+    },
+    {
+      "label": "LANGUAGES",
+      "file_type": "code",
+      "source_file": "app/practice/demo/practice-workspace.tsx",
+      "source_location": "L6",
+      "_origin": "ast",
+      "id": "demo_practice_workspace_languages",
+      "community": 7,
+      "norm_label": "languages"
+    },
+    {
+      "label": "STARTER_CODE",
+      "file_type": "code",
+      "source_file": "app/practice/demo/practice-workspace.tsx",
+      "source_location": "L17",
+      "_origin": "ast",
+      "id": "demo_practice_workspace_starter_code",
+      "community": 7,
+      "norm_label": "starter_code"
+    },
+    {
+      "label": "ActiveTab",
+      "file_type": "code",
+      "source_file": "app/practice/demo/practice-workspace.tsx",
+      "source_location": "L31",
+      "_origin": "ast",
+      "id": "demo_practice_workspace_activetab",
+      "community": 7,
+      "norm_label": "activetab"
+    },
+    {
+      "label": "SidebarPanel",
+      "file_type": "code",
+      "source_file": "app/practice/demo/practice-workspace.tsx",
+      "source_location": "L32",
+      "_origin": "ast",
+      "id": "demo_practice_workspace_sidebarpanel",
+      "community": 7,
+      "norm_label": "sidebarpanel"
+    },
+    {
+      "label": "PracticeWorkspace()",
+      "file_type": "code",
+      "source_file": "app/practice/demo/practice-workspace.tsx",
+      "source_location": "L34",
+      "_origin": "ast",
+      "id": "demo_practice_workspace_practiceworkspace",
+      "community": 7,
+      "norm_label": "practiceworkspace()"
+    },
+    {
+      "label": "page.tsx",
+      "file_type": "code",
+      "source_file": "app/questions/[slug]/page.tsx",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "slug_page",
+      "community": 8,
+      "norm_label": "page.tsx"
+    },
+    {
+      "label": "Props",
+      "file_type": "code",
+      "source_file": "app/questions/[slug]/page.tsx",
+      "source_location": "L5",
+      "_origin": "ast",
+      "id": "slug_page_props",
+      "community": 8,
+      "norm_label": "props"
+    },
+    {
+      "label": "generateMetadata()",
+      "file_type": "code",
+      "source_file": "app/questions/[slug]/page.tsx",
+      "source_location": "L9",
+      "_origin": "ast",
+      "id": "slug_page_generatemetadata",
+      "community": 8,
+      "norm_label": "generatemetadata()"
+    },
+    {
+      "label": "QuestionDetailPage()",
+      "file_type": "code",
+      "source_file": "app/questions/[slug]/page.tsx",
+      "source_location": "L17",
+      "_origin": "ast",
+      "id": "slug_page_questiondetailpage",
+      "community": 8,
+      "norm_label": "questiondetailpage()"
+    },
+    {
+      "label": "question-detail-client.tsx",
+      "file_type": "code",
+      "source_file": "app/questions/[slug]/question-detail-client.tsx",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "slug_question_detail_client",
+      "community": 8,
+      "norm_label": "question-detail-client.tsx"
+    },
+    {
+      "label": "DIFFICULTY_STYLES",
+      "file_type": "code",
+      "source_file": "app/questions/[slug]/question-detail-client.tsx",
+      "source_location": "L9",
+      "_origin": "ast",
+      "id": "slug_question_detail_client_difficulty_styles",
+      "community": 8,
+      "norm_label": "difficulty_styles"
+    },
+    {
+      "label": "LANGUAGE_OPTIONS",
+      "file_type": "code",
+      "source_file": "app/questions/[slug]/question-detail-client.tsx",
+      "source_location": "L15",
+      "_origin": "ast",
+      "id": "slug_question_detail_client_language_options",
+      "community": 8,
+      "norm_label": "language_options"
+    },
+    {
+      "label": "Props",
+      "file_type": "code",
+      "source_file": "app/questions/[slug]/question-detail-client.tsx",
+      "source_location": "L21",
+      "_origin": "ast",
+      "id": "slug_question_detail_client_props",
+      "community": 8,
+      "norm_label": "props"
+    },
+    {
+      "label": "QuestionDetailClient()",
+      "file_type": "code",
+      "source_file": "app/questions/[slug]/question-detail-client.tsx",
+      "source_location": "L23",
+      "_origin": "ast",
+      "id": "slug_question_detail_client_questiondetailclient",
+      "community": 8,
+      "norm_label": "questiondetailclient()"
+    },
+    {
+      "label": "page.tsx",
+      "file_type": "code",
+      "source_file": "app/questions/page.tsx",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "questions_page",
+      "community": 8,
+      "norm_label": "page.tsx"
+    },
+    {
+      "label": "metadata",
+      "file_type": "code",
+      "source_file": "app/questions/page.tsx",
+      "source_location": "L5",
+      "_origin": "ast",
+      "id": "questions_page_metadata",
+      "community": 8,
+      "norm_label": "metadata"
+    },
+    {
+      "label": "QuestionsPage()",
+      "file_type": "code",
+      "source_file": "app/questions/page.tsx",
+      "source_location": "L7",
+      "_origin": "ast",
+      "id": "questions_page_questionspage",
+      "community": 8,
+      "norm_label": "questionspage()"
+    },
+    {
+      "label": "question-library-client.tsx",
+      "file_type": "code",
+      "source_file": "app/questions/question-library-client.tsx",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "questions_question_library_client",
+      "community": 8,
+      "norm_label": "question-library-client.tsx"
+    },
+    {
+      "label": "DIFFICULTY_STYLES",
+      "file_type": "code",
+      "source_file": "app/questions/question-library-client.tsx",
+      "source_location": "L7",
+      "_origin": "ast",
+      "id": "questions_question_library_client_difficulty_styles",
+      "community": 8,
+      "norm_label": "difficulty_styles"
+    },
+    {
+      "label": "LANGUAGE_LABELS",
+      "file_type": "code",
+      "source_file": "app/questions/question-library-client.tsx",
+      "source_location": "L13",
+      "_origin": "ast",
+      "id": "questions_question_library_client_language_labels",
+      "community": 8,
+      "norm_label": "language_labels"
+    },
+    {
+      "label": "Props",
+      "file_type": "code",
+      "source_file": "app/questions/question-library-client.tsx",
+      "source_location": "L19",
+      "_origin": "ast",
+      "id": "questions_question_library_client_props",
+      "community": 8,
+      "norm_label": "props"
+    },
+    {
+      "label": "QuestionLibraryClient()",
+      "file_type": "code",
+      "source_file": "app/questions/question-library-client.tsx",
+      "source_location": "L21",
+      "_origin": "ast",
+      "id": "questions_question_library_client_questionlibraryclient",
+      "community": 8,
+      "norm_label": "questionlibraryclient()"
+    },
+    {
+      "label": "page.tsx",
+      "file_type": "code",
+      "source_file": "app/results/[attemptId]/page.tsx",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "attemptid_page",
+      "community": 19,
+      "norm_label": "page.tsx"
+    },
+    {
+      "label": "Props",
+      "file_type": "code",
+      "source_file": "app/results/[attemptId]/page.tsx",
+      "source_location": "L7",
+      "_origin": "ast",
+      "id": "attemptid_page_props",
+      "community": 19,
+      "norm_label": "props"
+    },
+    {
+      "label": "ResultsPage()",
+      "file_type": "code",
+      "source_file": "app/results/[attemptId]/page.tsx",
+      "source_location": "L12",
+      "_origin": "ast",
+      "id": "attemptid_page_resultspage",
+      "community": 19,
+      "norm_label": "resultspage()"
+    },
+    {
+      "label": "code-editor.tsx",
+      "file_type": "code",
+      "source_file": "components/code-editor.tsx",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "components_code_editor",
+      "community": 7,
+      "norm_label": "code-editor.tsx"
+    },
+    {
+      "label": "CodeEditorProps",
+      "file_type": "code",
+      "source_file": "components/code-editor.tsx",
+      "source_location": "L5",
+      "_origin": "ast",
+      "id": "components_code_editor_codeeditorprops",
+      "community": 7,
+      "norm_label": "codeeditorprops"
+    },
+    {
+      "label": "CodeEditor()",
+      "file_type": "code",
+      "source_file": "components/code-editor.tsx",
+      "source_location": "L11",
+      "_origin": "ast",
+      "id": "components_code_editor_codeeditor",
+      "community": 7,
+      "norm_label": "codeeditor()"
+    },
+    {
+      "label": "dashboard-card.tsx",
+      "file_type": "code",
+      "source_file": "components/dashboard-card.tsx",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "components_dashboard_card",
+      "community": 4,
+      "norm_label": "dashboard-card.tsx"
+    },
+    {
+      "label": "DashboardCardProps",
+      "file_type": "code",
+      "source_file": "components/dashboard-card.tsx",
+      "source_location": "L3",
+      "_origin": "ast",
+      "id": "components_dashboard_card_dashboardcardprops",
+      "community": 4,
+      "norm_label": "dashboardcardprops"
+    },
+    {
+      "label": "DashboardCard()",
+      "file_type": "code",
+      "source_file": "components/dashboard-card.tsx",
+      "source_location": "L9",
+      "_origin": "ast",
+      "id": "components_dashboard_card_dashboardcard",
+      "community": 4,
+      "norm_label": "dashboardcard()"
+    },
+    {
+      "label": "feature-card.tsx",
+      "file_type": "code",
+      "source_file": "components/feature-card.tsx",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "components_feature_card",
+      "community": 3,
+      "norm_label": "feature-card.tsx"
+    },
+    {
+      "label": "FeatureCardProps",
+      "file_type": "code",
+      "source_file": "components/feature-card.tsx",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "components_feature_card_featurecardprops",
+      "community": 3,
+      "norm_label": "featurecardprops"
+    },
+    {
+      "label": "FeatureCard()",
+      "file_type": "code",
+      "source_file": "components/feature-card.tsx",
+      "source_location": "L7",
+      "_origin": "ast",
+      "id": "components_feature_card_featurecard",
+      "community": 3,
+      "norm_label": "featurecard()"
+    },
+    {
+      "label": "landing-page.tsx",
+      "file_type": "code",
+      "source_file": "components/landing-page.tsx",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "components_landing_page",
+      "community": 3,
+      "norm_label": "landing-page.tsx"
+    },
+    {
+      "label": "navLinks",
+      "file_type": "code",
+      "source_file": "components/landing-page.tsx",
+      "source_location": "L5",
+      "_origin": "ast",
+      "id": "components_landing_page_navlinks",
+      "community": 3,
+      "norm_label": "navlinks"
+    },
+    {
+      "label": "positioningChips",
+      "file_type": "code",
+      "source_file": "components/landing-page.tsx",
+      "source_location": "L11",
+      "_origin": "ast",
+      "id": "components_landing_page_positioningchips",
+      "community": 3,
+      "norm_label": "positioningchips"
+    },
+    {
+      "label": "featureCards",
+      "file_type": "code",
+      "source_file": "components/landing-page.tsx",
+      "source_location": "L19",
+      "_origin": "ast",
+      "id": "components_landing_page_featurecards",
+      "community": 3,
+      "norm_label": "featurecards"
+    },
+    {
+      "label": "steps",
+      "file_type": "code",
+      "source_file": "components/landing-page.tsx",
+      "source_location": "L58",
+      "_origin": "ast",
+      "id": "components_landing_page_steps",
+      "community": 3,
+      "norm_label": "steps"
+    },
+    {
+      "label": "futureCards",
+      "file_type": "code",
+      "source_file": "components/landing-page.tsx",
+      "source_location": "L85",
+      "_origin": "ast",
+      "id": "components_landing_page_futurecards",
+      "community": 3,
+      "norm_label": "futurecards"
+    },
+    {
+      "label": "dashboardPreviewStats",
+      "file_type": "code",
+      "source_file": "components/landing-page.tsx",
+      "source_location": "L108",
+      "_origin": "ast",
+      "id": "components_landing_page_dashboardpreviewstats",
+      "community": 3,
+      "norm_label": "dashboardpreviewstats"
+    },
+    {
+      "label": "LandingPage()",
+      "file_type": "code",
+      "source_file": "components/landing-page.tsx",
+      "source_location": "L114",
+      "_origin": "ast",
+      "id": "components_landing_page_landingpage",
+      "community": 3,
+      "norm_label": "landingpage()"
+    },
+    {
+      "label": "site-header.tsx",
+      "file_type": "code",
+      "source_file": "components/site-header.tsx",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "components_site_header",
+      "community": 3,
+      "norm_label": "site-header.tsx"
+    },
+    {
+      "label": "NavLink",
+      "file_type": "code",
+      "source_file": "components/site-header.tsx",
+      "source_location": "L3",
+      "_origin": "ast",
+      "id": "components_site_header_navlink",
+      "community": 3,
+      "norm_label": "navlink"
+    },
+    {
+      "label": "HeaderAction",
+      "file_type": "code",
+      "source_file": "components/site-header.tsx",
+      "source_location": "L8",
+      "_origin": "ast",
+      "id": "components_site_header_headeraction",
+      "community": 3,
+      "norm_label": "headeraction"
+    },
+    {
+      "label": "SiteHeaderProps",
+      "file_type": "code",
+      "source_file": "components/site-header.tsx",
+      "source_location": "L13",
+      "_origin": "ast",
+      "id": "components_site_header_siteheaderprops",
+      "community": 3,
+      "norm_label": "siteheaderprops"
+    },
+    {
+      "label": "SiteHeader()",
+      "file_type": "code",
+      "source_file": "components/site-header.tsx",
+      "source_location": "L19",
+      "_origin": "ast",
+      "id": "components_site_header_siteheader",
+      "community": 3,
+      "norm_label": "siteheader()"
+    },
+    {
+      "label": "stat-card.tsx",
+      "file_type": "code",
+      "source_file": "components/stat-card.tsx",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "components_stat_card",
+      "community": 4,
+      "norm_label": "stat-card.tsx"
+    },
+    {
+      "label": "StatCardProps",
+      "file_type": "code",
+      "source_file": "components/stat-card.tsx",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "components_stat_card_statcardprops",
+      "community": 4,
+      "norm_label": "statcardprops"
+    },
+    {
+      "label": "StatCard()",
+      "file_type": "code",
+      "source_file": "components/stat-card.tsx",
+      "source_location": "L7",
+      "_origin": "ast",
+      "id": "components_stat_card_statcard",
+      "community": 4,
+      "norm_label": "statcard()"
+    },
+    {
+      "label": "eslint.config.mjs",
+      "file_type": "code",
+      "source_file": "eslint.config.mjs",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "eslint_config",
+      "community": 13,
+      "norm_label": "eslint.config.mjs"
+    },
+    {
+      "label": "eslintConfig",
+      "file_type": "code",
+      "source_file": "eslint.config.mjs",
+      "source_location": "L5",
+      "_origin": "ast",
+      "id": "eslint_config_eslintconfig",
+      "community": 13,
+      "norm_label": "eslintconfig"
+    },
+    {
+      "label": "manifest.json",
+      "file_type": "code",
+      "source_file": "graphify/manifest.json",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "graphify_manifest",
+      "community": 0,
+      "norm_label": "manifest.json"
+    },
+    {
+      "label": "auth/signout/route.ts",
+      "file_type": "code",
+      "source_file": "graphify/manifest.json",
+      "source_location": "L2",
+      "_origin": "ast",
+      "id": "graphify_manifest_auth_signout_route_ts",
+      "community": 0,
+      "norm_label": "auth/signout/route.ts"
+    },
+    {
+      "label": "mtime",
+      "file_type": "code",
+      "source_file": "graphify/manifest.json",
+      "source_location": "L3",
+      "_origin": "ast",
+      "id": "graphify_manifest_auth_signout_route_ts_mtime",
+      "community": 0,
+      "norm_label": "mtime"
+    },
+    {
+      "label": "ast_hash",
+      "file_type": "code",
+      "source_file": "graphify/manifest.json",
+      "source_location": "L4",
+      "_origin": "ast",
+      "id": "graphify_manifest_auth_signout_route_ts_ast_hash",
+      "community": 0,
+      "norm_label": "ast_hash"
+    },
+    {
+      "label": "semantic_hash",
+      "file_type": "code",
+      "source_file": "graphify/manifest.json",
+      "source_location": "L5",
+      "_origin": "ast",
+      "id": "graphify_manifest_auth_signout_route_ts_semantic_hash",
+      "community": 0,
+      "norm_label": "semantic_hash"
+    },
+    {
+      "label": "dashboard/page.tsx",
+      "file_type": "code",
+      "source_file": "graphify/manifest.json",
+      "source_location": "L7",
+      "_origin": "ast",
+      "id": "graphify_manifest_dashboard_page_tsx",
+      "community": 0,
+      "norm_label": "dashboard/page.tsx"
+    },
+    {
+      "label": "mtime",
+      "file_type": "code",
+      "source_file": "graphify/manifest.json",
+      "source_location": "L8",
+      "_origin": "ast",
+      "id": "graphify_manifest_dashboard_page_tsx_mtime",
+      "community": 0,
+      "norm_label": "mtime"
+    },
+    {
+      "label": "ast_hash",
+      "file_type": "code",
+      "source_file": "graphify/manifest.json",
+      "source_location": "L9",
+      "_origin": "ast",
+      "id": "graphify_manifest_dashboard_page_tsx_ast_hash",
+      "community": 0,
+      "norm_label": "ast_hash"
+    },
+    {
+      "label": "semantic_hash",
+      "file_type": "code",
+      "source_file": "graphify/manifest.json",
+      "source_location": "L10",
+      "_origin": "ast",
+      "id": "graphify_manifest_dashboard_page_tsx_semantic_hash",
+      "community": 0,
+      "norm_label": "semantic_hash"
+    },
+    {
+      "label": "landingPage/page.tsx",
+      "file_type": "code",
+      "source_file": "graphify/manifest.json",
+      "source_location": "L12",
+      "_origin": "ast",
+      "id": "graphify_manifest_landingpage_page_tsx",
+      "community": 0,
+      "norm_label": "landingpage/page.tsx"
+    },
+    {
+      "label": "mtime",
+      "file_type": "code",
+      "source_file": "graphify/manifest.json",
+      "source_location": "L13",
+      "_origin": "ast",
+      "id": "graphify_manifest_landingpage_page_tsx_mtime",
+      "community": 0,
+      "norm_label": "mtime"
+    },
+    {
+      "label": "ast_hash",
+      "file_type": "code",
+      "source_file": "graphify/manifest.json",
+      "source_location": "L14",
+      "_origin": "ast",
+      "id": "graphify_manifest_landingpage_page_tsx_ast_hash",
+      "community": 0,
+      "norm_label": "ast_hash"
+    },
+    {
+      "label": "semantic_hash",
+      "file_type": "code",
+      "source_file": "graphify/manifest.json",
+      "source_location": "L15",
+      "_origin": "ast",
+      "id": "graphify_manifest_landingpage_page_tsx_semantic_hash",
+      "community": 0,
+      "norm_label": "semantic_hash"
+    },
+    {
+      "label": "layout.tsx",
+      "file_type": "code",
+      "source_file": "graphify/manifest.json",
+      "source_location": "L17",
+      "_origin": "ast",
+      "id": "graphify_manifest_layout_tsx",
+      "community": 0,
+      "norm_label": "layout.tsx"
+    },
+    {
+      "label": "mtime",
+      "file_type": "code",
+      "source_file": "graphify/manifest.json",
+      "source_location": "L18",
+      "_origin": "ast",
+      "id": "graphify_manifest_layout_tsx_mtime",
+      "community": 0,
+      "norm_label": "mtime"
+    },
+    {
+      "label": "ast_hash",
+      "file_type": "code",
+      "source_file": "graphify/manifest.json",
+      "source_location": "L19",
+      "_origin": "ast",
+      "id": "graphify_manifest_layout_tsx_ast_hash",
+      "community": 0,
+      "norm_label": "ast_hash"
+    },
+    {
+      "label": "semantic_hash",
+      "file_type": "code",
+      "source_file": "graphify/manifest.json",
+      "source_location": "L20",
+      "_origin": "ast",
+      "id": "graphify_manifest_layout_tsx_semantic_hash",
+      "community": 0,
+      "norm_label": "semantic_hash"
+    },
+    {
+      "label": "login/page.tsx",
+      "file_type": "code",
+      "source_file": "graphify/manifest.json",
+      "source_location": "L22",
+      "_origin": "ast",
+      "id": "graphify_manifest_login_page_tsx",
+      "community": 0,
+      "norm_label": "login/page.tsx"
+    },
+    {
+      "label": "mtime",
+      "file_type": "code",
+      "source_file": "graphify/manifest.json",
+      "source_location": "L23",
+      "_origin": "ast",
+      "id": "graphify_manifest_login_page_tsx_mtime",
+      "community": 0,
+      "norm_label": "mtime"
+    },
+    {
+      "label": "ast_hash",
+      "file_type": "code",
+      "source_file": "graphify/manifest.json",
+      "source_location": "L24",
+      "_origin": "ast",
+      "id": "graphify_manifest_login_page_tsx_ast_hash",
+      "community": 0,
+      "norm_label": "ast_hash"
+    },
+    {
+      "label": "semantic_hash",
+      "file_type": "code",
+      "source_file": "graphify/manifest.json",
+      "source_location": "L25",
+      "_origin": "ast",
+      "id": "graphify_manifest_login_page_tsx_semantic_hash",
+      "community": 0,
+      "norm_label": "semantic_hash"
+    },
+    {
+      "label": "page.tsx",
+      "file_type": "code",
+      "source_file": "graphify/manifest.json",
+      "source_location": "L27",
+      "_origin": "ast",
+      "id": "graphify_manifest_page_tsx",
+      "community": 0,
+      "norm_label": "page.tsx"
+    },
+    {
+      "label": "mtime",
+      "file_type": "code",
+      "source_file": "graphify/manifest.json",
+      "source_location": "L28",
+      "_origin": "ast",
+      "id": "graphify_manifest_page_tsx_mtime",
+      "community": 0,
+      "norm_label": "mtime"
+    },
+    {
+      "label": "ast_hash",
+      "file_type": "code",
+      "source_file": "graphify/manifest.json",
+      "source_location": "L29",
+      "_origin": "ast",
+      "id": "graphify_manifest_page_tsx_ast_hash",
+      "community": 0,
+      "norm_label": "ast_hash"
+    },
+    {
+      "label": "semantic_hash",
+      "file_type": "code",
+      "source_file": "graphify/manifest.json",
+      "source_location": "L30",
+      "_origin": "ast",
+      "id": "graphify_manifest_page_tsx_semantic_hash",
+      "community": 0,
+      "norm_label": "semantic_hash"
+    },
+    {
+      "label": "practice/demo/page.tsx",
+      "file_type": "code",
+      "source_file": "graphify/manifest.json",
+      "source_location": "L32",
+      "_origin": "ast",
+      "id": "graphify_manifest_practice_demo_page_tsx",
+      "community": 0,
+      "norm_label": "practice/demo/page.tsx"
+    },
+    {
+      "label": "mtime",
+      "file_type": "code",
+      "source_file": "graphify/manifest.json",
+      "source_location": "L33",
+      "_origin": "ast",
+      "id": "graphify_manifest_practice_demo_page_tsx_mtime",
+      "community": 0,
+      "norm_label": "mtime"
+    },
+    {
+      "label": "ast_hash",
+      "file_type": "code",
+      "source_file": "graphify/manifest.json",
+      "source_location": "L34",
+      "_origin": "ast",
+      "id": "graphify_manifest_practice_demo_page_tsx_ast_hash",
+      "community": 0,
+      "norm_label": "ast_hash"
+    },
+    {
+      "label": "semantic_hash",
+      "file_type": "code",
+      "source_file": "graphify/manifest.json",
+      "source_location": "L35",
+      "_origin": "ast",
+      "id": "graphify_manifest_practice_demo_page_tsx_semantic_hash",
+      "community": 0,
+      "norm_label": "semantic_hash"
+    },
+    {
+      "label": "practice/demo/practice-workspace.tsx",
+      "file_type": "code",
+      "source_file": "graphify/manifest.json",
+      "source_location": "L37",
+      "_origin": "ast",
+      "id": "graphify_manifest_practice_demo_practice_workspace_tsx",
+      "community": 0,
+      "norm_label": "practice/demo/practice-workspace.tsx"
+    },
+    {
+      "label": "mtime",
+      "file_type": "code",
+      "source_file": "graphify/manifest.json",
+      "source_location": "L38",
+      "_origin": "ast",
+      "id": "graphify_manifest_practice_demo_practice_workspace_tsx_mtime",
+      "community": 0,
+      "norm_label": "mtime"
+    },
+    {
+      "label": "ast_hash",
+      "file_type": "code",
+      "source_file": "graphify/manifest.json",
+      "source_location": "L39",
+      "_origin": "ast",
+      "id": "graphify_manifest_practice_demo_practice_workspace_tsx_ast_hash",
+      "community": 0,
+      "norm_label": "ast_hash"
+    },
+    {
+      "label": "semantic_hash",
+      "file_type": "code",
+      "source_file": "graphify/manifest.json",
+      "source_location": "L40",
+      "_origin": "ast",
+      "id": "graphify_manifest_practice_demo_practice_workspace_tsx_semantic_hash",
+      "community": 0,
+      "norm_label": "semantic_hash"
+    },
+    {
+      "label": "practice-draft.ts",
+      "file_type": "code",
+      "source_file": "lib/practice-draft.ts",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "lib_practice_draft",
+      "community": 9,
+      "norm_label": "practice-draft.ts"
+    },
+    {
+      "label": "buildDraftKey()",
+      "file_type": "code",
+      "source_file": "lib/practice-draft.ts",
+      "source_location": "L3",
+      "_origin": "ast",
+      "id": "lib_practice_draft_builddraftkey",
+      "community": 9,
+      "norm_label": "builddraftkey()"
+    },
+    {
+      "label": "loadDraft()",
+      "file_type": "code",
+      "source_file": "lib/practice-draft.ts",
+      "source_location": "L7",
+      "_origin": "ast",
+      "id": "lib_practice_draft_loaddraft",
+      "community": 9,
+      "norm_label": "loaddraft()"
+    },
+    {
+      "label": "saveDraft()",
+      "file_type": "code",
+      "source_file": "lib/practice-draft.ts",
+      "source_location": "L17",
+      "_origin": "ast",
+      "id": "lib_practice_draft_savedraft",
+      "community": 9,
+      "norm_label": "savedraft()"
+    },
+    {
+      "label": "clearDraft()",
+      "file_type": "code",
+      "source_file": "lib/practice-draft.ts",
+      "source_location": "L26",
+      "_origin": "ast",
+      "id": "lib_practice_draft_cleardraft",
+      "community": 9,
+      "norm_label": "cleardraft()"
+    },
+    {
+      "label": "buildEmptyDraft()",
+      "file_type": "code",
+      "source_file": "lib/practice-draft.ts",
+      "source_location": "L35",
+      "_origin": "ast",
+      "id": "lib_practice_draft_buildemptydraft",
+      "community": 9,
+      "norm_label": "buildemptydraft()"
+    },
+    {
+      "label": "questions-service.ts",
+      "file_type": "code",
+      "source_file": "lib/questions-service.ts",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "lib_questions_service",
+      "community": 8,
+      "norm_label": "questions-service.ts"
+    },
+    {
+      "label": "fetchPublishedQuestions()",
+      "file_type": "code",
+      "source_file": "lib/questions-service.ts",
+      "source_location": "L4",
+      "_origin": "ast",
+      "id": "lib_questions_service_fetchpublishedquestions",
+      "community": 8,
+      "norm_label": "fetchpublishedquestions()"
+    },
+    {
+      "label": "fetchQuestionBySlug()",
+      "file_type": "code",
+      "source_file": "lib/questions-service.ts",
+      "source_location": "L18",
+      "_origin": "ast",
+      "id": "lib_questions_service_fetchquestionbyslug",
+      "community": 8,
+      "norm_label": "fetchquestionbyslug()"
+    },
+    {
+      "label": "fetchQuestionById()",
+      "file_type": "code",
+      "source_file": "lib/questions-service.ts",
+      "source_location": "L31",
+      "_origin": "ast",
+      "id": "lib_questions_service_fetchquestionbyid",
+      "community": 9,
+      "norm_label": "fetchquestionbyid()"
+    },
+    {
+      "label": "fetchPublicTestCases()",
+      "file_type": "code",
+      "source_file": "lib/questions-service.ts",
+      "source_location": "L44",
+      "_origin": "ast",
+      "id": "lib_questions_service_fetchpublictestcases",
+      "community": 6,
+      "norm_label": "fetchpublictestcases()"
+    },
+    {
+      "label": "client.ts",
+      "file_type": "code",
+      "source_file": "lib/supabase/client.ts",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "supabase_client",
+      "community": 6,
+      "norm_label": "client.ts"
+    },
+    {
+      "label": "createClient()",
+      "file_type": "code",
+      "source_file": "lib/supabase/client.ts",
+      "source_location": "L4",
+      "_origin": "ast",
+      "id": "supabase_client_createclient",
+      "community": 6,
+      "norm_label": "createclient()"
+    },
+    {
+      "label": "config.ts",
+      "file_type": "code",
+      "source_file": "lib/supabase/config.ts",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "supabase_config",
+      "community": 6,
+      "norm_label": "config.ts"
+    },
+    {
+      "label": "SupabaseConfig",
+      "file_type": "code",
+      "source_file": "lib/supabase/config.ts",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "supabase_config_supabaseconfig",
+      "community": 6,
+      "norm_label": "supabaseconfig"
+    },
+    {
+      "label": "getSupabaseKey()",
+      "file_type": "code",
+      "source_file": "lib/supabase/config.ts",
+      "source_location": "L6",
+      "_origin": "ast",
+      "id": "supabase_config_getsupabasekey",
+      "community": 6,
+      "norm_label": "getsupabasekey()"
+    },
+    {
+      "label": "getSupabaseKeyErrorMessage()",
+      "file_type": "code",
+      "source_file": "lib/supabase/config.ts",
+      "source_location": "L13",
+      "_origin": "ast",
+      "id": "supabase_config_getsupabasekeyerrormessage",
+      "community": 6,
+      "norm_label": "getsupabasekeyerrormessage()"
+    },
+    {
+      "label": "getSupabaseConfig()",
+      "file_type": "code",
+      "source_file": "lib/supabase/config.ts",
+      "source_location": "L27",
+      "_origin": "ast",
+      "id": "supabase_config_getsupabaseconfig",
+      "community": 6,
+      "norm_label": "getsupabaseconfig()"
+    },
+    {
+      "label": "proxy.ts",
+      "file_type": "code",
+      "source_file": "lib/supabase/proxy.ts",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "supabase_proxy",
+      "community": 6,
+      "norm_label": "proxy.ts"
+    },
+    {
+      "label": "updateSession()",
+      "file_type": "code",
+      "source_file": "lib/supabase/proxy.ts",
+      "source_location": "L5",
+      "_origin": "ast",
+      "id": "supabase_proxy_updatesession",
+      "community": 6,
+      "norm_label": "updatesession()"
+    },
+    {
+      "label": "server.ts",
+      "file_type": "code",
+      "source_file": "lib/supabase/server.ts",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "supabase_server",
+      "community": 6,
+      "norm_label": "server.ts"
+    },
+    {
+      "label": "createClient()",
+      "file_type": "code",
+      "source_file": "lib/supabase/server.ts",
+      "source_location": "L5",
+      "_origin": "ast",
+      "id": "supabase_server_createclient",
+      "community": 6,
+      "norm_label": "createclient()"
+    },
+    {
+      "label": "next.config.ts",
+      "file_type": "code",
+      "source_file": "next.config.ts",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "next_config",
+      "community": 14,
+      "norm_label": "next.config.ts"
+    },
+    {
+      "label": "nextConfig",
+      "file_type": "code",
+      "source_file": "next.config.ts",
+      "source_location": "L3",
+      "_origin": "ast",
+      "id": "next_config_nextconfig",
+      "community": 14,
+      "norm_label": "nextconfig"
+    },
+    {
+      "label": "package.json",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "package",
+      "community": 1,
+      "norm_label": "package.json"
+    },
+    {
+      "label": "name",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L2",
+      "_origin": "ast",
+      "id": "package_name",
+      "community": 1,
+      "norm_label": "name"
+    },
+    {
+      "label": "version",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L3",
+      "_origin": "ast",
+      "id": "package_version",
+      "community": 1,
+      "norm_label": "version"
+    },
+    {
+      "label": "private",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L4",
+      "_origin": "ast",
+      "id": "package_private",
+      "community": 1,
+      "norm_label": "private"
+    },
+    {
+      "label": "scripts",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L5",
+      "_origin": "ast",
+      "id": "package_scripts",
+      "community": 1,
+      "norm_label": "scripts"
+    },
+    {
+      "label": "dev",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L6",
+      "_origin": "ast",
+      "id": "package_scripts_dev",
+      "community": 1,
+      "norm_label": "dev"
+    },
+    {
+      "label": "build",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L7",
+      "_origin": "ast",
+      "id": "package_scripts_build",
+      "community": 1,
+      "norm_label": "build"
+    },
+    {
+      "label": "start",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L8",
+      "_origin": "ast",
+      "id": "package_scripts_start",
+      "community": 1,
+      "norm_label": "start"
+    },
+    {
+      "label": "lint",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L9",
+      "_origin": "ast",
+      "id": "package_scripts_lint",
+      "community": 1,
+      "norm_label": "lint"
+    },
+    {
+      "label": "dependencies",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L11",
+      "_origin": "ast",
+      "id": "package_dependencies",
+      "community": 1,
+      "norm_label": "dependencies"
+    },
+    {
+      "label": "@monaco-editor/react",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L12",
+      "_origin": "ast",
+      "id": "package_dependencies_monaco_editor_react",
+      "community": 1,
+      "norm_label": "@monaco-editor/react"
+    },
+    {
+      "label": "@supabase/ssr",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L13",
+      "_origin": "ast",
+      "id": "package_dependencies_supabase_ssr",
+      "community": 1,
+      "norm_label": "@supabase/ssr"
+    },
+    {
+      "label": "@supabase/supabase-js",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L14",
+      "_origin": "ast",
+      "id": "package_dependencies_supabase_supabase_js",
+      "community": 1,
+      "norm_label": "@supabase/supabase-js"
+    },
+    {
+      "label": "next",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L15",
+      "_origin": "ast",
+      "id": "package_dependencies_next",
+      "community": 1,
+      "norm_label": "next"
+    },
+    {
+      "label": "react",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L16",
+      "_origin": "ast",
+      "id": "package_dependencies_react",
+      "community": 1,
+      "norm_label": "react"
+    },
+    {
+      "label": "react-dom",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L17",
+      "_origin": "ast",
+      "id": "package_dependencies_react_dom",
+      "community": 1,
+      "norm_label": "react-dom"
+    },
+    {
+      "label": "devDependencies",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L19",
+      "_origin": "ast",
+      "id": "package_devdependencies",
+      "community": 1,
+      "norm_label": "devdependencies"
+    },
+    {
+      "label": "@tailwindcss/postcss",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L20",
+      "_origin": "ast",
+      "id": "package_devdependencies_tailwindcss_postcss",
+      "community": 1,
+      "norm_label": "@tailwindcss/postcss"
+    },
+    {
+      "label": "@types/node",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L21",
+      "_origin": "ast",
+      "id": "package_devdependencies_types_node",
+      "community": 1,
+      "norm_label": "@types/node"
+    },
+    {
+      "label": "@types/react",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L22",
+      "_origin": "ast",
+      "id": "package_devdependencies_types_react",
+      "community": 1,
+      "norm_label": "@types/react"
+    },
+    {
+      "label": "@types/react-dom",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L23",
+      "_origin": "ast",
+      "id": "package_devdependencies_types_react_dom",
+      "community": 1,
+      "norm_label": "@types/react-dom"
+    },
+    {
+      "label": "eslint",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L24",
+      "_origin": "ast",
+      "id": "package_devdependencies_eslint",
+      "community": 1,
+      "norm_label": "eslint"
+    },
+    {
+      "label": "eslint-config-next",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L25",
+      "_origin": "ast",
+      "id": "package_devdependencies_eslint_config_next",
+      "community": 1,
+      "norm_label": "eslint-config-next"
+    },
+    {
+      "label": "tailwindcss",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L26",
+      "_origin": "ast",
+      "id": "package_devdependencies_tailwindcss",
+      "community": 1,
+      "norm_label": "tailwindcss"
+    },
+    {
+      "label": "typescript",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L27",
+      "_origin": "ast",
+      "id": "package_devdependencies_typescript",
+      "community": 1,
+      "norm_label": "typescript"
+    },
+    {
+      "label": "postcss.config.mjs",
+      "file_type": "code",
+      "source_file": "postcss.config.mjs",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "postcss_config",
+      "community": 15,
+      "norm_label": "postcss.config.mjs"
+    },
+    {
+      "label": "config",
+      "file_type": "code",
+      "source_file": "postcss.config.mjs",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "postcss_config_config",
+      "community": 15,
+      "norm_label": "config"
+    },
+    {
+      "label": "proxy.ts",
+      "file_type": "code",
+      "source_file": "proxy.ts",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "proxy",
+      "community": 6,
+      "norm_label": "proxy.ts"
+    },
+    {
+      "label": "proxy()",
+      "file_type": "code",
+      "source_file": "proxy.ts",
+      "source_location": "L4",
+      "_origin": "ast",
+      "id": "proxy_proxy",
+      "community": 6,
+      "norm_label": "proxy()"
+    },
+    {
+      "label": "config",
+      "file_type": "code",
+      "source_file": "proxy.ts",
+      "source_location": "L8",
+      "_origin": "ast",
+      "id": "proxy_config",
+      "community": 6,
+      "norm_label": "config"
+    },
+    {
+      "label": "tsconfig.json",
+      "file_type": "code",
+      "source_file": "tsconfig.json",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "tsconfig",
+      "community": 2,
+      "norm_label": "tsconfig.json"
+    },
+    {
+      "label": "compilerOptions",
+      "file_type": "code",
+      "source_file": "tsconfig.json",
+      "source_location": "L2",
+      "_origin": "ast",
+      "id": "tsconfig_compileroptions",
+      "community": 2,
+      "norm_label": "compileroptions"
+    },
+    {
+      "label": "target",
+      "file_type": "code",
+      "source_file": "tsconfig.json",
+      "source_location": "L3",
+      "_origin": "ast",
+      "id": "tsconfig_compileroptions_target",
+      "community": 2,
+      "norm_label": "target"
+    },
+    {
+      "label": "lib",
+      "file_type": "code",
+      "source_file": "tsconfig.json",
+      "source_location": "L4",
+      "_origin": "ast",
+      "id": "tsconfig_compileroptions_lib",
+      "community": 2,
+      "norm_label": "lib"
+    },
+    {
+      "label": "allowJs",
+      "file_type": "code",
+      "source_file": "tsconfig.json",
+      "source_location": "L5",
+      "_origin": "ast",
+      "id": "tsconfig_compileroptions_allowjs",
+      "community": 2,
+      "norm_label": "allowjs"
+    },
+    {
+      "label": "skipLibCheck",
+      "file_type": "code",
+      "source_file": "tsconfig.json",
+      "source_location": "L6",
+      "_origin": "ast",
+      "id": "tsconfig_compileroptions_skiplibcheck",
+      "community": 2,
+      "norm_label": "skiplibcheck"
+    },
+    {
+      "label": "strict",
+      "file_type": "code",
+      "source_file": "tsconfig.json",
+      "source_location": "L7",
+      "_origin": "ast",
+      "id": "tsconfig_compileroptions_strict",
+      "community": 2,
+      "norm_label": "strict"
+    },
+    {
+      "label": "noEmit",
+      "file_type": "code",
+      "source_file": "tsconfig.json",
+      "source_location": "L8",
+      "_origin": "ast",
+      "id": "tsconfig_compileroptions_noemit",
+      "community": 2,
+      "norm_label": "noemit"
+    },
+    {
+      "label": "esModuleInterop",
+      "file_type": "code",
+      "source_file": "tsconfig.json",
+      "source_location": "L9",
+      "_origin": "ast",
+      "id": "tsconfig_compileroptions_esmoduleinterop",
+      "community": 2,
+      "norm_label": "esmoduleinterop"
+    },
+    {
+      "label": "module",
+      "file_type": "code",
+      "source_file": "tsconfig.json",
+      "source_location": "L10",
+      "_origin": "ast",
+      "id": "tsconfig_compileroptions_module",
+      "community": 2,
+      "norm_label": "module"
+    },
+    {
+      "label": "moduleResolution",
+      "file_type": "code",
+      "source_file": "tsconfig.json",
+      "source_location": "L11",
+      "_origin": "ast",
+      "id": "tsconfig_compileroptions_moduleresolution",
+      "community": 2,
+      "norm_label": "moduleresolution"
+    },
+    {
+      "label": "resolveJsonModule",
+      "file_type": "code",
+      "source_file": "tsconfig.json",
+      "source_location": "L12",
+      "_origin": "ast",
+      "id": "tsconfig_compileroptions_resolvejsonmodule",
+      "community": 2,
+      "norm_label": "resolvejsonmodule"
+    },
+    {
+      "label": "isolatedModules",
+      "file_type": "code",
+      "source_file": "tsconfig.json",
+      "source_location": "L13",
+      "_origin": "ast",
+      "id": "tsconfig_compileroptions_isolatedmodules",
+      "community": 2,
+      "norm_label": "isolatedmodules"
+    },
+    {
+      "label": "jsx",
+      "file_type": "code",
+      "source_file": "tsconfig.json",
+      "source_location": "L14",
+      "_origin": "ast",
+      "id": "tsconfig_compileroptions_jsx",
+      "community": 2,
+      "norm_label": "jsx"
+    },
+    {
+      "label": "incremental",
+      "file_type": "code",
+      "source_file": "tsconfig.json",
+      "source_location": "L15",
+      "_origin": "ast",
+      "id": "tsconfig_compileroptions_incremental",
+      "community": 2,
+      "norm_label": "incremental"
+    },
+    {
+      "label": "baseUrl",
+      "file_type": "code",
+      "source_file": "tsconfig.json",
+      "source_location": "L16",
+      "_origin": "ast",
+      "id": "tsconfig_compileroptions_baseurl",
+      "community": 2,
+      "norm_label": "baseurl"
+    },
+    {
+      "label": "plugins",
+      "file_type": "code",
+      "source_file": "tsconfig.json",
+      "source_location": "L17",
+      "_origin": "ast",
+      "id": "tsconfig_compileroptions_plugins",
+      "community": 2,
+      "norm_label": "plugins"
+    },
+    {
+      "label": "paths",
+      "file_type": "code",
+      "source_file": "tsconfig.json",
+      "source_location": "L22",
+      "_origin": "ast",
+      "id": "tsconfig_compileroptions_paths",
+      "community": 2,
+      "norm_label": "paths"
+    },
+    {
+      "label": "@/*",
+      "file_type": "code",
+      "source_file": "tsconfig.json",
+      "source_location": "L23",
+      "_origin": "ast",
+      "id": "tsconfig_paths",
+      "community": 2,
+      "norm_label": "@/*"
+    },
+    {
+      "label": "include",
+      "file_type": "code",
+      "source_file": "tsconfig.json",
+      "source_location": "L26",
+      "_origin": "ast",
+      "id": "tsconfig_include",
+      "community": 2,
+      "norm_label": "include"
+    },
+    {
+      "label": "exclude",
+      "file_type": "code",
+      "source_file": "tsconfig.json",
+      "source_location": "L34",
+      "_origin": "ast",
+      "id": "tsconfig_exclude",
+      "community": 2,
+      "norm_label": "exclude"
+    },
+    {
+      "label": "attempt.ts",
+      "file_type": "code",
+      "source_file": "types/attempt.ts",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "types_attempt",
+      "community": 18,
+      "norm_label": "attempt.ts"
+    },
+    {
+      "label": "AttemptMode",
+      "file_type": "code",
+      "source_file": "types/attempt.ts",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "types_attempt_attemptmode",
+      "community": 18,
+      "norm_label": "attemptmode"
+    },
+    {
+      "label": "AttemptStatus",
+      "file_type": "code",
+      "source_file": "types/attempt.ts",
+      "source_location": "L2",
+      "_origin": "ast",
+      "id": "types_attempt_attemptstatus",
+      "community": 18,
+      "norm_label": "attemptstatus"
+    },
+    {
+      "label": "SupportedLanguage",
+      "file_type": "code",
+      "source_file": "types/attempt.ts",
+      "source_location": "L3",
+      "_origin": "ast",
+      "id": "types_attempt_supportedlanguage",
+      "community": 18,
+      "norm_label": "supportedlanguage"
+    },
+    {
+      "label": "ResultBand",
+      "file_type": "code",
+      "source_file": "types/attempt.ts",
+      "source_location": "L5",
+      "_origin": "ast",
+      "id": "types_attempt_resultband",
+      "community": 18,
+      "norm_label": "resultband"
+    },
+    {
+      "label": "practice.ts",
+      "file_type": "code",
+      "source_file": "types/practice.ts",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "types_practice",
+      "community": 9,
+      "norm_label": "practice.ts"
+    },
+    {
+      "label": "PracticeMode",
+      "file_type": "code",
+      "source_file": "types/practice.ts",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "types_practice_practicemode",
+      "community": 9,
+      "norm_label": "practicemode"
+    },
+    {
+      "label": "PracticeStage",
+      "file_type": "code",
+      "source_file": "types/practice.ts",
+      "source_location": "L3",
+      "_origin": "ast",
+      "id": "types_practice_practicestage",
+      "community": 9,
+      "norm_label": "practicestage"
+    },
+    {
+      "label": "SupportedLanguage",
+      "file_type": "code",
+      "source_file": "types/practice.ts",
+      "source_location": "L12",
+      "_origin": "ast",
+      "id": "types_practice_supportedlanguage",
+      "community": 9,
+      "norm_label": "supportedlanguage"
+    },
+    {
+      "label": "Difficulty",
+      "file_type": "code",
+      "source_file": "types/practice.ts",
+      "source_location": "L14",
+      "_origin": "ast",
+      "id": "types_practice_difficulty",
+      "community": 9,
+      "norm_label": "difficulty"
+    },
+    {
+      "label": "PracticeDraft",
+      "file_type": "code",
+      "source_file": "types/practice.ts",
+      "source_location": "L16",
+      "_origin": "ast",
+      "id": "types_practice_practicedraft",
+      "community": 9,
+      "norm_label": "practicedraft"
+    },
+    {
+      "label": "question.ts",
+      "file_type": "code",
+      "source_file": "types/question.ts",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "types_question",
+      "community": 8,
+      "norm_label": "question.ts"
+    },
+    {
+      "label": "Difficulty",
+      "file_type": "code",
+      "source_file": "types/question.ts",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "types_question_difficulty",
+      "community": 8,
+      "norm_label": "difficulty"
+    },
+    {
+      "label": "SupportedLanguage",
+      "file_type": "code",
+      "source_file": "types/question.ts",
+      "source_location": "L2",
+      "_origin": "ast",
+      "id": "types_question_supportedlanguage",
+      "community": 8,
+      "norm_label": "supportedlanguage"
+    },
+    {
+      "label": "QuestionStatus",
+      "file_type": "code",
+      "source_file": "types/question.ts",
+      "source_location": "L3",
+      "_origin": "ast",
+      "id": "types_question_questionstatus",
+      "community": 8,
+      "norm_label": "questionstatus"
+    },
+    {
+      "label": "QuestionExample",
+      "file_type": "code",
+      "source_file": "types/question.ts",
+      "source_location": "L5",
+      "_origin": "ast",
+      "id": "types_question_questionexample",
+      "community": 8,
+      "norm_label": "questionexample"
+    },
+    {
+      "label": "Question",
+      "file_type": "code",
+      "source_file": "types/question.ts",
+      "source_location": "L11",
+      "_origin": "ast",
+      "id": "types_question_question",
+      "community": 8,
+      "norm_label": "question"
+    },
+    {
+      "label": "QuestionTestCase",
+      "file_type": "code",
+      "source_file": "types/question.ts",
+      "source_location": "L40",
+      "_origin": "ast",
+      "id": "types_question_questiontestcase",
+      "community": 8,
+      "norm_label": "questiontestcase"
+    },
+    {
+      "label": "QuestionSummary",
+      "file_type": "code",
+      "source_file": "types/question.ts",
+      "source_location": "L52",
+      "_origin": "ast",
+      "id": "types_question_questionsummary",
+      "community": 8,
+      "norm_label": "questionsummary"
+    },
+    {
       "label": "AGENTS.md",
       "file_type": "document",
       "source_file": "AGENTS.md",
@@ -59,9 +2189,9 @@
       "source_file": "CLAUDE.md",
       "source_location": "L1",
       "_origin": "ast",
+      "id": "claude",
       "community": 16,
-      "norm_label": "claude.md",
-      "id": "claude"
+      "norm_label": "claude.md"
     },
     {
       "label": "Graphify Usage",
@@ -69,1769 +2199,9 @@
       "source_file": "CLAUDE.md",
       "source_location": "L3",
       "_origin": "ast",
+      "id": "claude_graphify_usage",
       "community": 16,
-      "norm_label": "graphify usage",
-      "id": "claude_graphify_usage"
-    },
-    {
-      "label": "documentation.md",
-      "file_type": "document",
-      "source_file": "documentation.md",
-      "source_location": "L1",
-      "_origin": "ast",
-      "community": 5,
-      "norm_label": "documentation.md",
-      "id": "documentation"
-    },
-    {
-      "label": "Documentation Log",
-      "file_type": "document",
-      "source_file": "documentation.md",
-      "source_location": "L1",
-      "_origin": "ast",
-      "community": 5,
-      "norm_label": "documentation log",
-      "id": "documentation_documentation_log"
-    },
-    {
-      "label": "Graphify Workflow",
-      "file_type": "document",
-      "source_file": "documentation.md",
-      "source_location": "L3",
-      "_origin": "ast",
-      "community": 5,
-      "norm_label": "graphify workflow",
-      "id": "documentation_graphify_workflow"
-    },
-    {
-      "label": "Session loop",
-      "file_type": "document",
-      "source_file": "documentation.md",
-      "source_location": "L11",
-      "_origin": "ast",
-      "community": 5,
-      "norm_label": "session loop",
-      "id": "documentation_session_loop"
-    },
-    {
-      "label": "Rules",
-      "file_type": "document",
-      "source_file": "documentation.md",
-      "source_location": "L25",
-      "_origin": "ast",
-      "community": 5,
-      "norm_label": "rules",
-      "id": "documentation_rules"
-    },
-    {
-      "label": "2026-06-28 \u2014 Coding Workspace UI",
-      "file_type": "document",
-      "source_file": "documentation.md",
-      "source_location": "L31",
-      "_origin": "ast",
-      "community": 8,
-      "norm_label": "2026-06-28 \u2014 coding workspace ui",
-      "id": "documentation_2026_06_28_coding_workspace_ui"
-    },
-    {
-      "label": "Files Changed",
-      "file_type": "document",
-      "source_file": "documentation.md",
-      "source_location": "L33",
-      "_origin": "ast",
-      "community": 8,
-      "norm_label": "files changed",
-      "id": "documentation_files_changed"
-    },
-    {
-      "label": "Purpose",
-      "file_type": "document",
-      "source_file": "documentation.md",
-      "source_location": "L39",
-      "_origin": "ast",
-      "community": 8,
-      "norm_label": "purpose",
-      "id": "documentation_purpose"
-    },
-    {
-      "label": "Languages Supported (editor UI only)",
-      "file_type": "document",
-      "source_file": "documentation.md",
-      "source_location": "L43",
-      "_origin": "ast",
-      "community": 8,
-      "norm_label": "languages supported (editor ui only)",
-      "id": "documentation_languages_supported_editor_ui_only"
-    },
-    {
-      "label": "UI-Only \u2014 No Execution",
-      "file_type": "document",
-      "source_file": "documentation.md",
-      "source_location": "L47",
-      "_origin": "ast",
-      "community": 8,
-      "norm_label": "ui-only \u2014 no execution",
-      "id": "documentation_ui_only_no_execution"
-    },
-    {
-      "label": "Current Limitations",
-      "file_type": "document",
-      "source_file": "documentation.md",
-      "source_location": "L51",
-      "_origin": "ast",
-      "community": 8,
-      "norm_label": "current limitations",
-      "id": "documentation_current_limitations"
-    },
-    {
-      "label": "Not Yet Implemented (future additions)",
-      "file_type": "document",
-      "source_file": "documentation.md",
-      "source_location": "L59",
-      "_origin": "ast",
-      "community": 8,
-      "norm_label": "not yet implemented (future additions)",
-      "id": "documentation_not_yet_implemented_future_additions"
-    },
-    {
-      "label": "Suggested Next Steps",
-      "file_type": "document",
-      "source_file": "documentation.md",
-      "source_location": "L71",
-      "_origin": "ast",
-      "community": 8,
-      "norm_label": "suggested next steps",
-      "id": "documentation_suggested_next_steps"
-    },
-    {
-      "label": "2026-06-28 16:12:00 AEST",
-      "file_type": "document",
-      "source_file": "documentation.md",
-      "source_location": "L78",
-      "_origin": "ast",
-      "community": 5,
-      "norm_label": "2026-06-28 16:12:00 aest",
-      "id": "documentation_2026_06_28_16_12_00_aest"
-    },
-    {
-      "label": "2026-06-28 16:14:00 AEST",
-      "file_type": "document",
-      "source_file": "documentation.md",
-      "source_location": "L84",
-      "_origin": "ast",
-      "community": 5,
-      "norm_label": "2026-06-28 16:14:00 aest",
-      "id": "documentation_2026_06_28_16_14_00_aest"
-    },
-    {
-      "label": "2026-06-28 16:18:00 AEST",
-      "file_type": "document",
-      "source_file": "documentation.md",
-      "source_location": "L90",
-      "_origin": "ast",
-      "community": 5,
-      "norm_label": "2026-06-28 16:18:00 aest",
-      "id": "documentation_2026_06_28_16_18_00_aest"
-    },
-    {
-      "label": "2026-06-28 16:22:00 AEST",
-      "file_type": "document",
-      "source_file": "documentation.md",
-      "source_location": "L96",
-      "_origin": "ast",
-      "community": 5,
-      "norm_label": "2026-06-28 16:22:00 aest",
-      "id": "documentation_2026_06_28_16_22_00_aest"
-    },
-    {
-      "label": "2026-06-28 16:26:00 AEST",
-      "file_type": "document",
-      "source_file": "documentation.md",
-      "source_location": "L102",
-      "_origin": "ast",
-      "community": 5,
-      "norm_label": "2026-06-28 16:26:00 aest",
-      "id": "documentation_2026_06_28_16_26_00_aest"
-    },
-    {
-      "label": "2026-06-28 16:31:00 AEST",
-      "file_type": "document",
-      "source_file": "documentation.md",
-      "source_location": "L108",
-      "_origin": "ast",
-      "community": 5,
-      "norm_label": "2026-06-28 16:31:00 aest",
-      "id": "documentation_2026_06_28_16_31_00_aest"
-    },
-    {
-      "label": "2026-06-28 16:36:00 AEST",
-      "file_type": "document",
-      "source_file": "documentation.md",
-      "source_location": "L113",
-      "_origin": "ast",
-      "community": 5,
-      "norm_label": "2026-06-28 16:36:00 aest",
-      "id": "documentation_2026_06_28_16_36_00_aest"
-    },
-    {
-      "label": "2026-06-28 16:29:21 AEST",
-      "file_type": "document",
-      "source_file": "documentation.md",
-      "source_location": "L118",
-      "_origin": "ast",
-      "community": 5,
-      "norm_label": "2026-06-28 16:29:21 aest",
-      "id": "documentation_2026_06_28_16_29_21_aest"
-    },
-    {
-      "label": "2026-06-28 16:33:00 AEST",
-      "file_type": "document",
-      "source_file": "documentation.md",
-      "source_location": "L124",
-      "_origin": "ast",
-      "community": 5,
-      "norm_label": "2026-06-28 16:33:00 aest",
-      "id": "documentation_2026_06_28_16_33_00_aest"
-    },
-    {
-      "label": "2026-06-28 16:36:47 AEST",
-      "file_type": "document",
-      "source_file": "documentation.md",
-      "source_location": "L129",
-      "_origin": "ast",
-      "community": 5,
-      "norm_label": "2026-06-28 16:36:47 aest",
-      "id": "documentation_2026_06_28_16_36_47_aest"
-    },
-    {
-      "label": "2026-06-28 16:40:00 AEST",
-      "file_type": "document",
-      "source_file": "documentation.md",
-      "source_location": "L135",
-      "_origin": "ast",
-      "community": 5,
-      "norm_label": "2026-06-28 16:40:00 aest",
-      "id": "documentation_2026_06_28_16_40_00_aest"
-    },
-    {
-      "label": "2026-06-28 16:44:00 AEST",
-      "file_type": "document",
-      "source_file": "documentation.md",
-      "source_location": "L140",
-      "_origin": "ast",
-      "community": 5,
-      "norm_label": "2026-06-28 16:44:00 aest",
-      "id": "documentation_2026_06_28_16_44_00_aest"
-    },
-    {
-      "label": "route.ts",
-      "file_type": "code",
-      "source_file": "app/auth/callback/route.ts",
-      "source_location": "L1",
-      "_origin": "ast",
-      "community": 4,
-      "norm_label": "route.ts",
-      "id": "callback_route"
-    },
-    {
-      "label": "GET()",
-      "file_type": "code",
-      "source_file": "app/auth/callback/route.ts",
-      "source_location": "L4",
-      "_origin": "ast",
-      "community": 4,
-      "norm_label": "get()",
-      "id": "callback_route_get"
-    },
-    {
-      "label": "route.ts",
-      "file_type": "code",
-      "source_file": "app/auth/signout/route.ts",
-      "source_location": "L1",
-      "_origin": "ast",
-      "community": 4,
-      "norm_label": "route.ts",
-      "id": "signout_route"
-    },
-    {
-      "label": "POST()",
-      "file_type": "code",
-      "source_file": "app/auth/signout/route.ts",
-      "source_location": "L4",
-      "_origin": "ast",
-      "community": 4,
-      "norm_label": "post()",
-      "id": "signout_route_post"
-    },
-    {
-      "label": "page.tsx",
-      "file_type": "code",
-      "source_file": "app/dashboard/page.tsx",
-      "source_location": "L1",
-      "_origin": "ast",
-      "community": 4,
-      "norm_label": "page.tsx",
-      "id": "dashboard_page"
-    },
-    {
-      "label": "stats",
-      "file_type": "code",
-      "source_file": "app/dashboard/page.tsx",
-      "source_location": "L7",
-      "_origin": "ast",
-      "community": 4,
-      "norm_label": "stats",
-      "id": "dashboard_page_stats"
-    },
-    {
-      "label": "recentAttempts",
-      "file_type": "code",
-      "source_file": "app/dashboard/page.tsx",
-      "source_location": "L30",
-      "_origin": "ast",
-      "community": 4,
-      "norm_label": "recentattempts",
-      "id": "dashboard_page_recentattempts"
-    },
-    {
-      "label": "scoreBreakdown",
-      "file_type": "code",
-      "source_file": "app/dashboard/page.tsx",
-      "source_location": "L51",
-      "_origin": "ast",
-      "community": 4,
-      "norm_label": "scorebreakdown",
-      "id": "dashboard_page_scorebreakdown"
-    },
-    {
-      "label": "weaknesses",
-      "file_type": "code",
-      "source_file": "app/dashboard/page.tsx",
-      "source_location": "L59",
-      "_origin": "ast",
-      "community": 4,
-      "norm_label": "weaknesses",
-      "id": "dashboard_page_weaknesses"
-    },
-    {
-      "label": "DashboardPage()",
-      "file_type": "code",
-      "source_file": "app/dashboard/page.tsx",
-      "source_location": "L65",
-      "_origin": "ast",
-      "community": 4,
-      "norm_label": "dashboardpage()",
-      "id": "dashboard_page_dashboardpage"
-    },
-    {
-      "label": "page.tsx",
-      "file_type": "code",
-      "source_file": "app/landingPage/page.tsx",
-      "source_location": "L1",
-      "_origin": "ast",
-      "community": 3,
-      "norm_label": "page.tsx",
-      "id": "landingpage_page"
-    },
-    {
-      "label": "LandingPageRoute()",
-      "file_type": "code",
-      "source_file": "app/landingPage/page.tsx",
-      "source_location": "L3",
-      "_origin": "ast",
-      "community": 3,
-      "norm_label": "landingpageroute()",
-      "id": "landingpage_page_landingpageroute"
-    },
-    {
-      "label": "layout.tsx",
-      "file_type": "code",
-      "source_file": "app/layout.tsx",
-      "source_location": "L1",
-      "_origin": "ast",
-      "community": 12,
-      "norm_label": "layout.tsx",
-      "id": "app_layout"
-    },
-    {
-      "label": "metadata",
-      "file_type": "code",
-      "source_file": "app/layout.tsx",
-      "source_location": "L4",
-      "_origin": "ast",
-      "community": 12,
-      "norm_label": "metadata",
-      "id": "app_layout_metadata"
-    },
-    {
-      "label": "RootLayout()",
-      "file_type": "code",
-      "source_file": "app/layout.tsx",
-      "source_location": "L13",
-      "_origin": "ast",
-      "community": 12,
-      "norm_label": "rootlayout()",
-      "id": "app_layout_rootlayout"
-    },
-    {
-      "label": "page.tsx",
-      "file_type": "code",
-      "source_file": "app/login/page.tsx",
-      "source_location": "L1",
-      "_origin": "ast",
-      "community": 6,
-      "norm_label": "page.tsx",
-      "id": "login_page"
-    },
-    {
-      "label": "LoginPage()",
-      "file_type": "code",
-      "source_file": "app/login/page.tsx",
-      "source_location": "L8",
-      "_origin": "ast",
-      "community": 6,
-      "norm_label": "loginpage()",
-      "id": "login_page_loginpage"
-    },
-    {
-      "label": "page.tsx",
-      "file_type": "code",
-      "source_file": "app/page.tsx",
-      "source_location": "L1",
-      "_origin": "ast",
-      "community": 3,
-      "norm_label": "page.tsx",
-      "id": "app_page"
-    },
-    {
-      "label": "Home()",
-      "file_type": "code",
-      "source_file": "app/page.tsx",
-      "source_location": "L3",
-      "_origin": "ast",
-      "community": 3,
-      "norm_label": "home()",
-      "id": "app_page_home"
-    },
-    {
-      "label": "page.tsx",
-      "file_type": "code",
-      "source_file": "app/practice/demo/page.tsx",
-      "source_location": "L1",
-      "_origin": "ast",
-      "community": 4,
-      "norm_label": "page.tsx",
-      "id": "demo_page"
-    },
-    {
-      "label": "DemoPracticePage()",
-      "file_type": "code",
-      "source_file": "app/practice/demo/page.tsx",
-      "source_location": "L5",
-      "_origin": "ast",
-      "community": 4,
-      "norm_label": "demopracticepage()",
-      "id": "demo_page_demopracticepage"
-    },
-    {
-      "label": "practice-workspace.tsx",
-      "file_type": "code",
-      "source_file": "app/practice/demo/practice-workspace.tsx",
-      "source_location": "L1",
-      "_origin": "ast",
-      "community": 7,
-      "norm_label": "practice-workspace.tsx",
-      "id": "demo_practice_workspace"
-    },
-    {
-      "label": "LANGUAGES",
-      "file_type": "code",
-      "source_file": "app/practice/demo/practice-workspace.tsx",
-      "source_location": "L6",
-      "_origin": "ast",
-      "community": 7,
-      "norm_label": "languages",
-      "id": "demo_practice_workspace_languages"
-    },
-    {
-      "label": "STARTER_CODE",
-      "file_type": "code",
-      "source_file": "app/practice/demo/practice-workspace.tsx",
-      "source_location": "L17",
-      "_origin": "ast",
-      "community": 7,
-      "norm_label": "starter_code",
-      "id": "demo_practice_workspace_starter_code"
-    },
-    {
-      "label": "ActiveTab",
-      "file_type": "code",
-      "source_file": "app/practice/demo/practice-workspace.tsx",
-      "source_location": "L31",
-      "_origin": "ast",
-      "community": 7,
-      "norm_label": "activetab",
-      "id": "demo_practice_workspace_activetab"
-    },
-    {
-      "label": "SidebarPanel",
-      "file_type": "code",
-      "source_file": "app/practice/demo/practice-workspace.tsx",
-      "source_location": "L32",
-      "_origin": "ast",
-      "community": 7,
-      "norm_label": "sidebarpanel",
-      "id": "demo_practice_workspace_sidebarpanel"
-    },
-    {
-      "label": "PracticeWorkspace()",
-      "file_type": "code",
-      "source_file": "app/practice/demo/practice-workspace.tsx",
-      "source_location": "L34",
-      "_origin": "ast",
-      "community": 7,
-      "norm_label": "practiceworkspace()",
-      "id": "demo_practice_workspace_practiceworkspace"
-    },
-    {
-      "label": "code-editor.tsx",
-      "file_type": "code",
-      "source_file": "components/code-editor.tsx",
-      "source_location": "L1",
-      "_origin": "ast",
-      "community": 7,
-      "norm_label": "code-editor.tsx",
-      "id": "components_code_editor"
-    },
-    {
-      "label": "CodeEditorProps",
-      "file_type": "code",
-      "source_file": "components/code-editor.tsx",
-      "source_location": "L5",
-      "_origin": "ast",
-      "community": 7,
-      "norm_label": "codeeditorprops",
-      "id": "components_code_editor_codeeditorprops"
-    },
-    {
-      "label": "CodeEditor()",
-      "file_type": "code",
-      "source_file": "components/code-editor.tsx",
-      "source_location": "L11",
-      "_origin": "ast",
-      "community": 7,
-      "norm_label": "codeeditor()",
-      "id": "components_code_editor_codeeditor"
-    },
-    {
-      "label": "dashboard-card.tsx",
-      "file_type": "code",
-      "source_file": "components/dashboard-card.tsx",
-      "source_location": "L1",
-      "_origin": "ast",
-      "community": 4,
-      "norm_label": "dashboard-card.tsx",
-      "id": "components_dashboard_card"
-    },
-    {
-      "label": "DashboardCardProps",
-      "file_type": "code",
-      "source_file": "components/dashboard-card.tsx",
-      "source_location": "L3",
-      "_origin": "ast",
-      "community": 4,
-      "norm_label": "dashboardcardprops",
-      "id": "components_dashboard_card_dashboardcardprops"
-    },
-    {
-      "label": "DashboardCard()",
-      "file_type": "code",
-      "source_file": "components/dashboard-card.tsx",
-      "source_location": "L9",
-      "_origin": "ast",
-      "community": 4,
-      "norm_label": "dashboardcard()",
-      "id": "components_dashboard_card_dashboardcard"
-    },
-    {
-      "label": "feature-card.tsx",
-      "file_type": "code",
-      "source_file": "components/feature-card.tsx",
-      "source_location": "L1",
-      "_origin": "ast",
-      "community": 3,
-      "norm_label": "feature-card.tsx",
-      "id": "components_feature_card"
-    },
-    {
-      "label": "FeatureCardProps",
-      "file_type": "code",
-      "source_file": "components/feature-card.tsx",
-      "source_location": "L1",
-      "_origin": "ast",
-      "community": 3,
-      "norm_label": "featurecardprops",
-      "id": "components_feature_card_featurecardprops"
-    },
-    {
-      "label": "FeatureCard()",
-      "file_type": "code",
-      "source_file": "components/feature-card.tsx",
-      "source_location": "L7",
-      "_origin": "ast",
-      "community": 3,
-      "norm_label": "featurecard()",
-      "id": "components_feature_card_featurecard"
-    },
-    {
-      "label": "landing-page.tsx",
-      "file_type": "code",
-      "source_file": "components/landing-page.tsx",
-      "source_location": "L1",
-      "_origin": "ast",
-      "community": 3,
-      "norm_label": "landing-page.tsx",
-      "id": "components_landing_page"
-    },
-    {
-      "label": "navLinks",
-      "file_type": "code",
-      "source_file": "components/landing-page.tsx",
-      "source_location": "L5",
-      "_origin": "ast",
-      "community": 3,
-      "norm_label": "navlinks",
-      "id": "components_landing_page_navlinks"
-    },
-    {
-      "label": "positioningChips",
-      "file_type": "code",
-      "source_file": "components/landing-page.tsx",
-      "source_location": "L11",
-      "_origin": "ast",
-      "community": 3,
-      "norm_label": "positioningchips",
-      "id": "components_landing_page_positioningchips"
-    },
-    {
-      "label": "featureCards",
-      "file_type": "code",
-      "source_file": "components/landing-page.tsx",
-      "source_location": "L19",
-      "_origin": "ast",
-      "community": 3,
-      "norm_label": "featurecards",
-      "id": "components_landing_page_featurecards"
-    },
-    {
-      "label": "steps",
-      "file_type": "code",
-      "source_file": "components/landing-page.tsx",
-      "source_location": "L58",
-      "_origin": "ast",
-      "community": 3,
-      "norm_label": "steps",
-      "id": "components_landing_page_steps"
-    },
-    {
-      "label": "futureCards",
-      "file_type": "code",
-      "source_file": "components/landing-page.tsx",
-      "source_location": "L85",
-      "_origin": "ast",
-      "community": 3,
-      "norm_label": "futurecards",
-      "id": "components_landing_page_futurecards"
-    },
-    {
-      "label": "dashboardPreviewStats",
-      "file_type": "code",
-      "source_file": "components/landing-page.tsx",
-      "source_location": "L108",
-      "_origin": "ast",
-      "community": 3,
-      "norm_label": "dashboardpreviewstats",
-      "id": "components_landing_page_dashboardpreviewstats"
-    },
-    {
-      "label": "LandingPage()",
-      "file_type": "code",
-      "source_file": "components/landing-page.tsx",
-      "source_location": "L114",
-      "_origin": "ast",
-      "community": 3,
-      "norm_label": "landingpage()",
-      "id": "components_landing_page_landingpage"
-    },
-    {
-      "label": "site-header.tsx",
-      "file_type": "code",
-      "source_file": "components/site-header.tsx",
-      "source_location": "L1",
-      "_origin": "ast",
-      "community": 3,
-      "norm_label": "site-header.tsx",
-      "id": "components_site_header"
-    },
-    {
-      "label": "NavLink",
-      "file_type": "code",
-      "source_file": "components/site-header.tsx",
-      "source_location": "L3",
-      "_origin": "ast",
-      "community": 3,
-      "norm_label": "navlink",
-      "id": "components_site_header_navlink"
-    },
-    {
-      "label": "HeaderAction",
-      "file_type": "code",
-      "source_file": "components/site-header.tsx",
-      "source_location": "L8",
-      "_origin": "ast",
-      "community": 3,
-      "norm_label": "headeraction",
-      "id": "components_site_header_headeraction"
-    },
-    {
-      "label": "SiteHeaderProps",
-      "file_type": "code",
-      "source_file": "components/site-header.tsx",
-      "source_location": "L13",
-      "_origin": "ast",
-      "community": 3,
-      "norm_label": "siteheaderprops",
-      "id": "components_site_header_siteheaderprops"
-    },
-    {
-      "label": "SiteHeader()",
-      "file_type": "code",
-      "source_file": "components/site-header.tsx",
-      "source_location": "L19",
-      "_origin": "ast",
-      "community": 3,
-      "norm_label": "siteheader()",
-      "id": "components_site_header_siteheader"
-    },
-    {
-      "label": "stat-card.tsx",
-      "file_type": "code",
-      "source_file": "components/stat-card.tsx",
-      "source_location": "L1",
-      "_origin": "ast",
-      "community": 4,
-      "norm_label": "stat-card.tsx",
-      "id": "components_stat_card"
-    },
-    {
-      "label": "StatCardProps",
-      "file_type": "code",
-      "source_file": "components/stat-card.tsx",
-      "source_location": "L1",
-      "_origin": "ast",
-      "community": 4,
-      "norm_label": "statcardprops",
-      "id": "components_stat_card_statcardprops"
-    },
-    {
-      "label": "StatCard()",
-      "file_type": "code",
-      "source_file": "components/stat-card.tsx",
-      "source_location": "L7",
-      "_origin": "ast",
-      "community": 4,
-      "norm_label": "statcard()",
-      "id": "components_stat_card_statcard"
-    },
-    {
-      "label": "eslint.config.mjs",
-      "file_type": "code",
-      "source_file": "eslint.config.mjs",
-      "source_location": "L1",
-      "_origin": "ast",
-      "community": 13,
-      "norm_label": "eslint.config.mjs",
-      "id": "eslint_config"
-    },
-    {
-      "label": "eslintConfig",
-      "file_type": "code",
-      "source_file": "eslint.config.mjs",
-      "source_location": "L5",
-      "_origin": "ast",
-      "community": 13,
-      "norm_label": "eslintconfig",
-      "id": "eslint_config_eslintconfig"
-    },
-    {
-      "label": "manifest.json",
-      "file_type": "code",
-      "source_file": "graphify/manifest.json",
-      "source_location": "L1",
-      "_origin": "ast",
-      "community": 0,
-      "norm_label": "manifest.json",
-      "id": "graphify_manifest"
-    },
-    {
-      "label": "auth/signout/route.ts",
-      "file_type": "code",
-      "source_file": "graphify/manifest.json",
-      "source_location": "L2",
-      "_origin": "ast",
-      "community": 0,
-      "norm_label": "auth/signout/route.ts",
-      "id": "graphify_manifest_auth_signout_route_ts"
-    },
-    {
-      "label": "mtime",
-      "file_type": "code",
-      "source_file": "graphify/manifest.json",
-      "source_location": "L3",
-      "_origin": "ast",
-      "community": 0,
-      "norm_label": "mtime",
-      "id": "graphify_manifest_auth_signout_route_ts_mtime"
-    },
-    {
-      "label": "ast_hash",
-      "file_type": "code",
-      "source_file": "graphify/manifest.json",
-      "source_location": "L4",
-      "_origin": "ast",
-      "community": 0,
-      "norm_label": "ast_hash",
-      "id": "graphify_manifest_auth_signout_route_ts_ast_hash"
-    },
-    {
-      "label": "semantic_hash",
-      "file_type": "code",
-      "source_file": "graphify/manifest.json",
-      "source_location": "L5",
-      "_origin": "ast",
-      "community": 0,
-      "norm_label": "semantic_hash",
-      "id": "graphify_manifest_auth_signout_route_ts_semantic_hash"
-    },
-    {
-      "label": "dashboard/page.tsx",
-      "file_type": "code",
-      "source_file": "graphify/manifest.json",
-      "source_location": "L7",
-      "_origin": "ast",
-      "community": 0,
-      "norm_label": "dashboard/page.tsx",
-      "id": "graphify_manifest_dashboard_page_tsx"
-    },
-    {
-      "label": "mtime",
-      "file_type": "code",
-      "source_file": "graphify/manifest.json",
-      "source_location": "L8",
-      "_origin": "ast",
-      "community": 0,
-      "norm_label": "mtime",
-      "id": "graphify_manifest_dashboard_page_tsx_mtime"
-    },
-    {
-      "label": "ast_hash",
-      "file_type": "code",
-      "source_file": "graphify/manifest.json",
-      "source_location": "L9",
-      "_origin": "ast",
-      "community": 0,
-      "norm_label": "ast_hash",
-      "id": "graphify_manifest_dashboard_page_tsx_ast_hash"
-    },
-    {
-      "label": "semantic_hash",
-      "file_type": "code",
-      "source_file": "graphify/manifest.json",
-      "source_location": "L10",
-      "_origin": "ast",
-      "community": 0,
-      "norm_label": "semantic_hash",
-      "id": "graphify_manifest_dashboard_page_tsx_semantic_hash"
-    },
-    {
-      "label": "landingPage/page.tsx",
-      "file_type": "code",
-      "source_file": "graphify/manifest.json",
-      "source_location": "L12",
-      "_origin": "ast",
-      "community": 0,
-      "norm_label": "landingpage/page.tsx",
-      "id": "graphify_manifest_landingpage_page_tsx"
-    },
-    {
-      "label": "mtime",
-      "file_type": "code",
-      "source_file": "graphify/manifest.json",
-      "source_location": "L13",
-      "_origin": "ast",
-      "community": 0,
-      "norm_label": "mtime",
-      "id": "graphify_manifest_landingpage_page_tsx_mtime"
-    },
-    {
-      "label": "ast_hash",
-      "file_type": "code",
-      "source_file": "graphify/manifest.json",
-      "source_location": "L14",
-      "_origin": "ast",
-      "community": 0,
-      "norm_label": "ast_hash",
-      "id": "graphify_manifest_landingpage_page_tsx_ast_hash"
-    },
-    {
-      "label": "semantic_hash",
-      "file_type": "code",
-      "source_file": "graphify/manifest.json",
-      "source_location": "L15",
-      "_origin": "ast",
-      "community": 0,
-      "norm_label": "semantic_hash",
-      "id": "graphify_manifest_landingpage_page_tsx_semantic_hash"
-    },
-    {
-      "label": "layout.tsx",
-      "file_type": "code",
-      "source_file": "graphify/manifest.json",
-      "source_location": "L17",
-      "_origin": "ast",
-      "community": 0,
-      "norm_label": "layout.tsx",
-      "id": "graphify_manifest_layout_tsx"
-    },
-    {
-      "label": "mtime",
-      "file_type": "code",
-      "source_file": "graphify/manifest.json",
-      "source_location": "L18",
-      "_origin": "ast",
-      "community": 0,
-      "norm_label": "mtime",
-      "id": "graphify_manifest_layout_tsx_mtime"
-    },
-    {
-      "label": "ast_hash",
-      "file_type": "code",
-      "source_file": "graphify/manifest.json",
-      "source_location": "L19",
-      "_origin": "ast",
-      "community": 0,
-      "norm_label": "ast_hash",
-      "id": "graphify_manifest_layout_tsx_ast_hash"
-    },
-    {
-      "label": "semantic_hash",
-      "file_type": "code",
-      "source_file": "graphify/manifest.json",
-      "source_location": "L20",
-      "_origin": "ast",
-      "community": 0,
-      "norm_label": "semantic_hash",
-      "id": "graphify_manifest_layout_tsx_semantic_hash"
-    },
-    {
-      "label": "login/page.tsx",
-      "file_type": "code",
-      "source_file": "graphify/manifest.json",
-      "source_location": "L22",
-      "_origin": "ast",
-      "community": 0,
-      "norm_label": "login/page.tsx",
-      "id": "graphify_manifest_login_page_tsx"
-    },
-    {
-      "label": "mtime",
-      "file_type": "code",
-      "source_file": "graphify/manifest.json",
-      "source_location": "L23",
-      "_origin": "ast",
-      "community": 0,
-      "norm_label": "mtime",
-      "id": "graphify_manifest_login_page_tsx_mtime"
-    },
-    {
-      "label": "ast_hash",
-      "file_type": "code",
-      "source_file": "graphify/manifest.json",
-      "source_location": "L24",
-      "_origin": "ast",
-      "community": 0,
-      "norm_label": "ast_hash",
-      "id": "graphify_manifest_login_page_tsx_ast_hash"
-    },
-    {
-      "label": "semantic_hash",
-      "file_type": "code",
-      "source_file": "graphify/manifest.json",
-      "source_location": "L25",
-      "_origin": "ast",
-      "community": 0,
-      "norm_label": "semantic_hash",
-      "id": "graphify_manifest_login_page_tsx_semantic_hash"
-    },
-    {
-      "label": "page.tsx",
-      "file_type": "code",
-      "source_file": "graphify/manifest.json",
-      "source_location": "L27",
-      "_origin": "ast",
-      "community": 0,
-      "norm_label": "page.tsx",
-      "id": "graphify_manifest_page_tsx"
-    },
-    {
-      "label": "mtime",
-      "file_type": "code",
-      "source_file": "graphify/manifest.json",
-      "source_location": "L28",
-      "_origin": "ast",
-      "community": 0,
-      "norm_label": "mtime",
-      "id": "graphify_manifest_page_tsx_mtime"
-    },
-    {
-      "label": "ast_hash",
-      "file_type": "code",
-      "source_file": "graphify/manifest.json",
-      "source_location": "L29",
-      "_origin": "ast",
-      "community": 0,
-      "norm_label": "ast_hash",
-      "id": "graphify_manifest_page_tsx_ast_hash"
-    },
-    {
-      "label": "semantic_hash",
-      "file_type": "code",
-      "source_file": "graphify/manifest.json",
-      "source_location": "L30",
-      "_origin": "ast",
-      "community": 0,
-      "norm_label": "semantic_hash",
-      "id": "graphify_manifest_page_tsx_semantic_hash"
-    },
-    {
-      "label": "practice/demo/page.tsx",
-      "file_type": "code",
-      "source_file": "graphify/manifest.json",
-      "source_location": "L32",
-      "_origin": "ast",
-      "community": 17,
-      "norm_label": "practice/demo/page.tsx",
-      "id": "graphify_manifest_practice_demo_page_tsx"
-    },
-    {
-      "label": "mtime",
-      "file_type": "code",
-      "source_file": "graphify/manifest.json",
-      "source_location": "L33",
-      "_origin": "ast",
-      "community": 17,
-      "norm_label": "mtime",
-      "id": "graphify_manifest_practice_demo_page_tsx_mtime"
-    },
-    {
-      "label": "ast_hash",
-      "file_type": "code",
-      "source_file": "graphify/manifest.json",
-      "source_location": "L34",
-      "_origin": "ast",
-      "community": 17,
-      "norm_label": "ast_hash",
-      "id": "graphify_manifest_practice_demo_page_tsx_ast_hash"
-    },
-    {
-      "label": "semantic_hash",
-      "file_type": "code",
-      "source_file": "graphify/manifest.json",
-      "source_location": "L35",
-      "_origin": "ast",
-      "community": 17,
-      "norm_label": "semantic_hash",
-      "id": "graphify_manifest_practice_demo_page_tsx_semantic_hash"
-    },
-    {
-      "label": "practice/demo/practice-workspace.tsx",
-      "file_type": "code",
-      "source_file": "graphify/manifest.json",
-      "source_location": "L37",
-      "_origin": "ast",
-      "community": 0,
-      "norm_label": "practice/demo/practice-workspace.tsx",
-      "id": "graphify_manifest_practice_demo_practice_workspace_tsx"
-    },
-    {
-      "label": "mtime",
-      "file_type": "code",
-      "source_file": "graphify/manifest.json",
-      "source_location": "L38",
-      "_origin": "ast",
-      "community": 0,
-      "norm_label": "mtime",
-      "id": "graphify_manifest_practice_demo_practice_workspace_tsx_mtime"
-    },
-    {
-      "label": "ast_hash",
-      "file_type": "code",
-      "source_file": "graphify/manifest.json",
-      "source_location": "L39",
-      "_origin": "ast",
-      "community": 0,
-      "norm_label": "ast_hash",
-      "id": "graphify_manifest_practice_demo_practice_workspace_tsx_ast_hash"
-    },
-    {
-      "label": "semantic_hash",
-      "file_type": "code",
-      "source_file": "graphify/manifest.json",
-      "source_location": "L40",
-      "_origin": "ast",
-      "community": 0,
-      "norm_label": "semantic_hash",
-      "id": "graphify_manifest_practice_demo_practice_workspace_tsx_semantic_hash"
-    },
-    {
-      "label": "client.ts",
-      "file_type": "code",
-      "source_file": "lib/supabase/client.ts",
-      "source_location": "L1",
-      "_origin": "ast",
-      "community": 6,
-      "norm_label": "client.ts",
-      "id": "supabase_client"
-    },
-    {
-      "label": "createClient()",
-      "file_type": "code",
-      "source_file": "lib/supabase/client.ts",
-      "source_location": "L4",
-      "_origin": "ast",
-      "community": 6,
-      "norm_label": "createclient()",
-      "id": "supabase_client_createclient"
-    },
-    {
-      "label": "config.ts",
-      "file_type": "code",
-      "source_file": "lib/supabase/config.ts",
-      "source_location": "L1",
-      "_origin": "ast",
-      "community": 6,
-      "norm_label": "config.ts",
-      "id": "supabase_config"
-    },
-    {
-      "label": "SupabaseConfig",
-      "file_type": "code",
-      "source_file": "lib/supabase/config.ts",
-      "source_location": "L1",
-      "_origin": "ast",
-      "community": 6,
-      "norm_label": "supabaseconfig",
-      "id": "supabase_config_supabaseconfig"
-    },
-    {
-      "label": "getSupabaseKey()",
-      "file_type": "code",
-      "source_file": "lib/supabase/config.ts",
-      "source_location": "L6",
-      "_origin": "ast",
-      "community": 6,
-      "norm_label": "getsupabasekey()",
-      "id": "supabase_config_getsupabasekey"
-    },
-    {
-      "label": "getSupabaseKeyErrorMessage()",
-      "file_type": "code",
-      "source_file": "lib/supabase/config.ts",
-      "source_location": "L13",
-      "_origin": "ast",
-      "community": 6,
-      "norm_label": "getsupabasekeyerrormessage()",
-      "id": "supabase_config_getsupabasekeyerrormessage"
-    },
-    {
-      "label": "getSupabaseConfig()",
-      "file_type": "code",
-      "source_file": "lib/supabase/config.ts",
-      "source_location": "L27",
-      "_origin": "ast",
-      "community": 6,
-      "norm_label": "getsupabaseconfig()",
-      "id": "supabase_config_getsupabaseconfig"
-    },
-    {
-      "label": "proxy.ts",
-      "file_type": "code",
-      "source_file": "lib/supabase/proxy.ts",
-      "source_location": "L1",
-      "_origin": "ast",
-      "community": 6,
-      "norm_label": "proxy.ts",
-      "id": "supabase_proxy"
-    },
-    {
-      "label": "updateSession()",
-      "file_type": "code",
-      "source_file": "lib/supabase/proxy.ts",
-      "source_location": "L5",
-      "_origin": "ast",
-      "community": 6,
-      "norm_label": "updatesession()",
-      "id": "supabase_proxy_updatesession"
-    },
-    {
-      "label": "server.ts",
-      "file_type": "code",
-      "source_file": "lib/supabase/server.ts",
-      "source_location": "L1",
-      "_origin": "ast",
-      "community": 4,
-      "norm_label": "server.ts",
-      "id": "supabase_server"
-    },
-    {
-      "label": "createClient()",
-      "file_type": "code",
-      "source_file": "lib/supabase/server.ts",
-      "source_location": "L5",
-      "_origin": "ast",
-      "community": 4,
-      "norm_label": "createclient()",
-      "id": "supabase_server_createclient"
-    },
-    {
-      "label": "next.config.ts",
-      "file_type": "code",
-      "source_file": "next.config.ts",
-      "source_location": "L1",
-      "_origin": "ast",
-      "community": 14,
-      "norm_label": "next.config.ts",
-      "id": "next_config"
-    },
-    {
-      "label": "nextConfig",
-      "file_type": "code",
-      "source_file": "next.config.ts",
-      "source_location": "L3",
-      "_origin": "ast",
-      "community": 14,
-      "norm_label": "nextconfig",
-      "id": "next_config_nextconfig"
-    },
-    {
-      "label": "package.json",
-      "file_type": "code",
-      "source_file": "package.json",
-      "source_location": "L1",
-      "_origin": "ast",
-      "community": 1,
-      "norm_label": "package.json",
-      "id": "package"
-    },
-    {
-      "label": "name",
-      "file_type": "code",
-      "source_file": "package.json",
-      "source_location": "L2",
-      "_origin": "ast",
-      "community": 1,
-      "norm_label": "name",
-      "id": "package_name"
-    },
-    {
-      "label": "version",
-      "file_type": "code",
-      "source_file": "package.json",
-      "source_location": "L3",
-      "_origin": "ast",
-      "community": 1,
-      "norm_label": "version",
-      "id": "package_version"
-    },
-    {
-      "label": "private",
-      "file_type": "code",
-      "source_file": "package.json",
-      "source_location": "L4",
-      "_origin": "ast",
-      "community": 1,
-      "norm_label": "private",
-      "id": "package_private"
-    },
-    {
-      "label": "scripts",
-      "file_type": "code",
-      "source_file": "package.json",
-      "source_location": "L5",
-      "_origin": "ast",
-      "community": 1,
-      "norm_label": "scripts",
-      "id": "package_scripts"
-    },
-    {
-      "label": "dev",
-      "file_type": "code",
-      "source_file": "package.json",
-      "source_location": "L6",
-      "_origin": "ast",
-      "community": 1,
-      "norm_label": "dev",
-      "id": "package_scripts_dev"
-    },
-    {
-      "label": "build",
-      "file_type": "code",
-      "source_file": "package.json",
-      "source_location": "L7",
-      "_origin": "ast",
-      "community": 1,
-      "norm_label": "build",
-      "id": "package_scripts_build"
-    },
-    {
-      "label": "start",
-      "file_type": "code",
-      "source_file": "package.json",
-      "source_location": "L8",
-      "_origin": "ast",
-      "community": 1,
-      "norm_label": "start",
-      "id": "package_scripts_start"
-    },
-    {
-      "label": "lint",
-      "file_type": "code",
-      "source_file": "package.json",
-      "source_location": "L9",
-      "_origin": "ast",
-      "community": 1,
-      "norm_label": "lint",
-      "id": "package_scripts_lint"
-    },
-    {
-      "label": "dependencies",
-      "file_type": "code",
-      "source_file": "package.json",
-      "source_location": "L11",
-      "_origin": "ast",
-      "community": 1,
-      "norm_label": "dependencies",
-      "id": "package_dependencies"
-    },
-    {
-      "label": "@monaco-editor/react",
-      "file_type": "code",
-      "source_file": "package.json",
-      "source_location": "L12",
-      "_origin": "ast",
-      "community": 1,
-      "norm_label": "@monaco-editor/react",
-      "id": "package_dependencies_monaco_editor_react"
-    },
-    {
-      "label": "@supabase/ssr",
-      "file_type": "code",
-      "source_file": "package.json",
-      "source_location": "L13",
-      "_origin": "ast",
-      "community": 1,
-      "norm_label": "@supabase/ssr",
-      "id": "package_dependencies_supabase_ssr"
-    },
-    {
-      "label": "@supabase/supabase-js",
-      "file_type": "code",
-      "source_file": "package.json",
-      "source_location": "L14",
-      "_origin": "ast",
-      "community": 1,
-      "norm_label": "@supabase/supabase-js",
-      "id": "package_dependencies_supabase_supabase_js"
-    },
-    {
-      "label": "next",
-      "file_type": "code",
-      "source_file": "package.json",
-      "source_location": "L15",
-      "_origin": "ast",
-      "community": 1,
-      "norm_label": "next",
-      "id": "package_dependencies_next"
-    },
-    {
-      "label": "react",
-      "file_type": "code",
-      "source_file": "package.json",
-      "source_location": "L16",
-      "_origin": "ast",
-      "community": 1,
-      "norm_label": "react",
-      "id": "package_dependencies_react"
-    },
-    {
-      "label": "react-dom",
-      "file_type": "code",
-      "source_file": "package.json",
-      "source_location": "L17",
-      "_origin": "ast",
-      "community": 1,
-      "norm_label": "react-dom",
-      "id": "package_dependencies_react_dom"
-    },
-    {
-      "label": "devDependencies",
-      "file_type": "code",
-      "source_file": "package.json",
-      "source_location": "L19",
-      "_origin": "ast",
-      "community": 9,
-      "norm_label": "devdependencies",
-      "id": "package_devdependencies"
-    },
-    {
-      "label": "@tailwindcss/postcss",
-      "file_type": "code",
-      "source_file": "package.json",
-      "source_location": "L20",
-      "_origin": "ast",
-      "community": 9,
-      "norm_label": "@tailwindcss/postcss",
-      "id": "package_devdependencies_tailwindcss_postcss"
-    },
-    {
-      "label": "@types/node",
-      "file_type": "code",
-      "source_file": "package.json",
-      "source_location": "L21",
-      "_origin": "ast",
-      "community": 9,
-      "norm_label": "@types/node",
-      "id": "package_devdependencies_types_node"
-    },
-    {
-      "label": "@types/react",
-      "file_type": "code",
-      "source_file": "package.json",
-      "source_location": "L22",
-      "_origin": "ast",
-      "community": 9,
-      "norm_label": "@types/react",
-      "id": "package_devdependencies_types_react"
-    },
-    {
-      "label": "@types/react-dom",
-      "file_type": "code",
-      "source_file": "package.json",
-      "source_location": "L23",
-      "_origin": "ast",
-      "community": 9,
-      "norm_label": "@types/react-dom",
-      "id": "package_devdependencies_types_react_dom"
-    },
-    {
-      "label": "eslint",
-      "file_type": "code",
-      "source_file": "package.json",
-      "source_location": "L24",
-      "_origin": "ast",
-      "community": 9,
-      "norm_label": "eslint",
-      "id": "package_devdependencies_eslint"
-    },
-    {
-      "label": "eslint-config-next",
-      "file_type": "code",
-      "source_file": "package.json",
-      "source_location": "L25",
-      "_origin": "ast",
-      "community": 9,
-      "norm_label": "eslint-config-next",
-      "id": "package_devdependencies_eslint_config_next"
-    },
-    {
-      "label": "tailwindcss",
-      "file_type": "code",
-      "source_file": "package.json",
-      "source_location": "L26",
-      "_origin": "ast",
-      "community": 9,
-      "norm_label": "tailwindcss",
-      "id": "package_devdependencies_tailwindcss"
-    },
-    {
-      "label": "typescript",
-      "file_type": "code",
-      "source_file": "package.json",
-      "source_location": "L27",
-      "_origin": "ast",
-      "community": 9,
-      "norm_label": "typescript",
-      "id": "package_devdependencies_typescript"
-    },
-    {
-      "label": "postcss.config.mjs",
-      "file_type": "code",
-      "source_file": "postcss.config.mjs",
-      "source_location": "L1",
-      "_origin": "ast",
-      "community": 15,
-      "norm_label": "postcss.config.mjs",
-      "id": "postcss_config"
-    },
-    {
-      "label": "config",
-      "file_type": "code",
-      "source_file": "postcss.config.mjs",
-      "source_location": "L1",
-      "_origin": "ast",
-      "community": 15,
-      "norm_label": "config",
-      "id": "postcss_config_config"
-    },
-    {
-      "label": "proxy.ts",
-      "file_type": "code",
-      "source_file": "proxy.ts",
-      "source_location": "L1",
-      "_origin": "ast",
-      "community": 6,
-      "norm_label": "proxy.ts",
-      "id": "proxy"
-    },
-    {
-      "label": "proxy()",
-      "file_type": "code",
-      "source_file": "proxy.ts",
-      "source_location": "L4",
-      "_origin": "ast",
-      "community": 6,
-      "norm_label": "proxy()",
-      "id": "proxy_proxy"
-    },
-    {
-      "label": "config",
-      "file_type": "code",
-      "source_file": "proxy.ts",
-      "source_location": "L8",
-      "_origin": "ast",
-      "community": 6,
-      "norm_label": "config",
-      "id": "proxy_config"
-    },
-    {
-      "label": "tsconfig.json",
-      "file_type": "code",
-      "source_file": "tsconfig.json",
-      "source_location": "L1",
-      "_origin": "ast",
-      "community": 2,
-      "norm_label": "tsconfig.json",
-      "id": "tsconfig"
-    },
-    {
-      "label": "compilerOptions",
-      "file_type": "code",
-      "source_file": "tsconfig.json",
-      "source_location": "L2",
-      "_origin": "ast",
-      "community": 2,
-      "norm_label": "compileroptions",
-      "id": "tsconfig_compileroptions"
-    },
-    {
-      "label": "target",
-      "file_type": "code",
-      "source_file": "tsconfig.json",
-      "source_location": "L3",
-      "_origin": "ast",
-      "community": 2,
-      "norm_label": "target",
-      "id": "tsconfig_compileroptions_target"
-    },
-    {
-      "label": "lib",
-      "file_type": "code",
-      "source_file": "tsconfig.json",
-      "source_location": "L4",
-      "_origin": "ast",
-      "community": 2,
-      "norm_label": "lib",
-      "id": "tsconfig_compileroptions_lib"
-    },
-    {
-      "label": "allowJs",
-      "file_type": "code",
-      "source_file": "tsconfig.json",
-      "source_location": "L5",
-      "_origin": "ast",
-      "community": 2,
-      "norm_label": "allowjs",
-      "id": "tsconfig_compileroptions_allowjs"
-    },
-    {
-      "label": "skipLibCheck",
-      "file_type": "code",
-      "source_file": "tsconfig.json",
-      "source_location": "L6",
-      "_origin": "ast",
-      "community": 2,
-      "norm_label": "skiplibcheck",
-      "id": "tsconfig_compileroptions_skiplibcheck"
-    },
-    {
-      "label": "strict",
-      "file_type": "code",
-      "source_file": "tsconfig.json",
-      "source_location": "L7",
-      "_origin": "ast",
-      "community": 2,
-      "norm_label": "strict",
-      "id": "tsconfig_compileroptions_strict"
-    },
-    {
-      "label": "noEmit",
-      "file_type": "code",
-      "source_file": "tsconfig.json",
-      "source_location": "L8",
-      "_origin": "ast",
-      "community": 2,
-      "norm_label": "noemit",
-      "id": "tsconfig_compileroptions_noemit"
-    },
-    {
-      "label": "esModuleInterop",
-      "file_type": "code",
-      "source_file": "tsconfig.json",
-      "source_location": "L9",
-      "_origin": "ast",
-      "community": 2,
-      "norm_label": "esmoduleinterop",
-      "id": "tsconfig_compileroptions_esmoduleinterop"
-    },
-    {
-      "label": "module",
-      "file_type": "code",
-      "source_file": "tsconfig.json",
-      "source_location": "L10",
-      "_origin": "ast",
-      "community": 2,
-      "norm_label": "module",
-      "id": "tsconfig_compileroptions_module"
-    },
-    {
-      "label": "moduleResolution",
-      "file_type": "code",
-      "source_file": "tsconfig.json",
-      "source_location": "L11",
-      "_origin": "ast",
-      "community": 2,
-      "norm_label": "moduleresolution",
-      "id": "tsconfig_compileroptions_moduleresolution"
-    },
-    {
-      "label": "resolveJsonModule",
-      "file_type": "code",
-      "source_file": "tsconfig.json",
-      "source_location": "L12",
-      "_origin": "ast",
-      "community": 2,
-      "norm_label": "resolvejsonmodule",
-      "id": "tsconfig_compileroptions_resolvejsonmodule"
-    },
-    {
-      "label": "isolatedModules",
-      "file_type": "code",
-      "source_file": "tsconfig.json",
-      "source_location": "L13",
-      "_origin": "ast",
-      "community": 2,
-      "norm_label": "isolatedmodules",
-      "id": "tsconfig_compileroptions_isolatedmodules"
-    },
-    {
-      "label": "jsx",
-      "file_type": "code",
-      "source_file": "tsconfig.json",
-      "source_location": "L14",
-      "_origin": "ast",
-      "community": 2,
-      "norm_label": "jsx",
-      "id": "tsconfig_compileroptions_jsx"
-    },
-    {
-      "label": "incremental",
-      "file_type": "code",
-      "source_file": "tsconfig.json",
-      "source_location": "L15",
-      "_origin": "ast",
-      "community": 2,
-      "norm_label": "incremental",
-      "id": "tsconfig_compileroptions_incremental"
-    },
-    {
-      "label": "baseUrl",
-      "file_type": "code",
-      "source_file": "tsconfig.json",
-      "source_location": "L16",
-      "_origin": "ast",
-      "community": 2,
-      "norm_label": "baseurl",
-      "id": "tsconfig_compileroptions_baseurl"
-    },
-    {
-      "label": "plugins",
-      "file_type": "code",
-      "source_file": "tsconfig.json",
-      "source_location": "L17",
-      "_origin": "ast",
-      "community": 2,
-      "norm_label": "plugins",
-      "id": "tsconfig_compileroptions_plugins"
-    },
-    {
-      "label": "paths",
-      "file_type": "code",
-      "source_file": "tsconfig.json",
-      "source_location": "L22",
-      "_origin": "ast",
-      "community": 2,
-      "norm_label": "paths",
-      "id": "tsconfig_compileroptions_paths"
-    },
-    {
-      "label": "@/*",
-      "file_type": "code",
-      "source_file": "tsconfig.json",
-      "source_location": "L23",
-      "_origin": "ast",
-      "community": 2,
-      "norm_label": "@/*",
-      "id": "tsconfig_paths"
-    },
-    {
-      "label": "include",
-      "file_type": "code",
-      "source_file": "tsconfig.json",
-      "source_location": "L26",
-      "_origin": "ast",
-      "community": 2,
-      "norm_label": "include",
-      "id": "tsconfig_include"
-    },
-    {
-      "label": "exclude",
-      "file_type": "code",
-      "source_file": "tsconfig.json",
-      "source_location": "L34",
-      "_origin": "ast",
-      "community": 2,
-      "norm_label": "exclude",
-      "id": "tsconfig_exclude"
+      "norm_label": "graphify usage"
     },
     {
       "label": "README.md",
@@ -1839,9 +2209,9 @@
       "source_file": "README.md",
       "source_location": "L1",
       "_origin": "ast",
+      "id": "readme",
       "community": 10,
-      "norm_label": "readme.md",
-      "id": "readme"
+      "norm_label": "readme.md"
     },
     {
       "label": "Getting Started",
@@ -1849,9 +2219,9 @@
       "source_file": "README.md",
       "source_location": "L3",
       "_origin": "ast",
+      "id": "readme_getting_started",
       "community": 10,
-      "norm_label": "getting started",
-      "id": "readme_getting_started"
+      "norm_label": "getting started"
     },
     {
       "label": "Learn More",
@@ -1859,9 +2229,9 @@
       "source_file": "README.md",
       "source_location": "L23",
       "_origin": "ast",
+      "id": "readme_learn_more",
       "community": 10,
-      "norm_label": "learn more",
-      "id": "readme_learn_more"
+      "norm_label": "learn more"
     },
     {
       "label": "Deploy on Vercel",
@@ -1869,302 +2239,362 @@
       "source_file": "README.md",
       "source_location": "L32",
       "_origin": "ast",
+      "id": "readme_deploy_on_vercel",
       "community": 10,
-      "norm_label": "deploy on vercel",
-      "id": "readme_deploy_on_vercel"
+      "norm_label": "deploy on vercel"
+    },
+    {
+      "label": "documentation.md",
+      "file_type": "document",
+      "source_file": "documentation.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "documentation",
+      "community": 5,
+      "norm_label": "documentation.md"
+    },
+    {
+      "label": "Documentation Log",
+      "file_type": "document",
+      "source_file": "documentation.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "documentation_documentation_log",
+      "community": 5,
+      "norm_label": "documentation log"
+    },
+    {
+      "label": "Graphify Workflow",
+      "file_type": "document",
+      "source_file": "documentation.md",
+      "source_location": "L3",
+      "_origin": "ast",
+      "id": "documentation_graphify_workflow",
+      "community": 5,
+      "norm_label": "graphify workflow"
+    },
+    {
+      "label": "Session loop",
+      "file_type": "document",
+      "source_file": "documentation.md",
+      "source_location": "L11",
+      "_origin": "ast",
+      "id": "documentation_session_loop",
+      "community": 5,
+      "norm_label": "session loop"
+    },
+    {
+      "label": "Rules",
+      "file_type": "document",
+      "source_file": "documentation.md",
+      "source_location": "L25",
+      "_origin": "ast",
+      "id": "documentation_rules",
+      "community": 5,
+      "norm_label": "rules"
+    },
+    {
+      "label": "2026-06-28 \u2014 Coding Workspace UI",
+      "file_type": "document",
+      "source_file": "documentation.md",
+      "source_location": "L31",
+      "_origin": "ast",
+      "id": "documentation_2026_06_28_coding_workspace_ui",
+      "community": 5,
+      "norm_label": "2026-06-28 \u2014 coding workspace ui"
+    },
+    {
+      "label": "Files Changed",
+      "file_type": "document",
+      "source_file": "documentation.md",
+      "source_location": "L33",
+      "_origin": "ast",
+      "id": "documentation_files_changed",
+      "community": 5,
+      "norm_label": "files changed"
+    },
+    {
+      "label": "Purpose",
+      "file_type": "document",
+      "source_file": "documentation.md",
+      "source_location": "L39",
+      "_origin": "ast",
+      "id": "documentation_purpose",
+      "community": 5,
+      "norm_label": "purpose"
+    },
+    {
+      "label": "Languages Supported (editor UI only)",
+      "file_type": "document",
+      "source_file": "documentation.md",
+      "source_location": "L43",
+      "_origin": "ast",
+      "id": "documentation_languages_supported_editor_ui_only",
+      "community": 5,
+      "norm_label": "languages supported (editor ui only)"
+    },
+    {
+      "label": "UI-Only \u2014 No Execution",
+      "file_type": "document",
+      "source_file": "documentation.md",
+      "source_location": "L47",
+      "_origin": "ast",
+      "id": "documentation_ui_only_no_execution",
+      "community": 5,
+      "norm_label": "ui-only \u2014 no execution"
+    },
+    {
+      "label": "Current Limitations",
+      "file_type": "document",
+      "source_file": "documentation.md",
+      "source_location": "L51",
+      "_origin": "ast",
+      "id": "documentation_current_limitations",
+      "community": 5,
+      "norm_label": "current limitations"
+    },
+    {
+      "label": "Not Yet Implemented (future additions)",
+      "file_type": "document",
+      "source_file": "documentation.md",
+      "source_location": "L59",
+      "_origin": "ast",
+      "id": "documentation_not_yet_implemented_future_additions",
+      "community": 5,
+      "norm_label": "not yet implemented (future additions)"
+    },
+    {
+      "label": "Suggested Next Steps (superseded by Phase 1)",
+      "file_type": "document",
+      "source_file": "documentation.md",
+      "source_location": "L71",
+      "_origin": "ast",
+      "id": "documentation_suggested_next_steps_superseded_by_phase_1",
+      "community": 5,
+      "norm_label": "suggested next steps (superseded by phase 1)"
+    },
+    {
+      "label": "2026-06-28 16:12:00 AEST",
+      "file_type": "document",
+      "source_file": "documentation.md",
+      "source_location": "L78",
+      "_origin": "ast",
+      "id": "documentation_2026_06_28_16_12_00_aest",
+      "community": 5,
+      "norm_label": "2026-06-28 16:12:00 aest"
+    },
+    {
+      "label": "2026-06-28 16:14:00 AEST",
+      "file_type": "document",
+      "source_file": "documentation.md",
+      "source_location": "L84",
+      "_origin": "ast",
+      "id": "documentation_2026_06_28_16_14_00_aest",
+      "community": 5,
+      "norm_label": "2026-06-28 16:14:00 aest"
+    },
+    {
+      "label": "2026-06-28 16:18:00 AEST",
+      "file_type": "document",
+      "source_file": "documentation.md",
+      "source_location": "L90",
+      "_origin": "ast",
+      "id": "documentation_2026_06_28_16_18_00_aest",
+      "community": 5,
+      "norm_label": "2026-06-28 16:18:00 aest"
+    },
+    {
+      "label": "2026-06-28 16:22:00 AEST",
+      "file_type": "document",
+      "source_file": "documentation.md",
+      "source_location": "L96",
+      "_origin": "ast",
+      "id": "documentation_2026_06_28_16_22_00_aest",
+      "community": 5,
+      "norm_label": "2026-06-28 16:22:00 aest"
+    },
+    {
+      "label": "2026-06-28 16:26:00 AEST",
+      "file_type": "document",
+      "source_file": "documentation.md",
+      "source_location": "L102",
+      "_origin": "ast",
+      "id": "documentation_2026_06_28_16_26_00_aest",
+      "community": 5,
+      "norm_label": "2026-06-28 16:26:00 aest"
+    },
+    {
+      "label": "2026-06-28 16:31:00 AEST",
+      "file_type": "document",
+      "source_file": "documentation.md",
+      "source_location": "L108",
+      "_origin": "ast",
+      "id": "documentation_2026_06_28_16_31_00_aest",
+      "community": 5,
+      "norm_label": "2026-06-28 16:31:00 aest"
+    },
+    {
+      "label": "2026-06-28 16:36:00 AEST",
+      "file_type": "document",
+      "source_file": "documentation.md",
+      "source_location": "L113",
+      "_origin": "ast",
+      "id": "documentation_2026_06_28_16_36_00_aest",
+      "community": 5,
+      "norm_label": "2026-06-28 16:36:00 aest"
+    },
+    {
+      "label": "2026-06-28 16:29:21 AEST",
+      "file_type": "document",
+      "source_file": "documentation.md",
+      "source_location": "L118",
+      "_origin": "ast",
+      "id": "documentation_2026_06_28_16_29_21_aest",
+      "community": 5,
+      "norm_label": "2026-06-28 16:29:21 aest"
+    },
+    {
+      "label": "2026-06-28 16:33:00 AEST",
+      "file_type": "document",
+      "source_file": "documentation.md",
+      "source_location": "L124",
+      "_origin": "ast",
+      "id": "documentation_2026_06_28_16_33_00_aest",
+      "community": 5,
+      "norm_label": "2026-06-28 16:33:00 aest"
+    },
+    {
+      "label": "2026-06-28 16:36:47 AEST",
+      "file_type": "document",
+      "source_file": "documentation.md",
+      "source_location": "L129",
+      "_origin": "ast",
+      "id": "documentation_2026_06_28_16_36_47_aest",
+      "community": 5,
+      "norm_label": "2026-06-28 16:36:47 aest"
+    },
+    {
+      "label": "2026-06-28 16:40:00 AEST",
+      "file_type": "document",
+      "source_file": "documentation.md",
+      "source_location": "L135",
+      "_origin": "ast",
+      "id": "documentation_2026_06_28_16_40_00_aest",
+      "community": 5,
+      "norm_label": "2026-06-28 16:40:00 aest"
+    },
+    {
+      "label": "2026-06-28 16:44:00 AEST",
+      "file_type": "document",
+      "source_file": "documentation.md",
+      "source_location": "L140",
+      "_origin": "ast",
+      "id": "documentation_2026_06_28_16_44_00_aest",
+      "community": 5,
+      "norm_label": "2026-06-28 16:44:00 aest"
+    },
+    {
+      "label": "Phase 1 \u2014 Database-backed Question Library and Practice Workspace",
+      "file_type": "document",
+      "source_file": "documentation.md",
+      "source_location": "L145",
+      "_origin": "ast",
+      "id": "documentation_phase_1_database_backed_question_library_and_practice_workspace",
+      "community": 17,
+      "norm_label": "phase 1 \u2014 database-backed question library and practice workspace"
+    },
+    {
+      "label": "Overview",
+      "file_type": "document",
+      "source_file": "documentation.md",
+      "source_location": "L147",
+      "_origin": "ast",
+      "id": "documentation_overview",
+      "community": 17,
+      "norm_label": "overview"
+    },
+    {
+      "label": "New Routes",
+      "file_type": "document",
+      "source_file": "documentation.md",
+      "source_location": "L153",
+      "_origin": "ast",
+      "id": "documentation_new_routes",
+      "community": 17,
+      "norm_label": "new routes"
+    },
+    {
+      "label": "Files Created",
+      "file_type": "document",
+      "source_file": "documentation.md",
+      "source_location": "L162",
+      "_origin": "ast",
+      "id": "documentation_files_created",
+      "community": 17,
+      "norm_label": "files created"
+    },
+    {
+      "label": "Files Modified",
+      "file_type": "document",
+      "source_file": "documentation.md",
+      "source_location": "L179",
+      "_origin": "ast",
+      "id": "documentation_files_modified",
+      "community": 17,
+      "norm_label": "files modified"
+    },
+    {
+      "label": "Supabase Table Assumptions",
+      "file_type": "document",
+      "source_file": "documentation.md",
+      "source_location": "L183",
+      "_origin": "ast",
+      "id": "documentation_supabase_table_assumptions",
+      "community": 17,
+      "norm_label": "supabase table assumptions"
+    },
+    {
+      "label": "Seeded Questions (7 published)",
+      "file_type": "document",
+      "source_file": "documentation.md",
+      "source_location": "L192",
+      "_origin": "ast",
+      "id": "documentation_seeded_questions_7_published",
+      "community": 17,
+      "norm_label": "seeded questions (7 published)"
+    },
+    {
+      "label": "Practice Workspace Stepper",
+      "file_type": "document",
+      "source_file": "documentation.md",
+      "source_location": "L206",
+      "_origin": "ast",
+      "id": "documentation_practice_workspace_stepper",
+      "community": 17,
+      "norm_label": "practice workspace stepper"
+    },
+    {
+      "label": "Phase 1 Limitations",
+      "file_type": "document",
+      "source_file": "documentation.md",
+      "source_location": "L218",
+      "_origin": "ast",
+      "id": "documentation_phase_1_limitations",
+      "community": 17,
+      "norm_label": "phase 1 limitations"
+    },
+    {
+      "label": "Phases Roadmap",
+      "file_type": "document",
+      "source_file": "documentation.md",
+      "source_location": "L227",
+      "_origin": "ast",
+      "id": "documentation_phases_roadmap",
+      "community": 17,
+      "norm_label": "phases roadmap"
     }
   ],
   "links": [
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "AGENTS.md",
-      "source_location": "L1",
-      "weight": 1.0,
-      "source": "agents",
-      "target": "agents_mandatory_query_graphify_before_reading_files",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "AGENTS.md",
-      "source_location": "L2",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "agents",
-      "target": "agents_this_is_not_the_next_js_you_know"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "AGENTS.md",
-      "source_location": "L7",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "agents_this_is_not_the_next_js_you_know",
-      "target": "agents_graphify"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "AGENTS.md",
-      "source_location": "L20",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "agents_this_is_not_the_next_js_you_know",
-      "target": "agents_graphify_usage"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "CLAUDE.md",
-      "source_location": "L3",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "claude",
-      "target": "claude_graphify_usage"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "documentation.md",
-      "source_location": "L1",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "documentation",
-      "target": "documentation_documentation_log"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "documentation.md",
-      "source_location": "L50",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "documentation_documentation_log",
-      "target": "documentation_2026_06_28_16_12_00_aest"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "documentation.md",
-      "source_location": "L56",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "documentation_documentation_log",
-      "target": "documentation_2026_06_28_16_14_00_aest"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "documentation.md",
-      "source_location": "L62",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "documentation_documentation_log",
-      "target": "documentation_2026_06_28_16_18_00_aest"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "documentation.md",
-      "source_location": "L68",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "documentation_documentation_log",
-      "target": "documentation_2026_06_28_16_22_00_aest"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "documentation.md",
-      "source_location": "L74",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "documentation_documentation_log",
-      "target": "documentation_2026_06_28_16_26_00_aest"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "documentation.md",
-      "source_location": "L90",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "documentation_documentation_log",
-      "target": "documentation_2026_06_28_16_29_21_aest"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "documentation.md",
-      "source_location": "L80",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "documentation_documentation_log",
-      "target": "documentation_2026_06_28_16_31_00_aest"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "documentation.md",
-      "source_location": "L96",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "documentation_documentation_log",
-      "target": "documentation_2026_06_28_16_33_00_aest"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "documentation.md",
-      "source_location": "L85",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "documentation_documentation_log",
-      "target": "documentation_2026_06_28_16_36_00_aest"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "documentation.md",
-      "source_location": "L101",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "documentation_documentation_log",
-      "target": "documentation_2026_06_28_16_36_47_aest"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "documentation.md",
-      "source_location": "L107",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "documentation_documentation_log",
-      "target": "documentation_2026_06_28_16_40_00_aest"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "documentation.md",
-      "source_location": "L112",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "documentation_documentation_log",
-      "target": "documentation_2026_06_28_16_44_00_aest"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "documentation.md",
-      "source_location": "L3",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "documentation_documentation_log",
-      "target": "documentation_2026_06_28_coding_workspace_ui"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "documentation.md",
-      "source_location": "L3",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "documentation_documentation_log",
-      "target": "documentation_graphify_workflow"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "documentation.md",
-      "source_location": "L25",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "documentation_graphify_workflow",
-      "target": "documentation_rules"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "documentation.md",
-      "source_location": "L11",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "documentation_graphify_workflow",
-      "target": "documentation_session_loop"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "documentation.md",
-      "source_location": "L23",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "documentation_2026_06_28_coding_workspace_ui",
-      "target": "documentation_current_limitations"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "documentation.md",
-      "source_location": "L5",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "documentation_2026_06_28_coding_workspace_ui",
-      "target": "documentation_files_changed"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "documentation.md",
-      "source_location": "L15",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "documentation_2026_06_28_coding_workspace_ui",
-      "target": "documentation_languages_supported_editor_ui_only"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "documentation.md",
-      "source_location": "L31",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "documentation_2026_06_28_coding_workspace_ui",
-      "target": "documentation_not_yet_implemented_future_additions"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "documentation.md",
-      "source_location": "L11",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "documentation_2026_06_28_coding_workspace_ui",
-      "target": "documentation_purpose"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "documentation.md",
-      "source_location": "L43",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "documentation_2026_06_28_coding_workspace_ui",
-      "target": "documentation_suggested_next_steps"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "documentation.md",
-      "source_location": "L19",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "documentation_2026_06_28_coding_workspace_ui",
-      "target": "documentation_ui_only_no_execution"
-    },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
@@ -2462,6 +2892,381 @@
       "target": "components_landing_page"
     },
     {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/practice/[questionId]/page.tsx",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "questionid_page",
+      "target": "lib_questions_service",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/practice/[questionId]/page.tsx",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "questionid_page",
+      "target": "lib_questions_service_fetchquestionbyid",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/practice/[questionId]/page.tsx",
+      "source_location": "L15",
+      "weight": 1.0,
+      "source": "questionid_page",
+      "target": "questionid_page_practicepage",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/practice/[questionId]/page.tsx",
+      "source_location": "L10",
+      "weight": 1.0,
+      "source": "questionid_page",
+      "target": "questionid_page_props",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/practice/[questionId]/page.tsx",
+      "source_location": "L8",
+      "weight": 1.0,
+      "source": "questionid_page",
+      "target": "questionid_page_valid_languages",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/practice/[questionId]/page.tsx",
+      "source_location": "L7",
+      "weight": 1.0,
+      "source": "questionid_page",
+      "target": "questionid_page_valid_modes",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/practice/[questionId]/page.tsx",
+      "source_location": "L4",
+      "weight": 1.0,
+      "source": "questionid_page",
+      "target": "questionid_practice_session",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/practice/[questionId]/page.tsx",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "questionid_page",
+      "target": "supabase_server",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/practice/[questionId]/page.tsx",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "questionid_page",
+      "target": "supabase_server_createclient",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/practice/[questionId]/page.tsx",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "questionid_page",
+      "target": "types_practice",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/practice/[questionId]/page.tsx",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "questionid_page",
+      "target": "types_practice_practicemode",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/practice/[questionId]/page.tsx",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "questionid_page",
+      "target": "types_practice_supportedlanguage",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/practice/[questionId]/page.tsx",
+      "source_location": "L28",
+      "weight": 1.0,
+      "source": "questionid_page_practicepage",
+      "target": "lib_questions_service_fetchquestionbyid"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/practice/[questionId]/page.tsx",
+      "source_location": "L18",
+      "weight": 1.0,
+      "source": "questionid_page_practicepage",
+      "target": "supabase_server_createclient"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/practice/[questionId]/practice-session.tsx",
+      "source_location": "L7",
+      "weight": 1.0,
+      "source": "questionid_practice_session",
+      "target": "lib_practice_draft",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/practice/[questionId]/practice-session.tsx",
+      "source_location": "L7",
+      "weight": 1.0,
+      "source": "questionid_practice_session",
+      "target": "lib_practice_draft_builddraftkey",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/practice/[questionId]/practice-session.tsx",
+      "source_location": "L7",
+      "weight": 1.0,
+      "source": "questionid_practice_session",
+      "target": "lib_practice_draft_buildemptydraft",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/practice/[questionId]/practice-session.tsx",
+      "source_location": "L7",
+      "weight": 1.0,
+      "source": "questionid_practice_session",
+      "target": "lib_practice_draft_cleardraft",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/practice/[questionId]/practice-session.tsx",
+      "source_location": "L7",
+      "weight": 1.0,
+      "source": "questionid_practice_session",
+      "target": "lib_practice_draft_loaddraft",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/practice/[questionId]/practice-session.tsx",
+      "source_location": "L7",
+      "weight": 1.0,
+      "source": "questionid_practice_session",
+      "target": "lib_practice_draft_savedraft",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/practice/[questionId]/practice-session.tsx",
+      "source_location": "L17",
+      "weight": 1.0,
+      "source": "questionid_practice_session",
+      "target": "questionid_practice_session_codeeditor",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/practice/[questionId]/practice-session.tsx",
+      "source_location": "L39",
+      "weight": 1.0,
+      "source": "questionid_practice_session",
+      "target": "questionid_practice_session_language_options",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/practice/[questionId]/practice-session.tsx",
+      "source_location": "L52",
+      "weight": 1.0,
+      "source": "questionid_practice_session",
+      "target": "questionid_practice_session_practicesession",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/practice/[questionId]/practice-session.tsx",
+      "source_location": "L45",
+      "weight": 1.0,
+      "source": "questionid_practice_session",
+      "target": "questionid_practice_session_props",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/practice/[questionId]/practice-session.tsx",
+      "source_location": "L29",
+      "weight": 1.0,
+      "source": "questionid_practice_session",
+      "target": "questionid_practice_session_stage_labels",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/practice/[questionId]/practice-session.tsx",
+      "source_location": "L19",
+      "weight": 1.0,
+      "source": "questionid_practice_session",
+      "target": "questionid_practice_session_stages",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/practice/[questionId]/practice-session.tsx",
+      "source_location": "L15",
+      "weight": 1.0,
+      "source": "questionid_practice_session",
+      "target": "types_practice",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/practice/[questionId]/practice-session.tsx",
+      "source_location": "L15",
+      "weight": 1.0,
+      "source": "questionid_practice_session",
+      "target": "types_practice_practicedraft",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/practice/[questionId]/practice-session.tsx",
+      "source_location": "L15",
+      "weight": 1.0,
+      "source": "questionid_practice_session",
+      "target": "types_practice_practicemode",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/practice/[questionId]/practice-session.tsx",
+      "source_location": "L15",
+      "weight": 1.0,
+      "source": "questionid_practice_session",
+      "target": "types_practice_practicestage",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/practice/[questionId]/practice-session.tsx",
+      "source_location": "L15",
+      "weight": 1.0,
+      "source": "questionid_practice_session",
+      "target": "types_practice_supportedlanguage",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/practice/[questionId]/practice-session.tsx",
+      "source_location": "L14",
+      "weight": 1.0,
+      "source": "questionid_practice_session",
+      "target": "types_question",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/practice/[questionId]/practice-session.tsx",
+      "source_location": "L14",
+      "weight": 1.0,
+      "source": "questionid_practice_session",
+      "target": "types_question_question",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/practice/[questionId]/practice-session.tsx",
+      "source_location": "L14",
+      "weight": 1.0,
+      "source": "questionid_practice_session",
+      "target": "types_question_questionexample",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/practice/[questionId]/practice-session.tsx",
+      "source_location": "L59",
+      "weight": 1.0,
+      "source": "questionid_practice_session_practicesession",
+      "target": "lib_practice_draft_builddraftkey"
+    },
+    {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "app/practice/demo/page.tsx",
@@ -2586,6 +3391,376 @@
       "confidence_score": 1.0,
       "source": "demo_practice_workspace",
       "target": "demo_practice_workspace_starter_code"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/questions/[slug]/page.tsx",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "slug_page",
+      "target": "lib_questions_service",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/questions/[slug]/page.tsx",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "slug_page",
+      "target": "lib_questions_service_fetchquestionbyslug",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/questions/[slug]/page.tsx",
+      "source_location": "L9",
+      "weight": 1.0,
+      "source": "slug_page",
+      "target": "slug_page_generatemetadata",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/questions/[slug]/page.tsx",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "slug_page",
+      "target": "slug_page_props",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/questions/[slug]/page.tsx",
+      "source_location": "L17",
+      "weight": 1.0,
+      "source": "slug_page",
+      "target": "slug_page_questiondetailpage",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/questions/[slug]/page.tsx",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "slug_page",
+      "target": "slug_question_detail_client",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/questions/[slug]/page.tsx",
+      "source_location": "L11",
+      "weight": 1.0,
+      "source": "slug_page_generatemetadata",
+      "target": "lib_questions_service_fetchquestionbyslug"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/questions/[slug]/page.tsx",
+      "source_location": "L19",
+      "weight": 1.0,
+      "source": "slug_page_questiondetailpage",
+      "target": "lib_questions_service_fetchquestionbyslug"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/questions/[slug]/question-detail-client.tsx",
+      "source_location": "L9",
+      "weight": 1.0,
+      "source": "slug_question_detail_client",
+      "target": "slug_question_detail_client_difficulty_styles",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/questions/[slug]/question-detail-client.tsx",
+      "source_location": "L15",
+      "weight": 1.0,
+      "source": "slug_question_detail_client",
+      "target": "slug_question_detail_client_language_options",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/questions/[slug]/question-detail-client.tsx",
+      "source_location": "L21",
+      "weight": 1.0,
+      "source": "slug_question_detail_client",
+      "target": "slug_question_detail_client_props",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/questions/[slug]/question-detail-client.tsx",
+      "source_location": "L23",
+      "weight": 1.0,
+      "source": "slug_question_detail_client",
+      "target": "slug_question_detail_client_questiondetailclient",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/questions/[slug]/question-detail-client.tsx",
+      "source_location": "L7",
+      "weight": 1.0,
+      "source": "slug_question_detail_client",
+      "target": "types_practice",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/questions/[slug]/question-detail-client.tsx",
+      "source_location": "L7",
+      "weight": 1.0,
+      "source": "slug_question_detail_client",
+      "target": "types_practice_practicemode",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/questions/[slug]/question-detail-client.tsx",
+      "source_location": "L6",
+      "weight": 1.0,
+      "source": "slug_question_detail_client",
+      "target": "types_question",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/questions/[slug]/question-detail-client.tsx",
+      "source_location": "L6",
+      "weight": 1.0,
+      "source": "slug_question_detail_client",
+      "target": "types_question_difficulty",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/questions/[slug]/question-detail-client.tsx",
+      "source_location": "L6",
+      "weight": 1.0,
+      "source": "slug_question_detail_client",
+      "target": "types_question_question",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/questions/[slug]/question-detail-client.tsx",
+      "source_location": "L6",
+      "weight": 1.0,
+      "source": "slug_question_detail_client",
+      "target": "types_question_supportedlanguage",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/questions/page.tsx",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "questions_page",
+      "target": "lib_questions_service",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/questions/page.tsx",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "questions_page",
+      "target": "lib_questions_service_fetchpublishedquestions",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/questions/page.tsx",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "questions_page",
+      "target": "questions_page_metadata",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/questions/page.tsx",
+      "source_location": "L7",
+      "weight": 1.0,
+      "source": "questions_page",
+      "target": "questions_page_questionspage",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/questions/page.tsx",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "questions_page",
+      "target": "questions_question_library_client",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/questions/page.tsx",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "questions_page",
+      "target": "types_question",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/questions/page.tsx",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "questions_page",
+      "target": "types_question_questionsummary",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/questions/page.tsx",
+      "source_location": "L10",
+      "weight": 1.0,
+      "source": "questions_page_questionspage",
+      "target": "lib_questions_service_fetchpublishedquestions"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/questions/question-library-client.tsx",
+      "source_location": "L7",
+      "weight": 1.0,
+      "source": "questions_question_library_client",
+      "target": "questions_question_library_client_difficulty_styles",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/questions/question-library-client.tsx",
+      "source_location": "L13",
+      "weight": 1.0,
+      "source": "questions_question_library_client",
+      "target": "questions_question_library_client_language_labels",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/questions/question-library-client.tsx",
+      "source_location": "L19",
+      "weight": 1.0,
+      "source": "questions_question_library_client",
+      "target": "questions_question_library_client_props",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/questions/question-library-client.tsx",
+      "source_location": "L21",
+      "weight": 1.0,
+      "source": "questions_question_library_client",
+      "target": "questions_question_library_client_questionlibraryclient",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/questions/question-library-client.tsx",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "questions_question_library_client",
+      "target": "types_question",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/questions/question-library-client.tsx",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "questions_question_library_client",
+      "target": "types_question_difficulty",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/questions/question-library-client.tsx",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "questions_question_library_client",
+      "target": "types_question_questionsummary",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/results/[attemptId]/page.tsx",
+      "source_location": "L7",
+      "weight": 1.0,
+      "source": "attemptid_page",
+      "target": "attemptid_page_props",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/results/[attemptId]/page.tsx",
+      "source_location": "L12",
+      "weight": 1.0,
+      "source": "attemptid_page",
+      "target": "attemptid_page_resultspage",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -3128,6 +4303,250 @@
       "confidence_score": 1.0,
       "source": "graphify_manifest_practice_demo_practice_workspace_tsx",
       "target": "graphify_manifest_practice_demo_practice_workspace_tsx_semantic_hash"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/practice-draft.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "lib_practice_draft",
+      "target": "lib_practice_draft_builddraftkey",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/practice-draft.ts",
+      "source_location": "L35",
+      "weight": 1.0,
+      "source": "lib_practice_draft",
+      "target": "lib_practice_draft_buildemptydraft",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/practice-draft.ts",
+      "source_location": "L26",
+      "weight": 1.0,
+      "source": "lib_practice_draft",
+      "target": "lib_practice_draft_cleardraft",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/practice-draft.ts",
+      "source_location": "L7",
+      "weight": 1.0,
+      "source": "lib_practice_draft",
+      "target": "lib_practice_draft_loaddraft",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/practice-draft.ts",
+      "source_location": "L17",
+      "weight": 1.0,
+      "source": "lib_practice_draft",
+      "target": "lib_practice_draft_savedraft",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/practice-draft.ts",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "lib_practice_draft",
+      "target": "types_practice",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/practice-draft.ts",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "lib_practice_draft",
+      "target": "types_practice_practicedraft",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/practice-draft.ts",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "lib_practice_draft",
+      "target": "types_practice_practicestage",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/practice-draft.ts",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "lib_practice_draft",
+      "target": "types_practice_supportedlanguage",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/questions-service.ts",
+      "source_location": "L44",
+      "weight": 1.0,
+      "source": "lib_questions_service",
+      "target": "lib_questions_service_fetchpublictestcases",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/questions-service.ts",
+      "source_location": "L4",
+      "weight": 1.0,
+      "source": "lib_questions_service",
+      "target": "lib_questions_service_fetchpublishedquestions",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/questions-service.ts",
+      "source_location": "L31",
+      "weight": 1.0,
+      "source": "lib_questions_service",
+      "target": "lib_questions_service_fetchquestionbyid",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/questions-service.ts",
+      "source_location": "L18",
+      "weight": 1.0,
+      "source": "lib_questions_service",
+      "target": "lib_questions_service_fetchquestionbyslug",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/questions-service.ts",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "lib_questions_service",
+      "target": "supabase_server",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/questions-service.ts",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "lib_questions_service",
+      "target": "supabase_server_createclient",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/questions-service.ts",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "lib_questions_service",
+      "target": "types_question",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/questions-service.ts",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "lib_questions_service",
+      "target": "types_question_question",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/questions-service.ts",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "lib_questions_service",
+      "target": "types_question_questionsummary",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/questions-service.ts",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "lib_questions_service",
+      "target": "types_question_questiontestcase",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "lib/questions-service.ts",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "lib_questions_service_fetchpublishedquestions",
+      "target": "supabase_server_createclient"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "lib/questions-service.ts",
+      "source_location": "L19",
+      "weight": 1.0,
+      "source": "lib_questions_service_fetchquestionbyslug",
+      "target": "supabase_server_createclient"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "lib/questions-service.ts",
+      "source_location": "L32",
+      "weight": 1.0,
+      "source": "lib_questions_service_fetchquestionbyid",
+      "target": "supabase_server_createclient"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "lib/questions-service.ts",
+      "source_location": "L45",
+      "weight": 1.0,
+      "source": "lib_questions_service_fetchpublictestcases",
+      "target": "supabase_server_createclient"
     },
     {
       "relation": "contains",
@@ -3836,6 +5255,216 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
+      "source_file": "types/attempt.ts",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "types_attempt",
+      "target": "types_attempt_attemptmode",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "types/attempt.ts",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "types_attempt",
+      "target": "types_attempt_attemptstatus",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "types/attempt.ts",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "types_attempt",
+      "target": "types_attempt_resultband",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "types/attempt.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "types_attempt",
+      "target": "types_attempt_supportedlanguage",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "types/practice.ts",
+      "source_location": "L14",
+      "weight": 1.0,
+      "source": "types_practice",
+      "target": "types_practice_difficulty",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "types/practice.ts",
+      "source_location": "L16",
+      "weight": 1.0,
+      "source": "types_practice",
+      "target": "types_practice_practicedraft",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "types/practice.ts",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "types_practice",
+      "target": "types_practice_practicemode",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "types/practice.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "types_practice",
+      "target": "types_practice_practicestage",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "types/practice.ts",
+      "source_location": "L12",
+      "weight": 1.0,
+      "source": "types_practice",
+      "target": "types_practice_supportedlanguage",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "types/question.ts",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "types_question",
+      "target": "types_question_difficulty",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "types/question.ts",
+      "source_location": "L11",
+      "weight": 1.0,
+      "source": "types_question",
+      "target": "types_question_question",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "types/question.ts",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "types_question",
+      "target": "types_question_questionexample",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "types/question.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "types_question",
+      "target": "types_question_questionstatus",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "types/question.ts",
+      "source_location": "L52",
+      "weight": 1.0,
+      "source": "types_question",
+      "target": "types_question_questionsummary",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "types/question.ts",
+      "source_location": "L40",
+      "weight": 1.0,
+      "source": "types_question",
+      "target": "types_question_questiontestcase",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "types/question.ts",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "types_question",
+      "target": "types_question_supportedlanguage",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "AGENTS.md",
+      "source_location": "L1",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "agents",
+      "target": "agents_mandatory_query_graphify_before_reading_files"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "AGENTS.md",
+      "source_location": "L2",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "agents",
+      "target": "agents_this_is_not_the_next_js_you_know"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "AGENTS.md",
+      "source_location": "L7",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "agents_this_is_not_the_next_js_you_know",
+      "target": "agents_graphify"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "AGENTS.md",
+      "source_location": "L20",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "agents_this_is_not_the_next_js_you_know",
+      "target": "agents_graphify_usage"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "CLAUDE.md",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "claude",
+      "target": "claude_graphify_usage"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
       "source_file": "README.md",
       "source_location": "L32",
       "weight": 1.0,
@@ -3862,8 +5491,348 @@
       "confidence_score": 1.0,
       "source": "readme",
       "target": "readme_learn_more"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "documentation.md",
+      "source_location": "L1",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "documentation",
+      "target": "documentation_documentation_log"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "documentation.md",
+      "source_location": "L50",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "documentation_documentation_log",
+      "target": "documentation_2026_06_28_16_12_00_aest"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "documentation.md",
+      "source_location": "L56",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "documentation_documentation_log",
+      "target": "documentation_2026_06_28_16_14_00_aest"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "documentation.md",
+      "source_location": "L62",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "documentation_documentation_log",
+      "target": "documentation_2026_06_28_16_18_00_aest"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "documentation.md",
+      "source_location": "L68",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "documentation_documentation_log",
+      "target": "documentation_2026_06_28_16_22_00_aest"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "documentation.md",
+      "source_location": "L74",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "documentation_documentation_log",
+      "target": "documentation_2026_06_28_16_26_00_aest"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "documentation.md",
+      "source_location": "L90",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "documentation_documentation_log",
+      "target": "documentation_2026_06_28_16_29_21_aest"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "documentation.md",
+      "source_location": "L80",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "documentation_documentation_log",
+      "target": "documentation_2026_06_28_16_31_00_aest"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "documentation.md",
+      "source_location": "L96",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "documentation_documentation_log",
+      "target": "documentation_2026_06_28_16_33_00_aest"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "documentation.md",
+      "source_location": "L85",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "documentation_documentation_log",
+      "target": "documentation_2026_06_28_16_36_00_aest"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "documentation.md",
+      "source_location": "L101",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "documentation_documentation_log",
+      "target": "documentation_2026_06_28_16_36_47_aest"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "documentation.md",
+      "source_location": "L107",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "documentation_documentation_log",
+      "target": "documentation_2026_06_28_16_40_00_aest"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "documentation.md",
+      "source_location": "L112",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "documentation_documentation_log",
+      "target": "documentation_2026_06_28_16_44_00_aest"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "documentation.md",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "documentation_documentation_log",
+      "target": "documentation_2026_06_28_coding_workspace_ui"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "documentation.md",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "documentation_documentation_log",
+      "target": "documentation_graphify_workflow"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "documentation.md",
+      "source_location": "L145",
+      "weight": 1.0,
+      "source": "documentation_documentation_log",
+      "target": "documentation_phase_1_database_backed_question_library_and_practice_workspace",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "documentation.md",
+      "source_location": "L25",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "documentation_graphify_workflow",
+      "target": "documentation_rules"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "documentation.md",
+      "source_location": "L11",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "documentation_graphify_workflow",
+      "target": "documentation_session_loop"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "documentation.md",
+      "source_location": "L23",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "documentation_2026_06_28_coding_workspace_ui",
+      "target": "documentation_current_limitations"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "documentation.md",
+      "source_location": "L5",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "documentation_2026_06_28_coding_workspace_ui",
+      "target": "documentation_files_changed"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "documentation.md",
+      "source_location": "L15",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "documentation_2026_06_28_coding_workspace_ui",
+      "target": "documentation_languages_supported_editor_ui_only"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "documentation.md",
+      "source_location": "L31",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "documentation_2026_06_28_coding_workspace_ui",
+      "target": "documentation_not_yet_implemented_future_additions"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "documentation.md",
+      "source_location": "L11",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "documentation_2026_06_28_coding_workspace_ui",
+      "target": "documentation_purpose"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "documentation.md",
+      "source_location": "L71",
+      "weight": 1.0,
+      "source": "documentation_2026_06_28_coding_workspace_ui",
+      "target": "documentation_suggested_next_steps_superseded_by_phase_1",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "documentation.md",
+      "source_location": "L19",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "documentation_2026_06_28_coding_workspace_ui",
+      "target": "documentation_ui_only_no_execution"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "documentation.md",
+      "source_location": "L162",
+      "weight": 1.0,
+      "source": "documentation_phase_1_database_backed_question_library_and_practice_workspace",
+      "target": "documentation_files_created",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "documentation.md",
+      "source_location": "L179",
+      "weight": 1.0,
+      "source": "documentation_phase_1_database_backed_question_library_and_practice_workspace",
+      "target": "documentation_files_modified",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "documentation.md",
+      "source_location": "L153",
+      "weight": 1.0,
+      "source": "documentation_phase_1_database_backed_question_library_and_practice_workspace",
+      "target": "documentation_new_routes",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "documentation.md",
+      "source_location": "L147",
+      "weight": 1.0,
+      "source": "documentation_phase_1_database_backed_question_library_and_practice_workspace",
+      "target": "documentation_overview",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "documentation.md",
+      "source_location": "L218",
+      "weight": 1.0,
+      "source": "documentation_phase_1_database_backed_question_library_and_practice_workspace",
+      "target": "documentation_phase_1_limitations",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "documentation.md",
+      "source_location": "L227",
+      "weight": 1.0,
+      "source": "documentation_phase_1_database_backed_question_library_and_practice_workspace",
+      "target": "documentation_phases_roadmap",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "documentation.md",
+      "source_location": "L206",
+      "weight": 1.0,
+      "source": "documentation_phase_1_database_backed_question_library_and_practice_workspace",
+      "target": "documentation_practice_workspace_stepper",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "documentation.md",
+      "source_location": "L192",
+      "weight": 1.0,
+      "source": "documentation_phase_1_database_backed_question_library_and_practice_workspace",
+      "target": "documentation_seeded_questions_7_published",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "documentation.md",
+      "source_location": "L183",
+      "weight": 1.0,
+      "source": "documentation_phase_1_database_backed_question_library_and_practice_workspace",
+      "target": "documentation_supabase_table_assumptions",
+      "confidence_score": 1.0
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "4f3a713ad9233207d0a77295eaacce7c4064a2a5"
+  "built_at_commit": "b4682d760fcb865a436aa47982b6fadfc31d37c8"
 }

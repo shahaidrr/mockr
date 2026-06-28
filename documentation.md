@@ -68,7 +68,7 @@ This implementation is intentionally frontend-only. The Run button writes fake d
 - Draggable pane splitter
 - Dashboard integration / attempt history
 
-### Suggested Next Steps
+### Suggested Next Steps (superseded by Phase 1)
 
 1. Wire the Run button to a real execution service (Judge0 or Piston) behind a Next.js API route.
 2. Add a question model to Supabase and render question description alongside the editor.
@@ -141,3 +141,91 @@ This implementation is intentionally frontend-only. The Run button writes fake d
 
 - Refined the dark primary CTA treatment across [components/site-header.tsx](/Users/shahaidrr/Documents/mockr/components/site-header.tsx), [components/landing-page.tsx](/Users/shahaidrr/Documents/mockr/components/landing-page.tsx), [app/dashboard/page.tsx](/Users/shahaidrr/Documents/mockr/app/dashboard/page.tsx), and [app/login/page.tsx](/Users/shahaidrr/Documents/mockr/app/login/page.tsx) by moving to a deeper background, softer high-contrast text tone, and a subtle inset highlight.
 - Applied the same primary-button recipe everywhere it was reused so the contrast correction covers other dark CTA instances instead of only the two buttons you called out.
+
+## Phase 1 — Database-backed Question Library and Practice Workspace
+
+### Overview
+
+Phase 1 wires the app to real Supabase question data and builds the full practice session flow. The `/practice/demo` sandbox remains untouched.
+
+**Real MVP practice starts at `/questions`.**
+
+### New Routes
+
+| Route | Type | Description |
+|---|---|---|
+| `/questions` | Server + Client | Question Library — fetch and browse published questions |
+| `/questions/[slug]` | Server + Client | Question Detail — problem statement, mode and language selection |
+| `/practice/[questionId]` | Server (auth) + Client | Practice Workspace — 7-step stepper with Monaco editor |
+| `/results/[attemptId]` | Client | Results Placeholder — local-only submission confirmation |
+
+### Files Created
+
+- `types/question.ts` — Question, QuestionTestCase, QuestionSummary, Difficulty, SupportedLanguage types
+- `types/attempt.ts` — AttemptMode, AttemptStatus, ResultBand types
+- `types/practice.ts` — PracticeMode, PracticeStage, SupportedLanguage, PracticeDraft types
+- `lib/questions-service.ts` — Server-side Supabase helpers: fetchPublishedQuestions, fetchQuestionBySlug, fetchQuestionById, fetchPublicTestCases
+- `lib/practice-draft.ts` — localStorage helpers: buildDraftKey, loadDraft, saveDraft, clearDraft, buildEmptyDraft
+- `app/questions/page.tsx` — Server component: fetches published questions
+- `app/questions/question-library-client.tsx` — Client: card grid, random question button
+- `app/questions/[slug]/page.tsx` — Server component: fetches question by slug
+- `app/questions/[slug]/question-detail-client.tsx` — Client: mode/language selectors, start practice button
+- `app/practice/[questionId]/page.tsx` — Server: auth gate, fetch question by ID
+- `app/practice/[questionId]/practice-session.tsx` — Client: full 7-step stepper with Monaco
+- `app/results/[attemptId]/page.tsx` — Client: placeholder results page
+- `supabase/migrations/001_question_practice_foundation_clean.sql` — Full schema with RLS policies
+- `supabase/seed/002_seed_questions.sql` — 7 published questions + 21 public test cases
+
+### Files Modified
+
+- `app/dashboard/page.tsx` — Updated "Start new practice" CTA to `/questions`, added "Browse questions" link
+
+### Supabase Table Assumptions
+
+The app reads from these tables (already created and seeded in production Supabase):
+
+- `public.questions` — use `problem_statement`, NOT `prompt` (old broken column). Filter by `status = 'published'`.
+- `public.question_test_cases` — public test cases via `is_hidden = false`. Not executed in Phase 1.
+- `public.attempts` — not written in Phase 1. Submissions are local-only.
+- `public.attempt_events`, `public.code_snapshots`, `public.test_runs`, `public.scorecards` — created but unused in Phase 1.
+
+### Seeded Questions (7 published)
+
+| Slug | Title | Topic | Difficulty | Est. Time |
+|---|---|---|---|---|
+| find-matching-pair | Find Matching Pair | Hash maps | easy | 15 min |
+| compress-repeated-characters | Compress Repeated Characters | Strings | easy | 15 min |
+| longest-unique-segment | Longest Unique Segment | Sliding window | medium | 25 min |
+| balanced-brackets | Balanced Brackets | Stacks | easy | 15 min |
+| count-connected-rooms | Count Connected Rooms | DFS/BFS | medium | 30 min |
+| sum-pair-exists | Sum Pair Exists | Arrays and hash maps | easy | 15 min |
+| sum-nodes-in-binary-tree | Sum Nodes in Binary Tree | Trees and recursion | easy | 20 min |
+
+Each question has 3 public test cases (`is_hidden = false`). No hidden tests exist in Phase 1.
+
+### Practice Workspace Stepper
+
+1. **Problem** — problem statement, input/output, constraints, examples
+2. **Clarification** — textarea with mode-sensitive guidance
+3. **Approach** — textarea for brute force + optimal approach
+4. **Coding** — Monaco editor, starter code from `questions.starter_code[language]`, language switcher
+5. **Testing Plan** — textarea for testing strategy + edge cases, given examples shown for reference
+6. **Complexity** — time and space complexity, reference values shown from question
+7. **Submit** — summary checklist, submit button
+
+Drafts persist in localStorage per `userId:questionId:mode`. Drafts restore on refresh. Reset Draft clears the draft and restores starter code.
+
+### Phase 1 Limitations
+
+- No code execution — Run button is disabled and labelled "Phase 2"
+- No AI feedback or scoring
+- No attempt persistence — submissions create a `local-{timestamp}` ID only
+- No hidden tests — all 21 test cases are public but not executed
+- No dashboard attempt history from Supabase — dashboard stats remain demo/placeholder data
+- `/practice/demo` remains an untouched sandbox
+
+### Phases Roadmap
+
+- **Phase 2** — Browser-based JavaScript public test execution (Web Worker). Python and C++ await a secure sandbox (Judge0, Piston, or similar).
+- **Phase 3** — Attempt persistence: write attempts and code snapshots to Supabase.
+- **Phase 4+** — Deterministic scoring, hidden tests, AI scorecard (Claude API), dashboard attempt history, voice/video.

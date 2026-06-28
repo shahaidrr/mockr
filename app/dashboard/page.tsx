@@ -89,10 +89,17 @@ export default async function DashboardPage() {
 
           <div className="flex flex-col gap-3 sm:flex-row">
             <Link
-              href="/practice/demo"
+              href="/questions"
               className="inline-flex items-center justify-center rounded-full border border-slate-950 bg-slate-950 px-5 py-3 text-sm font-semibold text-slate-50 shadow-[inset_0_1px_0_rgba(255,255,255,0.14)] transition hover:bg-slate-800"
             >
               Start new practice
+            </Link>
+
+            <Link
+              href="/questions"
+              className="inline-flex items-center justify-center rounded-full border border-slate-300 bg-slate-100 px-5 py-3 text-sm font-semibold text-slate-900 transition hover:border-slate-400 hover:bg-slate-200"
+            >
+              Browse questions
             </Link>
 
             <form action="/auth/signout" method="post">

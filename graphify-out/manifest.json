@@ -5,8 +5,8 @@
     "semantic_hash": ""
   },
   ".claude/settings.local.json": {
-    "mtime": 1782632679.164838,
-    "ast_hash": "5555bf4a4adc1886c0bb0724f7e7a362",
+    "mtime": 1782647521.0506196,
+    "ast_hash": "33d6106a1377acb17eb9f01394831dbc",
     "semantic_hash": ""
   },
   ".codex/hooks.json": {
@@ -25,8 +25,8 @@
     "semantic_hash": ""
   },
   "app/dashboard/page.tsx": {
-    "mtime": 1782630710.4688625,
-    "ast_hash": "03bf68bef5654cc15defb1c9c590398b",
+    "mtime": 1782646557.469245,
+    "ast_hash": "b703fcee4b7c53f9cdf3a0b5adf54234",
     "semantic_hash": ""
   },
   "app/landingPage/page.tsx": {
@@ -170,8 +170,8 @@
     "semantic_hash": ""
   },
   "documentation.md": {
-    "mtime": 1782632688.5494397,
-    "ast_hash": "5aa50f3b3e09f7bf697cc1d22e29249e",
+    "mtime": 1782646613.876531,
+    "ast_hash": "0068f5a0d1e02d67960a3b6a36f6ad65",
     "semantic_hash": ""
   },
   "public/file.svg": {
@@ -197,6 +197,76 @@
   "public/window.svg": {
     "mtime": 1782279591.587043,
     "ast_hash": "a2760511c65806022ad20adf74370ff3",
+    "semantic_hash": ""
+  },
+  "app/practice/[questionId]/page.tsx": {
+    "mtime": 1782646321.8637233,
+    "ast_hash": "e09802db8876518bcb5ad03f84f4a39f",
+    "semantic_hash": ""
+  },
+  "app/practice/[questionId]/practice-session.tsx": {
+    "mtime": 1782646410.2418504,
+    "ast_hash": "befc125b44982c1bbbfdd86d95331ae7",
+    "semantic_hash": ""
+  },
+  "app/questions/[slug]/page.tsx": {
+    "mtime": 1782646285.6381586,
+    "ast_hash": "9e9045806b44c22c3ad33412353481f9",
+    "semantic_hash": ""
+  },
+  "app/questions/[slug]/question-detail-client.tsx": {
+    "mtime": 1782646314.9896033,
+    "ast_hash": "784c5f2263ffe78a144d2054a0371b8b",
+    "semantic_hash": ""
+  },
+  "app/questions/page.tsx": {
+    "mtime": 1782646260.9567988,
+    "ast_hash": "6a0aa2ed68c63a4e9b0f2da11143fb65",
+    "semantic_hash": ""
+  },
+  "app/questions/question-library-client.tsx": {
+    "mtime": 1782646280.4624743,
+    "ast_hash": "64e969001606e14e82b160b54e05c5b2",
+    "semantic_hash": ""
+  },
+  "app/results/[attemptId]/page.tsx": {
+    "mtime": 1782646431.423719,
+    "ast_hash": "7ced1b76a77666721fe4b8395c86400c",
+    "semantic_hash": ""
+  },
+  "lib/practice-draft.ts": {
+    "mtime": 1782646256.4071114,
+    "ast_hash": "c31c610175e7b9d4aa18a3a8a019d1cf",
+    "semantic_hash": ""
+  },
+  "lib/questions-service.ts": {
+    "mtime": 1782646252.6286192,
+    "ast_hash": "d150e0d8f9b590026e00174f0fe80940",
+    "semantic_hash": ""
+  },
+  "supabase/migrations/001_question_practice_foundation_clean.sql": {
+    "mtime": 1782646460.395339,
+    "ast_hash": "e6249d06bba3c4f4eb2dfbd8a6adcb37",
+    "semantic_hash": ""
+  },
+  "supabase/seed/002_seed_questions.sql": {
+    "mtime": 1782646549.7157872,
+    "ast_hash": "f90546ef3f0f93d2c96ffec119cdc719",
+    "semantic_hash": ""
+  },
+  "types/attempt.ts": {
+    "mtime": 1782646242.8469431,
+    "ast_hash": "87ea2bb38d1c0887ce275a67fb1bd3eb",
+    "semantic_hash": ""
+  },
+  "types/practice.ts": {
+    "mtime": 1782646245.4362009,
+    "ast_hash": "42096138236f4022f4a75e370708a0dc",
+    "semantic_hash": ""
+  },
+  "types/question.ts": {
+    "mtime": 1782646240.7981973,
+    "ast_hash": "a82fd061a948a8edc6eeb57c061ba5f5",
     "semantic_hash": ""
   }
 }
