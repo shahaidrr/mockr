@@ -10,7 +10,13 @@ export default function LoginPage() {
   const [mode, setMode] = useState<"login" | "signup">("login");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState(() => {
+    if (typeof window === "undefined") {
+      return "";
+    }
+
+    return new URLSearchParams(window.location.search).get("message") ?? "";
+  });
   const [submitting, setSubmitting] = useState(false);
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
@@ -26,6 +32,9 @@ export default function LoginPage() {
         const { error } = await supabase.auth.signUp({
           email,
           password,
+          options: {
+            emailRedirectTo: `${window.location.origin}/auth/callback?next=/dashboard`,
+          },
         });
 
         if (error) {
@@ -33,7 +42,7 @@ export default function LoginPage() {
         }
 
         setMessage(
-          "Account created. Check your email if confirmation is enabled."
+          "Account created. Check your email and confirm your address to finish signing in."
         );
       } else {
         const { error } = await supabase.auth.signInWithPassword({
@@ -206,7 +215,9 @@ export default function LoginPage() {
 
             {/* Reuse the existing Supabase browser client utilities here rather
                 than creating page-specific auth helpers. Add provider auth flows
-                in this component once the Supabase project configuration is ready. */}
+                in this component once the Supabase project configuration is ready.
+                Signup confirmation uses /auth/callback so email verification can
+                exchange the PKCE auth code into a session before redirecting. */}
           </div>
         </section>
       </div>
