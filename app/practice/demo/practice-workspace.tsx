@@ -12,39 +12,38 @@ const STARTER_CODE = `function findPair(numbers, target) {
 `;
 
 export default function PracticeWorkspace() {
-  const [code, setCode] = useState(STARTER_CODE);
-  const [hasLoadedDraft, setHasLoadedDraft] = useState(false);
-  const [saveStatus, setSaveStatus] = useState("Loading draft...");
-
-  useEffect(() => {
-    const savedDraft = window.localStorage.getItem(STORAGE_KEY);
-
-    if (savedDraft !== null) {
-      setCode(savedDraft);
-      setSaveStatus("Draft restored");
-    } else {
-      setSaveStatus("No saved draft");
+  const [code, setCode] = useState(() => {
+    if (typeof window === "undefined") {
+      return STARTER_CODE;
     }
 
-    setHasLoadedDraft(true);
-  }, []);
-
-  useEffect(() => {
-    if (!hasLoadedDraft) {
-      return;
+    return window.localStorage.getItem(STORAGE_KEY) ?? STARTER_CODE;
+  });
+  const [saveStatus, setSaveStatus] = useState(() => {
+    if (typeof window === "undefined") {
+      return "Loading draft...";
     }
 
+    return window.localStorage.getItem(STORAGE_KEY) !== null
+      ? "Draft restored"
+      : "No saved draft";
+  });
+
+  useEffect(() => {
     const saveTimer = window.setTimeout(() => {
       window.localStorage.setItem(STORAGE_KEY, code);
       setSaveStatus("Draft saved");
     }, 500);
 
-    setSaveStatus("Saving...");
-
     return () => {
       window.clearTimeout(saveTimer);
     };
-  }, [code, hasLoadedDraft]);
+  }, [code]);
+
+  function handleCodeChange(value: string) {
+    setCode(value);
+    setSaveStatus("Saving...");
+  }
 
   function handleReset() {
     const confirmed = window.confirm(
@@ -160,7 +159,7 @@ Output:
               </button>
             </div>
 
-            <CodeEditor code={code} onChange={setCode} />
+            <CodeEditor code={code} onChange={handleCodeChange} />
           </section>
         </div>
       </div>
