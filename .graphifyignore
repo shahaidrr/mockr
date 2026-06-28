@@ -1,0 +1,20 @@
+node_modules/
+.next/
+.vercel/
+dist/
+build/
+coverage/
+.env
+.env.*
+*.log
+.DS_Store
+
+# Local/generated cache files
+.cache/
+graphify-out/cache/
+graphify-out/cost.json
+graphify/cost.json
+
+# Package-manager caches
+.pnpm-store/
+.yarn/

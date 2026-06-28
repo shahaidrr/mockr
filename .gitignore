@@ -42,3 +42,8 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 .env*
+
+# graphify — keep graph files committed, exclude local cache/cost only
+graphify-out/cache/
+graphify-out/cost.json
+graphify/cost.json

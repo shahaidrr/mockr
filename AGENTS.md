@@ -16,3 +16,23 @@ Rules:
 - If graphify/wiki/index.md exists, use it for broad navigation instead of raw source browsing.
 - Read graphify/GRAPH_REPORT.md only for broad architecture review or when query/path/explain do not surface enough context.
 - After modifying code, run `graphify update . --out graphify` to keep the graph current (AST-only, no API cost).
+
+## Graphify Usage
+
+Before modifying code, query the project graph to understand the relevant files and dependencies.
+
+Use:
+
+```bash
+graphify query "What existing files are relevant to this task?"
+graphify query "What components, routes, and utilities may be affected?"
+graphify query "What existing patterns should be followed?"
+```
+
+After meaningful changes, update the graph:
+
+```bash
+graphify update .
+```
+
+If the change affects project structure, architecture, auth, database, UI flows, or product behaviour, update `documentation.md` as well.

@@ -1,5 +1,33 @@
 # Documentation Log
 
+## Graphify Workflow
+
+This project uses [Graphify](https://github.com/graphifyy/graphifyy) as a shared knowledge graph so Claude Code, Codex, and human collaborators can understand the codebase before making changes.
+
+**Output location:** `graphify-out/` — commit `graph.json`, `graph.html`, `GRAPH_REPORT.md`, and `manifest.json`. Do not commit `graphify-out/cache/` or `graphify-out/cost.json`.
+
+**Visualiser:** Open `graphify-out/graph.html` in a browser to inspect nodes, links, routes, and component relationships.
+
+### Session loop
+
+1. `git pull`
+2. Read `documentation.md` and `graphify-out/GRAPH_REPORT.md`
+3. Query the graph before touching code:
+   ```bash
+   graphify query "What files are relevant to this task?"
+   graphify query "What components, routes, and utilities may be affected?"
+   ```
+4. Make focused changes.
+5. Update `documentation.md`.
+6. Update the graph: `graphify update .`
+7. Commit code, docs, and graph together.
+
+### Rules
+
+- Query graphify before editing; update graphify after meaningful changes.
+- Do not add real code execution, hidden tests, Drawing canvas, voice/video, or AI scoring until those features are scoped.
+- Keep Drawing as a sidebar placeholder only.
+
 ## 2026-06-28 — Coding Workspace UI
 
 ### Files Changed

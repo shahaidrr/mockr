@@ -5,8 +5,8 @@
     "semantic_hash": ""
   },
   ".claude/settings.local.json": {
-    "mtime": 1782631812.660309,
-    "ast_hash": "15dbd481ed9b429b4dfbd4bf664cb74d",
+    "mtime": 1782632679.164838,
+    "ast_hash": "5555bf4a4adc1886c0bb0724f7e7a362",
     "semantic_hash": ""
   },
   ".codex/hooks.json": {
@@ -155,8 +155,8 @@
     "semantic_hash": ""
   },
   "AGENTS.md": {
-    "mtime": 1782628873.6188745,
-    "ast_hash": "298ebdfea9f8ffcfe2136d8d2581c00c",
+    "mtime": 1782632662.2693615,
+    "ast_hash": "7890ca3b442838749b8304ece5cbbf8d",
     "semantic_hash": ""
   },
   "CLAUDE.md": {
@@ -170,8 +170,8 @@
     "semantic_hash": ""
   },
   "documentation.md": {
-    "mtime": 1782631729.4164135,
-    "ast_hash": "c44bfb191a9b006ac8dcf34ea3e83ad6",
+    "mtime": 1782632688.5494397,
+    "ast_hash": "5aa50f3b3e09f7bf697cc1d22e29249e",
     "semantic_hash": ""
   },
   "public/file.svg": {
