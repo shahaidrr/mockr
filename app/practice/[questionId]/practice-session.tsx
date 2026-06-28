@@ -189,13 +189,13 @@ export default function PracticeSession({
       case "clarification":
         return (
           <div className="flex flex-1 flex-col overflow-hidden">
-            <p className="flex-shrink-0 px-3 pt-3 text-xs leading-6" style={{ color: "#9ca3af" }}>
+            <p className="flex-shrink-0 px-3 pt-3 text-xs leading-6" style={{ color: "#6b7280" }}>
               {promptText}
             </p>
             <textarea
               value={draft.clarification}
               onChange={(e) => updateDraft({ clarification: e.target.value })}
-              className="flex-1 resize-none bg-transparent px-3 pb-3 pt-2 text-sm leading-6 text-[#d1d5db] outline-none"
+              className="flex-1 resize-none bg-transparent px-3 pb-3 pt-2 text-sm leading-6 text-[#f1f5f9] outline-none"
             />
           </div>
         );
@@ -203,13 +203,13 @@ export default function PracticeSession({
       case "approach":
         return (
           <div className="flex flex-1 flex-col overflow-hidden">
-            <p className="flex-shrink-0 px-3 pt-3 text-xs leading-6" style={{ color: "#9ca3af" }}>
+            <p className="flex-shrink-0 px-3 pt-3 text-xs leading-6" style={{ color: "#6b7280" }}>
               {promptText}
             </p>
             <textarea
               value={draft.approach}
               onChange={(e) => updateDraft({ approach: e.target.value })}
-              className="flex-1 resize-none bg-transparent px-3 pb-3 pt-2 text-sm leading-6 text-[#d1d5db] outline-none"
+              className="flex-1 resize-none bg-transparent px-3 pb-3 pt-2 text-sm leading-6 text-[#f1f5f9] outline-none"
             />
           </div>
         );
@@ -217,25 +217,25 @@ export default function PracticeSession({
       case "testing":
         return (
           <div className="flex flex-1 flex-col overflow-hidden">
-            <p className="flex-shrink-0 px-3 pt-3 text-xs leading-6" style={{ color: "#9ca3af" }}>
+            <p className="flex-shrink-0 px-3 pt-3 text-xs leading-6" style={{ color: "#6b7280" }}>
               {promptText}
             </p>
             <textarea
               value={draft.testingPlan}
               onChange={(e) => updateDraft({ testingPlan: e.target.value })}
-              className="flex-1 resize-none bg-transparent px-3 pb-2 pt-2 text-sm leading-6 text-[#d1d5db] outline-none"
+              className="flex-1 resize-none bg-transparent px-3 pb-2 pt-2 text-sm leading-6 text-[#f1f5f9] outline-none"
               style={{ borderBottom: "1px solid #3a4048" }}
             />
             <p
               className="flex-shrink-0 px-3 pt-2 text-xs leading-6"
-              style={{ color: "#9ca3af" }}
+              style={{ color: "#6b7280" }}
             >
               List specific edge cases to verify.
             </p>
             <textarea
               value={draft.edgeCases}
               onChange={(e) => updateDraft({ edgeCases: e.target.value })}
-              className="flex-1 resize-none bg-transparent px-3 pb-3 pt-2 text-sm leading-6 text-[#d1d5db] outline-none"
+              className="flex-1 resize-none bg-transparent px-3 pb-3 pt-2 text-sm leading-6 text-[#f1f5f9] outline-none"
             />
           </div>
         );
@@ -243,13 +243,13 @@ export default function PracticeSession({
       case "complexity":
         return (
           <div className="flex flex-1 flex-col overflow-hidden">
-            <p className="flex-shrink-0 px-3 pt-3 text-xs leading-6" style={{ color: "#9ca3af" }}>
+            <p className="flex-shrink-0 px-3 pt-3 text-xs leading-6" style={{ color: "#6b7280" }}>
               {promptText}
             </p>
             <textarea
               value={draft.complexity}
               onChange={(e) => updateDraft({ complexity: e.target.value })}
-              className="flex-1 resize-none bg-transparent px-3 pb-3 pt-2 text-sm leading-6 text-[#d1d5db] outline-none"
+              className="flex-1 resize-none bg-transparent px-3 pb-3 pt-2 text-sm leading-6 text-[#f1f5f9] outline-none"
             />
           </div>
         );
@@ -584,7 +584,7 @@ export default function PracticeSession({
 
           {/* Monaco editor (~2/3 of right column) */}
           <div className="flex-[2] overflow-hidden" style={{ minHeight: 0 }}>
-            <CodeEditor code={currentCode} language={currentLanguage} onChange={setCode} />
+            <CodeEditor code={currentCode} language={currentLanguage} onChange={setCode} disableSuggestions />
           </div>
 
           {/* Divider */}
