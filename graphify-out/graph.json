@@ -50,7 +50,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "dashboard_page",
-      "community": 4,
+      "community": 6,
       "norm_label": "page.tsx"
     },
     {
@@ -60,7 +60,7 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "dashboard_page_stats",
-      "community": 4,
+      "community": 6,
       "norm_label": "stats"
     },
     {
@@ -70,7 +70,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "dashboard_page_recentattempts",
-      "community": 4,
+      "community": 6,
       "norm_label": "recentattempts"
     },
     {
@@ -80,7 +80,7 @@
       "source_location": "L51",
       "_origin": "ast",
       "id": "dashboard_page_scorebreakdown",
-      "community": 4,
+      "community": 6,
       "norm_label": "scorebreakdown"
     },
     {
@@ -90,7 +90,7 @@
       "source_location": "L59",
       "_origin": "ast",
       "id": "dashboard_page_weaknesses",
-      "community": 4,
+      "community": 6,
       "norm_label": "weaknesses"
     },
     {
@@ -100,7 +100,7 @@
       "source_location": "L65",
       "_origin": "ast",
       "id": "dashboard_page_dashboardpage",
-      "community": 4,
+      "community": 6,
       "norm_label": "dashboardpage()"
     },
     {
@@ -240,7 +240,7 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "questionid_page_practicepage",
-      "community": 9,
+      "community": 6,
       "norm_label": "practicepage()"
     },
     {
@@ -264,40 +264,60 @@
       "norm_label": "codeeditor"
     },
     {
-      "label": "STAGES",
+      "label": "INTERVIEW_PANELS",
       "file_type": "code",
       "source_file": "app/practice/[questionId]/practice-session.tsx",
       "source_location": "L19",
       "_origin": "ast",
-      "id": "questionid_practice_session_stages",
+      "id": "questionid_practice_session_interview_panels",
       "community": 9,
-      "norm_label": "stages"
+      "norm_label": "interview_panels"
     },
     {
-      "label": "STAGE_LABELS",
+      "label": "PANEL_LABELS",
       "file_type": "code",
       "source_file": "app/practice/[questionId]/practice-session.tsx",
-      "source_location": "L29",
+      "source_location": "L27",
       "_origin": "ast",
-      "id": "questionid_practice_session_stage_labels",
+      "id": "questionid_practice_session_panel_labels",
       "community": 9,
-      "norm_label": "stage_labels"
+      "norm_label": "panel_labels"
     },
     {
       "label": "LANGUAGE_OPTIONS",
       "file_type": "code",
       "source_file": "app/practice/[questionId]/practice-session.tsx",
-      "source_location": "L39",
+      "source_location": "L35",
       "_origin": "ast",
       "id": "questionid_practice_session_language_options",
       "community": 9,
       "norm_label": "language_options"
     },
     {
+      "label": "DIFFICULTY_COLORS",
+      "file_type": "code",
+      "source_file": "app/practice/[questionId]/practice-session.tsx",
+      "source_location": "L41",
+      "_origin": "ast",
+      "id": "questionid_practice_session_difficulty_colors",
+      "community": 9,
+      "norm_label": "difficulty_colors"
+    },
+    {
+      "label": "formatExampleValue()",
+      "file_type": "code",
+      "source_file": "app/practice/[questionId]/practice-session.tsx",
+      "source_location": "L47",
+      "_origin": "ast",
+      "id": "questionid_practice_session_formatexamplevalue",
+      "community": 9,
+      "norm_label": "formatexamplevalue()"
+    },
+    {
       "label": "Props",
       "file_type": "code",
       "source_file": "app/practice/[questionId]/practice-session.tsx",
-      "source_location": "L45",
+      "source_location": "L52",
       "_origin": "ast",
       "id": "questionid_practice_session_props",
       "community": 9,
@@ -307,7 +327,7 @@
       "label": "PracticeSession()",
       "file_type": "code",
       "source_file": "app/practice/[questionId]/practice-session.tsx",
-      "source_location": "L52",
+      "source_location": "L59",
       "_origin": "ast",
       "id": "questionid_practice_session_practicesession",
       "community": 9,
@@ -630,7 +650,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "components_dashboard_card",
-      "community": 4,
+      "community": 6,
       "norm_label": "dashboard-card.tsx"
     },
     {
@@ -640,7 +660,7 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "components_dashboard_card_dashboardcardprops",
-      "community": 4,
+      "community": 6,
       "norm_label": "dashboardcardprops"
     },
     {
@@ -650,7 +670,7 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "components_dashboard_card_dashboardcard",
-      "community": 4,
+      "community": 6,
       "norm_label": "dashboardcard()"
     },
     {
@@ -820,7 +840,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "components_stat_card",
-      "community": 4,
+      "community": 6,
       "norm_label": "stat-card.tsx"
     },
     {
@@ -830,7 +850,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "components_stat_card_statcardprops",
-      "community": 4,
+      "community": 6,
       "norm_label": "statcardprops"
     },
     {
@@ -840,7 +860,7 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "components_stat_card_statcard",
-      "community": 4,
+      "community": 6,
       "norm_label": "statcard()"
     },
     {
@@ -1290,7 +1310,7 @@
       "source_location": "L31",
       "_origin": "ast",
       "id": "lib_questions_service_fetchquestionbyid",
-      "community": 9,
+      "community": 6,
       "norm_label": "fetchquestionbyid()"
     },
     {
@@ -1300,7 +1320,7 @@
       "source_location": "L44",
       "_origin": "ast",
       "id": "lib_questions_service_fetchpublictestcases",
-      "community": 6,
+      "community": 8,
       "norm_label": "fetchpublictestcases()"
     },
     {
@@ -2014,20 +2034,20 @@
       "norm_label": "practicemode"
     },
     {
-      "label": "PracticeStage",
+      "label": "InterviewPanel",
       "file_type": "code",
       "source_file": "types/practice.ts",
       "source_location": "L3",
       "_origin": "ast",
-      "id": "types_practice_practicestage",
+      "id": "types_practice_interviewpanel",
       "community": 9,
-      "norm_label": "practicestage"
+      "norm_label": "interviewpanel"
     },
     {
       "label": "SupportedLanguage",
       "file_type": "code",
       "source_file": "types/practice.ts",
-      "source_location": "L12",
+      "source_location": "L5",
       "_origin": "ast",
       "id": "types_practice_supportedlanguage",
       "community": 9,
@@ -2037,7 +2057,7 @@
       "label": "Difficulty",
       "file_type": "code",
       "source_file": "types/practice.ts",
-      "source_location": "L14",
+      "source_location": "L7",
       "_origin": "ast",
       "id": "types_practice_difficulty",
       "community": 9,
@@ -2047,7 +2067,7 @@
       "label": "PracticeDraft",
       "file_type": "code",
       "source_file": "types/practice.ts",
-      "source_location": "L16",
+      "source_location": "L9",
       "_origin": "ast",
       "id": "types_practice_practicedraft",
       "community": 9,
@@ -2564,20 +2584,20 @@
       "norm_label": "seeded questions (7 published)"
     },
     {
-      "label": "Practice Workspace Stepper",
+      "label": "Practice Workspace Layout (integrated coding environment)",
       "file_type": "document",
       "source_file": "documentation.md",
       "source_location": "L206",
       "_origin": "ast",
-      "id": "documentation_practice_workspace_stepper",
+      "id": "documentation_practice_workspace_layout_integrated_coding_environment",
       "community": 17,
-      "norm_label": "practice workspace stepper"
+      "norm_label": "practice workspace layout (integrated coding environment)"
     },
     {
       "label": "Phase 1 Limitations",
       "file_type": "document",
       "source_file": "documentation.md",
-      "source_location": "L218",
+      "source_location": "L225",
       "_origin": "ast",
       "id": "documentation_phase_1_limitations",
       "community": 17,
@@ -2587,7 +2607,7 @@
       "label": "Phases Roadmap",
       "file_type": "document",
       "source_file": "documentation.md",
-      "source_location": "L227",
+      "source_location": "L234",
       "_origin": "ast",
       "id": "documentation_phases_roadmap",
       "community": 17,
@@ -2898,9 +2918,9 @@
       "source_file": "app/practice/[questionId]/page.tsx",
       "source_location": "L3",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "questionid_page",
-      "target": "lib_questions_service",
-      "confidence_score": 1.0
+      "target": "lib_questions_service"
     },
     {
       "relation": "imports",
@@ -2909,9 +2929,9 @@
       "source_file": "app/practice/[questionId]/page.tsx",
       "source_location": "L3",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "questionid_page",
-      "target": "lib_questions_service_fetchquestionbyid",
-      "confidence_score": 1.0
+      "target": "lib_questions_service_fetchquestionbyid"
     },
     {
       "relation": "contains",
@@ -2919,9 +2939,9 @@
       "source_file": "app/practice/[questionId]/page.tsx",
       "source_location": "L15",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "questionid_page",
-      "target": "questionid_page_practicepage",
-      "confidence_score": 1.0
+      "target": "questionid_page_practicepage"
     },
     {
       "relation": "contains",
@@ -2929,9 +2949,9 @@
       "source_file": "app/practice/[questionId]/page.tsx",
       "source_location": "L10",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "questionid_page",
-      "target": "questionid_page_props",
-      "confidence_score": 1.0
+      "target": "questionid_page_props"
     },
     {
       "relation": "contains",
@@ -2939,9 +2959,9 @@
       "source_file": "app/practice/[questionId]/page.tsx",
       "source_location": "L8",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "questionid_page",
-      "target": "questionid_page_valid_languages",
-      "confidence_score": 1.0
+      "target": "questionid_page_valid_languages"
     },
     {
       "relation": "contains",
@@ -2949,9 +2969,9 @@
       "source_file": "app/practice/[questionId]/page.tsx",
       "source_location": "L7",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "questionid_page",
-      "target": "questionid_page_valid_modes",
-      "confidence_score": 1.0
+      "target": "questionid_page_valid_modes"
     },
     {
       "relation": "imports_from",
@@ -2960,9 +2980,9 @@
       "source_file": "app/practice/[questionId]/page.tsx",
       "source_location": "L4",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "questionid_page",
-      "target": "questionid_practice_session",
-      "confidence_score": 1.0
+      "target": "questionid_practice_session"
     },
     {
       "relation": "imports_from",
@@ -2971,9 +2991,9 @@
       "source_file": "app/practice/[questionId]/page.tsx",
       "source_location": "L2",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "questionid_page",
-      "target": "supabase_server",
-      "confidence_score": 1.0
+      "target": "supabase_server"
     },
     {
       "relation": "imports",
@@ -2982,9 +3002,9 @@
       "source_file": "app/practice/[questionId]/page.tsx",
       "source_location": "L2",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "questionid_page",
-      "target": "supabase_server_createclient",
-      "confidence_score": 1.0
+      "target": "supabase_server_createclient"
     },
     {
       "relation": "imports_from",
@@ -2993,9 +3013,9 @@
       "source_file": "app/practice/[questionId]/page.tsx",
       "source_location": "L5",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "questionid_page",
-      "target": "types_practice",
-      "confidence_score": 1.0
+      "target": "types_practice"
     },
     {
       "relation": "imports",
@@ -3004,9 +3024,9 @@
       "source_file": "app/practice/[questionId]/page.tsx",
       "source_location": "L5",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "questionid_page",
-      "target": "types_practice_practicemode",
-      "confidence_score": 1.0
+      "target": "types_practice_practicemode"
     },
     {
       "relation": "imports",
@@ -3015,9 +3035,9 @@
       "source_file": "app/practice/[questionId]/page.tsx",
       "source_location": "L5",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "questionid_page",
-      "target": "types_practice_supportedlanguage",
-      "confidence_score": 1.0
+      "target": "types_practice_supportedlanguage"
     },
     {
       "relation": "calls",
@@ -3048,9 +3068,9 @@
       "source_file": "app/practice/[questionId]/practice-session.tsx",
       "source_location": "L7",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "questionid_practice_session",
-      "target": "lib_practice_draft",
-      "confidence_score": 1.0
+      "target": "lib_practice_draft"
     },
     {
       "relation": "imports",
@@ -3059,9 +3079,9 @@
       "source_file": "app/practice/[questionId]/practice-session.tsx",
       "source_location": "L7",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "questionid_practice_session",
-      "target": "lib_practice_draft_builddraftkey",
-      "confidence_score": 1.0
+      "target": "lib_practice_draft_builddraftkey"
     },
     {
       "relation": "imports",
@@ -3070,9 +3090,9 @@
       "source_file": "app/practice/[questionId]/practice-session.tsx",
       "source_location": "L7",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "questionid_practice_session",
-      "target": "lib_practice_draft_buildemptydraft",
-      "confidence_score": 1.0
+      "target": "lib_practice_draft_buildemptydraft"
     },
     {
       "relation": "imports",
@@ -3081,9 +3101,9 @@
       "source_file": "app/practice/[questionId]/practice-session.tsx",
       "source_location": "L7",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "questionid_practice_session",
-      "target": "lib_practice_draft_cleardraft",
-      "confidence_score": 1.0
+      "target": "lib_practice_draft_cleardraft"
     },
     {
       "relation": "imports",
@@ -3092,9 +3112,9 @@
       "source_file": "app/practice/[questionId]/practice-session.tsx",
       "source_location": "L7",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "questionid_practice_session",
-      "target": "lib_practice_draft_loaddraft",
-      "confidence_score": 1.0
+      "target": "lib_practice_draft_loaddraft"
     },
     {
       "relation": "imports",
@@ -3103,9 +3123,9 @@
       "source_file": "app/practice/[questionId]/practice-session.tsx",
       "source_location": "L7",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "questionid_practice_session",
-      "target": "lib_practice_draft_savedraft",
-      "confidence_score": 1.0
+      "target": "lib_practice_draft_savedraft"
     },
     {
       "relation": "contains",
@@ -3113,48 +3133,28 @@
       "source_file": "app/practice/[questionId]/practice-session.tsx",
       "source_location": "L17",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "questionid_practice_session",
-      "target": "questionid_practice_session_codeeditor",
+      "target": "questionid_practice_session_codeeditor"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/practice/[questionId]/practice-session.tsx",
+      "source_location": "L41",
+      "weight": 1.0,
+      "source": "questionid_practice_session",
+      "target": "questionid_practice_session_difficulty_colors",
       "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "app/practice/[questionId]/practice-session.tsx",
-      "source_location": "L39",
+      "source_location": "L47",
       "weight": 1.0,
       "source": "questionid_practice_session",
-      "target": "questionid_practice_session_language_options",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "app/practice/[questionId]/practice-session.tsx",
-      "source_location": "L52",
-      "weight": 1.0,
-      "source": "questionid_practice_session",
-      "target": "questionid_practice_session_practicesession",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "app/practice/[questionId]/practice-session.tsx",
-      "source_location": "L45",
-      "weight": 1.0,
-      "source": "questionid_practice_session",
-      "target": "questionid_practice_session_props",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "app/practice/[questionId]/practice-session.tsx",
-      "source_location": "L29",
-      "weight": 1.0,
-      "source": "questionid_practice_session",
-      "target": "questionid_practice_session_stage_labels",
+      "target": "questionid_practice_session_formatexamplevalue",
       "confidence_score": 1.0
     },
     {
@@ -3164,8 +3164,48 @@
       "source_location": "L19",
       "weight": 1.0,
       "source": "questionid_practice_session",
-      "target": "questionid_practice_session_stages",
+      "target": "questionid_practice_session_interview_panels",
       "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/practice/[questionId]/practice-session.tsx",
+      "source_location": "L39",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "questionid_practice_session",
+      "target": "questionid_practice_session_language_options"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/practice/[questionId]/practice-session.tsx",
+      "source_location": "L27",
+      "weight": 1.0,
+      "source": "questionid_practice_session",
+      "target": "questionid_practice_session_panel_labels",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/practice/[questionId]/practice-session.tsx",
+      "source_location": "L52",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "questionid_practice_session",
+      "target": "questionid_practice_session_practicesession"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/practice/[questionId]/practice-session.tsx",
+      "source_location": "L45",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "questionid_practice_session",
+      "target": "questionid_practice_session_props"
     },
     {
       "relation": "imports_from",
@@ -3174,9 +3214,9 @@
       "source_file": "app/practice/[questionId]/practice-session.tsx",
       "source_location": "L15",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "questionid_practice_session",
-      "target": "types_practice",
-      "confidence_score": 1.0
+      "target": "types_practice"
     },
     {
       "relation": "imports",
@@ -3186,7 +3226,7 @@
       "source_location": "L15",
       "weight": 1.0,
       "source": "questionid_practice_session",
-      "target": "types_practice_practicedraft",
+      "target": "types_practice_interviewpanel",
       "confidence_score": 1.0
     },
     {
@@ -3196,9 +3236,9 @@
       "source_file": "app/practice/[questionId]/practice-session.tsx",
       "source_location": "L15",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "questionid_practice_session",
-      "target": "types_practice_practicemode",
-      "confidence_score": 1.0
+      "target": "types_practice_practicedraft"
     },
     {
       "relation": "imports",
@@ -3207,9 +3247,9 @@
       "source_file": "app/practice/[questionId]/practice-session.tsx",
       "source_location": "L15",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "questionid_practice_session",
-      "target": "types_practice_practicestage",
-      "confidence_score": 1.0
+      "target": "types_practice_practicemode"
     },
     {
       "relation": "imports",
@@ -3218,9 +3258,9 @@
       "source_file": "app/practice/[questionId]/practice-session.tsx",
       "source_location": "L15",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "questionid_practice_session",
-      "target": "types_practice_supportedlanguage",
-      "confidence_score": 1.0
+      "target": "types_practice_supportedlanguage"
     },
     {
       "relation": "imports_from",
@@ -3229,9 +3269,9 @@
       "source_file": "app/practice/[questionId]/practice-session.tsx",
       "source_location": "L14",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "questionid_practice_session",
-      "target": "types_question",
-      "confidence_score": 1.0
+      "target": "types_question"
     },
     {
       "relation": "imports",
@@ -3240,9 +3280,9 @@
       "source_file": "app/practice/[questionId]/practice-session.tsx",
       "source_location": "L14",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "questionid_practice_session",
-      "target": "types_question_question",
-      "confidence_score": 1.0
+      "target": "types_question_question"
     },
     {
       "relation": "imports",
@@ -3251,9 +3291,9 @@
       "source_file": "app/practice/[questionId]/practice-session.tsx",
       "source_location": "L14",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "questionid_practice_session",
-      "target": "types_question_questionexample",
-      "confidence_score": 1.0
+      "target": "types_question_questionexample"
     },
     {
       "relation": "calls",
@@ -3399,9 +3439,9 @@
       "source_file": "app/questions/[slug]/page.tsx",
       "source_location": "L2",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "slug_page",
-      "target": "lib_questions_service",
-      "confidence_score": 1.0
+      "target": "lib_questions_service"
     },
     {
       "relation": "imports",
@@ -3410,9 +3450,9 @@
       "source_file": "app/questions/[slug]/page.tsx",
       "source_location": "L2",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "slug_page",
-      "target": "lib_questions_service_fetchquestionbyslug",
-      "confidence_score": 1.0
+      "target": "lib_questions_service_fetchquestionbyslug"
     },
     {
       "relation": "contains",
@@ -3420,9 +3460,9 @@
       "source_file": "app/questions/[slug]/page.tsx",
       "source_location": "L9",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "slug_page",
-      "target": "slug_page_generatemetadata",
-      "confidence_score": 1.0
+      "target": "slug_page_generatemetadata"
     },
     {
       "relation": "contains",
@@ -3430,9 +3470,9 @@
       "source_file": "app/questions/[slug]/page.tsx",
       "source_location": "L5",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "slug_page",
-      "target": "slug_page_props",
-      "confidence_score": 1.0
+      "target": "slug_page_props"
     },
     {
       "relation": "contains",
@@ -3440,9 +3480,9 @@
       "source_file": "app/questions/[slug]/page.tsx",
       "source_location": "L17",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "slug_page",
-      "target": "slug_page_questiondetailpage",
-      "confidence_score": 1.0
+      "target": "slug_page_questiondetailpage"
     },
     {
       "relation": "imports_from",
@@ -3451,9 +3491,9 @@
       "source_file": "app/questions/[slug]/page.tsx",
       "source_location": "L3",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "slug_page",
-      "target": "slug_question_detail_client",
-      "confidence_score": 1.0
+      "target": "slug_question_detail_client"
     },
     {
       "relation": "calls",
@@ -3483,9 +3523,9 @@
       "source_file": "app/questions/[slug]/question-detail-client.tsx",
       "source_location": "L9",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "slug_question_detail_client",
-      "target": "slug_question_detail_client_difficulty_styles",
-      "confidence_score": 1.0
+      "target": "slug_question_detail_client_difficulty_styles"
     },
     {
       "relation": "contains",
@@ -3493,9 +3533,9 @@
       "source_file": "app/questions/[slug]/question-detail-client.tsx",
       "source_location": "L15",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "slug_question_detail_client",
-      "target": "slug_question_detail_client_language_options",
-      "confidence_score": 1.0
+      "target": "slug_question_detail_client_language_options"
     },
     {
       "relation": "contains",
@@ -3503,9 +3543,9 @@
       "source_file": "app/questions/[slug]/question-detail-client.tsx",
       "source_location": "L21",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "slug_question_detail_client",
-      "target": "slug_question_detail_client_props",
-      "confidence_score": 1.0
+      "target": "slug_question_detail_client_props"
     },
     {
       "relation": "contains",
@@ -3513,9 +3553,9 @@
       "source_file": "app/questions/[slug]/question-detail-client.tsx",
       "source_location": "L23",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "slug_question_detail_client",
-      "target": "slug_question_detail_client_questiondetailclient",
-      "confidence_score": 1.0
+      "target": "slug_question_detail_client_questiondetailclient"
     },
     {
       "relation": "imports_from",
@@ -3524,9 +3564,9 @@
       "source_file": "app/questions/[slug]/question-detail-client.tsx",
       "source_location": "L7",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "slug_question_detail_client",
-      "target": "types_practice",
-      "confidence_score": 1.0
+      "target": "types_practice"
     },
     {
       "relation": "imports",
@@ -3535,9 +3575,9 @@
       "source_file": "app/questions/[slug]/question-detail-client.tsx",
       "source_location": "L7",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "slug_question_detail_client",
-      "target": "types_practice_practicemode",
-      "confidence_score": 1.0
+      "target": "types_practice_practicemode"
     },
     {
       "relation": "imports_from",
@@ -3546,9 +3586,9 @@
       "source_file": "app/questions/[slug]/question-detail-client.tsx",
       "source_location": "L6",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "slug_question_detail_client",
-      "target": "types_question",
-      "confidence_score": 1.0
+      "target": "types_question"
     },
     {
       "relation": "imports",
@@ -3557,9 +3597,9 @@
       "source_file": "app/questions/[slug]/question-detail-client.tsx",
       "source_location": "L6",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "slug_question_detail_client",
-      "target": "types_question_difficulty",
-      "confidence_score": 1.0
+      "target": "types_question_difficulty"
     },
     {
       "relation": "imports",
@@ -3568,9 +3608,9 @@
       "source_file": "app/questions/[slug]/question-detail-client.tsx",
       "source_location": "L6",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "slug_question_detail_client",
-      "target": "types_question_question",
-      "confidence_score": 1.0
+      "target": "types_question_question"
     },
     {
       "relation": "imports",
@@ -3579,9 +3619,9 @@
       "source_file": "app/questions/[slug]/question-detail-client.tsx",
       "source_location": "L6",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "slug_question_detail_client",
-      "target": "types_question_supportedlanguage",
-      "confidence_score": 1.0
+      "target": "types_question_supportedlanguage"
     },
     {
       "relation": "imports_from",
@@ -3590,9 +3630,9 @@
       "source_file": "app/questions/page.tsx",
       "source_location": "L1",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "questions_page",
-      "target": "lib_questions_service",
-      "confidence_score": 1.0
+      "target": "lib_questions_service"
     },
     {
       "relation": "imports",
@@ -3601,9 +3641,9 @@
       "source_file": "app/questions/page.tsx",
       "source_location": "L1",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "questions_page",
-      "target": "lib_questions_service_fetchpublishedquestions",
-      "confidence_score": 1.0
+      "target": "lib_questions_service_fetchpublishedquestions"
     },
     {
       "relation": "contains",
@@ -3611,9 +3651,9 @@
       "source_file": "app/questions/page.tsx",
       "source_location": "L5",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "questions_page",
-      "target": "questions_page_metadata",
-      "confidence_score": 1.0
+      "target": "questions_page_metadata"
     },
     {
       "relation": "contains",
@@ -3621,9 +3661,9 @@
       "source_file": "app/questions/page.tsx",
       "source_location": "L7",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "questions_page",
-      "target": "questions_page_questionspage",
-      "confidence_score": 1.0
+      "target": "questions_page_questionspage"
     },
     {
       "relation": "imports_from",
@@ -3632,9 +3672,9 @@
       "source_file": "app/questions/page.tsx",
       "source_location": "L2",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "questions_page",
-      "target": "questions_question_library_client",
-      "confidence_score": 1.0
+      "target": "questions_question_library_client"
     },
     {
       "relation": "imports_from",
@@ -3643,9 +3683,9 @@
       "source_file": "app/questions/page.tsx",
       "source_location": "L3",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "questions_page",
-      "target": "types_question",
-      "confidence_score": 1.0
+      "target": "types_question"
     },
     {
       "relation": "imports",
@@ -3654,9 +3694,9 @@
       "source_file": "app/questions/page.tsx",
       "source_location": "L3",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "questions_page",
-      "target": "types_question_questionsummary",
-      "confidence_score": 1.0
+      "target": "types_question_questionsummary"
     },
     {
       "relation": "calls",
@@ -3675,9 +3715,9 @@
       "source_file": "app/questions/question-library-client.tsx",
       "source_location": "L7",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "questions_question_library_client",
-      "target": "questions_question_library_client_difficulty_styles",
-      "confidence_score": 1.0
+      "target": "questions_question_library_client_difficulty_styles"
     },
     {
       "relation": "contains",
@@ -3685,9 +3725,9 @@
       "source_file": "app/questions/question-library-client.tsx",
       "source_location": "L13",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "questions_question_library_client",
-      "target": "questions_question_library_client_language_labels",
-      "confidence_score": 1.0
+      "target": "questions_question_library_client_language_labels"
     },
     {
       "relation": "contains",
@@ -3695,9 +3735,9 @@
       "source_file": "app/questions/question-library-client.tsx",
       "source_location": "L19",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "questions_question_library_client",
-      "target": "questions_question_library_client_props",
-      "confidence_score": 1.0
+      "target": "questions_question_library_client_props"
     },
     {
       "relation": "contains",
@@ -3705,9 +3745,9 @@
       "source_file": "app/questions/question-library-client.tsx",
       "source_location": "L21",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "questions_question_library_client",
-      "target": "questions_question_library_client_questionlibraryclient",
-      "confidence_score": 1.0
+      "target": "questions_question_library_client_questionlibraryclient"
     },
     {
       "relation": "imports_from",
@@ -3716,9 +3756,9 @@
       "source_file": "app/questions/question-library-client.tsx",
       "source_location": "L5",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "questions_question_library_client",
-      "target": "types_question",
-      "confidence_score": 1.0
+      "target": "types_question"
     },
     {
       "relation": "imports",
@@ -3727,9 +3767,9 @@
       "source_file": "app/questions/question-library-client.tsx",
       "source_location": "L5",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "questions_question_library_client",
-      "target": "types_question_difficulty",
-      "confidence_score": 1.0
+      "target": "types_question_difficulty"
     },
     {
       "relation": "imports",
@@ -3738,9 +3778,9 @@
       "source_file": "app/questions/question-library-client.tsx",
       "source_location": "L5",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "questions_question_library_client",
-      "target": "types_question_questionsummary",
-      "confidence_score": 1.0
+      "target": "types_question_questionsummary"
     },
     {
       "relation": "contains",
@@ -3748,9 +3788,9 @@
       "source_file": "app/results/[attemptId]/page.tsx",
       "source_location": "L7",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "attemptid_page",
-      "target": "attemptid_page_props",
-      "confidence_score": 1.0
+      "target": "attemptid_page_props"
     },
     {
       "relation": "contains",
@@ -3758,9 +3798,9 @@
       "source_file": "app/results/[attemptId]/page.tsx",
       "source_location": "L12",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "attemptid_page",
-      "target": "attemptid_page_resultspage",
-      "confidence_score": 1.0
+      "target": "attemptid_page_resultspage"
     },
     {
       "relation": "contains",
@@ -4310,9 +4350,9 @@
       "source_file": "lib/practice-draft.ts",
       "source_location": "L3",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "lib_practice_draft",
-      "target": "lib_practice_draft_builddraftkey",
-      "confidence_score": 1.0
+      "target": "lib_practice_draft_builddraftkey"
     },
     {
       "relation": "contains",
@@ -4320,9 +4360,9 @@
       "source_file": "lib/practice-draft.ts",
       "source_location": "L35",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "lib_practice_draft",
-      "target": "lib_practice_draft_buildemptydraft",
-      "confidence_score": 1.0
+      "target": "lib_practice_draft_buildemptydraft"
     },
     {
       "relation": "contains",
@@ -4330,9 +4370,9 @@
       "source_file": "lib/practice-draft.ts",
       "source_location": "L26",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "lib_practice_draft",
-      "target": "lib_practice_draft_cleardraft",
-      "confidence_score": 1.0
+      "target": "lib_practice_draft_cleardraft"
     },
     {
       "relation": "contains",
@@ -4340,9 +4380,9 @@
       "source_file": "lib/practice-draft.ts",
       "source_location": "L7",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "lib_practice_draft",
-      "target": "lib_practice_draft_loaddraft",
-      "confidence_score": 1.0
+      "target": "lib_practice_draft_loaddraft"
     },
     {
       "relation": "contains",
@@ -4350,9 +4390,9 @@
       "source_file": "lib/practice-draft.ts",
       "source_location": "L17",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "lib_practice_draft",
-      "target": "lib_practice_draft_savedraft",
-      "confidence_score": 1.0
+      "target": "lib_practice_draft_savedraft"
     },
     {
       "relation": "imports_from",
@@ -4361,9 +4401,9 @@
       "source_file": "lib/practice-draft.ts",
       "source_location": "L1",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "lib_practice_draft",
-      "target": "types_practice",
-      "confidence_score": 1.0
+      "target": "types_practice"
     },
     {
       "relation": "imports",
@@ -4373,7 +4413,7 @@
       "source_location": "L1",
       "weight": 1.0,
       "source": "lib_practice_draft",
-      "target": "types_practice_practicedraft",
+      "target": "types_practice_interviewpanel",
       "confidence_score": 1.0
     },
     {
@@ -4383,9 +4423,9 @@
       "source_file": "lib/practice-draft.ts",
       "source_location": "L1",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "lib_practice_draft",
-      "target": "types_practice_practicestage",
-      "confidence_score": 1.0
+      "target": "types_practice_practicedraft"
     },
     {
       "relation": "imports",
@@ -4394,9 +4434,9 @@
       "source_file": "lib/practice-draft.ts",
       "source_location": "L1",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "lib_practice_draft",
-      "target": "types_practice_supportedlanguage",
-      "confidence_score": 1.0
+      "target": "types_practice_supportedlanguage"
     },
     {
       "relation": "contains",
@@ -4404,9 +4444,9 @@
       "source_file": "lib/questions-service.ts",
       "source_location": "L44",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "lib_questions_service",
-      "target": "lib_questions_service_fetchpublictestcases",
-      "confidence_score": 1.0
+      "target": "lib_questions_service_fetchpublictestcases"
     },
     {
       "relation": "contains",
@@ -4414,9 +4454,9 @@
       "source_file": "lib/questions-service.ts",
       "source_location": "L4",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "lib_questions_service",
-      "target": "lib_questions_service_fetchpublishedquestions",
-      "confidence_score": 1.0
+      "target": "lib_questions_service_fetchpublishedquestions"
     },
     {
       "relation": "contains",
@@ -4424,9 +4464,9 @@
       "source_file": "lib/questions-service.ts",
       "source_location": "L31",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "lib_questions_service",
-      "target": "lib_questions_service_fetchquestionbyid",
-      "confidence_score": 1.0
+      "target": "lib_questions_service_fetchquestionbyid"
     },
     {
       "relation": "contains",
@@ -4434,9 +4474,9 @@
       "source_file": "lib/questions-service.ts",
       "source_location": "L18",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "lib_questions_service",
-      "target": "lib_questions_service_fetchquestionbyslug",
-      "confidence_score": 1.0
+      "target": "lib_questions_service_fetchquestionbyslug"
     },
     {
       "relation": "imports_from",
@@ -4445,9 +4485,9 @@
       "source_file": "lib/questions-service.ts",
       "source_location": "L1",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "lib_questions_service",
-      "target": "supabase_server",
-      "confidence_score": 1.0
+      "target": "supabase_server"
     },
     {
       "relation": "imports",
@@ -4456,9 +4496,9 @@
       "source_file": "lib/questions-service.ts",
       "source_location": "L1",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "lib_questions_service",
-      "target": "supabase_server_createclient",
-      "confidence_score": 1.0
+      "target": "supabase_server_createclient"
     },
     {
       "relation": "imports_from",
@@ -4467,9 +4507,9 @@
       "source_file": "lib/questions-service.ts",
       "source_location": "L2",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "lib_questions_service",
-      "target": "types_question",
-      "confidence_score": 1.0
+      "target": "types_question"
     },
     {
       "relation": "imports",
@@ -4478,9 +4518,9 @@
       "source_file": "lib/questions-service.ts",
       "source_location": "L2",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "lib_questions_service",
-      "target": "types_question_question",
-      "confidence_score": 1.0
+      "target": "types_question_question"
     },
     {
       "relation": "imports",
@@ -4489,9 +4529,9 @@
       "source_file": "lib/questions-service.ts",
       "source_location": "L2",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "lib_questions_service",
-      "target": "types_question_questionsummary",
-      "confidence_score": 1.0
+      "target": "types_question_questionsummary"
     },
     {
       "relation": "imports",
@@ -4500,9 +4540,9 @@
       "source_file": "lib/questions-service.ts",
       "source_location": "L2",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "lib_questions_service",
-      "target": "types_question_questiontestcase",
-      "confidence_score": 1.0
+      "target": "types_question_questiontestcase"
     },
     {
       "relation": "calls",
@@ -5258,9 +5298,9 @@
       "source_file": "types/attempt.ts",
       "source_location": "L1",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "types_attempt",
-      "target": "types_attempt_attemptmode",
-      "confidence_score": 1.0
+      "target": "types_attempt_attemptmode"
     },
     {
       "relation": "contains",
@@ -5268,9 +5308,9 @@
       "source_file": "types/attempt.ts",
       "source_location": "L2",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "types_attempt",
-      "target": "types_attempt_attemptstatus",
-      "confidence_score": 1.0
+      "target": "types_attempt_attemptstatus"
     },
     {
       "relation": "contains",
@@ -5278,9 +5318,9 @@
       "source_file": "types/attempt.ts",
       "source_location": "L5",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "types_attempt",
-      "target": "types_attempt_resultband",
-      "confidence_score": 1.0
+      "target": "types_attempt_resultband"
     },
     {
       "relation": "contains",
@@ -5288,9 +5328,9 @@
       "source_file": "types/attempt.ts",
       "source_location": "L3",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "types_attempt",
-      "target": "types_attempt_supportedlanguage",
-      "confidence_score": 1.0
+      "target": "types_attempt_supportedlanguage"
     },
     {
       "relation": "contains",
@@ -5298,8 +5338,18 @@
       "source_file": "types/practice.ts",
       "source_location": "L14",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "types_practice",
-      "target": "types_practice_difficulty",
+      "target": "types_practice_difficulty"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "types/practice.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "types_practice",
+      "target": "types_practice_interviewpanel",
       "confidence_score": 1.0
     },
     {
@@ -5308,9 +5358,9 @@
       "source_file": "types/practice.ts",
       "source_location": "L16",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "types_practice",
-      "target": "types_practice_practicedraft",
-      "confidence_score": 1.0
+      "target": "types_practice_practicedraft"
     },
     {
       "relation": "contains",
@@ -5318,19 +5368,9 @@
       "source_file": "types/practice.ts",
       "source_location": "L1",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "types_practice",
-      "target": "types_practice_practicemode",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "types/practice.ts",
-      "source_location": "L3",
-      "weight": 1.0,
-      "source": "types_practice",
-      "target": "types_practice_practicestage",
-      "confidence_score": 1.0
+      "target": "types_practice_practicemode"
     },
     {
       "relation": "contains",
@@ -5338,9 +5378,9 @@
       "source_file": "types/practice.ts",
       "source_location": "L12",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "types_practice",
-      "target": "types_practice_supportedlanguage",
-      "confidence_score": 1.0
+      "target": "types_practice_supportedlanguage"
     },
     {
       "relation": "contains",
@@ -5348,9 +5388,9 @@
       "source_file": "types/question.ts",
       "source_location": "L1",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "types_question",
-      "target": "types_question_difficulty",
-      "confidence_score": 1.0
+      "target": "types_question_difficulty"
     },
     {
       "relation": "contains",
@@ -5358,9 +5398,9 @@
       "source_file": "types/question.ts",
       "source_location": "L11",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "types_question",
-      "target": "types_question_question",
-      "confidence_score": 1.0
+      "target": "types_question_question"
     },
     {
       "relation": "contains",
@@ -5368,9 +5408,9 @@
       "source_file": "types/question.ts",
       "source_location": "L5",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "types_question",
-      "target": "types_question_questionexample",
-      "confidence_score": 1.0
+      "target": "types_question_questionexample"
     },
     {
       "relation": "contains",
@@ -5378,9 +5418,9 @@
       "source_file": "types/question.ts",
       "source_location": "L3",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "types_question",
-      "target": "types_question_questionstatus",
-      "confidence_score": 1.0
+      "target": "types_question_questionstatus"
     },
     {
       "relation": "contains",
@@ -5388,9 +5428,9 @@
       "source_file": "types/question.ts",
       "source_location": "L52",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "types_question",
-      "target": "types_question_questionsummary",
-      "confidence_score": 1.0
+      "target": "types_question_questionsummary"
     },
     {
       "relation": "contains",
@@ -5398,9 +5438,9 @@
       "source_file": "types/question.ts",
       "source_location": "L40",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "types_question",
-      "target": "types_question_questiontestcase",
-      "confidence_score": 1.0
+      "target": "types_question_questiontestcase"
     },
     {
       "relation": "contains",
@@ -5408,9 +5448,9 @@
       "source_file": "types/question.ts",
       "source_location": "L2",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "types_question",
-      "target": "types_question_supportedlanguage",
-      "confidence_score": 1.0
+      "target": "types_question_supportedlanguage"
     },
     {
       "relation": "contains",
@@ -5648,9 +5688,9 @@
       "source_file": "documentation.md",
       "source_location": "L145",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "documentation_documentation_log",
-      "target": "documentation_phase_1_database_backed_question_library_and_practice_workspace",
-      "confidence_score": 1.0
+      "target": "documentation_phase_1_database_backed_question_library_and_practice_workspace"
     },
     {
       "relation": "contains",
@@ -5728,9 +5768,9 @@
       "source_file": "documentation.md",
       "source_location": "L71",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "documentation_2026_06_28_coding_workspace_ui",
-      "target": "documentation_suggested_next_steps_superseded_by_phase_1",
-      "confidence_score": 1.0
+      "target": "documentation_suggested_next_steps_superseded_by_phase_1"
     },
     {
       "relation": "contains",
@@ -5748,9 +5788,9 @@
       "source_file": "documentation.md",
       "source_location": "L162",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "documentation_phase_1_database_backed_question_library_and_practice_workspace",
-      "target": "documentation_files_created",
-      "confidence_score": 1.0
+      "target": "documentation_files_created"
     },
     {
       "relation": "contains",
@@ -5758,9 +5798,9 @@
       "source_file": "documentation.md",
       "source_location": "L179",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "documentation_phase_1_database_backed_question_library_and_practice_workspace",
-      "target": "documentation_files_modified",
-      "confidence_score": 1.0
+      "target": "documentation_files_modified"
     },
     {
       "relation": "contains",
@@ -5768,9 +5808,9 @@
       "source_file": "documentation.md",
       "source_location": "L153",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "documentation_phase_1_database_backed_question_library_and_practice_workspace",
-      "target": "documentation_new_routes",
-      "confidence_score": 1.0
+      "target": "documentation_new_routes"
     },
     {
       "relation": "contains",
@@ -5778,9 +5818,9 @@
       "source_file": "documentation.md",
       "source_location": "L147",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "documentation_phase_1_database_backed_question_library_and_practice_workspace",
-      "target": "documentation_overview",
-      "confidence_score": 1.0
+      "target": "documentation_overview"
     },
     {
       "relation": "contains",
@@ -5788,9 +5828,9 @@
       "source_file": "documentation.md",
       "source_location": "L218",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "documentation_phase_1_database_backed_question_library_and_practice_workspace",
-      "target": "documentation_phase_1_limitations",
-      "confidence_score": 1.0
+      "target": "documentation_phase_1_limitations"
     },
     {
       "relation": "contains",
@@ -5798,9 +5838,9 @@
       "source_file": "documentation.md",
       "source_location": "L227",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "documentation_phase_1_database_backed_question_library_and_practice_workspace",
-      "target": "documentation_phases_roadmap",
-      "confidence_score": 1.0
+      "target": "documentation_phases_roadmap"
     },
     {
       "relation": "contains",
@@ -5809,7 +5849,7 @@
       "source_location": "L206",
       "weight": 1.0,
       "source": "documentation_phase_1_database_backed_question_library_and_practice_workspace",
-      "target": "documentation_practice_workspace_stepper",
+      "target": "documentation_practice_workspace_layout_integrated_coding_environment",
       "confidence_score": 1.0
     },
     {
@@ -5818,9 +5858,9 @@
       "source_file": "documentation.md",
       "source_location": "L192",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "documentation_phase_1_database_backed_question_library_and_practice_workspace",
-      "target": "documentation_seeded_questions_7_published",
-      "confidence_score": 1.0
+      "target": "documentation_seeded_questions_7_published"
     },
     {
       "relation": "contains",
@@ -5828,11 +5868,11 @@
       "source_file": "documentation.md",
       "source_location": "L183",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "documentation_phase_1_database_backed_question_library_and_practice_workspace",
-      "target": "documentation_supabase_table_assumptions",
-      "confidence_score": 1.0
+      "target": "documentation_supabase_table_assumptions"
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "b4682d760fcb865a436aa47982b6fadfc31d37c8"
+  "built_at_commit": "28a195622f07b272683ef78e32cd28eb948a456d"
 }

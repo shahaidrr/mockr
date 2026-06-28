@@ -1,4 +1,4 @@
-import type { PracticeDraft, PracticeStage, SupportedLanguage } from "@/types/practice";
+import type { PracticeDraft, InterviewPanel, SupportedLanguage } from "@/types/practice";
 
 export function buildDraftKey(userId: string, questionId: string, mode: string): string {
   return `mockr:draft:${userId}:${questionId}:${mode}`;
@@ -34,7 +34,7 @@ export function clearDraft(key: string): void {
 
 export function buildEmptyDraft(
   language: SupportedLanguage,
-  stage: PracticeStage = "problem"
+  panel: InterviewPanel = "clarification"
 ): PracticeDraft {
   return {
     clarification: "",
@@ -43,7 +43,7 @@ export function buildEmptyDraft(
     testingPlan: "",
     edgeCases: "",
     complexity: "",
-    currentStage: stage,
+    currentPanel: panel,
     selectedLanguage: language,
     timerSeconds: 0,
   };
