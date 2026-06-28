@@ -50,7 +50,7 @@ export default function SiteHeader({
           {secondaryAction ? (
             <Link
               href={secondaryAction.href}
-              className="hidden rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 transition hover:border-slate-300 hover:bg-slate-50 sm:inline-flex"
+              className="hidden rounded-full border border-slate-300 bg-slate-100 px-4 py-2 text-sm font-semibold text-slate-900 transition hover:border-slate-400 hover:bg-slate-200 sm:inline-flex"
             >
               {secondaryAction.label}
             </Link>

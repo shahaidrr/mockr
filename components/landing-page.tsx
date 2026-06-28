@@ -149,7 +149,7 @@ export default function LandingPage() {
                 </Link>
                 <Link
                   href="#how-it-works"
-                  className="inline-flex items-center justify-center rounded-full border border-slate-200 bg-white px-6 py-3 text-sm font-semibold text-slate-700 transition hover:border-slate-300 hover:bg-slate-50"
+                  className="inline-flex items-center justify-center rounded-full border border-slate-300 bg-slate-100 px-6 py-3 text-sm font-semibold text-slate-900 transition hover:border-slate-400 hover:bg-slate-200"
                 >
                   See how it works
                 </Link>
@@ -396,7 +396,7 @@ export default function LandingPage() {
 
               <Link
                 href="/dashboard"
-                className="inline-flex rounded-full border border-slate-200 bg-slate-50 px-5 py-3 text-sm font-semibold text-slate-700 transition hover:border-slate-300 hover:bg-slate-100"
+                className="inline-flex rounded-full border border-slate-300 bg-slate-100 px-5 py-3 text-sm font-semibold text-slate-900 transition hover:border-slate-400 hover:bg-slate-200"
               >
                 Open dashboard
               </Link>

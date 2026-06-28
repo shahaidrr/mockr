@@ -98,7 +98,7 @@ export default async function DashboardPage() {
             <form action="/auth/signout" method="post">
               <button
                 type="submit"
-                className="inline-flex w-full items-center justify-center rounded-full border border-slate-200 bg-slate-50 px-5 py-3 text-sm font-semibold text-slate-700 transition hover:border-slate-300 hover:bg-slate-100"
+                className="inline-flex w-full items-center justify-center rounded-full border border-slate-300 bg-slate-100 px-5 py-3 text-sm font-semibold text-slate-900 transition hover:border-slate-400 hover:bg-slate-200"
               >
                 Log out
               </button>
