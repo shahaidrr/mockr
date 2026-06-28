@@ -1,5 +1,52 @@
 # Documentation Log
 
+## 2026-06-28 — Coding Workspace UI
+
+### Files Changed
+
+- `components/code-editor.tsx` — Updated to accept a `language` prop so Monaco switches language mode dynamically. Changed editor height from a fixed `500px` to `100%` so it fills the workspace pane. Removed the outer wrapper div to allow the parent flex container to control layout.
+- `app/practice/demo/practice-workspace.tsx` — Full rewrite. Replaced the simple editor+problem layout with a full-screen dark coding workspace: narrow left sidebar, split editor/output panes, top toolbar, and bottom status bar.
+- `app/practice/demo/page.tsx` — Unchanged. Auth gate and server component remain as-is.
+
+### Purpose
+
+Builds the visual foundation for MOCKR.AI's coding practice workspace at `/practice/demo`. The screen matches a CoderPad/Replit-style interview room: dark theme, Monaco editor, split output panel, language selector, and a bottom bar with interview participant placeholders.
+
+### Languages Supported (editor UI only)
+
+JavaScript, TypeScript, Python, Java, C++, C#, Go, Ruby. Each language has a starter function template and a coloured badge in the sidebar. Changing language updates the Monaco language mode, the editor content, the sidebar badge, and the toolbar status text.
+
+### UI-Only — No Execution
+
+This implementation is intentionally frontend-only. The Run button writes fake demo output to the output panel. No code is evaluated, no backend routes are called, and no external execution service is connected.
+
+### Current Limitations
+
+- The divider between editor and output panes is visual only — it is not draggable yet.
+- The Drawing sidebar item is a placeholder; no canvas or whiteboard is implemented.
+- Start Call, What's New, and Feedback in the bottom bar are visual only.
+- Settings has no functionality yet.
+- No question content is shown — this screen is a blank workspace shell.
+
+### Not Yet Implemented (future additions)
+
+- Real code execution (Judge0, Piston, Web Worker, or similar)
+- Public and hidden test cases
+- Edge-case evaluation and grading
+- AI interviewer and structured feedback
+- Attempt storage in Supabase
+- Voice/video call integration
+- Drawing canvas / whiteboard (Excalidraw or similar)
+- Draggable pane splitter
+- Dashboard integration / attempt history
+
+### Suggested Next Steps
+
+1. Wire the Run button to a real execution service (Judge0 or Piston) behind a Next.js API route.
+2. Add a question model to Supabase and render question description alongside the editor.
+3. Replace fake output with actual test-case results and a pass/fail indicator.
+4. Implement the AI Assist panel using the Claude API for hints and complexity discussion.
+
 ## 2026-06-28 16:12:00 AEST
 
 - Added shared UI primitives in [components/site-header.tsx](/Users/shahaidrr/Documents/mockr/components/site-header.tsx), [components/feature-card.tsx](/Users/shahaidrr/Documents/mockr/components/feature-card.tsx), [components/stat-card.tsx](/Users/shahaidrr/Documents/mockr/components/stat-card.tsx), and [components/dashboard-card.tsx](/Users/shahaidrr/Documents/mockr/components/dashboard-card.tsx).
