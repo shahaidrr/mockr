@@ -111,13 +111,17 @@ const dashboardPreviewStats = [
   { label: "Main focus", value: "Edge-case testing" },
 ];
 
-export default function LandingPage() {
+type LandingPageProps = {
+  ctaHref?: string;
+};
+
+export default function LandingPage({ ctaHref = "/login" }: LandingPageProps) {
   return (
     <div className="min-h-screen text-slate-900">
       <SiteHeader
         links={navLinks}
         secondaryAction={{ href: "/login", label: "Log in" }}
-        primaryAction={{ href: "/dashboard", label: "Start practising" }}
+        primaryAction={{ href: ctaHref, label: "Start practising" }}
       />
 
       <main>
@@ -142,7 +146,7 @@ export default function LandingPage() {
 
               <div className="mt-10 flex flex-col gap-4 sm:flex-row">
                 <Link
-                  href="/dashboard"
+                  href={ctaHref}
                   className="inline-flex items-center justify-center rounded-full border border-slate-950 bg-slate-950 px-6 py-3 text-sm font-semibold text-slate-50 shadow-[inset_0_1px_0_rgba(255,255,255,0.14)] transition hover:bg-slate-800"
                 >
                   Start practising
@@ -462,7 +466,7 @@ export default function LandingPage() {
 
             <div className="mt-8 flex flex-col gap-4 sm:flex-row">
               <Link
-                href="/dashboard"
+                href={ctaHref}
                 className="inline-flex items-center justify-center rounded-full bg-white px-6 py-3 text-sm font-semibold text-slate-950 transition hover:bg-slate-100"
               >
                 Start practising
