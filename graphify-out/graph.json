@@ -14,10 +14,20 @@
       "norm_label": "agents.md"
     },
     {
+      "label": "MANDATORY: Query Graphify Before Reading Files",
+      "file_type": "document",
+      "source_file": "AGENTS.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "agents_mandatory_query_graphify_before_reading_files",
+      "community": 11,
+      "norm_label": "mandatory: query graphify before reading files"
+    },
+    {
       "label": "This is NOT the Next.js you know",
       "file_type": "document",
       "source_file": "AGENTS.md",
-      "source_location": "L2",
+      "source_location": "L23",
       "_origin": "ast",
       "id": "agents_this_is_not_the_next_js_you_know",
       "community": 11,
@@ -27,7 +37,7 @@
       "label": "graphify",
       "file_type": "document",
       "source_file": "AGENTS.md",
-      "source_location": "L7",
+      "source_location": "L28",
       "_origin": "ast",
       "id": "agents_graphify",
       "community": 11,
@@ -37,7 +47,7 @@
       "label": "Graphify Usage",
       "file_type": "document",
       "source_file": "AGENTS.md",
-      "source_location": "L20",
+      "source_location": "L41",
       "_origin": "ast",
       "id": "agents_graphify_usage",
       "community": 11,
@@ -49,9 +59,9 @@
       "source_file": "CLAUDE.md",
       "source_location": "L1",
       "_origin": "ast",
-      "id": "claude",
       "community": 16,
-      "norm_label": "claude.md"
+      "norm_label": "claude.md",
+      "id": "claude"
     },
     {
       "label": "Graphify Usage",
@@ -59,9 +69,9 @@
       "source_file": "CLAUDE.md",
       "source_location": "L3",
       "_origin": "ast",
-      "id": "claude_graphify_usage",
       "community": 16,
-      "norm_label": "graphify usage"
+      "norm_label": "graphify usage",
+      "id": "claude_graphify_usage"
     },
     {
       "label": "documentation.md",
@@ -69,9 +79,9 @@
       "source_file": "documentation.md",
       "source_location": "L1",
       "_origin": "ast",
-      "id": "documentation",
       "community": 5,
-      "norm_label": "documentation.md"
+      "norm_label": "documentation.md",
+      "id": "documentation"
     },
     {
       "label": "Documentation Log",
@@ -79,9 +89,9 @@
       "source_file": "documentation.md",
       "source_location": "L1",
       "_origin": "ast",
-      "id": "documentation_documentation_log",
       "community": 5,
-      "norm_label": "documentation log"
+      "norm_label": "documentation log",
+      "id": "documentation_documentation_log"
     },
     {
       "label": "Graphify Workflow",
@@ -89,9 +99,9 @@
       "source_file": "documentation.md",
       "source_location": "L3",
       "_origin": "ast",
-      "id": "documentation_graphify_workflow",
       "community": 5,
-      "norm_label": "graphify workflow"
+      "norm_label": "graphify workflow",
+      "id": "documentation_graphify_workflow"
     },
     {
       "label": "Session loop",
@@ -99,9 +109,9 @@
       "source_file": "documentation.md",
       "source_location": "L11",
       "_origin": "ast",
-      "id": "documentation_session_loop",
       "community": 5,
-      "norm_label": "session loop"
+      "norm_label": "session loop",
+      "id": "documentation_session_loop"
     },
     {
       "label": "Rules",
@@ -109,9 +119,9 @@
       "source_file": "documentation.md",
       "source_location": "L25",
       "_origin": "ast",
-      "id": "documentation_rules",
       "community": 5,
-      "norm_label": "rules"
+      "norm_label": "rules",
+      "id": "documentation_rules"
     },
     {
       "label": "2026-06-28 \u2014 Coding Workspace UI",
@@ -119,9 +129,9 @@
       "source_file": "documentation.md",
       "source_location": "L31",
       "_origin": "ast",
-      "id": "documentation_2026_06_28_coding_workspace_ui",
       "community": 8,
-      "norm_label": "2026-06-28 \u2014 coding workspace ui"
+      "norm_label": "2026-06-28 \u2014 coding workspace ui",
+      "id": "documentation_2026_06_28_coding_workspace_ui"
     },
     {
       "label": "Files Changed",
@@ -129,9 +139,9 @@
       "source_file": "documentation.md",
       "source_location": "L33",
       "_origin": "ast",
-      "id": "documentation_files_changed",
       "community": 8,
-      "norm_label": "files changed"
+      "norm_label": "files changed",
+      "id": "documentation_files_changed"
     },
     {
       "label": "Purpose",
@@ -139,9 +149,9 @@
       "source_file": "documentation.md",
       "source_location": "L39",
       "_origin": "ast",
-      "id": "documentation_purpose",
       "community": 8,
-      "norm_label": "purpose"
+      "norm_label": "purpose",
+      "id": "documentation_purpose"
     },
     {
       "label": "Languages Supported (editor UI only)",
@@ -149,9 +159,9 @@
       "source_file": "documentation.md",
       "source_location": "L43",
       "_origin": "ast",
-      "id": "documentation_languages_supported_editor_ui_only",
       "community": 8,
-      "norm_label": "languages supported (editor ui only)"
+      "norm_label": "languages supported (editor ui only)",
+      "id": "documentation_languages_supported_editor_ui_only"
     },
     {
       "label": "UI-Only \u2014 No Execution",
@@ -159,9 +169,9 @@
       "source_file": "documentation.md",
       "source_location": "L47",
       "_origin": "ast",
-      "id": "documentation_ui_only_no_execution",
       "community": 8,
-      "norm_label": "ui-only \u2014 no execution"
+      "norm_label": "ui-only \u2014 no execution",
+      "id": "documentation_ui_only_no_execution"
     },
     {
       "label": "Current Limitations",
@@ -169,9 +179,9 @@
       "source_file": "documentation.md",
       "source_location": "L51",
       "_origin": "ast",
-      "id": "documentation_current_limitations",
       "community": 8,
-      "norm_label": "current limitations"
+      "norm_label": "current limitations",
+      "id": "documentation_current_limitations"
     },
     {
       "label": "Not Yet Implemented (future additions)",
@@ -179,9 +189,9 @@
       "source_file": "documentation.md",
       "source_location": "L59",
       "_origin": "ast",
-      "id": "documentation_not_yet_implemented_future_additions",
       "community": 8,
-      "norm_label": "not yet implemented (future additions)"
+      "norm_label": "not yet implemented (future additions)",
+      "id": "documentation_not_yet_implemented_future_additions"
     },
     {
       "label": "Suggested Next Steps",
@@ -189,9 +199,9 @@
       "source_file": "documentation.md",
       "source_location": "L71",
       "_origin": "ast",
-      "id": "documentation_suggested_next_steps",
       "community": 8,
-      "norm_label": "suggested next steps"
+      "norm_label": "suggested next steps",
+      "id": "documentation_suggested_next_steps"
     },
     {
       "label": "2026-06-28 16:12:00 AEST",
@@ -199,9 +209,9 @@
       "source_file": "documentation.md",
       "source_location": "L78",
       "_origin": "ast",
-      "id": "documentation_2026_06_28_16_12_00_aest",
       "community": 5,
-      "norm_label": "2026-06-28 16:12:00 aest"
+      "norm_label": "2026-06-28 16:12:00 aest",
+      "id": "documentation_2026_06_28_16_12_00_aest"
     },
     {
       "label": "2026-06-28 16:14:00 AEST",
@@ -209,9 +219,9 @@
       "source_file": "documentation.md",
       "source_location": "L84",
       "_origin": "ast",
-      "id": "documentation_2026_06_28_16_14_00_aest",
       "community": 5,
-      "norm_label": "2026-06-28 16:14:00 aest"
+      "norm_label": "2026-06-28 16:14:00 aest",
+      "id": "documentation_2026_06_28_16_14_00_aest"
     },
     {
       "label": "2026-06-28 16:18:00 AEST",
@@ -219,9 +229,9 @@
       "source_file": "documentation.md",
       "source_location": "L90",
       "_origin": "ast",
-      "id": "documentation_2026_06_28_16_18_00_aest",
       "community": 5,
-      "norm_label": "2026-06-28 16:18:00 aest"
+      "norm_label": "2026-06-28 16:18:00 aest",
+      "id": "documentation_2026_06_28_16_18_00_aest"
     },
     {
       "label": "2026-06-28 16:22:00 AEST",
@@ -229,9 +239,9 @@
       "source_file": "documentation.md",
       "source_location": "L96",
       "_origin": "ast",
-      "id": "documentation_2026_06_28_16_22_00_aest",
       "community": 5,
-      "norm_label": "2026-06-28 16:22:00 aest"
+      "norm_label": "2026-06-28 16:22:00 aest",
+      "id": "documentation_2026_06_28_16_22_00_aest"
     },
     {
       "label": "2026-06-28 16:26:00 AEST",
@@ -239,9 +249,9 @@
       "source_file": "documentation.md",
       "source_location": "L102",
       "_origin": "ast",
-      "id": "documentation_2026_06_28_16_26_00_aest",
       "community": 5,
-      "norm_label": "2026-06-28 16:26:00 aest"
+      "norm_label": "2026-06-28 16:26:00 aest",
+      "id": "documentation_2026_06_28_16_26_00_aest"
     },
     {
       "label": "2026-06-28 16:31:00 AEST",
@@ -249,9 +259,9 @@
       "source_file": "documentation.md",
       "source_location": "L108",
       "_origin": "ast",
-      "id": "documentation_2026_06_28_16_31_00_aest",
       "community": 5,
-      "norm_label": "2026-06-28 16:31:00 aest"
+      "norm_label": "2026-06-28 16:31:00 aest",
+      "id": "documentation_2026_06_28_16_31_00_aest"
     },
     {
       "label": "2026-06-28 16:36:00 AEST",
@@ -259,9 +269,9 @@
       "source_file": "documentation.md",
       "source_location": "L113",
       "_origin": "ast",
-      "id": "documentation_2026_06_28_16_36_00_aest",
       "community": 5,
-      "norm_label": "2026-06-28 16:36:00 aest"
+      "norm_label": "2026-06-28 16:36:00 aest",
+      "id": "documentation_2026_06_28_16_36_00_aest"
     },
     {
       "label": "2026-06-28 16:29:21 AEST",
@@ -269,9 +279,9 @@
       "source_file": "documentation.md",
       "source_location": "L118",
       "_origin": "ast",
-      "id": "documentation_2026_06_28_16_29_21_aest",
       "community": 5,
-      "norm_label": "2026-06-28 16:29:21 aest"
+      "norm_label": "2026-06-28 16:29:21 aest",
+      "id": "documentation_2026_06_28_16_29_21_aest"
     },
     {
       "label": "2026-06-28 16:33:00 AEST",
@@ -279,9 +289,9 @@
       "source_file": "documentation.md",
       "source_location": "L124",
       "_origin": "ast",
-      "id": "documentation_2026_06_28_16_33_00_aest",
       "community": 5,
-      "norm_label": "2026-06-28 16:33:00 aest"
+      "norm_label": "2026-06-28 16:33:00 aest",
+      "id": "documentation_2026_06_28_16_33_00_aest"
     },
     {
       "label": "2026-06-28 16:36:47 AEST",
@@ -289,9 +299,9 @@
       "source_file": "documentation.md",
       "source_location": "L129",
       "_origin": "ast",
-      "id": "documentation_2026_06_28_16_36_47_aest",
       "community": 5,
-      "norm_label": "2026-06-28 16:36:47 aest"
+      "norm_label": "2026-06-28 16:36:47 aest",
+      "id": "documentation_2026_06_28_16_36_47_aest"
     },
     {
       "label": "2026-06-28 16:40:00 AEST",
@@ -299,9 +309,9 @@
       "source_file": "documentation.md",
       "source_location": "L135",
       "_origin": "ast",
-      "id": "documentation_2026_06_28_16_40_00_aest",
       "community": 5,
-      "norm_label": "2026-06-28 16:40:00 aest"
+      "norm_label": "2026-06-28 16:40:00 aest",
+      "id": "documentation_2026_06_28_16_40_00_aest"
     },
     {
       "label": "2026-06-28 16:44:00 AEST",
@@ -309,9 +319,9 @@
       "source_file": "documentation.md",
       "source_location": "L140",
       "_origin": "ast",
-      "id": "documentation_2026_06_28_16_44_00_aest",
       "community": 5,
-      "norm_label": "2026-06-28 16:44:00 aest"
+      "norm_label": "2026-06-28 16:44:00 aest",
+      "id": "documentation_2026_06_28_16_44_00_aest"
     },
     {
       "label": "route.ts",
@@ -989,7 +999,7 @@
       "source_file": "graphify/manifest.json",
       "source_location": "L17",
       "_origin": "ast",
-      "community": 17,
+      "community": 0,
       "norm_label": "layout.tsx",
       "id": "graphify_manifest_layout_tsx"
     },
@@ -999,7 +1009,7 @@
       "source_file": "graphify/manifest.json",
       "source_location": "L18",
       "_origin": "ast",
-      "community": 17,
+      "community": 0,
       "norm_label": "mtime",
       "id": "graphify_manifest_layout_tsx_mtime"
     },
@@ -1009,7 +1019,7 @@
       "source_file": "graphify/manifest.json",
       "source_location": "L19",
       "_origin": "ast",
-      "community": 17,
+      "community": 0,
       "norm_label": "ast_hash",
       "id": "graphify_manifest_layout_tsx_ast_hash"
     },
@@ -1019,7 +1029,7 @@
       "source_file": "graphify/manifest.json",
       "source_location": "L20",
       "_origin": "ast",
-      "community": 17,
+      "community": 0,
       "norm_label": "semantic_hash",
       "id": "graphify_manifest_layout_tsx_semantic_hash"
     },
@@ -1109,7 +1119,7 @@
       "source_file": "graphify/manifest.json",
       "source_location": "L32",
       "_origin": "ast",
-      "community": 0,
+      "community": 17,
       "norm_label": "practice/demo/page.tsx",
       "id": "graphify_manifest_practice_demo_page_tsx"
     },
@@ -1119,7 +1129,7 @@
       "source_file": "graphify/manifest.json",
       "source_location": "L33",
       "_origin": "ast",
-      "community": 0,
+      "community": 17,
       "norm_label": "mtime",
       "id": "graphify_manifest_practice_demo_page_tsx_mtime"
     },
@@ -1129,7 +1139,7 @@
       "source_file": "graphify/manifest.json",
       "source_location": "L34",
       "_origin": "ast",
-      "community": 0,
+      "community": 17,
       "norm_label": "ast_hash",
       "id": "graphify_manifest_practice_demo_page_tsx_ast_hash"
     },
@@ -1139,7 +1149,7 @@
       "source_file": "graphify/manifest.json",
       "source_location": "L35",
       "_origin": "ast",
-      "community": 0,
+      "community": 17,
       "norm_label": "semantic_hash",
       "id": "graphify_manifest_practice_demo_page_tsx_semantic_hash"
     },
@@ -1479,7 +1489,7 @@
       "source_file": "package.json",
       "source_location": "L19",
       "_origin": "ast",
-      "community": 1,
+      "community": 9,
       "norm_label": "devdependencies",
       "id": "package_devdependencies"
     },
@@ -1489,7 +1499,7 @@
       "source_file": "package.json",
       "source_location": "L20",
       "_origin": "ast",
-      "community": 1,
+      "community": 9,
       "norm_label": "@tailwindcss/postcss",
       "id": "package_devdependencies_tailwindcss_postcss"
     },
@@ -1499,7 +1509,7 @@
       "source_file": "package.json",
       "source_location": "L21",
       "_origin": "ast",
-      "community": 1,
+      "community": 9,
       "norm_label": "@types/node",
       "id": "package_devdependencies_types_node"
     },
@@ -1509,7 +1519,7 @@
       "source_file": "package.json",
       "source_location": "L22",
       "_origin": "ast",
-      "community": 1,
+      "community": 9,
       "norm_label": "@types/react",
       "id": "package_devdependencies_types_react"
     },
@@ -1519,7 +1529,7 @@
       "source_file": "package.json",
       "source_location": "L23",
       "_origin": "ast",
-      "community": 1,
+      "community": 9,
       "norm_label": "@types/react-dom",
       "id": "package_devdependencies_types_react_dom"
     },
@@ -1529,7 +1539,7 @@
       "source_file": "package.json",
       "source_location": "L24",
       "_origin": "ast",
-      "community": 1,
+      "community": 9,
       "norm_label": "eslint",
       "id": "package_devdependencies_eslint"
     },
@@ -1539,7 +1549,7 @@
       "source_file": "package.json",
       "source_location": "L25",
       "_origin": "ast",
-      "community": 1,
+      "community": 9,
       "norm_label": "eslint-config-next",
       "id": "package_devdependencies_eslint_config_next"
     },
@@ -1549,7 +1559,7 @@
       "source_file": "package.json",
       "source_location": "L26",
       "_origin": "ast",
-      "community": 1,
+      "community": 9,
       "norm_label": "tailwindcss",
       "id": "package_devdependencies_tailwindcss"
     },
@@ -1559,7 +1569,7 @@
       "source_file": "package.json",
       "source_location": "L27",
       "_origin": "ast",
-      "community": 1,
+      "community": 9,
       "norm_label": "typescript",
       "id": "package_devdependencies_typescript"
     },
@@ -1869,6 +1879,16 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "AGENTS.md",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "agents",
+      "target": "agents_mandatory_query_graphify_before_reading_files",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "AGENTS.md",
       "source_location": "L2",
       "weight": 1.0,
       "confidence_score": 1.0,
@@ -1901,9 +1921,9 @@
       "source_file": "CLAUDE.md",
       "source_location": "L3",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "claude",
-      "target": "claude_graphify_usage",
-      "confidence_score": 1.0
+      "target": "claude_graphify_usage"
     },
     {
       "relation": "contains",
@@ -3845,5 +3865,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "f6e48348dae898390ef4732d27fe7aced358e742"
+  "built_at_commit": "4f3a713ad9233207d0a77295eaacce7c4064a2a5"
 }

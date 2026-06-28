@@ -10,8 +10,8 @@
     "semantic_hash": ""
   },
   ".codex/hooks.json": {
-    "mtime": 1782628220.5927603,
-    "ast_hash": "580546a42559b09e570a556e314cc682",
+    "mtime": 1782633521.6475434,
+    "ast_hash": "680fe30e3df49b44c63a953623b0ed15",
     "semantic_hash": ""
   },
   "app/auth/callback/route.ts": {
@@ -155,8 +155,8 @@
     "semantic_hash": ""
   },
   "AGENTS.md": {
-    "mtime": 1782632662.2693615,
-    "ast_hash": "7890ca3b442838749b8304ece5cbbf8d",
+    "mtime": 1782633509.2641573,
+    "ast_hash": "3b6480d58418a086c981944a4d8f66ce",
     "semantic_hash": ""
   },
   "CLAUDE.md": {
