@@ -60,8 +60,8 @@
     "semantic_hash": ""
   },
   "components/code-editor.tsx": {
-    "mtime": 1782631649.332194,
-    "ast_hash": "f1c63117c74b69838268a0d9555bd3f7",
+    "mtime": 1782649445.5199108,
+    "ast_hash": "aa814101f3a33a4eaba4fd4da06703d3",
     "semantic_hash": ""
   },
   "components/dashboard-card.tsx": {
@@ -205,8 +205,8 @@
     "semantic_hash": ""
   },
   "app/practice/[questionId]/practice-session.tsx": {
-    "mtime": 1782648600.2420716,
-    "ast_hash": "06fd36f16523bbcd85bdb42965cf5232",
+    "mtime": 1782649460.9489634,
+    "ast_hash": "79544ba4fe2c6ef4539aab5b69a3d7be",
     "semantic_hash": ""
   },
   "app/questions/[slug]/page.tsx": {
