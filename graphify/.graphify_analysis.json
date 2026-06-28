@@ -1,0 +1,85 @@
+{
+  "communities": {
+    "0": [
+      "dashboard_page",
+      "dashboard_page_dashboardpage",
+      "dashboard_page_recentattempts",
+      "dashboard_page_scorebreakdown",
+      "dashboard_page_stats",
+      "dashboard_page_weaknesses"
+    ],
+    "1": [
+      "demo_page",
+      "demo_page_demopracticepage",
+      "demo_practice_workspace",
+      "demo_practice_workspace_practiceworkspace"
+    ],
+    "2": [
+      "app_layout",
+      "app_layout_metadata",
+      "app_layout_rootlayout"
+    ],
+    "3": [
+      "app_page",
+      "app_page_home"
+    ],
+    "4": [
+      "landingpage_page",
+      "landingpage_page_landingpageroute"
+    ],
+    "5": [
+      "login_page",
+      "login_page_loginpage"
+    ],
+    "6": [
+      "signout_route",
+      "signout_route_post"
+    ]
+  },
+  "cohesion": {
+    "0": 0.3333333333333333,
+    "1": 0.6666666666666666,
+    "2": 0.6666666666666666,
+    "3": 1.0,
+    "4": 1.0,
+    "5": 1.0,
+    "6": 1.0
+  },
+  "gods": [
+    {
+      "id": "demo_practice_workspace_practiceworkspace",
+      "label": "PracticeWorkspace()",
+      "degree": 2
+    },
+    {
+      "id": "dashboard_page_stats",
+      "label": "stats",
+      "degree": 1
+    },
+    {
+      "id": "dashboard_page_recentattempts",
+      "label": "recentAttempts",
+      "degree": 1
+    },
+    {
+      "id": "dashboard_page_scorebreakdown",
+      "label": "scoreBreakdown",
+      "degree": 1
+    },
+    {
+      "id": "dashboard_page_weaknesses",
+      "label": "weaknesses",
+      "degree": 1
+    },
+    {
+      "id": "app_layout_metadata",
+      "label": "metadata",
+      "degree": 1
+    }
+  ],
+  "surprises": [],
+  "tokens": {
+    "input": 0,
+    "output": 0
+  }
+}
