@@ -338,9 +338,9 @@ Untouched. The demo sandbox at `/practice/demo` was not modified in this phase.
 
 This is an MVP browser runner using a Web Worker and a 2-second timeout. It is appropriate for PUBLIC test cases only during practice sessions. It is NOT a production-grade secure sandbox. It is not appropriate for hidden tests or high-stakes assessment. Candidate code runs in the browser, never on the server. Shadowed globals (`fetch`, `XMLHttpRequest`, `importScripts`, `localStorage`, `sessionStorage`) reduce accidental side-effects but do not constitute a hardened sandbox.
 
-### Current Limitations
+### Current Limitations (Phase 2 initial)
 
-- JavaScript execution only — Python and C++ are editor-only.
+- JavaScript execution only — Python and C++ were editor-only.
 - Public tests only — no hidden test execution.
 - No attempt persistence — submissions remain `local-{timestamp}` only.
 - No saved test run history.
@@ -350,11 +350,137 @@ This is an MVP browser runner using a Web Worker and a 2-second timeout. It is a
 - Browser Web Worker is suitable for MVP validation only.
 - Deep equality uses `Object.keys` order — sufficient for these questions but not a fully spec-compliant comparison.
 
-### Recommended Next Steps
+### Recommended Next Steps (post Phase 2)
 
 - **Phase 3:** Write attempts and code snapshots to `public.attempts` and `public.code_snapshots` in Supabase.
 - **Phase 4:** Add deterministic scoring and hidden test execution (requires server-side sandbox — Judge0, Piston, or a properly isolated backend).
 - **Phase 4:** AI scorecard using Claude API against rubric notes.
-- **Future:** Multi-language execution (Python, C++) via a secure server-side sandbox.
+- **Future:** C++ execution via a server-side compiler (requires type-aware wrapper generation).
 - **Future:** Dashboard attempt history pulling from Supabase.
 - **Future:** Draggable output panel splitter.
+
+---
+
+## Phase 2 Polish — Multi-Language Public Test Execution
+
+### Date
+
+2026-06-29
+
+### What Changed
+
+Polished Phase 2 to extend browser-based public test execution beyond JavaScript, improve submit UX with a failure warning, and add a local test summary on the results page.
+
+### Files Changed
+
+- `lib/public-test-runner.ts` — Refactored from a single-language function `runPublicTests(code, fn, cases)` to a unified `runPublicTests({ language, code, functionName, testCases })`. Extracted a shared `spawnWorker()` helper. Added `PYTHON_WORKER_SOURCE` (Pyodide-based). Added immediate `"error"` return for C++.
+- `app/practice/[questionId]/practice-session.tsx` — Added Python to executable languages (`isExecutable`). Enabled Run button for Python. Updated output panel with Python-specific loading message. Added submit warning modal (X + "Submit anyway") when tests fail. Added `doNavigateToResults()` which stores a local summary in `sessionStorage` before navigating. Updated submit panel text per language.
+- `app/results/[attemptId]/page.tsx` — Reads `mockr_last_result` from `sessionStorage` on mount (lazy `useState` initialiser). Shows "Public Test Results" summary card: question title, language, passed/failed/total counts. Clears key after reading.
+
+### Python Execution Method
+
+Python public tests run entirely in the browser using **Pyodide v0.26.0** loaded from `cdn.jsdelivr.net` inside a Web Worker:
+
+1. `importScripts("https://cdn.jsdelivr.net/pyodide/v0.26.0/full/pyodide.js")` — synchronous CDN fetch (browser-cached after first load).
+2. `loadPyodide()` — async WASM init.
+3. User code is executed via `pyodide.runPython(code)`.
+4. `pyodide.globals.get(functionName)` retrieves the candidate function.
+5. For each test case: `pyodide.toPy(arg)` converts JS inputs → Python; result is converted back via `.toJs({ dict_converter: Object.fromEntries })`.
+6. Deep equality via the same recursive `deepEqual` used for JavaScript.
+
+Timeout: **30 seconds** (to allow Pyodide CDN load on first use). Subsequent runs use the browser HTTP cache and complete in seconds.
+
+### C++ Execution Status
+
+**Not implemented in Phase 2 Polish.** C++ requires a server-side compiler (no safe, free browser-based C++ runtime exists for this use case). The Run button is disabled for C++ with the message "C++ execution is coming later." Submit records a local attempt without running tests.
+
+### Submit Warning Behaviour
+
+- When the user clicks Submit and tests have not been run, tests run first.
+- If any result is `failed`, `error`, or the run `timedOut`, a modal appears: *"Some public tests are not passing. You can still submit, but your result summary will show the failures."*
+- Modal has an X (dismiss) and "Submit anyway" button.
+- If all tests pass, navigation happens immediately with no modal.
+- C++ always submits directly (no test run).
+
+### Results Page Local Summary
+
+After submit, `sessionStorage["mockr_last_result"]` stores `{ questionTitle, questionId, language, summary }`. The results page reads and clears this on mount. It displays a "Public Test Results" card with passed/failed/total counts and a "Local Phase 2 result — not saved to the database." note. If no summary is available (C++, or sessionStorage unavailable), the card is omitted and the page still renders cleanly.
+
+### Security Boundary
+
+- Candidate code never runs on the server.
+- JavaScript: same Web Worker sandbox as Phase 2 original (2 s timeout, shadowed globals).
+- Python: Pyodide WASM sandbox inside a Web Worker (30 s timeout). No network access from candidate Python code (Pyodide's default).
+- Only public test cases (`is_hidden = false`) are fetched server-side and passed to the client. Hidden tests are never fetched or sent to the browser.
+- No data is written to Supabase during any Phase 2 flow.
+- No API keys or environment variables are required for Phase 2 Polish.
+
+### Confirmations
+
+- Only public tests (`is_hidden = false`) are fetched and run.
+- Hidden tests are never fetched, never sent to the browser, never executed.
+- No attempts are written to `public.attempts`, `public.attempt_events`, `public.code_snapshots`, `public.test_runs`, or `public.scorecards`.
+- No AI feedback or scoring.
+- No fake scores or fake execution results.
+- `/practice/demo` was not modified.
+- Phase 3 has not started.
+
+### Current Limitations (Phase 2 Polish)
+
+- Python Pyodide first-load is 10–30 seconds on a cold browser cache; subsequent loads are fast.
+- C++ is editor-only — no execution in Phase 2.
+- Public tests only — no hidden test execution.
+- No attempt persistence — `local-{timestamp}` IDs only, results not saved to Supabase.
+- No custom user-defined test input.
+- Pyodide version pinned to `v0.26.0` — update `PYTHON_WORKER_SOURCE` URL in `lib/public-test-runner.ts` to upgrade.
+- Deep equality for Python uses the same `Object.keys`-order comparison as JavaScript — adequate for current questions.
+
+### Recommended Next Steps
+
+- **Phase 3:** Write attempts and code snapshots to `public.attempts` and `public.code_snapshots` in Supabase.
+- **Phase 4:** Hidden test execution via a server-side sandbox (Judge0, Piston self-hosted, or equivalent).
+- **Phase 4:** AI scorecard using Claude API.
+- **Future:** C++ execution via a server-side compiler with type-aware wrapper generation.
+- **Future:** Dashboard attempt history from Supabase.
+- **Future:** Draggable output panel splitter.
+
+### Phase 2 Polish Test Report / Issues and Concerns
+
+#### Commands run
+
+```
+npm run lint       → ✅ 0 errors (1 initial error fixed: setState-in-effect rule in results page)
+npx tsc --noEmit   → ✅ 0 type errors (pre-existing baseUrl deprecation warning only; not caused by these changes)
+```
+
+#### Manual checks performed
+
+- Reviewed all changed files for correct TypeScript types and React patterns.
+- Confirmed `runPublicTests` signature change propagated to all call sites in `practice-session.tsx`.
+- Confirmed `isJavaScript` removed and replaced with `isExecutable` throughout.
+- Confirmed submit warning modal appears only for failed/timedOut results.
+- Confirmed `doNavigateToResults` writes to sessionStorage before navigation.
+- Confirmed results page reads and clears sessionStorage without causing cascading re-renders.
+
+#### Tests that could not be performed
+
+- **Python Pyodide execution end-to-end**: requires a running browser with CDN access. Cannot be verified in this session. The worker source is written to spec; functional verification must be done manually.
+- **C++ disabled state**: cannot open a browser in this session; verify by selecting C++ in the practice workspace.
+- **Submit warning modal appearance**: requires manual browser test.
+- **Results page summary card**: requires navigating through a complete submit flow.
+
+#### Known risks and concerns
+
+- **Pyodide CDN dependency**: if `cdn.jsdelivr.net/pyodide/v0.26.0/full/pyodide.js` is unavailable or the version has been removed, Python execution fails with an error result (not a crash). No fallback CDN is configured.
+- **Pyodide 30-second timeout**: on very slow connections, Pyodide may not finish loading in 30 seconds. The user would see all tests as "timeout". They can click Run again (browser cache will be populated if the download completed).
+- **`fn.apply(null, pyArgs)` on PyProxy**: Pyodide v0.26 documents that callable PyProxies support `apply`. If this breaks in a future Pyodide version, the catch block returns "error" results for all tests.
+- **Python `dict` return values**: `result.toJs({ dict_converter: Object.fromEntries })` converts Python dicts to JS objects. If a question expects a Python dict as output, deep equality against the expected JSON value should work correctly.
+- **sessionStorage unavailability**: if sessionStorage is blocked (e.g. strict private browsing), the results page shows without the summary card — it does not crash.
+
+#### Environment variables required
+
+None. Phase 2 Polish uses only browser-native APIs (Web Workers, Blob URLs, sessionStorage) and a public CDN (jsdelivr.net). No API keys, no server-side execution.
+
+#### Graphify
+
+Updated after Phase 2 Polish changes by running `graphify update .`.

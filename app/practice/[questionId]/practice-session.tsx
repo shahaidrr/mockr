@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
 import Link from "next/link";
@@ -89,12 +89,14 @@ export default function PracticeSession({
   const [langSwitchTarget, setLangSwitchTarget] = useState<SupportedLanguage | null>(null);
   const [testSummary, setTestSummary] = useState<PublicTestRunSummary | null>(null);
   const [isRunning, setIsRunning] = useState(false);
+  const [showSubmitWarning, setShowSubmitWarning] = useState(false);
+  const [pendingSubmitSummary, setPendingSubmitSummary] = useState<PublicTestRunSummary | null>(null);
 
   const currentLanguage = draft.selectedLanguage;
   const starterCode = question.starter_code?.[currentLanguage] ?? "";
   const currentCode = draft.codeByLanguage[currentLanguage] ?? starterCode;
   const currentPanelIdx = INTERVIEW_PANELS.indexOf(draft.currentPanel);
-  const isJavaScript = currentLanguage === "javascript";
+  const isExecutable = currentLanguage === "javascript" || currentLanguage === "python";
 
   // Assessment mode timer
   useEffect(() => {
@@ -156,29 +158,70 @@ export default function PracticeSession({
   }
 
   async function handleRun() {
-    if (!isJavaScript || isRunning || testCases.length === 0) return;
+    if (!isExecutable || isRunning || testCases.length === 0) return;
     setIsRunning(true);
     setTestSummary(null);
     try {
-      const summary = await runPublicTests(currentCode, question.function_name, testCases);
+      const summary = await runPublicTests({
+        language: currentLanguage,
+        code: currentCode,
+        functionName: question.function_name,
+        testCases,
+      });
       setTestSummary(summary);
     } finally {
       setIsRunning(false);
     }
   }
 
-  async function handleSubmit() {
-    if (isJavaScript && testCases.length > 0) {
-      setIsRunning(true);
-      try {
-        const summary = await runPublicTests(currentCode, question.function_name, testCases);
-        setTestSummary(summary);
-      } finally {
-        setIsRunning(false);
-      }
+  function doNavigateToResults(summary: PublicTestRunSummary | null) {
+    try {
+      sessionStorage.setItem(
+        "mockr_last_result",
+        JSON.stringify({
+          questionTitle: question.title,
+          questionId: question.id,
+          language: currentLanguage,
+          summary,
+        })
+      );
+    } catch {
+      // sessionStorage may be unavailable (e.g. private browsing with strict settings)
     }
     const attemptId = `local-${Date.now()}`;
     router.push(`/results/${attemptId}?questionId=${question.id}`);
+  }
+
+  async function handleSubmit() {
+    if (isRunning) return;
+    if (isExecutable && testCases.length > 0) {
+      setIsRunning(true);
+      try {
+        const summary = await runPublicTests({
+          language: currentLanguage,
+          code: currentCode,
+          functionName: question.function_name,
+          testCases,
+        });
+        setTestSummary(summary);
+        if (summary.failed > 0 || summary.timedOut) {
+          setPendingSubmitSummary(summary);
+          setShowSubmitWarning(true);
+          return;
+        }
+        doNavigateToResults(summary);
+      } finally {
+        setIsRunning(false);
+      }
+    } else {
+      doNavigateToResults(null);
+    }
+  }
+
+  function handleSubmitAnyway() {
+    setShowSubmitWarning(false);
+    doNavigateToResults(pendingSubmitSummary);
+    setPendingSubmitSummary(null);
   }
 
   function formatTime(s: number) {
@@ -315,14 +358,19 @@ export default function PracticeSession({
               ))}
             </div>
 
-            {isJavaScript ? (
+            {currentLanguage === "javascript" && (
               <p className="text-[10px] leading-4" style={{ color: "#4b5563" }}>
-                Submit will run public tests one final time, then record a local attempt.
+                Submit will run JavaScript public tests one final time, then record a local attempt.
               </p>
-            ) : (
+            )}
+            {currentLanguage === "python" && (
               <p className="text-[10px] leading-4" style={{ color: "#4b5563" }}>
-                JavaScript public test execution is available in Phase 2. Other languages are
-                editor-only for now. Submit will record a local attempt without running tests.
+                Submit will run Python public tests in-browser via Pyodide, then record a local attempt.
+              </p>
+            )}
+            {currentLanguage === "cpp" && (
+              <p className="text-[10px] leading-4" style={{ color: "#4b5563" }}>
+                C++ execution is coming later. Submit will record a local attempt without running tests.
               </p>
             )}
 
@@ -343,14 +391,19 @@ export default function PracticeSession({
   // ─── Output panel ────────────────────────────────────────────────────────
 
   function renderOutputPanel() {
-    if (!isJavaScript) {
+    const monoStyle: React.CSSProperties = {
+      fontFamily: "ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace",
+      fontSize: 12,
+    };
+
+    if (!isExecutable) {
       return (
         <div className="flex h-full flex-col justify-center px-4 py-4">
-          <p style={{ color: "#6b7280", fontFamily: "ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace", fontSize: 12 }}>
-            JavaScript public test execution is available in Phase 2.
+          <p style={{ color: "#6b7280", ...monoStyle }}>
+            C++ execution is coming later.
           </p>
-          <p style={{ color: "#374151", fontFamily: "ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace", fontSize: 12, marginTop: 4 }}>
-            Other languages are editor-only for now.
+          <p style={{ color: "#374151", ...monoStyle, marginTop: 4 }}>
+            JavaScript and Python are supported now.
           </p>
         </div>
       );
@@ -359,7 +412,7 @@ export default function PracticeSession({
     if (testCases.length === 0) {
       return (
         <div className="flex h-full flex-col justify-center px-4 py-4">
-          <p style={{ color: "#6b7280", fontFamily: "ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace", fontSize: 12 }}>
+          <p style={{ color: "#6b7280", ...monoStyle }}>
             No public test cases found for this question.
           </p>
         </div>
@@ -369,9 +422,14 @@ export default function PracticeSession({
     if (isRunning) {
       return (
         <div className="flex h-full flex-col justify-center px-4 py-4">
-          <p style={{ color: "#9ca3af", fontFamily: "ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace", fontSize: 12 }}>
+          <p style={{ color: "#9ca3af", ...monoStyle }}>
             Running {testCases.length} public test{testCases.length !== 1 ? "s" : ""}…
           </p>
+          {currentLanguage === "python" && (
+            <p style={{ color: "#4b5563", ...monoStyle, marginTop: 4 }}>
+              Loading Python environment — first run may take 10–30 s.
+            </p>
+          )}
         </div>
       );
     }
@@ -379,8 +437,9 @@ export default function PracticeSession({
     if (!testSummary) {
       return (
         <div className="flex h-full flex-col justify-center px-4 py-4">
-          <p style={{ color: "#4b5563", fontFamily: "ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace", fontSize: 12 }}>
+          <p style={{ color: "#4b5563", ...monoStyle }}>
             Ready. Click Run to execute {testCases.length} public test{testCases.length !== 1 ? "s" : ""}.
+            {currentLanguage === "python" ? " (Pyodide Python runner)" : ""}
           </p>
         </div>
       );
@@ -709,8 +768,8 @@ export default function PracticeSession({
               </svg>
             </button>
 
-            {/* Run button — active for JS, disabled for other languages */}
-            {isJavaScript ? (
+            {/* Run button — active for JS and Python, disabled for C++ */}
+            {isExecutable ? (
               <button
                 onClick={handleRun}
                 disabled={isRunning || testCases.length === 0}
@@ -732,7 +791,7 @@ export default function PracticeSession({
               <>
                 <button
                   disabled
-                  title="JavaScript public test execution is available in Phase 2. Other languages are editor-only for now."
+                  title="C++ execution is coming later."
                   className="flex cursor-not-allowed items-center gap-1.5 rounded px-3 py-1 text-xs font-bold opacity-40"
                   style={{ background: "#31d67b", color: "#000" }}
                 >
@@ -741,7 +800,7 @@ export default function PracticeSession({
                   </svg>
                   Run
                 </button>
-                <span className="text-[9px]" style={{ color: "#4b5563" }}>JS only</span>
+                <span className="text-[9px]" style={{ color: "#4b5563" }}>Not available</span>
               </>
             )}
           </div>
@@ -819,6 +878,42 @@ export default function PracticeSession({
                 style={{ background: "#3a4048", color: "#9ca3af" }}
               >
                 Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ── Submit warning modal ── */}
+      {showSubmitWarning && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+          <div
+            className="relative mx-4 max-w-sm rounded-[16px] p-6 shadow-xl"
+            style={{ background: "#24292f", border: "1px solid #3a4048" }}
+          >
+            <button
+              onClick={() => setShowSubmitWarning(false)}
+              className="absolute right-4 top-4 flex h-5 w-5 items-center justify-center rounded transition hover:text-white"
+              style={{ color: "#6b7280" }}
+              aria-label="Dismiss"
+            >
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <line x1="18" y1="6" x2="6" y2="18" />
+                <line x1="6" y1="6" x2="18" y2="18" />
+              </svg>
+            </button>
+            <p className="text-sm font-semibold text-white">Some tests are not passing</p>
+            <p className="mt-2 text-xs leading-5" style={{ color: "#9ca3af" }}>
+              Some public tests are not passing. You can still submit, but your result summary
+              will show the failures.
+            </p>
+            <div className="mt-4">
+              <button
+                onClick={handleSubmitAnyway}
+                className="w-full rounded px-3 py-2 text-xs font-bold transition hover:brightness-110"
+                style={{ background: "#31d67b", color: "#000" }}
+              >
+                Submit anyway
               </button>
             </div>
           </div>
