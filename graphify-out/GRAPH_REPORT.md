@@ -1,16 +1,16 @@
 # Graph Report - mockr  (2026-06-29)
 
 ## Corpus Check
-- 51 files · ~22,837 words
+- 53 files · ~27,841 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 287 nodes · 357 edges · 22 communities (16 shown, 6 thin omitted)
+- 357 nodes · 429 edges · 26 communities (21 shown, 5 thin omitted)
 - Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `26f9ded8`
+- Built from commit: `4664dce8`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -37,18 +37,22 @@
 - [[_COMMUNITY_Community 19|Community 19]]
 - [[_COMMUNITY_Community 20|Community 20]]
 - [[_COMMUNITY_Community 21|Community 21]]
+- [[_COMMUNITY_Community 22|Community 22]]
+- [[_COMMUNITY_Community 23|Community 23]]
+- [[_COMMUNITY_Community 24|Community 24]]
+- [[_COMMUNITY_Community 25|Community 25]]
 
 ## God Nodes (most connected - your core abstractions)
 1. `createClient()` - 19 edges
-2. `compilerOptions` - 17 edges
-3. `Documentation Log` - 17 edges
-4. `Phase 2 — JavaScript Public Test Execution` - 16 edges
-5. `Phase 1 — Database-backed Question Library and Practice Workspace` - 10 edges
-6. `getSupabaseConfig()` - 9 edges
-7. `2026-06-28 — Coding Workspace UI` - 8 edges
-8. `fetchQuestionBySlug()` - 5 edges
-9. `scripts` - 5 edges
-10. `PracticePage()` - 4 edges
+2. `Documentation Log` - 18 edges
+3. `compilerOptions` - 17 edges
+4. `Phase 2 Polish — Multi-Language Public Test Runner` - 17 edges
+5. `Phase 2 — JavaScript Public Test Execution` - 17 edges
+6. `Phase 2 Polish — Multi-Language Public Test Execution` - 13 edges
+7. `MOCKR.AI — Feature Testing Checklist` - 12 edges
+8. `Phase 1 — Database-backed Question Library and Practice Workspace` - 10 edges
+9. `getSupabaseConfig()` - 9 edges
+10. `Practice Workspace (`/practice/[questionId]`)` - 9 edges
 
 ## Surprising Connections (you probably didn't know these)
 - `DashboardPage()` --calls--> `createClient()`  [EXTRACTED]
@@ -65,7 +69,7 @@
 ## Import Cycles
 - None detected.
 
-## Communities (22 total, 6 thin omitted)
+## Communities (26 total, 5 thin omitted)
 
 ### Community 0 - "Community 0"
 Cohesion: 0.06
@@ -84,12 +88,12 @@ Cohesion: 0.11
 Nodes (11): FeatureCardProps, dashboardPreviewStats, featureCards, futureCards, LandingPageProps, navLinks, positioningChips, steps (+3 more)
 
 ### Community 4 - "Community 4"
-Cohesion: 0.16
-Nodes (16): Home(), GET(), DemoPracticePage(), fetchPublicTestCases(), fetchQuestionById(), fetchQuestionBySlug(), PracticePage(), Props (+8 more)
+Cohesion: 0.17
+Nodes (15): Home(), GET(), DemoPracticePage(), fetchPublicTestCases(), fetchQuestionById(), fetchQuestionBySlug(), PracticePage(), Props (+7 more)
 
 ### Community 5 - "Community 5"
-Cohesion: 0.07
-Nodes (26): 2026-06-28 16:12:00 AEST, 2026-06-28 16:14:00 AEST, 2026-06-28 16:18:00 AEST, 2026-06-28 16:22:00 AEST, 2026-06-28 16:26:00 AEST, 2026-06-28 16:29:21 AEST, 2026-06-28 16:31:00 AEST, 2026-06-28 16:33:00 AEST (+18 more)
+Cohesion: 0.08
+Nodes (24): 2026-06-28 16:12:00 AEST, 2026-06-28 16:14:00 AEST, 2026-06-28 16:18:00 AEST, 2026-06-28 16:22:00 AEST, 2026-06-28 16:26:00 AEST, 2026-06-28 16:29:21 AEST, 2026-06-28 16:31:00 AEST, 2026-06-28 16:33:00 AEST (+16 more)
 
 ### Community 6 - "Community 6"
 Cohesion: 0.24
@@ -105,48 +109,68 @@ Nodes (16): fetchPublishedQuestions(), metadata, QuestionsPage(), DIFFICULTY_STY
 
 ### Community 9 - "Community 9"
 Cohesion: 0.12
-Nodes (22): buildDraftKey(), buildEmptyDraft(), clearDraft(), loadDraft(), saveDraft(), runPublicTests(), CodeEditor, DetailRow() (+14 more)
+Nodes (24): buildDraftKey(), buildEmptyDraft(), clearDraft(), loadDraft(), saveDraft(), runPublicTests(), spawnWorker(), CodeEditor (+16 more)
 
 ### Community 10 - "Community 10"
 Cohesion: 0.50
 Nodes (3): Deploy on Vercel, Getting Started, Learn More
 
 ### Community 11 - "Community 11"
-Cohesion: 0.40
-Nodes (4): graphify, Graphify Usage, MANDATORY: Query Graphify Before Reading Files, This is NOT the Next.js you know
+Cohesion: 0.33
+Nodes (5): graphify, Graphify Usage, MANDATORY: Query Graphify Before Reading Files, MANDATORY: Update TESTING.md After Every Feature Implementation, This is NOT the Next.js you know
 
 ### Community 17 - "Community 17"
 Cohesion: 0.12
-Nodes (16): Confirmations, Current Limitations, Date, Files Changed, Files Created, How JavaScript Execution Works, How Output Is Displayed, How Public Test Cases Are Fetched (+8 more)
+Nodes (16): Confirmations, Current Limitations (Phase 2 initial), Date, Files Changed, Files Created, How JavaScript Execution Works, How Output Is Displayed, How Public Test Cases Are Fetched (+8 more)
 
 ### Community 18 - "Community 18"
 Cohesion: 0.40
 Nodes (4): AttemptMode, AttemptStatus, ResultBand, SupportedLanguage
 
+### Community 19 - "Community 19"
+Cohesion: 0.40
+Nodes (3): LANGUAGE_LABELS, Props, StoredResult
+
 ### Community 20 - "Community 20"
+Cohesion: 0.08
+Nodes (23): Assessment Mode Timer, Auth, Auth Gate, Cross-cutting, Dashboard (`/dashboard`), Draft Saving & Restoration, Email Confirmation Callback, Interview Panel (bottom-left) (+15 more)
+
+### Community 21 - "Community 21"
+Cohesion: 0.20
+Nodes (10): Files Created, Files Modified, New Routes, Overview, Phase 1 — Database-backed Question Library and Practice Workspace, Phase 1 Limitations, Phases Roadmap, Practice Workspace Layout (integrated coding environment) (+2 more)
+
+### Community 22 - "Community 22"
+Cohesion: 0.11
+Nodes (19): C++ Execution Status, Commands run, Confirmations, Current Limitations (Phase 2 Polish), Date, Environment variables required, Files Changed, Graphify (+11 more)
+
+### Community 23 - "Community 23"
+Cohesion: 0.33
+Nodes (5): graphify, Graphify Usage, MANDATORY: Query Graphify Before Reading Files, MANDATORY: Update TESTING.md After Every Feature Implementation, This is NOT the Next.js you know
+
+### Community 24 - "Community 24"
+Cohesion: 0.12
+Nodes (17): Disable during run, Error Tests — JavaScript, Error Tests — Python, Failing Tests — JavaScript, Failing Tests — Python, No Public Test Cases (edge case), Passing Tests — JavaScript, Passing Tests — Python (+9 more)
+
+### Community 25 - "Community 25"
 Cohesion: 0.18
 Nodes (8): DashboardCardProps, StatCard(), StatCardProps, DashboardPage(), recentAttempts, scoreBreakdown, stats, weaknesses
 
-### Community 21 - "Community 21"
-Cohesion: 0.25
-Nodes (8): 2026-06-28 — Coding Workspace UI, Current Limitations, Files Changed, Languages Supported (editor UI only), Not Yet Implemented (future additions), Purpose, Suggested Next Steps (superseded by Phase 1), UI-Only — No Execution
-
 ## Knowledge Gaps
-- **168 isolated node(s):** `stats`, `recentAttempts`, `scoreBreakdown`, `weaknesses`, `metadata` (+163 more)
+- **227 isolated node(s):** `stats`, `recentAttempts`, `scoreBreakdown`, `weaknesses`, `metadata` (+222 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **6 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **5 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `createClient()` connect `Community 4` to `Community 8`, `Community 20`, `Community 6`?**
-  _High betweenness centrality (0.078) - this node is a cross-community bridge._
+- **Why does `createClient()` connect `Community 4` to `Community 8`, `Community 25`, `Community 6`?**
+  _High betweenness centrality (0.051) - this node is a cross-community bridge._
+- **Why does `Documentation Log` connect `Community 5` to `Community 17`, `Community 21`, `Community 22`?**
+  _High betweenness centrality (0.029) - this node is a cross-community bridge._
 - **Why does `getSupabaseConfig()` connect `Community 6` to `Community 4`?**
-  _High betweenness centrality (0.027) - this node is a cross-community bridge._
-- **Why does `Documentation Log` connect `Community 5` to `Community 17`, `Community 21`?**
-  _High betweenness centrality (0.025) - this node is a cross-community bridge._
+  _High betweenness centrality (0.017) - this node is a cross-community bridge._
 - **What connects `stats`, `recentAttempts`, `scoreBreakdown` to the rest of the system?**
-  _168 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _227 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `Community 0` be split into smaller, more focused modules?**
   _Cohesion score 0.06060606060606061 - nodes in this community are weakly interconnected._
 - **Should `Community 1` be split into smaller, more focused modules?**

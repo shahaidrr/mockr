@@ -129,7 +129,7 @@ Run tests by visiting the live dev server (`npm run dev`) and following each ste
 
 ---
 
-## Phase 2 — JavaScript Public Test Runner
+## Phase 2 Polish — Multi-Language Public Test Runner
 
 ### Run Button — JavaScript
 - [ ] Run button is active (green, enabled) when JavaScript is selected
@@ -140,57 +140,90 @@ Run tests by visiting the live dev server (`npm run dev`) and following each ste
 - [ ] Clicking a test row expands it to show input, expected, and actual output
 - [ ] Values display as readable JSON (not `[object Object]`)
 
-### Passing Tests
+### Passing Tests — JavaScript
 - [ ] A correct solution passes all 6 public tests (try `find-matching-pair` with a correct solution)
 - [ ] All test rows show green "passed" badge
 - [ ] Summary shows "All 6 tests passed"
 
-### Failing Tests
+### Failing Tests — JavaScript
 - [ ] An incorrect solution shows "failed" (red) rows for wrong answers
 - [ ] Expanded row shows expected vs actual output clearly
 
-### Error Tests
+### Error Tests — JavaScript
 - [ ] Code with a syntax error marks all tests as "error" (amber)
 - [ ] Expanded row shows the error message
 - [ ] Code that throws at runtime marks affected tests as "error"
 
-### Timeout
+### Timeout — JavaScript
 - [ ] Code with an infinite loop (`while(true){}`) triggers timeout after ~2 seconds
 - [ ] All tests are marked "timeout" (purple)
 - [ ] Timeout message reads: "Execution timed out after 2 seconds. Check for an infinite loop or an inefficient solution."
 - [ ] UI remains fully responsive after timeout
 - [ ] User can edit code and run again after a timeout
 
-### Run Button — Non-JavaScript
-- [ ] Run button is disabled and faded when Python or C++ is selected
-- [ ] "JS only" label appears next to the disabled button
-- [ ] Output panel shows: "JavaScript public test execution is available in Phase 2. Other languages are editor-only for now."
+### Run Button — Python
+- [ ] Run button is active (green, enabled) when Python is selected
+- [ ] Clicking Run shows a spinner and "Running…" label
+- [ ] Output panel shows "Loading Python environment — first run may take 10–30 s." while Pyodide loads
+- [ ] After Pyodide loads: test results display the same pass/fail/error/timeout badges
+- [ ] Subsequent Python runs (Pyodide cached) complete much faster
+
+### Passing Tests — Python
+- [ ] A correct Python solution passes all 6 public tests
+- [ ] All test rows show green "passed" badge with runtime in ms
+
+### Failing Tests — Python
+- [ ] An incorrect Python solution shows "failed" (red) rows with expected vs actual
+
+### Error Tests — Python
+- [ ] Python code with a syntax error marks all tests as "error" (amber) with the error message
+- [ ] Python code where the function is missing marks all tests as "error" with "Function not found"
+
+### Run Button — C++
+- [ ] Run button is disabled and faded when C++ is selected
+- [ ] "Not available" label appears next to the disabled button
+- [ ] Output panel shows: "C++ execution is coming later. JavaScript and Python are supported now."
 - [ ] No execution attempt is made
 
 ### No Public Test Cases (edge case)
 - [ ] If a question has no public test cases, the Run button is disabled
 - [ ] Output panel shows a "No public test cases found" message
 
-### Submit — JavaScript
-- [ ] Clicking "Submit Attempt →" in the Submit Review panel runs public tests one final time
-- [ ] Output panel updates with the final test results
-- [ ] After tests complete, user is redirected to `/results/local-{timestamp}?questionId=...`
-- [ ] No data is written to Supabase (verify in Supabase dashboard: no rows in `attempts`)
+### Submit — with all tests passing
+- [ ] Clicking "Submit Attempt →" runs public tests one final time (for JS and Python)
+- [ ] If all tests pass, user is navigated directly to `/results/local-{timestamp}?questionId=...` — no warning shown
 
-### Submit — Non-JavaScript
-- [ ] Clicking "Submit Attempt →" navigates directly to `/results/...` without running tests
-- [ ] Submit panel shows the "editor-only" notice for the selected language
+### Submit — with failing tests warning
+- [ ] If any public test fails, a modal appears: "Some tests are not passing"
+- [ ] Modal body reads: "Some public tests are not passing. You can still submit, but your result summary will show the failures."
+- [ ] Modal has an X button in the top-right corner that dismisses it
+- [ ] Modal has a "Submit anyway" button that navigates to the results page
+- [ ] Dismissing the modal (X) returns the user to the workspace with no navigation
+
+### Submit — tests not yet run
+- [ ] Clicking Submit when tests have not been run first runs the tests, then applies the warning logic if any fail
+
+### Submit — C++
+- [ ] Clicking "Submit Attempt →" when C++ is selected navigates directly to `/results/...` without running tests
+- [ ] Submit panel shows the C++ "coming later" notice
+
+### Disable during run
+- [ ] Run button is disabled while tests are executing (no double-run)
+- [ ] Submit button is disabled while the final submit test run is in progress
 
 ---
 
 ## Results Page (`/results/[attemptId]`)
 
 - [ ] Page loads and shows the attempt ID
-- [ ] Phase 2 notice is visible ("Phase 2 — local only")
+- [ ] Phase 2 notice is visible ("Phase 2 — local only. Public tests ran in your browser.")
+- [ ] If a test summary was produced, a "Public Test Results" section shows: question title, language, N passed, M failed, total count
+- [ ] "Local Phase 2 result — not saved to the database." note is visible in the summary
+- [ ] If no test summary (C++ or no test cases), the summary section is absent — page still loads cleanly
 - [ ] "Retry question" button navigates back to `/practice/[questionId]`
 - [ ] "Back to questions" navigates to `/questions`
 - [ ] "Dashboard" navigates to `/dashboard`
-- [ ] "Coming in future phases" list does not include "JavaScript public test execution" (it is now live)
+- [ ] No attempt rows are created in Supabase (verify in dashboard)
 
 ---
 
