@@ -1,5 +1,50 @@
 # Documentation Log
 
+## 2026-06-29 — Agent Instruction Consolidation
+
+### What was completed
+
+Consolidated all agent instruction files into one canonical source (`AGENTS.md`) so Claude Code, Codex, and future agents follow identical rules.
+
+### Files changed
+
+- `AGENTS.md` — Rewritten as the single source of truth. Now contains: product identity, MVP scope, what is in/out of scope, mandatory orientation workflow (read-context-first + Graphify), documentation workflow, testing workflow (including available npm scripts), git rules, security/responsible-AI rules, implementation standards, large-task execution workflow, and scope constraints.
+- `CLAUDE.md` — Reduced to a single `@AGENTS.md` pointer. Claude Code's `@` include syntax loads `AGENTS.md` automatically.
+- `CODEX.md` — Reduced to a one-line redirect telling Codex to read `AGENTS.md`.
+- `graphify-out/` — Updated via `graphify update .` (411 nodes, 497 edges, 25 communities).
+
+### What was removed / consolidated
+
+- Duplicate Graphify rules (appeared 3× across the three files, now appear once in `AGENTS.md`).
+- Duplicate TESTING.md rules (appeared in both `AGENTS.md` and `CODEX.md`, now once).
+- The `nextjs-agent-rules` HTML comment block (content preserved as plain prose under Implementation Standards).
+- The `/graphify` skill invocation note moved to `AGENTS.md` Graphify section.
+- All content from old `CLAUDE.md` beyond the `@AGENTS.md` pointer was either already in `AGENTS.md` or consolidated there.
+
+### What was added (new content, not previously in any file)
+
+- Product identity section (MVP direction, target audience, Australian students/grads context).
+- Explicit in-scope / out-of-scope list.
+- Git rules (never stage/commit/push — report only).
+- Security and responsible-AI rules.
+- Large-task execution workflow (phase-by-phase with user approval gates).
+- Explicit note that `npm run build` covers TypeScript checking (no separate typecheck script).
+
+### Limitations
+
+- `.claude/settings.json` and `.codex/hooks.json` are tool-specific hook configs and remain unchanged — they enforce the Graphify-before-grep rule at the tool level and do not need to live in `AGENTS.md`.
+- `CODEX.md` uses plain-prose redirect (not a `@` include) because Codex does not support `@file` syntax.
+
+### Issues encountered
+
+- `npx graphify update .` failed with "could not determine executable to run" — the global `graphify` CLI was used instead and succeeded.
+
+### What should happen next
+
+No further instruction-file work needed. Next task should be a product feature (Phase 4B hidden test execution, or whatever the user requests next).
+
+---
+
 ## Graphify Workflow
 
 This project uses [Graphify](https://github.com/graphifyy/graphifyy) as a shared knowledge graph so Claude Code, Codex, and human collaborators can understand the codebase before making changes.

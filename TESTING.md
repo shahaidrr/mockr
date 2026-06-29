@@ -312,6 +312,17 @@ Run tests by visiting the live dev server (`npm run dev`) and following each ste
 
 ---
 
+## Agent Instructions
+
+### Instruction file consolidation (2026-06-29)
+
+- [ ] Open `AGENTS.md` — confirm it contains product identity, Graphify workflow, documentation workflow, testing workflow, git rules, security rules, implementation standards, and large-task workflow
+- [ ] Open `CLAUDE.md` — confirm it contains only `@AGENTS.md` (single line pointer)
+- [ ] Open `CODEX.md` — confirm it contains only a one-line redirect to `AGENTS.md`
+- [ ] Start a new Claude Code session and ask "what are the project rules?" — confirm Claude cites content from `AGENTS.md` without needing to be told to read it
+
+---
+
 ## Cross-cutting
 
 - [ ] Refreshing any page while logged in maintains the session

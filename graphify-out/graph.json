@@ -84,20 +84,50 @@
       "norm_label": "formatdate()"
     },
     {
-      "label": "AttemptRow",
+      "label": "QuestionSummary",
       "file_type": "code",
       "source_file": "app/dashboard/page.tsx",
       "source_location": "L30",
+      "_origin": "ast",
+      "id": "dashboard_page_questionsummary",
+      "community": 4,
+      "norm_label": "questionsummary"
+    },
+    {
+      "label": "AttemptRowRaw",
+      "file_type": "code",
+      "source_file": "app/dashboard/page.tsx",
+      "source_location": "L37",
+      "_origin": "ast",
+      "id": "dashboard_page_attemptrowraw",
+      "community": 4,
+      "norm_label": "attemptrowraw"
+    },
+    {
+      "label": "AttemptRow",
+      "file_type": "code",
+      "source_file": "app/dashboard/page.tsx",
+      "source_location": "L48",
       "_origin": "ast",
       "id": "dashboard_page_attemptrow",
       "community": 4,
       "norm_label": "attemptrow"
     },
     {
+      "label": "normaliseQuestions()",
+      "file_type": "code",
+      "source_file": "app/dashboard/page.tsx",
+      "source_location": "L52",
+      "_origin": "ast",
+      "id": "dashboard_page_normalisequestions",
+      "community": 4,
+      "norm_label": "normalisequestions()"
+    },
+    {
       "label": "DashboardPage()",
       "file_type": "code",
       "source_file": "app/dashboard/page.tsx",
-      "source_location": "L41",
+      "source_location": "L60",
       "_origin": "ast",
       "id": "dashboard_page_dashboardpage",
       "community": 4,
@@ -510,7 +540,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "slug_question_detail_client",
-      "community": 9,
+      "community": 19,
       "norm_label": "question-detail-client.tsx"
     },
     {
@@ -520,7 +550,7 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "slug_question_detail_client_difficulty_styles",
-      "community": 9,
+      "community": 19,
       "norm_label": "difficulty_styles"
     },
     {
@@ -530,7 +560,7 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "slug_question_detail_client_language_options",
-      "community": 9,
+      "community": 19,
       "norm_label": "language_options"
     },
     {
@@ -540,7 +570,7 @@
       "source_location": "L21",
       "_origin": "ast",
       "id": "slug_question_detail_client_props",
-      "community": 9,
+      "community": 19,
       "norm_label": "props"
     },
     {
@@ -550,7 +580,7 @@
       "source_location": "L23",
       "_origin": "ast",
       "id": "slug_question_detail_client_questiondetailclient",
-      "community": 9,
+      "community": 19,
       "norm_label": "questiondetailclient()"
     },
     {
@@ -1397,7 +1427,7 @@
       "label": "fetchRecentAttempts()",
       "file_type": "code",
       "source_file": "lib/attempts-service.ts",
-      "source_location": "L173",
+      "source_location": "L176",
       "_origin": "ast",
       "id": "lib_attempts_service_fetchrecentattempts",
       "community": 6,
@@ -2320,7 +2350,7 @@
       "source_location": "L2",
       "_origin": "ast",
       "id": "types_question_supportedlanguage",
-      "community": 9,
+      "community": 19,
       "norm_label": "supportedlanguage"
     },
     {
@@ -2340,7 +2370,7 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "types_question_questionexample",
-      "community": 9,
+      "community": 19,
       "norm_label": "questionexample"
     },
     {
@@ -2424,54 +2454,164 @@
       "norm_label": "agents.md"
     },
     {
-      "label": "MANDATORY: Update TESTING.md After Every Feature Implementation",
+      "label": "AGENTS.md \u2014 MOCKR.AI Canonical Agent Instructions",
       "file_type": "document",
       "source_file": "AGENTS.md",
       "source_location": "L1",
       "_origin": "ast",
-      "id": "agents_mandatory_update_testing_md_after_every_feature_implementation",
+      "id": "agents_agents_md_mockr_ai_canonical_agent_instructions",
       "community": 11,
-      "norm_label": "mandatory: update testing.md after every feature implementation"
+      "norm_label": "agents.md \u2014 mockr.ai canonical agent instructions"
     },
     {
-      "label": "MANDATORY: Query Graphify Before Reading Files",
+      "label": "Product Identity",
       "file_type": "document",
       "source_file": "AGENTS.md",
-      "source_location": "L25",
+      "source_location": "L8",
       "_origin": "ast",
-      "id": "agents_mandatory_query_graphify_before_reading_files",
+      "id": "agents_product_identity",
       "community": 11,
-      "norm_label": "mandatory: query graphify before reading files"
+      "norm_label": "product identity"
     },
     {
-      "label": "This is NOT the Next.js you know",
+      "label": "What is in scope",
       "file_type": "document",
       "source_file": "AGENTS.md",
-      "source_location": "L47",
+      "source_location": "L17",
       "_origin": "ast",
-      "id": "agents_this_is_not_the_next_js_you_know",
+      "id": "agents_what_is_in_scope",
       "community": 11,
-      "norm_label": "this is not the next.js you know"
+      "norm_label": "what is in scope"
     },
     {
-      "label": "graphify",
+      "label": "What is out of scope (do not add unless explicitly asked)",
       "file_type": "document",
       "source_file": "AGENTS.md",
-      "source_location": "L52",
+      "source_location": "L24",
       "_origin": "ast",
-      "id": "agents_graphify",
+      "id": "agents_what_is_out_of_scope_do_not_add_unless_explicitly_asked",
       "community": 11,
-      "norm_label": "graphify"
+      "norm_label": "what is out of scope (do not add unless explicitly asked)"
     },
     {
-      "label": "Graphify Usage",
+      "label": "Before Every Task \u2014 Mandatory Orientation",
       "file_type": "document",
       "source_file": "AGENTS.md",
-      "source_location": "L65",
+      "source_location": "L30",
       "_origin": "ast",
-      "id": "agents_graphify_usage",
+      "id": "agents_before_every_task_mandatory_orientation",
       "community": 11,
-      "norm_label": "graphify usage"
+      "norm_label": "before every task \u2014 mandatory orientation"
+    },
+    {
+      "label": "1. Read context first",
+      "file_type": "document",
+      "source_file": "AGENTS.md",
+      "source_location": "L32",
+      "_origin": "ast",
+      "id": "agents_1_read_context_first",
+      "community": 11,
+      "norm_label": "1. read context first"
+    },
+    {
+      "label": "2. Query Graphify before touching source files",
+      "file_type": "document",
+      "source_file": "AGENTS.md",
+      "source_location": "L41",
+      "_origin": "ast",
+      "id": "agents_2_query_graphify_before_touching_source_files",
+      "community": 11,
+      "norm_label": "2. query graphify before touching source files"
+    },
+    {
+      "label": "3. After meaningful changes \u2014 update Graphify",
+      "file_type": "document",
+      "source_file": "AGENTS.md",
+      "source_location": "L59",
+      "_origin": "ast",
+      "id": "agents_3_after_meaningful_changes_update_graphify",
+      "community": 11,
+      "norm_label": "3. after meaningful changes \u2014 update graphify"
+    },
+    {
+      "label": "Documentation Workflow",
+      "file_type": "document",
+      "source_file": "AGENTS.md",
+      "source_location": "L71",
+      "_origin": "ast",
+      "id": "agents_documentation_workflow",
+      "community": 11,
+      "norm_label": "documentation workflow"
+    },
+    {
+      "label": "Testing Workflow",
+      "file_type": "document",
+      "source_file": "AGENTS.md",
+      "source_location": "L86",
+      "_origin": "ast",
+      "id": "agents_testing_workflow",
+      "community": 11,
+      "norm_label": "testing workflow"
+    },
+    {
+      "label": "Running checks",
+      "file_type": "document",
+      "source_file": "AGENTS.md",
+      "source_location": "L106",
+      "_origin": "ast",
+      "id": "agents_running_checks",
+      "community": 11,
+      "norm_label": "running checks"
+    },
+    {
+      "label": "Git Rules",
+      "file_type": "document",
+      "source_file": "AGENTS.md",
+      "source_location": "L121",
+      "_origin": "ast",
+      "id": "agents_git_rules",
+      "community": 11,
+      "norm_label": "git rules"
+    },
+    {
+      "label": "Security and Responsible-AI Rules",
+      "file_type": "document",
+      "source_file": "AGENTS.md",
+      "source_location": "L130",
+      "_origin": "ast",
+      "id": "agents_security_and_responsible_ai_rules",
+      "community": 11,
+      "norm_label": "security and responsible-ai rules"
+    },
+    {
+      "label": "Implementation Standards",
+      "file_type": "document",
+      "source_file": "AGENTS.md",
+      "source_location": "L142",
+      "_origin": "ast",
+      "id": "agents_implementation_standards",
+      "community": 11,
+      "norm_label": "implementation standards"
+    },
+    {
+      "label": "Execution Workflow for Large Tasks",
+      "file_type": "document",
+      "source_file": "AGENTS.md",
+      "source_location": "L156",
+      "_origin": "ast",
+      "id": "agents_execution_workflow_for_large_tasks",
+      "community": 11,
+      "norm_label": "execution workflow for large tasks"
+    },
+    {
+      "label": "Scope Rules",
+      "file_type": "document",
+      "source_file": "AGENTS.md",
+      "source_location": "L168",
+      "_origin": "ast",
+      "id": "agents_scope_rules",
+      "community": 11,
+      "norm_label": "scope rules"
     },
     {
       "label": "CLAUDE.md",
@@ -2479,19 +2619,9 @@
       "source_file": "CLAUDE.md",
       "source_location": "L1",
       "_origin": "ast",
-      "id": "claude",
+      "id": "users_sonpham_desktop_mockr_claude_md",
       "community": 16,
       "norm_label": "claude.md"
-    },
-    {
-      "label": "Graphify Usage",
-      "file_type": "document",
-      "source_file": "CLAUDE.md",
-      "source_location": "L3",
-      "_origin": "ast",
-      "id": "claude_graphify_usage",
-      "community": 16,
-      "norm_label": "graphify usage"
     },
     {
       "label": "CODEX.md",
@@ -2504,54 +2634,14 @@
       "norm_label": "codex.md"
     },
     {
-      "label": "MANDATORY: Update TESTING.md After Every Feature Implementation",
+      "label": "CODEX.md",
       "file_type": "document",
       "source_file": "CODEX.md",
       "source_location": "L1",
       "_origin": "ast",
-      "id": "codex_mandatory_update_testing_md_after_every_feature_implementation",
+      "id": "codex_codex_md",
       "community": 23,
-      "norm_label": "mandatory: update testing.md after every feature implementation"
-    },
-    {
-      "label": "MANDATORY: Query Graphify Before Reading Files",
-      "file_type": "document",
-      "source_file": "CODEX.md",
-      "source_location": "L25",
-      "_origin": "ast",
-      "id": "codex_mandatory_query_graphify_before_reading_files",
-      "community": 23,
-      "norm_label": "mandatory: query graphify before reading files"
-    },
-    {
-      "label": "This is NOT the Next.js you know",
-      "file_type": "document",
-      "source_file": "CODEX.md",
-      "source_location": "L46",
-      "_origin": "ast",
-      "id": "codex_this_is_not_the_next_js_you_know",
-      "community": 23,
-      "norm_label": "this is not the next.js you know"
-    },
-    {
-      "label": "graphify",
-      "file_type": "document",
-      "source_file": "CODEX.md",
-      "source_location": "L50",
-      "_origin": "ast",
-      "id": "codex_graphify",
-      "community": 23,
-      "norm_label": "graphify"
-    },
-    {
-      "label": "Graphify Usage",
-      "file_type": "document",
-      "source_file": "CODEX.md",
-      "source_location": "L61",
-      "_origin": "ast",
-      "id": "codex_graphify_usage",
-      "community": 23,
-      "norm_label": "graphify usage"
+      "norm_label": "codex.md"
     },
     {
       "label": "README.md",
@@ -3130,7 +3220,7 @@
       "source_location": "L31",
       "_origin": "ast",
       "id": "documentation_2026_06_28_coding_workspace_ui",
-      "community": 8,
+      "community": 5,
       "norm_label": "2026-06-28 \u2014 coding workspace ui"
     },
     {
@@ -3140,7 +3230,7 @@
       "source_location": "L33",
       "_origin": "ast",
       "id": "documentation_files_changed",
-      "community": 8,
+      "community": 5,
       "norm_label": "files changed"
     },
     {
@@ -3150,7 +3240,7 @@
       "source_location": "L39",
       "_origin": "ast",
       "id": "documentation_purpose",
-      "community": 8,
+      "community": 5,
       "norm_label": "purpose"
     },
     {
@@ -3160,7 +3250,7 @@
       "source_location": "L43",
       "_origin": "ast",
       "id": "documentation_languages_supported_editor_ui_only",
-      "community": 8,
+      "community": 5,
       "norm_label": "languages supported (editor ui only)"
     },
     {
@@ -3170,7 +3260,7 @@
       "source_location": "L47",
       "_origin": "ast",
       "id": "documentation_ui_only_no_execution",
-      "community": 8,
+      "community": 5,
       "norm_label": "ui-only \u2014 no execution"
     },
     {
@@ -3180,7 +3270,7 @@
       "source_location": "L51",
       "_origin": "ast",
       "id": "documentation_current_limitations",
-      "community": 8,
+      "community": 5,
       "norm_label": "current limitations"
     },
     {
@@ -3190,7 +3280,7 @@
       "source_location": "L59",
       "_origin": "ast",
       "id": "documentation_not_yet_implemented_future_additions",
-      "community": 8,
+      "community": 5,
       "norm_label": "not yet implemented (future additions)"
     },
     {
@@ -3200,7 +3290,7 @@
       "source_location": "L71",
       "_origin": "ast",
       "id": "documentation_suggested_next_steps_superseded_by_phase_1",
-      "community": 8,
+      "community": 5,
       "norm_label": "suggested next steps (superseded by phase 1)"
     },
     {
@@ -3330,7 +3420,7 @@
       "source_location": "L145",
       "_origin": "ast",
       "id": "documentation_phase_1_database_backed_question_library_and_practice_workspace",
-      "community": 5,
+      "community": 8,
       "norm_label": "phase 1 \u2014 database-backed question library and practice workspace"
     },
     {
@@ -3340,7 +3430,7 @@
       "source_location": "L147",
       "_origin": "ast",
       "id": "documentation_overview",
-      "community": 5,
+      "community": 8,
       "norm_label": "overview"
     },
     {
@@ -3350,7 +3440,7 @@
       "source_location": "L153",
       "_origin": "ast",
       "id": "documentation_new_routes",
-      "community": 5,
+      "community": 8,
       "norm_label": "new routes"
     },
     {
@@ -3360,7 +3450,7 @@
       "source_location": "L162",
       "_origin": "ast",
       "id": "documentation_files_created",
-      "community": 5,
+      "community": 8,
       "norm_label": "files created"
     },
     {
@@ -3370,7 +3460,7 @@
       "source_location": "L179",
       "_origin": "ast",
       "id": "documentation_files_modified",
-      "community": 5,
+      "community": 8,
       "norm_label": "files modified"
     },
     {
@@ -3380,7 +3470,7 @@
       "source_location": "L183",
       "_origin": "ast",
       "id": "documentation_supabase_table_assumptions",
-      "community": 5,
+      "community": 8,
       "norm_label": "supabase table assumptions"
     },
     {
@@ -3390,7 +3480,7 @@
       "source_location": "L192",
       "_origin": "ast",
       "id": "documentation_seeded_questions_7_published",
-      "community": 5,
+      "community": 8,
       "norm_label": "seeded questions (7 published)"
     },
     {
@@ -3400,7 +3490,7 @@
       "source_location": "L206",
       "_origin": "ast",
       "id": "documentation_practice_workspace_layout_integrated_coding_environment",
-      "community": 5,
+      "community": 8,
       "norm_label": "practice workspace layout (integrated coding environment)"
     },
     {
@@ -3410,7 +3500,7 @@
       "source_location": "L225",
       "_origin": "ast",
       "id": "documentation_phase_1_limitations",
-      "community": 5,
+      "community": 8,
       "norm_label": "phase 1 limitations"
     },
     {
@@ -3420,7 +3510,7 @@
       "source_location": "L234",
       "_origin": "ast",
       "id": "documentation_phases_roadmap",
-      "community": 5,
+      "community": 8,
       "norm_label": "phases roadmap"
     },
     {
@@ -4158,6 +4248,16 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "app/dashboard/page.tsx",
+      "source_location": "L37",
+      "weight": 1.0,
+      "source": "dashboard_page",
+      "target": "dashboard_page_attemptrowraw",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/dashboard/page.tsx",
       "source_location": "L65",
       "weight": 1.0,
       "confidence_score": 1.0,
@@ -4193,6 +4293,26 @@
       "confidence_score": 1.0,
       "source": "dashboard_page",
       "target": "dashboard_page_language_labels"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/dashboard/page.tsx",
+      "source_location": "L52",
+      "weight": 1.0,
+      "source": "dashboard_page",
+      "target": "dashboard_page_normalisequestions",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/dashboard/page.tsx",
+      "source_location": "L30",
+      "weight": 1.0,
+      "source": "dashboard_page",
+      "target": "dashboard_page_questionsummary",
+      "confidence_score": 1.0
     },
     {
       "relation": "imports_from",
@@ -7484,109 +7604,169 @@
       "source_file": "AGENTS.md",
       "source_location": "L1",
       "weight": 1.0,
-      "confidence_score": 1.0,
       "source": "agents",
-      "target": "agents_mandatory_query_graphify_before_reading_files"
+      "target": "agents_agents_md_mockr_ai_canonical_agent_instructions",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "AGENTS.md",
+      "source_location": "L30",
+      "weight": 1.0,
+      "source": "agents_agents_md_mockr_ai_canonical_agent_instructions",
+      "target": "agents_before_every_task_mandatory_orientation",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "AGENTS.md",
+      "source_location": "L71",
+      "weight": 1.0,
+      "source": "agents_agents_md_mockr_ai_canonical_agent_instructions",
+      "target": "agents_documentation_workflow",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "AGENTS.md",
+      "source_location": "L156",
+      "weight": 1.0,
+      "source": "agents_agents_md_mockr_ai_canonical_agent_instructions",
+      "target": "agents_execution_workflow_for_large_tasks",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "AGENTS.md",
+      "source_location": "L121",
+      "weight": 1.0,
+      "source": "agents_agents_md_mockr_ai_canonical_agent_instructions",
+      "target": "agents_git_rules",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "AGENTS.md",
+      "source_location": "L142",
+      "weight": 1.0,
+      "source": "agents_agents_md_mockr_ai_canonical_agent_instructions",
+      "target": "agents_implementation_standards",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "AGENTS.md",
+      "source_location": "L8",
+      "weight": 1.0,
+      "source": "agents_agents_md_mockr_ai_canonical_agent_instructions",
+      "target": "agents_product_identity",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "AGENTS.md",
+      "source_location": "L168",
+      "weight": 1.0,
+      "source": "agents_agents_md_mockr_ai_canonical_agent_instructions",
+      "target": "agents_scope_rules",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "AGENTS.md",
+      "source_location": "L130",
+      "weight": 1.0,
+      "source": "agents_agents_md_mockr_ai_canonical_agent_instructions",
+      "target": "agents_security_and_responsible_ai_rules",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "AGENTS.md",
+      "source_location": "L86",
+      "weight": 1.0,
+      "source": "agents_agents_md_mockr_ai_canonical_agent_instructions",
+      "target": "agents_testing_workflow",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "AGENTS.md",
+      "source_location": "L17",
+      "weight": 1.0,
+      "source": "agents_product_identity",
+      "target": "agents_what_is_in_scope",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "AGENTS.md",
+      "source_location": "L24",
+      "weight": 1.0,
+      "source": "agents_product_identity",
+      "target": "agents_what_is_out_of_scope_do_not_add_unless_explicitly_asked",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "AGENTS.md",
+      "source_location": "L32",
+      "weight": 1.0,
+      "source": "agents_before_every_task_mandatory_orientation",
+      "target": "agents_1_read_context_first",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "AGENTS.md",
+      "source_location": "L41",
+      "weight": 1.0,
+      "source": "agents_before_every_task_mandatory_orientation",
+      "target": "agents_2_query_graphify_before_touching_source_files",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "AGENTS.md",
+      "source_location": "L59",
+      "weight": 1.0,
+      "source": "agents_before_every_task_mandatory_orientation",
+      "target": "agents_3_after_meaningful_changes_update_graphify",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "AGENTS.md",
+      "source_location": "L106",
+      "weight": 1.0,
+      "source": "agents_testing_workflow",
+      "target": "agents_running_checks",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "CODEX.md",
       "source_location": "L1",
       "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "agents",
-      "target": "agents_mandatory_update_testing_md_after_every_feature_implementation"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "AGENTS.md",
-      "source_location": "L2",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "agents",
-      "target": "agents_this_is_not_the_next_js_you_know"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "AGENTS.md",
-      "source_location": "L7",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "agents_this_is_not_the_next_js_you_know",
-      "target": "agents_graphify"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "AGENTS.md",
-      "source_location": "L20",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "agents_this_is_not_the_next_js_you_know",
-      "target": "agents_graphify_usage"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "CLAUDE.md",
-      "source_location": "L3",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "claude",
-      "target": "claude_graphify_usage"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "CODEX.md",
-      "source_location": "L25",
-      "weight": 1.0,
-      "confidence_score": 1.0,
       "source": "codex",
-      "target": "codex_mandatory_query_graphify_before_reading_files"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "CODEX.md",
-      "source_location": "L1",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "codex",
-      "target": "codex_mandatory_update_testing_md_after_every_feature_implementation"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "CODEX.md",
-      "source_location": "L46",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "codex",
-      "target": "codex_this_is_not_the_next_js_you_know"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "CODEX.md",
-      "source_location": "L50",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "codex_this_is_not_the_next_js_you_know",
-      "target": "codex_graphify"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "CODEX.md",
-      "source_location": "L61",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "codex_this_is_not_the_next_js_you_know",
-      "target": "codex_graphify_usage"
+      "target": "codex_codex_md",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -8084,9 +8264,9 @@
       "source_file": "TESTING.md",
       "source_location": "L306",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "testing_supabase_data_integrity",
-      "target": "testing_hidden_test_cases_data_authoring",
-      "confidence_score": 1.0
+      "target": "testing_hidden_test_cases_data_authoring"
     },
     {
       "relation": "contains",
@@ -8244,9 +8424,9 @@
       "source_file": "documentation.md",
       "source_location": "L597",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "documentation_documentation_log",
-      "target": "documentation_hidden_test_authoring_all_7_questions",
-      "confidence_score": 1.0
+      "target": "documentation_hidden_test_authoring_all_7_questions"
     },
     {
       "relation": "contains",
@@ -8994,9 +9174,9 @@
       "source_file": "documentation.md",
       "source_location": "L626",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "documentation_hidden_test_authoring_all_7_questions",
-      "target": "documentation_confirmed_counts",
-      "confidence_score": 1.0
+      "target": "documentation_confirmed_counts"
     },
     {
       "relation": "contains",
@@ -9004,9 +9184,9 @@
       "source_file": "documentation.md",
       "source_location": "L599",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "documentation_hidden_test_authoring_all_7_questions",
-      "target": "documentation_date_599",
-      "confidence_score": 1.0
+      "target": "documentation_date_599"
     },
     {
       "relation": "contains",
@@ -9014,9 +9194,9 @@
       "source_file": "documentation.md",
       "source_location": "L607",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "documentation_hidden_test_authoring_all_7_questions",
-      "target": "documentation_design_principles",
-      "confidence_score": 1.0
+      "target": "documentation_design_principles"
     },
     {
       "relation": "contains",
@@ -9024,9 +9204,9 @@
       "source_file": "documentation.md",
       "source_location": "L614",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "documentation_hidden_test_authoring_all_7_questions",
-      "target": "documentation_hidden_tests_by_question",
-      "confidence_score": 1.0
+      "target": "documentation_hidden_tests_by_question"
     },
     {
       "relation": "contains",
@@ -9034,11 +9214,11 @@
       "source_file": "documentation.md",
       "source_location": "L603",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "documentation_hidden_test_authoring_all_7_questions",
-      "target": "documentation_summary_603",
-      "confidence_score": 1.0
+      "target": "documentation_summary_603"
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "c2b927c6414263fe35ec0481e99449f5dd00bf41"
+  "built_at_commit": "d5eca5c76d88a1ca7a7a6be97f7991c74e3d95b9"
 }
