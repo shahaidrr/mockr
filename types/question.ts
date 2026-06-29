@@ -29,6 +29,7 @@ export type Question = {
   expected_complexity_notes: string | null;
   supported_languages: SupportedLanguage[];
   starter_code: Record<SupportedLanguage, string>;
+  function_name: string;
   hints: string[];
   follow_up_prompts: string[];
   clarification_notes: string[];
@@ -41,7 +42,7 @@ export type QuestionTestCase = {
   id: string;
   question_id: string;
   label: string | null;
-  input: unknown;
+  input: { args: unknown[] };
   expected_output: unknown;
   is_hidden: boolean;
   weight: number;

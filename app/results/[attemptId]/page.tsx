@@ -36,8 +36,9 @@ export default function ResultsPage({ params, searchParams }: Props) {
 
           {isLocal && (
             <div className="mt-5 rounded-[16px] border border-amber-100 bg-amber-50 px-4 py-3 text-sm leading-6 text-amber-800">
-              <strong>Phase 1 — local only.</strong> This result is not persisted to the database.
-              Attempt history and scoring will be available in future phases.
+              <strong>Phase 2 — local only.</strong> JavaScript public tests ran in the practice
+              workspace. This result is not persisted to the database. Attempt history and AI
+              scoring will be available in future phases.
             </div>
           )}
 
@@ -53,9 +54,9 @@ export default function ResultsPage({ params, searchParams }: Props) {
             </p>
             {[
               "Saved attempt history",
-              "JavaScript public test execution",
               "AI scorecard and feedback",
               "Score breakdown by category",
+              "Dashboard attempt history",
             ].map((item) => (
               <div
                 key={item}

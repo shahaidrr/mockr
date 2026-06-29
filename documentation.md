@@ -233,6 +233,128 @@ Drafts persist in localStorage per `userId:questionId:mode`. Drafts restore on r
 
 ### Phases Roadmap
 
-- **Phase 2** — Browser-based JavaScript public test execution (Web Worker). Python and C++ await a secure sandbox (Judge0, Piston, or similar).
+- **Phase 2** — ✅ Complete. Browser-based JavaScript public test execution (Web Worker). See Phase 2 section below.
 - **Phase 3** — Attempt persistence: write attempts and code snapshots to Supabase.
 - **Phase 4+** — Deterministic scoring, hidden tests, AI scorecard (Claude API), dashboard attempt history, voice/video.
+
+---
+
+## Phase 2 — JavaScript Public Test Execution
+
+### Date
+
+2026-06-29
+
+### Files Changed
+
+- `types/question.ts` — Added `function_name: string` to `Question`. Narrowed `QuestionTestCase.input` from `unknown` to `{ args: unknown[] }` to match live Supabase shape.
+- `app/practice/[questionId]/page.tsx` — Now fetches public test cases (`fetchPublicTestCases`) alongside the question in parallel, then passes both to `PracticeSession`.
+- `app/practice/[questionId]/practice-session.tsx` — Major update. Accepts `testCases` and uses `question.function_name`. Run button is now active for JavaScript. Includes full output panel with per-test pass/fail results. Submit runs tests one final time for JavaScript before navigating to the results page.
+- `app/results/[attemptId]/page.tsx` — Minor: updated Phase 2 notice, removed "JavaScript public test execution" from coming-soon list.
+
+### Files Created
+
+- `types/test-run.ts` — `PublicTestRunStatus`, `PublicTestRunResult`, `PublicTestRunSummary` types.
+- `lib/public-test-runner.ts` — Browser Web Worker runner. Embeds worker code as a Blob URL to avoid Next.js static-file complexity. Enforces a 2-second timeout. Shadows `fetch`, `XMLHttpRequest`, `importScripts`, `localStorage`, `sessionStorage` in the worker context.
+
+### Supabase Readiness
+
+Verified live against `trjpmxltquzritqtdkmv` (ap-southeast-2):
+
+- 7 published questions, each with exactly 6 public test cases (42 total public test cases)
+- 0 hidden test cases
+- `questions.function_name` is a non-nullable `text` column — present on all 7 questions
+- `question_test_cases.input` is `jsonb` with shape `{ args: [...] }` — confirmed executable
+- `question_test_cases.expected_output` is `jsonb` — confirmed usable for deep equality
+
+No stop conditions were triggered. Implementation proceeded.
+
+### Live Supabase Shape Used
+
+```ts
+// questions
+function_name: string  // e.g. "balancedBrackets"
+
+// question_test_cases
+input: { args: unknown[] }           // e.g. { args: ["()[]{}"] }
+expected_output: unknown              // e.g. true
+is_hidden: boolean                    // always false for public tests
+```
+
+### How Public Test Cases Are Fetched
+
+`fetchPublicTestCases(questionId)` in `lib/questions-service.ts` (unchanged). Queries `public.question_test_cases` with `.eq("question_id", questionId).eq("is_hidden", false)`. Called server-side in `app/practice/[questionId]/page.tsx` in parallel with `fetchQuestionById`. Passed as a prop to `PracticeSession`. Hidden tests are never fetched or sent to the browser.
+
+### How JavaScript Execution Works
+
+`runPublicTests(code, functionName, testCases)` in `lib/public-test-runner.ts`:
+
+1. Builds a Blob URL from the embedded worker source string.
+2. Spawns a `new Worker(blobUrl)`.
+3. Posts `{ code, functionName, testCases }` to the worker.
+4. Worker runs `new Function(code + '; return ' + functionName + ';')()` to extract the candidate function.
+5. Calls `candidateFn(...testCase.input.args)` for each test case.
+6. Compares actual vs expected using recursive `deepEqual` (supports arrays, objects, primitives, null).
+7. Posts `{ results }` back to the main thread.
+
+### How Web Worker Timeout Works
+
+A `setTimeout` of 2000ms races the worker's `onmessage`. Whichever fires first wins (guarded by a `settled` flag). On timeout:
+- `worker.terminate()` is called immediately — UI does not freeze.
+- `URL.revokeObjectURL` releases the Blob URL.
+- All test cases are marked `"timeout"` with the message: "Execution timed out after 2 seconds. Check for an infinite loop or an inefficient solution."
+- The user can edit and run again.
+
+### How Output Is Displayed
+
+The output panel (bottom-right, `flex-[1]`) shows:
+- Summary: "N passed / M failed of X public tests" badges
+- One collapsible row per test case showing status badge, label, runtime
+- On expand: input args, expected output, actual output (red if failed), error or timeout message
+
+Status values: `"passed"` (green) | `"failed"` (red) | `"error"` (amber) | `"timeout"` (purple).
+Values are formatted with `JSON.stringify` — never displays `[object Object]`.
+
+### Submit Behaviour
+
+- **JavaScript selected:** `handleSubmit` calls `runPublicTests` one final time, waits for completion, updates the output panel with results, then navigates to `/results/local-{timestamp}?questionId=...`.
+- **Other language selected:** navigates directly to the results page without running tests.
+- No data is written to Supabase in either case.
+- No attempt record, scorecard, or AI feedback is created.
+
+### `/practice/demo` Status
+
+Untouched. The demo sandbox at `/practice/demo` was not modified in this phase.
+
+### Confirmations
+
+- Only public tests (`is_hidden = false`) are fetched and run.
+- Hidden tests are never fetched, never sent to the browser, never executed.
+- No attempts are written to `public.attempts`, `public.attempt_events`, `public.code_snapshots`, `public.test_runs`, or `public.scorecards`.
+- No AI feedback or scoring is implemented.
+- No fake scores are introduced.
+
+### Security Boundary
+
+This is an MVP browser runner using a Web Worker and a 2-second timeout. It is appropriate for PUBLIC test cases only during practice sessions. It is NOT a production-grade secure sandbox. It is not appropriate for hidden tests or high-stakes assessment. Candidate code runs in the browser, never on the server. Shadowed globals (`fetch`, `XMLHttpRequest`, `importScripts`, `localStorage`, `sessionStorage`) reduce accidental side-effects but do not constitute a hardened sandbox.
+
+### Current Limitations
+
+- JavaScript execution only — Python and C++ are editor-only.
+- Public tests only — no hidden test execution.
+- No attempt persistence — submissions remain `local-{timestamp}` only.
+- No saved test run history.
+- No scorecards or AI feedback.
+- No dashboard attempt history from Supabase.
+- No custom user-defined test input.
+- Browser Web Worker is suitable for MVP validation only.
+- Deep equality uses `Object.keys` order — sufficient for these questions but not a fully spec-compliant comparison.
+
+### Recommended Next Steps
+
+- **Phase 3:** Write attempts and code snapshots to `public.attempts` and `public.code_snapshots` in Supabase.
+- **Phase 4:** Add deterministic scoring and hidden test execution (requires server-side sandbox — Judge0, Piston, or a properly isolated backend).
+- **Phase 4:** AI scorecard using Claude API against rubric notes.
+- **Future:** Multi-language execution (Python, C++) via a secure server-side sandbox.
+- **Future:** Dashboard attempt history pulling from Supabase.
+- **Future:** Draggable output panel splitter.
