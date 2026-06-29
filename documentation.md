@@ -1,5 +1,123 @@
 # Documentation Log
 
+## 2026-06-30 — Persistent timer across reloads and navigation
+
+### What was completed
+
+The practice and assessment timers now persist across page reloads, tab navigation, and returning to the same attempt. The timer only resets when the user submits their attempt, resets their draft, or (in assessment mode) abandons the session.
+
+### How it works
+
+A `localStorage` key `mockr:timer-epoch:{draftKey}` stores the wall-clock epoch (milliseconds) when the current attempt started. On component mount, the `useEffect` reads the saved epoch (or writes a new one if none exists). The interval derives elapsed seconds as `Date.now() - epoch`, so the timer resumes from the correct value after any reload or return visit.
+
+The epoch key is cleared in four places:
+1. **Submit** (`doNavigateToResults`) — attempt is done; next visit starts fresh.
+2. **Reset draft** (`handleReset`) — writes a new epoch immediately so the timer restarts at 0.
+3. **Assessment exit** (`handleAssessmentExit`) — abandoned session; re-entry starts fresh.
+4. **Assessment re-entry after abandonment** (draft init `useState`) — clears any stale epoch.
+
+The `draftKey` (`mockr:draft:{userId}:{questionId}:{mode}`) scopes the epoch to the same user + question + mode, so switching mode (practice ↔ assessment) correctly gives each a separate timer.
+
+### Files changed
+
+- `app/practice/[questionId]/practice-session.tsx` — added `epochKey` constant; timer `useEffect` reads/writes `localStorage`; `handleReset` clears and resets epoch; `doNavigateToResults` clears epoch on submit; `handleAssessmentExit` clears epoch; assessment abandoned-flag path clears epoch; `persist` callback no longer forces `timerSeconds: 0`.
+
+### Limitations
+
+- On first render after a reload, the timer briefly shows `0` for up to 1 second before the first interval tick corrects it to the true elapsed value. This is a consequence of the React linter rule banning synchronous `setState` inside `useEffect` bodies — the correction happens within one tick and is visually negligible.
+- The epoch is stored in `localStorage` which can be cleared by the user. If cleared, the timer starts from 0 on next visit (same behaviour as a brand new attempt).
+- Assessment mode's `beforeunload` handler sets the abandoned flag in `sessionStorage` but does not have time to clear the epoch key on hard tab-close — however, the abandoned-flag path clears the epoch on re-entry, so the timer still resets correctly.
+
+### What should happen next
+
+No further timer work needed for the MVP. Future: wire `time_taken_seconds` from the persisted epoch to the Supabase `attempts` table on submit (currently uses the in-memory `timerSeconds` state, which is already correct since the epoch gives the right elapsed at submit time).
+
+## 2026-06-30 — "Start" button in question library scrolls to setup section
+
+### What was completed
+
+- Renamed "Start practice" → "Start" on each question card in the question library (`/questions`).
+- "Start" now navigates to `/questions/[slug]#practice-setup` — the same question detail page as "View", but anchored directly to the mode/language/start setup section at the bottom.
+- Added `id="practice-setup"` to the setup card in `question-detail-client.tsx` so the anchor has a stable target.
+- "View" is unchanged and continues to navigate to `/questions/[slug]` (no anchor).
+
+### Files changed
+
+- `app/questions/question-library-client.tsx` — button label "Start practice" → "Start"; href `/practice/${q.id}` → `/questions/${q.slug}#practice-setup`
+- `app/questions/[slug]/question-detail-client.tsx` — added `id="practice-setup"` to the setup card `<div>`
+
+### Limitations
+
+- Hash-based scroll relies on the browser's native anchor behaviour. On slower connections the page may finish painting before the scroll fires; this is standard browser behaviour and not specific to Next.js.
+- The anchor scroll is instant (no smooth-scroll animation) unless the user has `scroll-behavior: smooth` set globally — the current `globals.css` sets `scroll-behavior: smooth`, so it will animate on supported browsers.
+
+### What should happen next
+
+No further work needed for this feature.
+
+## 2026-06-30 — Editor, Timer, and Assessment Session Control
+
+### What was completed
+
+1. **Disabled all editor suggestions/hints** in both Practice and Assessment modes — squiggly error markers remain, but hover tooltips, autocomplete, parameter hints, lightbulb code actions, and code lens are all suppressed.
+2. **Fixed the Practice Mode timer** — replaced a mode-gated `setInterval` (assessment-only) with a single stable interval using a start-epoch ref. Timer now runs in both modes, never drifts, never creates multiple intervals, and never resets on re-renders.
+3. **Added Assessment Mode session control and attempt tracking** — leaving Assessment Mode via the in-app back button now shows a confirmation modal ("Leaving the interview?"). Confirming clears the draft and sets a `sessionStorage` flag. On re-entry, the flag is detected and the draft is discarded so the user must start fresh. Browser tab-close/reload triggers the native `beforeunload` prompt. Attempt count per question is tracked in `localStorage`.
+
+### Files changed
+
+- `components/code-editor.tsx` — Removed `disableSuggestions` prop (was conditional; now all options are always applied). Added `hover: {enabled:false}`, `lightbulb: {enabled: 'off'}`, `codeLens: false`. Typed the options object as `editor.IStandaloneEditorConstructionOptions` for type safety. Now a single interview-mode config shared by all editor instances.
+- `app/practice/[questionId]/practice-session.tsx` — Multiple changes:
+  - Added `useRef` import.
+  - Added `isAssessment`, `abandonedKey`, `attemptCountKey` constants derived from props.
+  - Draft initialisation now checks `sessionStorage` for the abandoned flag; clears draft if set.
+  - Replaced `timerSeconds` init from draft (stale across page loads) with `useState(0)`.
+  - Replaced the assessment-only timer `useEffect` with a single stable interval using `sessionStartRef` (epoch ref). Timer shows in **both** modes — blue for practice, red for assessment.
+  - Draft persistence no longer saves `timerSeconds` (always saves 0) — timer is session-scoped.
+  - Added assessment attempt count tracking in `localStorage` (`mockr:assessment:attempts:{userId}:{questionId}`).
+  - Added `beforeunload` event listener for assessment mode (marks `sessionStorage` abandoned flag).
+  - Added `showExitGuard` state and `handleAssessmentExit` function.
+  - Top-bar "← Questions" link replaced with a button in assessment mode that opens the exit guard modal.
+  - Added exit guard modal ("Leaving the interview?" with "Leave & abandon" / "Stay" buttons).
+  - Removed `disableSuggestions` prop from `<CodeEditor>` usage.
+  - `isPractice` now derives from `isAssessment` (same logic, cleaner).
+
+### How editor behaviour now works
+
+All Monaco editor instances use `INTERVIEW_OPTIONS` — a single shared constant typed as `IStandaloneEditorConstructionOptions`. Red squiggly underlines are preserved (diagnostics are unaffected). All IntelliSense surfaces are suppressed: `quickSuggestions: false`, `suggestOnTriggerCharacters: false`, `parameterHints: {enabled: false}`, `wordBasedSuggestions: 'off'`, `inlineSuggest: {enabled: false}`, `hover: {enabled: false}`, `lightbulb: {enabled: 'off'}`, `codeLens: false`.
+
+### How the timer was fixed
+
+Old approach: `setInterval` inside a `useEffect([initialMode])` — only ran in assessment mode, and `timerSeconds` was loaded from the persisted draft on page reload (wrong). New approach: `sessionStartRef.current = Date.now()` is set in a `useEffect([], [])` (once on mount). A single `setInterval` ticks every 1 second and sets `timerSeconds = floor((Date.now() - sessionStartRef.current) / 1000)`. No drift. No dependency on changing state inside the interval. Timer always starts at 0 on mount. Timer is shown in both modes.
+
+### How Assessment Mode session control works
+
+| Event | Behaviour |
+|---|---|
+| User clicks "← Questions" in assessment mode | Exit guard modal shown |
+| Confirms exit | `sessionStorage.setItem(abandonedKey, "1")`, draft cleared, `router.push("/questions")` |
+| Cancels exit | Modal dismissed, session continues |
+| Browser tab close / reload | Native `beforeunload` prompt shown; `sessionStorage` flag set |
+| Re-entering the question in assessment mode | Flag detected → draft discarded → fresh attempt |
+| Assessment mode mount | Attempt count incremented in `localStorage` |
+
+### Attempt tracking storage keys
+
+- `mockr:assessment:abandoned:{questionId}` — `sessionStorage`, string `"1"` when abandoned
+- `mockr:assessment:attempts:{userId}:{questionId}` — `localStorage`, integer count of starts
+
+### Limitations
+
+- The `beforeunload` flag is set before the browser confirms — if the user cancels the browser prompt and stays, the abandoned flag is already set. On page reload (cancel scenario), the next attempt will start fresh. This is conservative and intentional.
+- Assessment exit guard only covers the in-app "← Questions" button. Other in-app `<Link>` components elsewhere (e.g. the MOCKR.AI logo) are not guarded — these don't exist in the current workspace top bar, so this is not a current issue.
+- Attempt count increments on component mount; if the component mounts twice in strict mode dev, the count will be off by one in development only.
+- No server-side attempt tracking — counts are localStorage only; clearing browser storage resets them.
+
+### What should happen next
+
+- Wire attempt tracking to Supabase `attempts` table (currently stored in localStorage only).
+- Consider adding a visual attempt count badge on the question detail page.
+- Phase 4B: server-side hidden test execution once a sandbox provider is chosen.
+
 ## 2026-06-29 — Agent Instruction Consolidation
 
 ### What was completed

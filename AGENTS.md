@@ -19,6 +19,7 @@ This is the single source of truth for all coding agents (Claude Code, Codex, an
 ### 1. Read context first
 
 Before making changes, read:
+
 - `AGENTS.md` (this file)
 - `documentation.md` — implementation log and current limitations
 - `graphify-out/GRAPH_REPORT.md` — for broad architecture review or structural edits
@@ -75,14 +76,16 @@ Keep entries concise but useful for future developers. Do not remove historical 
 Update `TESTING.md` after every feature implementation, route addition, component change, data flow change, or auth/database change.
 
 Rules:
+
 - Add a new section (or sub-section) under the appropriate area in `TESTING.md`.
 - Each new item must be a `[ ]` checkbox with a concrete, one-step manual test.
-- Write at the level of: *go here, do this, expect that*.
+- Write at the level of: _go here, do this, expect that_.
 - Do not mark items `[x]` yourself — only the user marks items tested.
 - If you modify an existing feature, update its existing test items to reflect the new behaviour.
 - If you remove a feature, remove its test items.
 
 Example format:
+
 ```
 ### My New Feature
 - [ ] Navigating to `/foo` shows the new panel
@@ -140,15 +143,102 @@ If a command fails due to environment setup, missing env vars, or pre-existing u
 
 ---
 
-## Execution Workflow for Large Tasks
+## Task Progress Checklist
 
-When a task is large, break it into clearly defined phases. After each phase:
+For every task, feature, fix, or implementation, maintain a visible subtask checklist so the user can see what is planned, what is currently being worked on, and what has been completed.
 
-1. Stop and present: what was completed, files changed, issues or limitations, what the next phase involves.
-2. Wait for explicit user approval before continuing.
-3. Each phase must be independently understandable and testable where possible.
+Before starting implementation, list the required subtasks for success.
+
+Use this exact format:
+
+### Task Progress
+
+- [*] Current subtask being worked on
+- [ ] Next incomplete subtask
+- [ ] Another incomplete subtask
+
+As each subtask is completed, update it with a tick and strikethrough:
+
+### Task Progress
+
+- [x] ~~Completed subtask~~
+- [*] Current subtask being worked on
+- [ ] Next incomplete subtask
+
+Rules:
+
+Every meaningful subtask must be listed before or during implementation.
+Only one subtask should be marked [*] as the current active task at a time.
+When a subtask is completed, mark it [x] and apply strikethrough using ~~completed text~~.
+Upcoming or incomplete subtasks remain [ ].
+Keep the checklist updated as work progresses.
+Show the updated checklist when stopping for user review, phase approval, or final task summary.
+Do not mark a subtask complete unless it was actually completed.
+
+---
+
+## Execution Workflow for All Tasks
+
+Use the **Task Progress Checklist** as the live status report for subtasks. Do not repeat the same completed/in-progress task list separately unless the user asks for a fuller summary.
+
+### Large tasks
+
+When a task is large, complex, or involves multiple files/routes/features, break it into clearly defined phases.
+
+For each phase:
+
+1. State the phase goal and create/update the Task Progress Checklist before editing.
+2. Complete only the approved phase and keep the checklist updated as subtasks move from `[ ]` to `[*]` to `[x] ~~done~~`.
+3. Launch or expose the relevant functionality in the app preview/dev panel where applicable, so the user can test that the feature or task works as described.
+4. Stop for user review and provide only:
+   - The updated Task Progress Checklist
+   - Files/routes/components changed
+   - Issues, blockers, or limitations
+   - What was launched or shown in the preview/dev panel
+   - How the user can manually test the result
+   - What approval is needed before continuing
+
+5. Wait for explicit user approval before continuing to the next phase.
 
 Do not continue automatically through all phases without user confirmation.
+
+Each phase must be independently understandable and testable where possible.
+
+If the functionality cannot be launched in the preview/dev panel because of missing environment variables, broken dependencies, auth restrictions, build errors, or another blocker, clearly explain the blocker and document it in `documentation.md` and `TESTING.md`.
+
+### Small or regular tasks
+
+When a task is small or regular, first state the intended change briefly and create/update the Task Progress Checklist before editing. Then complete the task in one focused pass after confirming approval from the user.
+
+After completing the task:
+
+1. Launch or expose the relevant functionality in the app preview/dev panel where applicable, so the user can test that the feature or task works as described.
+2. Stop for user review and provide only:
+   - The updated Task Progress Checklist
+   - Files/routes/components changed
+   - Issues, blockers, or limitations
+   - What was launched or shown in the preview/dev panel
+   - How the user can manually test the result
+
+3. Wait for explicit user approval before doing any further follow-up work.
+
+Do not continue into extra improvements, refactors, or additional tasks unless the user approves.
+
+If the task is documentation-only, config-only, or otherwise has no runnable UI/functionality to launch, explain how the user can verify the change manually instead.
+
+---
+
+## Commit Message Summary
+
+At the very end of the task, provide one concise sentence the user can use as a commit message.
+
+Rules:
+
+The sentence must describe the actual changes completed.
+Keep it short and specific.
+Do not invent changes that were not made.
+Do not run git add, git commit, git push, or stage files.
+Label it clearly as: Suggested commit message:
 
 ---
 

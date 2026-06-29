@@ -153,6 +153,93 @@ Run tests by visiting the live dev server (`npm run dev`) and following each ste
 
 ---
 
+## Timer Persistence
+
+### Practice Mode timer persists across reloads and navigation
+
+- [ ] Open a practice session at `/practice/[questionId]?mode=practice` — note the timer value after ~10 seconds
+- [ ] Hard-reload the page (Ctrl+R / Cmd+R) — timer resumes from approximately the same elapsed time (within 1 second)
+- [ ] Navigate away to `/questions` then return to the same practice URL — timer continues from where it left off
+- [ ] Open DevTools → Application → Local Storage — confirm a key `mockr:timer-epoch:mockr:draft:...` exists for the current user + question + mode
+
+### Assessment Mode timer persists across reloads
+
+- [ ] Open an assessment session at `/practice/[questionId]?mode=assessment` — note the timer value after ~10 seconds
+- [ ] Hard-reload the page — timer resumes from approximately the same elapsed time (within 1 second)
+- [ ] Navigate away and return (without abandoning) — timer continues from where it left off
+
+### Timer resets correctly on new attempt
+
+- [ ] Submit an attempt — navigate to results, then return to the same question in practice mode — timer starts from 0
+- [ ] In a practice session, click "Reset Draft" and confirm — timer resets to 0 and starts counting from scratch
+- [ ] In assessment mode, click "← Questions" → "Leave & abandon" — then return to the same question in assessment mode — timer starts from 0
+
+### Practice and Assessment timers are independent
+
+- [ ] Start a practice session for a question, let it run for ~15 seconds
+- [ ] Open the same question in assessment mode in the same browser — assessment timer starts from 0 (separate epoch key)
+- [ ] Return to practice mode — practice timer is still at its original elapsed value
+
+---
+
+## Question Library — "Start" Button
+
+- [ ] Go to `/questions` — each question card shows "Start" (not "Start practice") as the dark primary button
+- [ ] Click "View" on any card — navigates to `/questions/[slug]` and lands at the top of the page normally
+- [ ] Click "Start" on any card — navigates to `/questions/[slug]#practice-setup` and the browser scrolls directly to the mode/language/start section near the bottom
+- [ ] On the question detail page, the setup section (mode selector, language selector, Start practice button) is visible immediately after clicking "Start" without manual scrolling
+- [ ] Logged-out users clicking "Start" land on the same setup section (the page does not require auth to view)
+
+---
+
+## Editor, Timer, and Assessment Session Control
+
+### Monaco Editor — No Suggestions
+
+- [ ] Open `/practice/[questionId]?mode=practice&language=javascript`, type a deliberately broken function (e.g. `function foo( { return` ) — red squiggly underlines appear on the broken lines
+- [ ] Hover over the squiggly underlined code — **no** hover tooltip or fix suggestion appears
+- [ ] Type a partial method name (e.g. `arr.`) — **no** autocomplete dropdown appears
+- [ ] Open `/practice/[questionId]?mode=assessment&language=javascript` and repeat both checks above — same behaviour in assessment mode
+
+### Practice Mode Timer
+
+- [ ] Open `/practice/[questionId]?mode=practice` — a blue timer appears in the top bar starting at `0:00`
+- [ ] Wait 5 seconds — timer reads `0:05` (does not jump ahead or stay at `0:00`)
+- [ ] Type code in the editor — timer continues without resetting
+- [ ] Type in the Clarification notes textarea — timer continues without resetting
+- [ ] Click between interview panels (Approach, Testing, etc.) — timer continues without resetting
+- [ ] Hard refresh the page — timer restarts from `0:00` (does not restore old value)
+- [ ] Open DevTools → Performance → check for duplicate `setInterval` calls — only one interval should be running
+
+### Assessment Mode Timer
+
+- [ ] Open `/practice/[questionId]?mode=assessment` — a red timer appears in the top bar starting at `0:00`
+- [ ] Wait 5 seconds — timer reads `0:05`
+- [ ] Type code in the editor — timer continues without resetting
+
+### Assessment Mode Exit Guard
+
+- [ ] In assessment mode, click "← Questions" in the top bar — a modal appears: "Leaving the interview?"
+- [ ] Modal body mentions progress will be lost and a fresh attempt is required on return
+- [ ] Click "Stay" — modal closes, session continues normally with no data loss
+- [ ] Click "Leave & abandon" — navigated to `/questions`, no errors shown
+- [ ] Return to the same question in assessment mode — editor starts with **blank/starter code**, not the previous code
+- [ ] In assessment mode, attempt to close the browser tab or refresh — browser shows a native "Leave site?" confirmation prompt
+
+### Assessment Attempt Tracking
+
+- [ ] Open `/practice/[questionId]?mode=assessment` — open DevTools → Application → Local Storage → find key `mockr:assessment:attempts:{userId}:{questionId}` — value should increment by 1 each time you start a new session
+- [ ] Abandon an assessment (via "Leave & abandon") — open Application → Session Storage → find key `mockr:assessment:abandoned:{questionId}` with value `"1"` (this is cleared automatically on re-entry)
+- [ ] Re-enter assessment for the same question — the abandoned sessionStorage key is gone and the draft is fresh
+
+### Assessment Mode — No Side Effects on Practice Mode
+
+- [ ] Open `/practice/[questionId]?mode=practice` — no exit guard modal on the "← Questions" link (navigates directly)
+- [ ] Practice Mode draft is still saved and restored on page refresh
+- [ ] Practice Mode timer is blue (not red)
+
+---
+
 ## Phase 2 Polish — Multi-Language Public Test Runner
 
 ### Run Button — JavaScript
