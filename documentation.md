@@ -484,3 +484,153 @@ None. Phase 2 Polish uses only browser-native APIs (Web Workers, Blob URLs, sess
 #### Graphify
 
 Updated after Phase 2 Polish changes by running `graphify update .`.
+
+---
+
+## UI/UX Redesign — Sign-Up Page, Auth Polish, and Full MVP Flow
+
+### Date
+
+2026-06-29
+
+### Summary
+
+Dedicated sign-up page created. Login page converted to login-only. Full UI/UX pass across the MVP flow: landing page, question library, question detail, practice workspace, results page, and dashboard.
+
+### Files Created
+
+- `app/signup/page.tsx` — Dedicated sign-up page. Two-column layout matching `/login`. Uses `supabase.auth.signUp()` with the existing `emailRedirectTo` callback pattern. Includes email, password, and confirm-password fields with client-side validation. Translates Supabase error strings into user-friendly copy. Shows a post-signup success state with email address and a link to log in.
+
+### Files Changed
+
+- `app/login/page.tsx` — Converted to login-only. Removed the `mode` toggle, signup branch, disabled Google button, and developer-note explanation text. Added a "New to MOCKR.AI? Create an account" link to `/signup`. Moved `?message=` param reading to a lazy `useState` initialiser using `useSearchParams()` to avoid the setState-in-effect lint rule. Friendly Supabase error translation added.
+- `app/page.tsx` — Unauthenticated `ctaHref` changed from `/login` to `/signup`.
+- `components/landing-page.tsx` — Nav updated: "Dashboard" replaced with "Questions". Header primary CTA label changed to "Sign up free". Hero secondary CTA changed from "See how it works" to "Log in". Bottom CTA "Start practising" relabelled "Create free account". Footer updated: "Dashboard" replaced with "Questions", "Sign up" link added alongside "Log in". Dashboard preview "Open dashboard" button replaced with context-aware "Get started".
+- `app/questions/question-library-client.tsx` — Card typography hierarchy improved: topic label uppercased and muted, estimated-time icon added, meta row separated by a top border, empty-state copy made more actionable, card hover border added.
+- `app/questions/[slug]/question-detail-client.tsx` — Back link styled as a pill button. `String(ex.input/output)` replaced with `JSON.stringify` for object values (prevents `[object Object]`). "Start Practising" section heading capitalisation fixed. CTA button relabelled "Start practice" with a chevron icon.
+- `app/practice/[questionId]/practice-session.tsx` — Stage progress label changed from "Clarification 1 of 5" to "Stage 1 of 5 · Clarification" for clarity. Interview panel prompt text colour lifted from `#6b7280` to `#8b9ab0` for better readability on the dark background. Placeholder hint text added to all four textarea panels (Clarification, Approach, Testing, Complexity). Problem panel Input/Output/Constraints sections grouped into a styled card with improved text contrast (`#b0bcc9`).
+- `app/results/[attemptId]/page.tsx` — Heading changed from "Attempt submitted" to "Attempt recorded". Body copy updated. "Coming in future phases" list items rewritten to be more specific. Bullet icons changed from raw `○` characters to a proper SVG circle icon.
+- `app/dashboard/page.tsx` — Sample data notice banner added above the stats section to make clear the current dashboard shows placeholder data pending Phase 3 Supabase integration.
+
+### Auth Behaviour — Unchanged
+
+- Supabase `signUp()` and `signInWithPassword()` calls are identical to before.
+- `/auth/callback/route.ts` is unchanged.
+- Protected route redirects are unchanged.
+- No new auth providers, OAuth buttons, or Supabase schema changes were introduced.
+
+### Known Limitations
+
+- `/signup` uses email + password only. No confirm-email flow in the UI beyond the post-signup message (Supabase handles delivery). Profile creation is not wired — no `profiles` table insert on signup.
+- Dashboard placeholder amber notice and sample data removed in Phase 3 (see below).
+
+### Recommended Next Steps (superseded by Phase 3 below)
+
+- Consider adding a `?next=` redirect parameter to the sign-up flow so users landing on `/signup` from a protected route return to the right place after confirming their email.
+
+---
+
+## Landing Header Fix + Phase 3 — Attempt Persistence
+
+### Date
+
+2026-06-29
+
+### Summary
+
+Fixed the landing page header to show context-aware CTAs for logged-in vs logged-out users. Implemented Phase 3 attempt persistence: submitted practice sessions now write to `public.attempts`, `public.code_snapshots`, and `public.test_runs` in Supabase. Results page fetches the saved attempt. Dashboard shows real attempt history.
+
+### Landing Header Fix
+
+- `components/landing-page.tsx` — Added `isLoggedIn` prop. Logged-in users now see "Browse questions" (primary) and "Dashboard" (secondary) in the header instead of "Sign up free" / "Log in".
+- `app/page.tsx` — Passes `isLoggedIn` to `LandingPage`.
+
+### Phase 3 Files Created
+
+- `lib/attempts-service.ts` — Browser-side Supabase client helpers:
+  - `submitAttempt()` — inserts into `public.attempts`, `public.code_snapshots`, and `public.test_runs` in sequence. Returns the saved attempt UUID. Code snapshot and test run failures are non-fatal (logged to console, attempt ID still returned).
+  - `fetchAttemptById()` — fetches a single attempt with joined question title/slug for the results page.
+  - `fetchRecentAttempts()` — fetches the most recent N submitted attempts for a user (used reference; dashboard uses server-side query instead).
+
+### Phase 3 Files Changed
+
+- `app/practice/[questionId]/practice-session.tsx` — `doNavigateToResults` now calls `submitAttempt()` before navigating. On success, navigates to `/results/{uuid}`. On failure, falls back to `local-{timestamp}` with sessionStorage. Added `startedAt` state (captured on mount), `isSaving` state, and "Saving…" button label. Submit and "Submit anyway" buttons disabled during save.
+- `app/results/[attemptId]/page.tsx` — Full rewrite. For UUID attempt IDs: fetches from Supabase via `fetchAttemptById`, shows attempt metadata (question, language, mode, time taken), loading spinner while fetching. For `local-` fallback IDs: reads sessionStorage as before. Both paths show the coming-soon list and action buttons.
+- `app/dashboard/page.tsx` — Full rewrite. Server-side fetches `public.attempts` joined with `public.questions`. When attempts exist: shows real stat cards (unique questions, total submissions, top topic, preferred language), real attempt history table with links to result pages, topic breakdown bar chart. When no attempts: shows empty state with "Browse questions" CTA. Placeholder demo data removed. Coming-soon section retained.
+
+### Supabase Tables Written
+
+| Table | When | What |
+|---|---|---|
+| `public.attempts` | On submit | user_id, question_id, mode, language, status="submitted", all draft fields, started_at, submitted_at, time_taken_seconds |
+| `public.code_snapshots` | On submit | attempt_id, language, source_code (final code), stage="submit" |
+| `public.test_runs` | On submit (JS/Python only) | attempt_id, code_snapshot_id, question_test_case_id, passed, actual_output, expected_output, execution_time_ms, error_message |
+
+### RLS Verified
+
+- `attempts`: INSERT `with_check (auth.uid() = user_id)`, SELECT `using (auth.uid() = user_id)`, UPDATE both clauses.
+- `code_snapshots`: INSERT/SELECT via EXISTS subquery on `attempts.user_id = auth.uid()`.
+- `test_runs`: INSERT/SELECT via EXISTS subquery on `attempts.user_id = auth.uid()`.
+- No RLS policy changes were needed or made.
+
+### Current Limitations
+
+- AI scoring (`public.scorecards`) is not implemented — Phase 4.
+- Hidden test results are not written to `test_runs` (never fetched server-side, by design).
+- `time_taken_seconds` is only recorded in assessment mode (timer is 0 in practice mode; stored as `null`).
+- Dashboard stat cards show raw counts only — no score averages, result bands, or weakness analysis until Phase 4 scoring is wired.
+- The results page shows "coming soon" for scorecards — this is correct and honest for Phase 3.
+
+### Phase 3 Polish (same session)
+
+- `app/practice/[questionId]/practice-session.tsx` — Submit panel copy updated: "record a local attempt" replaced with "save your attempt" for JS, Python, and C++ to reflect actual Phase 3 behaviour.
+- `TESTING.md` — Dashboard section updated: stale yellow-notice item removed; replaced with accurate Phase 3 checklist items (empty state, real stat cards, attempt history table, no notice banner).
+
+### Recommended Next Steps
+
+- **Phase 4:** AI scorecard — write to `public.scorecards`, show dimension breakdown on results page and dashboard (deferred pending API key setup).
+- **Phase 4:** Hidden test execution via server-side sandbox (Judge0 or Piston); write hidden test results to `public.test_runs`.
+- Consider adding `?next=` support to `/signup` for post-confirmation redirects to protected routes.
+
+---
+
+## Hidden Test Authoring — All 7 Questions
+
+### Date
+
+2026-06-29
+
+### Summary
+
+14 original hidden test cases (`is_hidden = true`) inserted directly into `public.question_test_cases` for every published question. All 7 questions now have **6 public + 14 hidden = 20 tests** each (98 hidden total). No schema changes. No code changes. Data only.
+
+### Design principles
+
+- No hidden test duplicates any existing public test input.
+- Each set covers: stress inputs (large values, long arrays/strings, deep trees), boundary conditions not in the public set (single-element, two-element, all-same, all-zero, all-negative), and tricky structural cases (diagonal adjacency, snake paths, L-shapes, alternating runs, multiple valid pairs, case sensitivity).
+- `expected_output` values are hand-verified against correct O(n) implementations of each function.
+- `weight = 1` on all hidden tests (same as public tests).
+
+### Hidden tests by question
+
+| Question | Hidden test themes |
+|---|---|
+| `find-matching-pair` | Pair at first+last index; two-element arrays; negative target; zero target with negatives; large values; multiple valid pairs (first returned); all-same no-match; long array no-match |
+| `sum-pair-exists` | Two-element exact/no-match; negative target; zeros pairing to zero; single zero; large values; all-same with non-matching target; pair at ends of long array; three duplicates; zero target with mixed signs |
+| `compress-repeated-characters` | 10-char run; two-char run; alternating (no compression); uppercase; digit characters; run at end; multiple separated runs; two-char string; mixed case sensitivity; spaces as characters |
+| `balanced-brackets` | Deep nesting `((([[]])))` ; closing-before-opening; curly-only; square-only; mismatched types `[}`; odd-length string; long valid sequence; unclosed nested; extra closing at end; interleaved wrong order `([)]`; complex nesting; two unmatched openings |
+| `longest-unique-segment` | Single char; two same; two distinct; repeat in middle; longest at start/end; digits as chars; three-cluster prefix; interleaved repeats; window resets multiple times; long all-unique; boundary repeat; two equal-length windows; case sensitivity (`aA` treated as distinct) |
+| `sum-nodes-in-binary-tree` | All-zero tree; left-only child; right-only child; all-negative; left-skewed 4 levels; right-skewed 4 levels; large values; mixed-sign cancels to zero; full 3-level tree (7 nodes); single large negative; zero root; right subtree with two children; alternating +/−; five-leaf tree |
+| `count-connected-rooms` | Single-cell room/wall; one-row all-rooms; one-row alternating; one-column; border ring with interior wall; checkerboard 4×4 (8 components); two separate rows; L-shaped component; diagonal not connected; all-walls 5×5; large single component with hollow; five isolated rooms; snake path (1 component) |
+
+### Confirmed counts
+
+```
+balanced-brackets:            6 public  14 hidden
+compress-repeated-characters: 6 public  14 hidden
+count-connected-rooms:        6 public  14 hidden
+find-matching-pair:           6 public  14 hidden
+longest-unique-segment:       6 public  14 hidden
+sum-nodes-in-binary-tree:     6 public  14 hidden
+sum-pair-exists:              6 public  14 hidden
+```

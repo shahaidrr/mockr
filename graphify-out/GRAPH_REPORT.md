@@ -1,16 +1,16 @@
 # Graph Report - mockr  (2026-06-29)
 
 ## Corpus Check
-- 53 files · ~27,841 words
+- 55 files · ~32,601 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 357 nodes · 429 edges · 26 communities (21 shown, 5 thin omitted)
+- 402 nodes · 488 edges · 25 communities (20 shown, 5 thin omitted)
 - Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `4664dce8`
+- Built from commit: `c2b927c6`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -40,27 +40,26 @@
 - [[_COMMUNITY_Community 22|Community 22]]
 - [[_COMMUNITY_Community 23|Community 23]]
 - [[_COMMUNITY_Community 24|Community 24]]
-- [[_COMMUNITY_Community 25|Community 25]]
 
 ## God Nodes (most connected - your core abstractions)
-1. `createClient()` - 19 edges
-2. `Documentation Log` - 18 edges
+1. `Documentation Log` - 21 edges
+2. `createClient()` - 19 edges
 3. `compilerOptions` - 17 edges
 4. `Phase 2 Polish — Multi-Language Public Test Runner` - 17 edges
 5. `Phase 2 — JavaScript Public Test Execution` - 17 edges
-6. `Phase 2 Polish — Multi-Language Public Test Execution` - 13 edges
-7. `MOCKR.AI — Feature Testing Checklist` - 12 edges
-8. `Phase 1 — Database-backed Question Library and Practice Workspace` - 10 edges
-9. `getSupabaseConfig()` - 9 edges
-10. `Practice Workspace (`/practice/[questionId]`)` - 9 edges
+6. `MOCKR.AI — Feature Testing Checklist` - 13 edges
+7. `Phase 2 Polish — Multi-Language Public Test Execution` - 13 edges
+8. `Landing Header Fix + Phase 3 — Attempt Persistence` - 11 edges
+9. `Phase 1 — Database-backed Question Library and Practice Workspace` - 10 edges
+10. `getSupabaseConfig()` - 9 edges
 
 ## Surprising Connections (you probably didn't know these)
-- `DashboardPage()` --calls--> `createClient()`  [EXTRACTED]
-  app/dashboard/page.tsx → lib/supabase/server.ts
 - `GET()` --calls--> `createClient()`  [EXTRACTED]
   app/auth/callback/route.ts → lib/supabase/server.ts
 - `POST()` --calls--> `createClient()`  [EXTRACTED]
   app/auth/signout/route.ts → lib/supabase/server.ts
+- `DashboardPage()` --calls--> `createClient()`  [EXTRACTED]
+  app/dashboard/page.tsx → lib/supabase/server.ts
 - `Home()` --calls--> `createClient()`  [EXTRACTED]
   app/page.tsx → lib/supabase/server.ts
 - `DemoPracticePage()` --calls--> `createClient()`  [EXTRACTED]
@@ -69,7 +68,7 @@
 ## Import Cycles
 - None detected.
 
-## Communities (26 total, 5 thin omitted)
+## Communities (25 total, 5 thin omitted)
 
 ### Community 0 - "Community 0"
 Cohesion: 0.06
@@ -88,28 +87,28 @@ Cohesion: 0.11
 Nodes (11): FeatureCardProps, dashboardPreviewStats, featureCards, futureCards, LandingPageProps, navLinks, positioningChips, steps (+3 more)
 
 ### Community 4 - "Community 4"
-Cohesion: 0.17
-Nodes (15): Home(), GET(), DemoPracticePage(), fetchPublicTestCases(), fetchQuestionById(), fetchQuestionBySlug(), PracticePage(), Props (+7 more)
+Cohesion: 0.11
+Nodes (17): Home(), GET(), DashboardCardProps, StatCard(), StatCardProps, AttemptRow, DashboardPage(), LANGUAGE_LABELS (+9 more)
 
 ### Community 5 - "Community 5"
-Cohesion: 0.08
-Nodes (24): 2026-06-28 16:12:00 AEST, 2026-06-28 16:14:00 AEST, 2026-06-28 16:18:00 AEST, 2026-06-28 16:22:00 AEST, 2026-06-28 16:26:00 AEST, 2026-06-28 16:29:21 AEST, 2026-06-28 16:31:00 AEST, 2026-06-28 16:33:00 AEST (+16 more)
+Cohesion: 0.05
+Nodes (40): 2026-06-28 16:12:00 AEST, 2026-06-28 16:14:00 AEST, 2026-06-28 16:18:00 AEST, 2026-06-28 16:22:00 AEST, 2026-06-28 16:26:00 AEST, 2026-06-28 16:29:21 AEST, 2026-06-28 16:31:00 AEST, 2026-06-28 16:33:00 AEST (+32 more)
 
 ### Community 6 - "Community 6"
-Cohesion: 0.24
-Nodes (8): config, proxy(), createClient(), getSupabaseConfig(), getSupabaseKey(), getSupabaseKeyErrorMessage(), SupabaseConfig, updateSession()
+Cohesion: 0.10
+Nodes (19): formatDuration(), LANGUAGE_LABELS, MODE_LABELS, Props, ResultsPage(), StoredResult, fetchAttemptById(), fetchRecentAttempts() (+11 more)
 
 ### Community 7 - "Community 7"
 Cohesion: 0.25
 Nodes (6): CodeEditor(), CodeEditorProps, ActiveTab, LANGUAGES, SidebarPanel, STARTER_CODE
 
 ### Community 8 - "Community 8"
-Cohesion: 0.13
-Nodes (16): fetchPublishedQuestions(), metadata, QuestionsPage(), DIFFICULTY_STYLES, LANGUAGE_LABELS, Props, DIFFICULTY_STYLES, LANGUAGE_OPTIONS (+8 more)
+Cohesion: 0.25
+Nodes (8): 2026-06-28 — Coding Workspace UI, Current Limitations, Files Changed, Languages Supported (editor UI only), Not Yet Implemented (future additions), Purpose, Suggested Next Steps (superseded by Phase 1), UI-Only — No Execution
 
 ### Community 9 - "Community 9"
-Cohesion: 0.12
-Nodes (24): buildDraftKey(), buildEmptyDraft(), clearDraft(), loadDraft(), saveDraft(), runPublicTests(), spawnWorker(), CodeEditor (+16 more)
+Cohesion: 0.09
+Nodes (29): buildDraftKey(), buildEmptyDraft(), clearDraft(), loadDraft(), saveDraft(), runPublicTests(), spawnWorker(), CodeEditor (+21 more)
 
 ### Community 10 - "Community 10"
 Cohesion: 0.50
@@ -120,24 +119,24 @@ Cohesion: 0.33
 Nodes (5): graphify, Graphify Usage, MANDATORY: Query Graphify Before Reading Files, MANDATORY: Update TESTING.md After Every Feature Implementation, This is NOT the Next.js you know
 
 ### Community 17 - "Community 17"
-Cohesion: 0.12
-Nodes (16): Confirmations, Current Limitations (Phase 2 initial), Date, Files Changed, Files Created, How JavaScript Execution Works, How Output Is Displayed, How Public Test Cases Are Fetched (+8 more)
+Cohesion: 0.18
+Nodes (11): Current Limitations, Date, Landing Header Fix, Landing Header Fix + Phase 3 — Attempt Persistence, Phase 3 Files Changed, Phase 3 Files Created, Phase 3 Polish (same session), Recommended Next Steps (+3 more)
 
 ### Community 18 - "Community 18"
 Cohesion: 0.40
 Nodes (4): AttemptMode, AttemptStatus, ResultBand, SupportedLanguage
 
 ### Community 19 - "Community 19"
-Cohesion: 0.40
-Nodes (3): LANGUAGE_LABELS, Props, StoredResult
+Cohesion: 0.16
+Nodes (15): fetchPublishedQuestions(), fetchQuestionBySlug(), metadata, QuestionsPage(), DIFFICULTY_STYLES, LANGUAGE_LABELS, Props, generateMetadata() (+7 more)
 
 ### Community 20 - "Community 20"
-Cohesion: 0.08
-Nodes (23): Assessment Mode Timer, Auth, Auth Gate, Cross-cutting, Dashboard (`/dashboard`), Draft Saving & Restoration, Email Confirmation Callback, Interview Panel (bottom-left) (+15 more)
+Cohesion: 0.06
+Nodes (30): Assessment Mode Timer, Auth, Auth Gate, Cross-cutting, Dashboard (`/dashboard`), Dashboard — real attempt history, Draft Saving & Restoration, Email Confirmation Callback (+22 more)
 
 ### Community 21 - "Community 21"
-Cohesion: 0.20
-Nodes (10): Files Created, Files Modified, New Routes, Overview, Phase 1 — Database-backed Question Library and Practice Workspace, Phase 1 Limitations, Phases Roadmap, Practice Workspace Layout (integrated coding environment) (+2 more)
+Cohesion: 0.12
+Nodes (17): Disable during run, Error Tests — JavaScript, Error Tests — Python, Failing Tests — JavaScript, Failing Tests — Python, No Public Test Cases (edge case), Passing Tests — JavaScript, Passing Tests — Python (+9 more)
 
 ### Community 22 - "Community 22"
 Cohesion: 0.11
@@ -149,28 +148,24 @@ Nodes (5): graphify, Graphify Usage, MANDATORY: Query Graphify Before Reading Fi
 
 ### Community 24 - "Community 24"
 Cohesion: 0.12
-Nodes (17): Disable during run, Error Tests — JavaScript, Error Tests — Python, Failing Tests — JavaScript, Failing Tests — Python, No Public Test Cases (edge case), Passing Tests — JavaScript, Passing Tests — Python (+9 more)
-
-### Community 25 - "Community 25"
-Cohesion: 0.18
-Nodes (8): DashboardCardProps, StatCard(), StatCardProps, DashboardPage(), recentAttempts, scoreBreakdown, stats, weaknesses
+Nodes (16): Confirmations, Current Limitations (Phase 2 initial), Date, Files Changed, Files Created, How JavaScript Execution Works, How Output Is Displayed, How Public Test Cases Are Fetched (+8 more)
 
 ## Knowledge Gaps
-- **227 isolated node(s):** `stats`, `recentAttempts`, `scoreBreakdown`, `weaknesses`, `metadata` (+222 more)
+- **254 isolated node(s):** `LANGUAGE_LABELS`, `AttemptRow`, `metadata`, `VALID_MODES`, `VALID_LANGUAGES` (+249 more)
   These have ≤1 connection - possible missing edges or undocumented components.
 - **5 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `createClient()` connect `Community 4` to `Community 8`, `Community 25`, `Community 6`?**
-  _High betweenness centrality (0.051) - this node is a cross-community bridge._
-- **Why does `Documentation Log` connect `Community 5` to `Community 17`, `Community 21`, `Community 22`?**
-  _High betweenness centrality (0.029) - this node is a cross-community bridge._
+- **Why does `Documentation Log` connect `Community 5` to `Community 8`, `Community 17`, `Community 24`, `Community 22`?**
+  _High betweenness centrality (0.047) - this node is a cross-community bridge._
+- **Why does `createClient()` connect `Community 4` to `Community 19`, `Community 6`?**
+  _High betweenness centrality (0.044) - this node is a cross-community bridge._
 - **Why does `getSupabaseConfig()` connect `Community 6` to `Community 4`?**
-  _High betweenness centrality (0.017) - this node is a cross-community bridge._
-- **What connects `stats`, `recentAttempts`, `scoreBreakdown` to the rest of the system?**
-  _227 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _High betweenness centrality (0.022) - this node is a cross-community bridge._
+- **What connects `LANGUAGE_LABELS`, `AttemptRow`, `metadata` to the rest of the system?**
+  _254 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `Community 0` be split into smaller, more focused modules?**
   _Cohesion score 0.06060606060606061 - nodes in this community are weakly interconnected._
 - **Should `Community 1` be split into smaller, more focused modules?**

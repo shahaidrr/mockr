@@ -34,8 +34,8 @@ export default function QuestionDetailClient({ question }: Props) {
   return (
     <div className="space-y-8">
       {/* Back link */}
-      <Link href="/questions" className="inline-flex items-center gap-1.5 text-sm text-slate-500 hover:text-slate-900">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <Link href="/questions" className="inline-flex items-center gap-1.5 rounded-full border border-slate-200 bg-white px-3 py-1.5 text-sm font-medium text-slate-600 transition hover:border-slate-300 hover:text-slate-900">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
           <polyline points="15 18 9 12 15 6" />
         </svg>
         Question Library
@@ -125,11 +125,11 @@ export default function QuestionDetailClient({ question }: Props) {
                 <div className="mt-3 space-y-2 font-mono text-sm text-slate-800">
                   <div>
                     <span className="font-sans text-xs font-semibold text-slate-500">Input: </span>
-                    {String(ex.input)}
+                    {typeof ex.input === "object" ? JSON.stringify(ex.input) : String(ex.input)}
                   </div>
                   <div>
                     <span className="font-sans text-xs font-semibold text-slate-500">Output: </span>
-                    {String(ex.output)}
+                    {typeof ex.output === "object" ? JSON.stringify(ex.output) : String(ex.output)}
                   </div>
                 </div>
                 {ex.explanation && (
@@ -174,7 +174,7 @@ export default function QuestionDetailClient({ question }: Props) {
       {/* Start practice card */}
       <div className="rounded-[24px] border border-slate-200 bg-white p-8 shadow-sm">
         <h2 className="text-sm font-semibold uppercase tracking-[0.18em] text-slate-500">
-          Start Practising
+          Start practising
         </h2>
 
         <div className="mt-6 grid gap-6 sm:grid-cols-2">
@@ -240,9 +240,12 @@ export default function QuestionDetailClient({ question }: Props) {
 
         <button
           onClick={handleStart}
-          className="mt-8 inline-flex w-full items-center justify-center rounded-full border border-slate-950 bg-slate-950 px-5 py-3.5 text-sm font-semibold text-slate-50 shadow-[inset_0_1px_0_rgba(255,255,255,0.14)] transition hover:bg-slate-800"
+          className="mt-8 inline-flex w-full items-center justify-center gap-2 rounded-full border border-slate-950 bg-slate-950 px-5 py-3.5 text-sm font-semibold text-slate-50 shadow-[inset_0_1px_0_rgba(255,255,255,0.14)] transition hover:bg-slate-800"
         >
-          Start Practice →
+          Start practice
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <polyline points="9 18 15 12 9 6" />
+          </svg>
         </button>
       </div>
     </div>

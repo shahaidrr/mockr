@@ -12,6 +12,7 @@ import {
   buildEmptyDraft,
 } from "@/lib/practice-draft";
 import { runPublicTests } from "@/lib/public-test-runner";
+import { submitAttempt } from "@/lib/attempts-service";
 import type { Question, QuestionExample, QuestionTestCase } from "@/types/question";
 import type { PracticeMode, SupportedLanguage, PracticeDraft, InterviewPanel } from "@/types/practice";
 import type { PublicTestRunSummary, PublicTestRunResult } from "@/types/test-run";
@@ -85,10 +86,12 @@ export default function PracticeSession({
     return saved?.timerSeconds ?? 0;
   });
 
+  const [startedAt] = useState(() => new Date());
   const [showResetConfirm, setShowResetConfirm] = useState(false);
   const [langSwitchTarget, setLangSwitchTarget] = useState<SupportedLanguage | null>(null);
   const [testSummary, setTestSummary] = useState<PublicTestRunSummary | null>(null);
   const [isRunning, setIsRunning] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
   const [showSubmitWarning, setShowSubmitWarning] = useState(false);
   const [pendingSubmitSummary, setPendingSubmitSummary] = useState<PublicTestRunSummary | null>(null);
 
@@ -174,22 +177,48 @@ export default function PracticeSession({
     }
   }
 
-  function doNavigateToResults(summary: PublicTestRunSummary | null) {
+  async function doNavigateToResults(summary: PublicTestRunSummary | null) {
+    setIsSaving(true);
     try {
-      sessionStorage.setItem(
-        "mockr_last_result",
-        JSON.stringify({
-          questionTitle: question.title,
-          questionId: question.id,
-          language: currentLanguage,
-          summary,
-        })
-      );
-    } catch {
-      // sessionStorage may be unavailable (e.g. private browsing with strict settings)
+      const attemptId = await submitAttempt({
+        userId,
+        questionId: question.id,
+        mode: initialMode,
+        language: currentLanguage,
+        clarification: draft.clarification,
+        approach: draft.approach,
+        testingPlan: draft.testingPlan,
+        edgeCases: draft.edgeCases,
+        complexity: draft.complexity,
+        finalCode: currentCode,
+        startedAt,
+        timerSeconds,
+        testSummary: summary,
+        testResults: summary?.results ?? [],
+        testCaseIds: testCases.map((tc) => tc.id),
+      });
+      router.push(`/results/${attemptId}?questionId=${question.id}`);
+    } catch (err) {
+      // Fall back to local ID if Supabase save fails — don't block the user
+      console.error("Failed to save attempt:", err);
+      const fallbackId = `local-${Date.now()}`;
+      try {
+        sessionStorage.setItem(
+          "mockr_last_result",
+          JSON.stringify({
+            questionTitle: question.title,
+            questionId: question.id,
+            language: currentLanguage,
+            summary,
+          })
+        );
+      } catch {
+        // sessionStorage unavailable
+      }
+      router.push(`/results/${fallbackId}?questionId=${question.id}`);
+    } finally {
+      setIsSaving(false);
     }
-    const attemptId = `local-${Date.now()}`;
-    router.push(`/results/${attemptId}?questionId=${question.id}`);
   }
 
   async function handleSubmit() {
@@ -232,7 +261,7 @@ export default function PracticeSession({
 
   const isPractice = initialMode === "practice";
   const diffColor = DIFFICULTY_COLORS[question.difficulty] ?? "#9ca3af";
-  const panelProgress = `${PANEL_LABELS[draft.currentPanel]} ${currentPanelIdx + 1} of ${INTERVIEW_PANELS.length}`;
+  const panelProgress = `Stage ${currentPanelIdx + 1} of ${INTERVIEW_PANELS.length} · ${PANEL_LABELS[draft.currentPanel]}`;
 
   // ─── Bottom-left interview panel content ────────────────────────────────
 
@@ -267,13 +296,14 @@ export default function PracticeSession({
       case "clarification":
         return (
           <div className="flex flex-1 flex-col overflow-hidden">
-            <p className="flex-shrink-0 px-3 pt-3 text-xs leading-6" style={{ color: "#6b7280" }}>
+            <p className="flex-shrink-0 px-3 pt-3 text-xs leading-6" style={{ color: "#8b9ab0" }}>
               {promptText}
             </p>
             <textarea
               value={draft.clarification}
               onChange={(e) => updateDraft({ clarification: e.target.value })}
-              className="flex-1 resize-none bg-transparent px-3 pb-3 pt-2 text-sm leading-6 text-[#f1f5f9] outline-none"
+              placeholder="e.g. Can the array be empty? Are values always integers? What should I return if there is no valid pair?"
+              className="flex-1 resize-none bg-transparent px-3 pb-3 pt-2 text-sm leading-6 text-[#f1f5f9] outline-none placeholder:text-[#3a4048]"
             />
           </div>
         );
@@ -281,13 +311,14 @@ export default function PracticeSession({
       case "approach":
         return (
           <div className="flex flex-1 flex-col overflow-hidden">
-            <p className="flex-shrink-0 px-3 pt-3 text-xs leading-6" style={{ color: "#6b7280" }}>
+            <p className="flex-shrink-0 px-3 pt-3 text-xs leading-6" style={{ color: "#8b9ab0" }}>
               {promptText}
             </p>
             <textarea
               value={draft.approach}
               onChange={(e) => updateDraft({ approach: e.target.value })}
-              className="flex-1 resize-none bg-transparent px-3 pb-3 pt-2 text-sm leading-6 text-[#f1f5f9] outline-none"
+              placeholder="e.g. I'll use a hash map to store seen values. For each element I check if the complement exists…"
+              className="flex-1 resize-none bg-transparent px-3 pb-3 pt-2 text-sm leading-6 text-[#f1f5f9] outline-none placeholder:text-[#3a4048]"
             />
           </div>
         );
@@ -295,25 +326,27 @@ export default function PracticeSession({
       case "testing":
         return (
           <div className="flex flex-1 flex-col overflow-hidden">
-            <p className="flex-shrink-0 px-3 pt-3 text-xs leading-6" style={{ color: "#6b7280" }}>
+            <p className="flex-shrink-0 px-3 pt-3 text-xs leading-6" style={{ color: "#8b9ab0" }}>
               {promptText}
             </p>
             <textarea
               value={draft.testingPlan}
               onChange={(e) => updateDraft({ testingPlan: e.target.value })}
-              className="flex-1 resize-none bg-transparent px-3 pb-2 pt-2 text-sm leading-6 text-[#f1f5f9] outline-none"
+              placeholder="e.g. I'll test a normal case, an empty input, duplicate values, and a single-element array…"
+              className="flex-1 resize-none bg-transparent px-3 pb-2 pt-2 text-sm leading-6 text-[#f1f5f9] outline-none placeholder:text-[#3a4048]"
               style={{ borderBottom: "1px solid #3a4048" }}
             />
             <p
               className="flex-shrink-0 px-3 pt-2 text-xs leading-6"
-              style={{ color: "#6b7280" }}
+              style={{ color: "#8b9ab0" }}
             >
               List specific edge cases to verify.
             </p>
             <textarea
               value={draft.edgeCases}
               onChange={(e) => updateDraft({ edgeCases: e.target.value })}
-              className="flex-1 resize-none bg-transparent px-3 pb-3 pt-2 text-sm leading-6 text-[#f1f5f9] outline-none"
+              placeholder="e.g. Empty array → return null; all same values; negative numbers; very large inputs…"
+              className="flex-1 resize-none bg-transparent px-3 pb-3 pt-2 text-sm leading-6 text-[#f1f5f9] outline-none placeholder:text-[#3a4048]"
             />
           </div>
         );
@@ -321,13 +354,14 @@ export default function PracticeSession({
       case "complexity":
         return (
           <div className="flex flex-1 flex-col overflow-hidden">
-            <p className="flex-shrink-0 px-3 pt-3 text-xs leading-6" style={{ color: "#6b7280" }}>
+            <p className="flex-shrink-0 px-3 pt-3 text-xs leading-6" style={{ color: "#8b9ab0" }}>
               {promptText}
             </p>
             <textarea
               value={draft.complexity}
               onChange={(e) => updateDraft({ complexity: e.target.value })}
-              className="flex-1 resize-none bg-transparent px-3 pb-3 pt-2 text-sm leading-6 text-[#f1f5f9] outline-none"
+              placeholder="e.g. Time: O(n) — one pass through the array. Space: O(n) — hash map stores up to n values."
+              className="flex-1 resize-none bg-transparent px-3 pb-3 pt-2 text-sm leading-6 text-[#f1f5f9] outline-none placeholder:text-[#3a4048]"
             />
           </div>
         );
@@ -360,27 +394,27 @@ export default function PracticeSession({
 
             {currentLanguage === "javascript" && (
               <p className="text-[10px] leading-4" style={{ color: "#4b5563" }}>
-                Submit will run JavaScript public tests one final time, then record a local attempt.
+                Submit will run JavaScript public tests one final time, then save your attempt.
               </p>
             )}
             {currentLanguage === "python" && (
               <p className="text-[10px] leading-4" style={{ color: "#4b5563" }}>
-                Submit will run Python public tests in-browser via Pyodide, then record a local attempt.
+                Submit will run Python public tests in-browser via Pyodide, then save your attempt.
               </p>
             )}
             {currentLanguage === "cpp" && (
               <p className="text-[10px] leading-4" style={{ color: "#4b5563" }}>
-                C++ execution is coming later. Submit will record a local attempt without running tests.
+                C++ execution is coming later. Submit will save your attempt without running tests.
               </p>
             )}
 
             <button
               onClick={handleSubmit}
-              disabled={isRunning}
+              disabled={isRunning || isSaving}
               className="w-full rounded px-3 py-2 text-xs font-bold transition hover:brightness-110 active:brightness-90 disabled:opacity-50"
               style={{ background: "#31d67b", color: "#000" }}
             >
-              {isRunning ? "Running tests…" : "Submit Attempt →"}
+              {isSaving ? "Saving…" : isRunning ? "Running tests…" : "Submit Attempt →"}
             </button>
           </div>
         );
@@ -584,52 +618,56 @@ export default function PracticeSession({
             </div>
 
             {/* Problem statement */}
-            <p className="mb-5 text-sm leading-7" style={{ color: "#e2e8f0" }}>
+            <p className="mb-5 text-sm leading-7" style={{ color: "#e8ecf2" }}>
               {question.problem_statement}
             </p>
 
-            {question.input_description && (
-              <div className="mb-3">
-                <p
-                  className="mb-1 text-[10px] font-semibold uppercase tracking-wider"
-                  style={{ color: "#6b7280" }}
-                >
-                  Input
-                </p>
-                <p className="text-xs leading-5" style={{ color: "#9ca3af" }}>
-                  {question.input_description}
-                </p>
-              </div>
-            )}
+            {(question.input_description || question.output_description || question.constraints) && (
+              <div className="mb-4 space-y-3 rounded p-3" style={{ background: "#2b3036", border: "1px solid #3a4048" }}>
+                {question.input_description && (
+                  <div>
+                    <p
+                      className="mb-1 text-[10px] font-semibold uppercase tracking-wider"
+                      style={{ color: "#8b9ab0" }}
+                    >
+                      Input
+                    </p>
+                    <p className="text-xs leading-5" style={{ color: "#b0bcc9" }}>
+                      {question.input_description}
+                    </p>
+                  </div>
+                )}
 
-            {question.output_description && (
-              <div className="mb-3">
-                <p
-                  className="mb-1 text-[10px] font-semibold uppercase tracking-wider"
-                  style={{ color: "#6b7280" }}
-                >
-                  Output
-                </p>
-                <p className="text-xs leading-5" style={{ color: "#9ca3af" }}>
-                  {question.output_description}
-                </p>
-              </div>
-            )}
+                {question.output_description && (
+                  <div>
+                    <p
+                      className="mb-1 text-[10px] font-semibold uppercase tracking-wider"
+                      style={{ color: "#8b9ab0" }}
+                    >
+                      Output
+                    </p>
+                    <p className="text-xs leading-5" style={{ color: "#b0bcc9" }}>
+                      {question.output_description}
+                    </p>
+                  </div>
+                )}
 
-            {question.constraints && (
-              <div className="mb-4">
-                <p
-                  className="mb-1 text-[10px] font-semibold uppercase tracking-wider"
-                  style={{ color: "#6b7280" }}
-                >
-                  Constraints
-                </p>
-                <pre
-                  className="whitespace-pre-wrap font-mono text-[11px] leading-5"
-                  style={{ color: "#9ca3af" }}
-                >
-                  {question.constraints}
-                </pre>
+                {question.constraints && (
+                  <div>
+                    <p
+                      className="mb-1 text-[10px] font-semibold uppercase tracking-wider"
+                      style={{ color: "#8b9ab0" }}
+                    >
+                      Constraints
+                    </p>
+                    <pre
+                      className="whitespace-pre-wrap font-mono text-[11px] leading-5"
+                      style={{ color: "#b0bcc9" }}
+                    >
+                      {question.constraints}
+                    </pre>
+                  </div>
+                )}
               </div>
             )}
 
@@ -910,10 +948,11 @@ export default function PracticeSession({
             <div className="mt-4">
               <button
                 onClick={handleSubmitAnyway}
-                className="w-full rounded px-3 py-2 text-xs font-bold transition hover:brightness-110"
+                disabled={isSaving}
+                className="w-full rounded px-3 py-2 text-xs font-bold transition hover:brightness-110 disabled:opacity-50"
                 style={{ background: "#31d67b", color: "#000" }}
               >
-                Submit anyway
+                {isSaving ? "Saving…" : "Submit anyway"}
               </button>
             </div>
           </div>
