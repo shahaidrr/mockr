@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { FormEvent, useState } from "react";
+import { FormEvent, Suspense, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 
@@ -203,6 +203,8 @@ function LoginForm() {
 
 export default function LoginPage() {
   return (
-    <LoginForm />
+    <Suspense>
+      <LoginForm />
+    </Suspense>
   );
 }

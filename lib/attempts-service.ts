@@ -141,7 +141,10 @@ export async function fetchAttemptById(attemptId: string): Promise<{
 
   if (error || !data) return null;
 
-  const row = data as SavedAttempt & { questions: { title: string; slug: string } };
+  type QuestionRef = { title: string; slug: string };
+  type RowRaw = SavedAttempt & { questions: QuestionRef | QuestionRef[] | null };
+  const row = data as RowRaw;
+  const q = Array.isArray(row.questions) ? (row.questions[0] ?? null) : row.questions;
   return {
     attempt: {
       id: row.id,
@@ -161,8 +164,8 @@ export async function fetchAttemptById(attemptId: string): Promise<{
       time_taken_seconds: row.time_taken_seconds,
       hints_used: row.hints_used,
     },
-    questionTitle: row.questions?.title ?? "Unknown question",
-    questionSlug: row.questions?.slug ?? "",
+    questionTitle: q?.title ?? "Unknown question",
+    questionSlug: q?.slug ?? "",
   };
 }
 
@@ -197,7 +200,8 @@ export async function fetchRecentAttempts(limit = 10): Promise<Array<{
 
   if (error || !data) return [];
 
-  return data.map((row: {
+  type QSummary = { title: string; slug: string; topic: string; difficulty: string };
+  type RawRow = {
     id: string;
     question_id: string;
     language: string;
@@ -205,18 +209,23 @@ export async function fetchRecentAttempts(limit = 10): Promise<Array<{
     status: string;
     submitted_at: string | null;
     time_taken_seconds: number | null;
-    questions: { title: string; slug: string; topic: string; difficulty: string } | null;
-  }) => ({
-    id: row.id,
-    question_id: row.question_id,
-    questionTitle: row.questions?.title ?? "Unknown",
-    questionSlug: row.questions?.slug ?? "",
-    topic: row.questions?.topic ?? "",
-    difficulty: row.questions?.difficulty ?? "",
-    language: row.language,
-    mode: row.mode,
-    status: row.status,
-    submitted_at: row.submitted_at,
-    time_taken_seconds: row.time_taken_seconds,
-  }));
+    questions: QSummary | QSummary[] | null;
+  };
+
+  return (data as RawRow[]).map((row) => {
+    const q = Array.isArray(row.questions) ? (row.questions[0] ?? null) : row.questions;
+    return {
+      id: row.id,
+      question_id: row.question_id,
+      questionTitle: q?.title ?? "Unknown",
+      questionSlug: q?.slug ?? "",
+      topic: q?.topic ?? "",
+      difficulty: q?.difficulty ?? "",
+      language: row.language,
+      mode: row.mode,
+      status: row.status,
+      submitted_at: row.submitted_at,
+      time_taken_seconds: row.time_taken_seconds,
+    };
+  });
 }

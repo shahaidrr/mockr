@@ -27,7 +27,14 @@ function formatDate(iso: string | null): string {
   });
 }
 
-type AttemptRow = {
+type QuestionSummary = {
+  title: string;
+  slug: string;
+  topic: string;
+  difficulty: string;
+};
+
+type AttemptRowRaw = {
   id: string;
   question_id: string;
   language: string;
@@ -35,8 +42,20 @@ type AttemptRow = {
   status: string;
   submitted_at: string | null;
   time_taken_seconds: number | null;
-  questions: { title: string; slug: string; topic: string; difficulty: string } | null;
+  questions: QuestionSummary | QuestionSummary[] | null;
 };
+
+type AttemptRow = Omit<AttemptRowRaw, "questions"> & {
+  questions: QuestionSummary | null;
+};
+
+function normaliseQuestions(raw: AttemptRowRaw): AttemptRow {
+  const q = raw.questions;
+  return {
+    ...raw,
+    questions: Array.isArray(q) ? (q[0] ?? null) : q,
+  };
+}
 
 export default async function DashboardPage() {
   const supabase = await createClient();
@@ -57,7 +76,9 @@ export default async function DashboardPage() {
     .order("submitted_at", { ascending: false })
     .limit(10);
 
-  const attempts = (attemptsRaw ?? []) as AttemptRow[];
+  const attempts: AttemptRow[] = (attemptsRaw ?? []).map((r) =>
+    normaliseQuestions(r as AttemptRowRaw)
+  );
   const hasAttempts = attempts.length > 0;
 
   // Compute stats from real data
