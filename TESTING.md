@@ -300,6 +300,14 @@ Run tests by visiting the live dev server (`npm run dev`) and following each ste
 - [ ] Older attempts without saved score data show “Not scored yet” in the recent attempts table
 - [ ] On mobile, a recent attempt row includes score/result-band text when the attempt has been scored
 
+## Tooling — Graphify Fallback
+
+- [ ] Running `./scripts/graphify doctor` reports that `graphify-out/graph.json` is present, `package.json` no longer references `graphify`, and any remaining `node_modules/graphify` copy is flagged as stale only
+- [ ] Running `./scripts/graphify query "dashboard attempts"` returns matching nodes from `graphify-out/graph.json`
+- [ ] Running `./scripts/graphify explain "practice-session.tsx"` returns the practice-session node plus related edges
+- [ ] Running `./scripts/graphify path "practice-session.tsx" "dashboard/page.tsx"` returns a non-empty path across graph nodes
+- [ ] Running `./scripts/graphify update .` exits with a clear unsupported message instead of `command not found`
+
 ---
 
 ## Results Page (`/results/[attemptId]`)

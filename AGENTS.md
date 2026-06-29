@@ -30,12 +30,12 @@ Do not rely on assumptions from prior sessions if the repo or documentation says
 `graphify-out/graph.json` exists. Before reading source files, running grep/find, or exploring the codebase, run:
 
 ```bash
-graphify query "<your question about the task>"
-graphify explain "<concept or file name>"
-graphify path "<ComponentA>" "<ComponentB>"
+./scripts/graphify query "<your question about the task>"
+./scripts/graphify explain "<concept or file name>"
+./scripts/graphify path "<ComponentA>" "<ComponentB>"
 ```
 
-These return a focused subgraph — far fewer tokens than reading raw files. Read specific source lines only after Graphify has oriented you, or when editing/debugging specific lines.
+These return a focused subgraph — far fewer tokens than reading raw files. In this repo, `./scripts/graphify` is a checked-in fallback over `graphify-out/graph.json`, so `query`, `explain`, and `path` work even when the external Graphify CLI is not installed. Read specific source lines only after Graphify has oriented you, or when editing/debugging specific lines.
 
 **Skip Graphify only if:** the user explicitly says not to use it, or the task is about fixing stale graph output.
 
@@ -48,10 +48,10 @@ If `graphify-out/wiki/index.md` exists, use it for broad navigation instead of r
 After any change that affects file structure, routes, components, dependencies, auth, database structure, architecture, or UI flows:
 
 ```bash
-graphify update .
+./scripts/graphify update .
 ```
 
-AST-only — no API cost.
+If the fallback reports that update is unsupported, record that limitation in `documentation.md` instead of pretending the graph was refreshed.
 
 ---
 

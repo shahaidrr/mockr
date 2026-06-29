@@ -1,5 +1,66 @@
 # Documentation Log
 
+## 2026-06-29 21:04:04 AEST — Graphify Dependency Cleanup
+
+### What was completed
+
+Removed the misleading `graphify` dependency from `package.json` and `package-lock.json`. The repo now relies on the checked-in `./scripts/graphify` fallback instead of an unrelated npm package that never provided the expected CLI.
+
+### Files/routes/components/tables changed
+
+- `package.json` — Removed `"graphify": "^1.0.0"` from runtime dependencies.
+- `package-lock.json` — Removed the root `graphify` dependency entry and the `node_modules/graphify` lock entry.
+- `scripts/graphify-cli.js` — Updated `doctor` output so it reports manifest state correctly and distinguishes between a removed dependency and a stale installed copy still present in `node_modules`.
+
+### Limitations that remain
+
+- `node_modules/graphify` still exists on disk from the earlier install. It is now stale and no longer referenced by the manifests, but it will remain until dependencies are reinstalled or `node_modules` is refreshed.
+- `./scripts/graphify update .` is still unsupported in fallback mode because the real external Graphify CLI is not installed.
+
+### Issues encountered and assumptions made
+
+- The previous `doctor` implementation looked only at `node_modules/graphify`, which produced a misleading warning even after the manifest dependency was removed. That was corrected to inspect both `package.json` and `node_modules`.
+- I left the stale installed package in `node_modules` because the repo instructions do not justify destructive cleanup here, and the manifest-level fix is the part that affects future installs and future work.
+- Required Graphify post-change refresh was attempted via `./scripts/graphify update .` and correctly reported that fallback mode cannot regenerate `graphify-out/`.
+
+### What should happen next
+
+- On the next normal dependency refresh, run the project’s preferred install command so the stale `node_modules/graphify` directory disappears.
+- If full graph regeneration becomes necessary, install the real Graphify CLI outside the repo or teach the fallback to delegate when one is available.
+
+## 2026-06-29 20:50:00 AEST — Graphify Fallback Repair
+
+### What was completed
+
+Investigated why Graphify commands were failing in this environment and added a repo-local fallback CLI for future sessions. The root issue is that `package.json` currently references an unrelated npm package named `graphify` that has no CLI binary, so bare `graphify` and `npx graphify` cannot work here. Added `./scripts/graphify` with working `query`, `explain`, `path`, and `doctor` commands over the checked-in `graphify-out/graph.json`, and updated repo instructions/hooks to point at the local command instead of the missing global binary.
+
+### Files/routes/components/tables changed
+
+- `scripts/graphify-cli.js` — New Node-based fallback CLI for Graphify orientation commands.
+- `scripts/graphify` — Executable wrapper for the fallback CLI.
+- `AGENTS.md` — Updated Graphify commands to use `./scripts/graphify` and documented that `update` may be unsupported in fallback mode.
+- `.codex/hooks.json` — Updated the Graphify reminder to reference `./scripts/graphify query`.
+- `.claude/settings.json` — Updated Claude-side Graphify reminders to reference `graphify-out/graph.json` and `./scripts/graphify`.
+- `documentation.md` — Updated workflow text to use the repo-local Graphify command and recorded the environment issue/fix.
+
+### Limitations that remain
+
+- `./scripts/graphify update .` is intentionally read-only and exits with a clear unsupported message. It does not regenerate `graphify-out/` because the real external Graphify CLI is still not installed in this environment.
+- Historical documentation entries still mention older `graphify` commands where they describe what happened at the time; those are left intact as historical records.
+- `package.json` and `package-lock.json` still contain the unrelated `graphify` dependency. I did not rewrite them because they were already user-modified and this fallback avoids depending on them.
+
+### Issues encountered and assumptions made
+
+- The `graphify` npm package installed in `node_modules` is `graphify@1.0.0`, a random graph generator with no CLI `bin`, not the repository’s intended Graphify tool.
+- Existing hooks and agent instructions assumed a global `graphify` binary on `PATH`, which is why every mandatory Graphify step was failing with `command not found`.
+- I assumed a local read-only fallback is preferable to keeping the repo in a permanently broken state while leaving full graph regeneration for a later environment-level fix.
+
+### What should happen next
+
+- Use `./scripts/graphify query ...`, `./scripts/graphify explain ...`, and `./scripts/graphify path ...` for future code orientation in this repo.
+- If full graph regeneration is required, install the real Graphify CLI outside the repo and then decide whether to replace the fallback or teach it to delegate to the real binary when present.
+- If the user wants, the next cleanup step is to remove or replace the misleading `graphify` npm dependency after confirming it is not needed for anything else.
+
 ## 2026-06-29 20:41:32 AEST — Phase 4A Deterministic Scorecards
 
 ### What was completed
@@ -96,12 +157,12 @@ This project uses [Graphify](https://github.com/graphifyy/graphifyy) as a shared
 2. Read `documentation.md` and `graphify-out/GRAPH_REPORT.md`
 3. Query the graph before touching code:
    ```bash
-   graphify query "What files are relevant to this task?"
-   graphify query "What components, routes, and utilities may be affected?"
+   ./scripts/graphify query "What files are relevant to this task?"
+   ./scripts/graphify query "What components, routes, and utilities may be affected?"
    ```
 4. Make focused changes.
 5. Update `documentation.md`.
-6. Update the graph: `graphify update .`
+6. Update the graph: `./scripts/graphify update .`
 7. Commit code, docs, and graph together.
 
 ### Rules
