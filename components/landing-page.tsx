@@ -5,7 +5,7 @@ import SiteHeader from "@/components/site-header";
 const navLinks = [
   { href: "#features", label: "Features" },
   { href: "#how-it-works", label: "How it works" },
-  { href: "/dashboard", label: "Dashboard" },
+  { href: "/questions", label: "Questions" },
 ];
 
 const positioningChips = [
@@ -113,15 +113,24 @@ const dashboardPreviewStats = [
 
 type LandingPageProps = {
   ctaHref?: string;
+  isLoggedIn?: boolean;
 };
 
-export default function LandingPage({ ctaHref = "/login" }: LandingPageProps) {
+export default function LandingPage({ ctaHref = "/signup", isLoggedIn = false }: LandingPageProps) {
+  const headerPrimary = isLoggedIn
+    ? { href: "/questions", label: "Browse questions" }
+    : { href: "/signup", label: "Sign up free" };
+
+  const headerSecondary = isLoggedIn
+    ? { href: "/dashboard", label: "Dashboard" }
+    : { href: "/login", label: "Log in" };
+
   return (
     <div className="min-h-screen text-slate-900">
       <SiteHeader
         links={navLinks}
-        secondaryAction={{ href: "/login", label: "Log in" }}
-        primaryAction={{ href: ctaHref, label: "Start practising" }}
+        secondaryAction={headerSecondary}
+        primaryAction={headerPrimary}
       />
 
       <main>
@@ -149,13 +158,13 @@ export default function LandingPage({ ctaHref = "/login" }: LandingPageProps) {
                   href={ctaHref}
                   className="inline-flex items-center justify-center rounded-full border border-slate-950 bg-slate-950 px-6 py-3 text-sm font-semibold text-slate-50 shadow-[inset_0_1px_0_rgba(255,255,255,0.14)] transition hover:bg-slate-800"
                 >
-                  Start practising
+                  Create free account
                 </Link>
                 <Link
-                  href="#how-it-works"
+                  href="/login"
                   className="inline-flex items-center justify-center rounded-full border border-slate-300 bg-slate-100 px-6 py-3 text-sm font-semibold text-slate-900 transition hover:border-slate-400 hover:bg-slate-200"
                 >
-                  See how it works
+                  Log in
                 </Link>
               </div>
 
@@ -399,10 +408,10 @@ export default function LandingPage({ ctaHref = "/login" }: LandingPageProps) {
               </div>
 
               <Link
-                href="/dashboard"
+                href={ctaHref}
                 className="inline-flex rounded-full border border-slate-300 bg-slate-100 px-5 py-3 text-sm font-semibold text-slate-900 transition hover:border-slate-400 hover:bg-slate-200"
               >
-                Open dashboard
+                Get started
               </Link>
             </div>
 
@@ -469,7 +478,7 @@ export default function LandingPage({ ctaHref = "/login" }: LandingPageProps) {
                 href={ctaHref}
                 className="inline-flex items-center justify-center rounded-full bg-white px-6 py-3 text-sm font-semibold text-slate-950 transition hover:bg-slate-100"
               >
-                Start practising
+                Create free account
               </Link>
               <Link
                 href="/login"
@@ -498,11 +507,14 @@ export default function LandingPage({ ctaHref = "/login" }: LandingPageProps) {
             <Link href="#features" className="transition hover:text-slate-950">
               Product
             </Link>
-            <Link href="/dashboard" className="transition hover:text-slate-950">
-              Dashboard
+            <Link href="/questions" className="transition hover:text-slate-950">
+              Questions
+            </Link>
+            <Link href="/signup" className="transition hover:text-slate-950">
+              Sign up
             </Link>
             <Link href="/login" className="transition hover:text-slate-950">
-              Login
+              Log in
             </Link>
           </div>
         </div>

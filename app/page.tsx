@@ -6,5 +6,5 @@ export default async function Home() {
   const { data } = await supabase.auth.getClaims();
   const isLoggedIn = !!data?.claims?.sub;
 
-  return <LandingPage ctaHref={isLoggedIn ? "/questions" : "/login"} />;
+  return <LandingPage ctaHref={isLoggedIn ? "/questions" : "/signup"} isLoggedIn={isLoggedIn} />;
 }

@@ -15,20 +15,29 @@ Run tests by visiting the live dev server (`npm run dev`) and following each ste
 
 ## Auth
 
-### Login
+### Login (`/login`)
 - [ ] Valid email + password logs the user in and redirects to `/dashboard`
-- [ ] Invalid password shows an error message
-- [ ] Empty fields show an error message
-- [ ] Visiting `/login?next=/practice/abc` redirects back to `/practice/abc` after login
+- [ ] Invalid password shows a friendly error: "The email or password is incorrect. Please check your details and try again."
+- [ ] Empty fields show an HTML5 validation error (fields are required)
+- [ ] A `?message=` query param from the auth callback renders a translated error message on the login page
+- [ ] "New to MOCKR.AI? Create an account" link navigates to `/signup`
+- [ ] "Back to home" link navigates to `/`
+- [ ] No Google/OAuth button is shown
 
-### Signup
-- [ ] Valid new email + password creates an account and shows a confirmation prompt
-- [ ] Duplicate email shows an appropriate error
-- [ ] Password too short shows a validation error
+### Sign Up (`/signup`)
+- [ ] Navigating to `/signup` shows the dedicated sign-up page (not the login page)
+- [ ] Valid new email + password + matching confirm creates an account and shows the "Check your email" success state
+- [ ] Success state shows the submitted email address and a link to `/login`
+- [ ] Duplicate email shows a friendly error: "An account already exists for this email. Try logging in instead."
+- [ ] Passwords that do not match show: "Passwords do not match. Please check and try again."
+- [ ] Password fewer than 8 characters shows: "Your password must be at least 8 characters."
+- [ ] "Already have an account? Log in" link navigates to `/login`
+- [ ] "Back to home" link navigates to `/`
+- [ ] No Google/OAuth button is shown
 
 ### Email Confirmation Callback
 - [ ] Clicking the email confirmation link redirects to `/dashboard` with an active session
-- [ ] Broken or expired confirmation link shows an error on `/login`
+- [ ] Broken or expired confirmation link shows an error message on `/login`
 
 ### Sign Out
 - [ ] Clicking sign out from the dashboard ends the session
@@ -39,9 +48,18 @@ Run tests by visiting the live dev server (`npm run dev`) and following each ste
 ## Landing Page (`/`)
 
 - [ ] Page loads without error
-- [ ] Header navigation links are visible and clickable
-- [ ] Hero CTA ("Start Practising" or equivalent) redirects an unauthenticated user to `/login`
+- [ ] Unauthenticated: header shows "Log in" (secondary) and "Sign up free" (primary)
+- [ ] Authenticated: header shows "Dashboard" (secondary) and "Browse questions" (primary)
+- [ ] Header "Log in" navigates to `/login`
+- [ ] Header "Sign up free" navigates to `/signup` (unauthenticated) or `/questions` (authenticated)
+- [ ] Hero CTA ("Create free account") redirects an unauthenticated user to `/signup`
 - [ ] Hero CTA redirects an authenticated user to `/questions`
+- [ ] "Log in" secondary button in hero navigates to `/login`
+- [ ] Bottom CTA "Create free account" navigates to `/signup`
+- [ ] Bottom CTA "Log in" navigates to `/login`
+- [ ] Footer "Sign up" link navigates to `/signup`
+- [ ] Footer "Log in" link navigates to `/login`
+- [ ] Footer "Questions" link navigates to `/questions`
 - [ ] Feature cards, process steps, and roadmap section render correctly
 - [ ] Footer renders without layout overflow
 
@@ -51,9 +69,14 @@ Run tests by visiting the live dev server (`npm run dev`) and following each ste
 
 - [ ] Unauthenticated users are redirected to `/login`
 - [ ] Authenticated users see the dashboard without error
+- [ ] A user with no submitted attempts sees the empty state ("No attempts yet") with a "Browse questions" CTA
+- [ ] A user with submitted attempts sees real stat cards (questions attempted, total submissions, top topic, preferred language)
+- [ ] Recent attempts table shows question name, topic, language, date, and time taken
+- [ ] Clicking a question name in the table navigates to `/results/{attemptId}`
 - [ ] "Start new practice" CTA links to `/questions`
 - [ ] "Browse questions" link goes to `/questions`
 - [ ] Sign out button ends the session
+- [ ] No yellow/amber placeholder notice is shown
 
 ---
 
@@ -115,10 +138,11 @@ Run tests by visiting the live dev server (`npm run dev`) and following each ste
 - [ ] Cancelling leaves the draft unchanged
 
 ### Interview Panel (bottom-left)
-- [ ] Panel shows "Clarification 1 of 5" on load
+- [ ] Panel header shows "Stage 1 of 5 · Clarification" on load
 - [ ] "›" advances to the next panel; "‹" goes back
 - [ ] "‹" is disabled on panel 1; "›" is disabled on panel 5
-- [ ] Clarification, Approach, Testing/Edge Cases, and Complexity panels each have a textarea that persists
+- [ ] Clarification, Approach, Testing/Edge Cases, and Complexity panels each show placeholder hint text in the textarea
+- [ ] Typing in any textarea persists the content on refresh
 - [ ] Submit Review panel shows the checklist of completion items
 - [ ] Checklist ticks green when the corresponding field is filled in
 
@@ -213,17 +237,54 @@ Run tests by visiting the live dev server (`npm run dev`) and following each ste
 
 ---
 
+## Phase 3 — Attempt Persistence
+
+### Submit saves to Supabase
+- [ ] Completing a JavaScript practice session and clicking "Submit Attempt →" navigates to a results page with a UUID attempt ID (not `local-`)
+- [ ] Completing a Python practice session and submitting saves the attempt and navigates to a UUID results page
+- [ ] Submitting a C++ session (no tests run) saves the attempt and navigates to a UUID results page
+- [ ] After submit, a row appears in `public.attempts` in Supabase with `status = 'submitted'`
+- [ ] A row appears in `public.code_snapshots` linked to the attempt with the final submitted code
+- [ ] For JS/Python: rows appear in `public.test_runs` linked to the attempt (one per public test case)
+- [ ] Passed/failed test runs match what was shown in the output panel
+
+### Submit fallback (Supabase unavailable)
+- [ ] If the Supabase insert fails (e.g. network error), the user is still navigated to a results page with a `local-` ID
+- [ ] No error page is shown — the fallback is silent
+
+### Submit button states
+- [ ] "Submit Attempt →" button shows "Saving…" while the Supabase write is in progress
+- [ ] "Submit anyway" in the warning modal also shows "Saving…" during the write
+- [ ] Both buttons are disabled during the save (no double-submit)
+
+### Results page — saved attempt
+- [ ] Navigating to `/results/{uuid}` shows a loading spinner briefly then "Attempt recorded"
+- [ ] Attempt metadata card shows: question name, language, mode, and time taken (if assessment mode)
+- [ ] "Retry question" button navigates to `/practice/[questionId]`
+- [ ] "Back to questions" navigates to `/questions`
+- [ ] "Dashboard" navigates to `/dashboard`
+
+### Dashboard — real attempt history
+- [ ] After submitting one attempt, the dashboard shows real stat cards (no amber placeholder notice)
+- [ ] Stat cards show correct values: unique questions count, total submissions, top topic, preferred language
+- [ ] Recent attempts table shows the question name (linked to its results page), topic, language, date, and time taken
+- [ ] Clicking a question name in the table navigates to `/results/{attemptId}`
+- [ ] Topic breakdown bar chart reflects the proportion of attempts per topic
+- [ ] A new user with no attempts sees the empty state ("No attempts yet") with a "Browse questions" CTA
+- [ ] The "Coming soon" section remains visible for all users
+
+---
+
 ## Results Page (`/results/[attemptId]`)
 
 - [ ] Page loads and shows the attempt ID
-- [ ] Phase 2 notice is visible ("Phase 2 — local only. Public tests ran in your browser.")
-- [ ] If a test summary was produced, a "Public Test Results" section shows: question title, language, N passed, M failed, total count
-- [ ] "Local Phase 2 result — not saved to the database." note is visible in the summary
+- [ ] For a saved (UUID) attempt: shows "Attempt recorded" heading, attempt metadata card
+- [ ] For a local fallback attempt: shows "Attempt recorded" with `local-` ID and no metadata card
+- [ ] If a local test summary exists in sessionStorage: "Public test results" section shows passed/failed counts
 - [ ] If no test summary (C++ or no test cases), the summary section is absent — page still loads cleanly
 - [ ] "Retry question" button navigates back to `/practice/[questionId]`
 - [ ] "Back to questions" navigates to `/questions`
 - [ ] "Dashboard" navigates to `/dashboard`
-- [ ] No attempt rows are created in Supabase (verify in dashboard)
 
 ---
 
@@ -241,6 +302,13 @@ Run tests by visiting the live dev server (`npm run dev`) and following each ste
 - [ ] Only public test cases (`is_hidden = false`) are fetched and shown
 - [ ] Hidden test cases are never sent to the browser (verify via browser DevTools Network tab)
 - [ ] No writes occur to `attempts`, `attempt_events`, `code_snapshots`, `test_runs`, or `scorecards` during any Phase 2 flow
+
+### Hidden Test Cases (data authoring)
+
+- [ ] In Supabase, each of the 7 published questions has exactly 14 hidden test cases (`is_hidden = true`)
+- [ ] Total hidden test count across all questions is 98
+- [ ] Hidden tests do not appear in the public test runner output panel during practice
+- [ ] Hidden tests are not included in any browser network response (confirm via DevTools)
 
 ---
 
