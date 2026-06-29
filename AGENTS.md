@@ -14,19 +14,6 @@ This is the single source of truth for all coding agents (Claude Code, Codex, an
 - This is a preparation and coaching tool, not an employer-facing hiring or candidate-rejection system.
 - Keep the MVP simple, maintainable, and focused. Do not overbuild.
 
-### What is in scope
-
-- Question library, coding workspace, Monaco editor, public test execution (JS-first, Python via Pyodide)
-- Attempt persistence to Supabase, results page, dashboard attempt history
-- Structured scorecard feedback (AI-powered, placeholder until explicitly implemented)
-- Hidden test execution (data authored; server-side runner not yet built)
-
-### What is out of scope (do not add unless explicitly asked)
-
-Voice, video, payments, résumé upload, scraping, recruiter tools, company-specific simulations, full AI orchestration, OAuth/social login, new code-execution providers, new AI providers.
-
----
-
 ## Before Every Task — Mandatory Orientation
 
 ### 1. Read context first
