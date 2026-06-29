@@ -1,5 +1,42 @@
 # Documentation Log
 
+## 2026-06-29 20:41:32 AEST — Phase 4A Deterministic Scorecards
+
+### What was completed
+
+Implemented Phase 4A deterministic scorecards for persisted attempts. Submitting an attempt now calculates a deterministic rubric-based scorecard, writes it to `public.scorecards`, updates `public.attempts.overall_score` and `public.attempts.result_band`, shows the saved score breakdown on the results page, and surfaces score/result-band data in dashboard attempt history.
+
+### Files/routes/components/tables changed
+
+- `types/scorecard.ts` — Added shared scorecard, feedback, and deterministic scoring input/output types.
+- `lib/deterministic-score.ts` — Added pure `calculateDeterministicScorecard()` helper with deterministic v1 heuristics for all eight rubric categories, overall weighting, result bands, and structured strengths/weaknesses/improvement tasks.
+- `lib/attempts-service.ts` — Extended `submitAttempt()` to calculate and insert scorecards and update attempt score summary fields without making scorecard failure fatal. Extended saved-attempt fetches to include scorecard and public test summary data.
+- `app/results/[attemptId]/page.tsx` — Reworked persisted UUID results to show submitted time, overall score, result band, category breakdown, public test summary, strengths, weaknesses, improvement tasks, and clear deterministic-scoring limitations. Older saved attempts without scorecards now show a friendly fallback instead of failing.
+- `app/dashboard/page.tsx` — Recent attempts table now shows saved score/result-band data and a “Not scored yet” fallback for pre-Phase-4A attempts.
+- `supabase/migrations/002_scorecards_insert_policy.sql` — Added the missing `INSERT` RLS policy for `public.scorecards`, which is required for browser-side authenticated writes.
+- `public.scorecards` — now written on submit.
+- `public.attempts` — now updated on submit with `overall_score` and `result_band`.
+
+### Limitations that remain
+
+- Scoring is deterministic only. No AI, no hidden-test execution, and no static analysis are included.
+- Code quality is estimated with simple heuristics only and should be treated as conservative.
+- C++ remains editor-only. Attempts are scored, but correctness is explicitly unverified because execution is not supported yet.
+- Older attempts created before this phase will not have a `scorecards` row; the UI now handles that case intentionally.
+- `graphify update .` could not be run because the `graphify` CLI is not installed on `PATH` in this environment (`zsh:1: command not found: graphify`).
+
+### Issues encountered and assumptions made
+
+- The repo’s required Graphify command is unavailable in this shell even though graph artifacts already exist, so graph refresh/query steps had to fall back to the checked-in graph outputs and could not be regenerated.
+- `npm run build` failed inside the sandbox with a Turbopack environment error: `Operation not permitted (os error 1)` while creating a process/binding to a port. Re-running the exact build command with elevated permissions succeeded.
+- The existing schema already matched the Phase 4A prompt except for the missing `scorecards` insert policy, so a small RLS migration was added instead of altering table structure.
+
+### What should happen next
+
+- Manually test scorecard persistence for JavaScript, Python, and C++ submits using the new `TESTING.md` checklist.
+- In a later phase, move hidden-test execution and richer grading to a server-side sandbox while keeping the deterministic helper as a baseline/fallback.
+- Restore a working Graphify CLI in the development environment so the graph can be refreshed after structural changes.
+
 ## 2026-06-29 — Agent Instruction Consolidation
 
 ### What was completed

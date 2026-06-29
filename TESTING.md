@@ -273,6 +273,33 @@ Run tests by visiting the live dev server (`npm run dev`) and following each ste
 - [ ] A new user with no attempts sees the empty state ("No attempts yet") with a "Browse questions" CTA
 - [ ] The "Coming soon" section remains visible for all users
 
+## Phase 4A — Deterministic Scorecards
+
+### Scorecard persistence
+- [ ] Submitting a JavaScript attempt that saves successfully creates a row in `public.scorecards` linked to the saved attempt
+- [ ] Submitting a Python attempt that saves successfully creates a row in `public.scorecards` linked to the saved attempt
+- [ ] Submitting a C++ attempt saves a row in `public.scorecards` even though no test runs are created
+- [ ] After submit, the matching row in `public.attempts` has `overall_score` and `result_band` populated
+- [ ] If the scorecard insert fails but the attempt insert succeeds, the user is still navigated to `/results/{attemptId}` without a crash
+
+### Results page — deterministic scorecards
+- [ ] Navigating to a new Phase 4A UUID attempt shows overall score out of 100 and a result band
+- [ ] The results page shows all 8 category scores out of 10 for a scored UUID attempt
+- [ ] The results page shows the submitted timestamp in the attempt details card
+- [ ] The results page shows strengths, weaknesses, and improvement tasks for a scored UUID attempt
+- [ ] The results page shows the deterministic-scoring limitation note mentioning public tests/interview fields and no AI/hidden-test scoring yet
+- [ ] A pre-Phase-4A saved attempt with no scorecard shows the fallback message: “This attempt was recorded before scorecards were enabled.”
+
+### Results page — public test summary and language handling
+- [ ] For a scored JavaScript or Python attempt, the results page shows the saved public test passed/failed summary
+- [ ] For a scored C++ attempt, the results page clearly says correctness could not be verified because C++ execution is not supported yet
+- [ ] Local fallback attempts with `local-` IDs still show the sessionStorage-based public test summary when available
+
+### Dashboard — score visibility
+- [ ] Recent attempts rows show `score/100` and result band for Phase 4A scored attempts
+- [ ] Older attempts without saved score data show “Not scored yet” in the recent attempts table
+- [ ] On mobile, a recent attempt row includes score/result-band text when the attempt has been scored
+
 ---
 
 ## Results Page (`/results/[attemptId]`)
