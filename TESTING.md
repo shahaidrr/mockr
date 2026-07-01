@@ -125,8 +125,11 @@ Run tests by visiting the live dev server (`npm run dev`) and following each ste
 
 ### Monaco Editor
 - [ ] Editor loads with the starter code for the selected language
+- [ ] Python starter code uses the canonical runner function name for the current question (for example, Balanced Brackets shows `def balancedBrackets(s):`)
 - [ ] Editor updates the Monaco language mode when the language changes
 - [ ] Typing in the editor updates the draft in localStorage
+- [ ] Before Stage 2 is completed, the editor is read-only and shows guidance explaining that the approach must be discussed before coding
+- [ ] After entering a non-empty Stage 2 approach, the editor unlocks immediately without reloading the page
 
 ### Draft Saving & Restoration
 - [ ] Refreshing the page restores the code, notes, and panel position
@@ -138,13 +141,29 @@ Run tests by visiting the live dev server (`npm run dev`) and following each ste
 - [ ] Cancelling leaves the draft unchanged
 
 ### Interview Panel (bottom-left)
-- [ ] Panel header shows "Stage 1 of 5 · Clarification" on load
+- [ ] Panel first loads into a workflow overview screen before Stage 1 begins
+- [ ] Overview screen shows all 5 stages with their current status labels before the user starts
+- [ ] Clicking "Begin Stage 1" enters the one-stage-at-a-time interview flow
 - [ ] "›" advances to the next panel; "‹" goes back
+- [ ] "Overview" returns from an active stage back to the overview screen
 - [ ] "‹" is disabled on panel 1; "›" is disabled on panel 5
-- [ ] Clarification, Approach, Testing/Edge Cases, and Complexity panels each show placeholder hint text in the textarea
+- [ ] Stage cards show status labels such as optional, skipped, required, locked, encouraged, completed, or ready
+- [ ] Clarification shows a "Skip clarification" action, marks the stage intentionally skipped, and moves directly to Stage 2
+- [ ] Each active stage shows a clear next/submit action button in addition to the arrow controls
+- [ ] Clarification, Approach, Testing/Edge Cases, and Submit Complexity inputs show the expected placeholder hint text
+- [ ] Long answers can be scrolled inside the current stage input area without clipping content below the panel
 - [ ] Typing in any textarea persists the content on refresh
-- [ ] Submit Review panel shows the checklist of completion items
-- [ ] Checklist ticks green when the corresponding field is filled in
+- [ ] Stage 2 must be explicitly submitted before Stage 3 unlocks
+- [ ] Stage 3 remains locked until Stage 2 Approach has been submitted
+- [ ] Stage 3 becomes completed only after code meaningfully changes from the starter stub
+- [ ] Stage 4 Testing Plan / Edge Cases can stay empty without blocking Run or Submit
+- [ ] Submit Review shows the checklist with Clarification optional/skipped/completed, Approach required, Code written required, Testing plan encouraged, and Complexity required
+- [ ] Submit Review shows inline guidance for each missing required item when submit is attempted too early
+
+### Assessment Mode Stage Flow
+- [ ] Open `/practice/[questionId]?mode=assessment` — the same overview-first stage flow appears before Stage 1 begins
+- [ ] In assessment mode, skipping Clarification moves to Stage 2 and submitting Stage 2 is still required before the editor unlocks
+- [ ] In assessment mode, each stage still shows its clear next/submit action button while the assessment integrity guard remains functional
 
 ### Assessment Mode Timer
 - [ ] Visiting with `?mode=assessment` starts the timer at 0:00
@@ -244,12 +263,14 @@ Run tests by visiting the live dev server (`npm run dev`) and following each ste
 
 ### Run Button — JavaScript
 - [ ] Run button is active (green, enabled) when JavaScript is selected
+- [ ] Run button stays disabled until Stage 2 Approach is completed
 - [ ] Clicking Run shows a spinner and "Running…" label on the button
 - [ ] UI does not freeze while tests are running
 - [ ] After running: output panel shows a summary ("N passed / M failed of X tests")
 - [ ] Each test row shows status badge, label, and runtime
-- [ ] Clicking a test row expands it to show input, expected, and actual output
+- [ ] Clicking a test row expands it to show INPUT, EXPECTED, YOUR OUTPUT, and ERROR when applicable
 - [ ] Values display as readable JSON (not `[object Object]`)
+- [ ] Runtime errors show `YOUR OUTPUT` as `No output due to runtime error`
 
 ### Passing Tests — JavaScript
 - [ ] A correct solution passes all 6 public tests (try `find-matching-pair` with a correct solution)
@@ -258,6 +279,7 @@ Run tests by visiting the live dev server (`npm run dev`) and following each ste
 
 ### Failing Tests — JavaScript
 - [ ] An incorrect solution shows "failed" (red) rows for wrong answers
+- [ ] Wrong-answer rows show the user's returned value under `YOUR OUTPUT`
 - [ ] Expanded row shows expected vs actual output clearly
 
 ### Error Tests — JavaScript

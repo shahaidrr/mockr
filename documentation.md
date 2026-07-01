@@ -1,5 +1,26 @@
 # Documentation Log
 
+## 2026-07-01 15:35:00 AEST — Stage Action Buttons + Submitted-Approach Gate
+
+### What was completed
+
+Synced the branch with the latest `main` updates, kept the new assessment integrity flow from `main`, and then tightened the shared practice/assessment workspace stage flow. Clarification skip now advances straight to Stage 2, each stage now exposes a clear next/submit action inside the panel, and Stage 2 now requires an explicit submit action before the editor unlocks. Because practice and assessment both render the same `PracticeSession` component, the updated interview-stage behaviour now applies consistently to both modes.
+
+### Files/routes/components/tables changed
+
+- `app/practice/[questionId]/practice-session.tsx` — Added explicit stage action buttons, made clarification skip jump to Stage 2, introduced a persisted `approachSubmitted` gate so Stage 2 must be submitted before coding unlocks, and kept the assessment-integrity integration from `main` intact.
+- `types/practice.ts` — Added persisted `approachSubmitted` draft state.
+- `lib/practice-draft.ts` — Added the default `approachSubmitted` field to fresh drafts.
+- `TESTING.md` — Added manual checks for skip-to-Stage-2 behaviour, explicit stage action buttons, submitted-approach gating, and assessment-mode parity.
+
+### Merge note
+
+`git pull origin main` required stashing the in-progress workspace changes first. The stash reapplied cleanly except for `documentation.md`, which was merged manually in file contents. Because the repo instructions say not to stage files, Git may still show unmerged/index state until you stage the resolved files yourself.
+
+### What should happen next
+
+Run the shared workspace flow in both `mode=practice` and `mode=assessment` to confirm the explicit Stage 2 submit gate feels right with the new integrity guard from `main`.
+
 ## 2026-07-01 — Assessment Integrity Mode (Frontend)
 
 ### What was completed
@@ -181,6 +202,99 @@ Phase: implement the frontend Assessment Integrity Mode UI.
 5. Apply `003_assessment_integrity_foundation.sql` to the production Supabase project before browser-side writes can work.
 
 ---
+
+## 2026-07-01 15:13:00 AEST — Practice Workspace Hydration Mismatch Fix
+
+### What was completed
+
+Fixed the Next.js hydration mismatch introduced by the overview-stage follow-up. The practice workspace was reading `localStorage` and session-only abandonment state inside the `PracticeSession` state initializer, which meant the server always rendered the overview while the client could immediately render a saved stage such as Clarification. Draft restoration now happens after mount, so the server HTML and the first client render both start from the same stable empty draft before browser-only state is applied.
+
+### Files/routes/components/tables changed
+
+- `app/practice/[questionId]/practice-session.tsx` — Moved browser-only draft restoration out of the `useState` initializer and into a post-mount effect, and gated draft persistence until restoration completes so saved drafts are not overwritten during hydration.
+
+### Verification
+
+- `npx tsc --noEmit` passed.
+- `npm run lint` passed.
+
+### What should happen next
+
+Reload the practice workspace after navigating away and back to confirm saved stage position still restores correctly without triggering the hydration warning again.
+
+## 2026-07-01 14:42:00 AEST — Interview Panel Follow-up: Overview First, Single-Stage Flow
+
+### What was completed
+
+Refined the practice interview panel interaction after the previous workflow pass. The panel no longer keeps all five stages visible while the user is answering questions. It now opens on a dedicated overview screen that summarises the five interview stages and their current statuses, then moves into a one-stage-at-a-time flow once the user clicks `Begin Stage 1`. The `Overview` button returns the user to the summary screen, while the arrow buttons continue to drive sequential navigation through the active stages.
+
+Also fixed the answer-area usability issue by making the stage text inputs scrollable within the panel. Long clarification, approach, testing-plan, edge-case, and complexity answers can now be read and edited without content disappearing below the panel bounds.
+
+### Files/routes/components/tables changed
+
+- `app/practice/[questionId]/practice-session.tsx` — Added the overview-first interview panel state, restored one-stage-at-a-time navigation, and made the stage input areas scrollable.
+- `types/practice.ts` — Added the `overview` interview-panel state.
+- `lib/practice-draft.ts` — Practice drafts now default back to the overview panel on a fresh attempt.
+- `TESTING.md` — Updated the interview-panel checklist for the overview screen, single-stage navigation, and scrollable answer areas.
+
+### Verification
+
+- `npx tsc --noEmit` passed.
+- `npm run lint` passed.
+- Manual browser verification on `http://localhost:3000` confirmed:
+  - the overview screen appears first,
+  - `Begin Stage 1` enters the staged flow,
+  - the next-arrow advances to `Stage 2 of 5`,
+  - the `Overview` button returns to the summary screen,
+  - the active stage textarea reports `overflowY: auto` and supports scrolling when content exceeds the visible height.
+
+### What should happen next
+
+No additional structural follow-up is required for this refinement unless you want the overview screen to become dismissible permanently per attempt instead of remaining available through the `Overview` button.
+
+## 2026-07-01 14:29:37 AEST — Practice Workspace Interview Workflow + Runner Bugfix Pass
+
+### What was completed
+
+Tightened the practice workspace so the interview workflow is a first-class part of the experience instead of a side note. The bottom-left panel now presents the five interview stages as `Clarification → Approach → Code Written → Testing Plan → Submit Review`, makes the stage status explicit, and enforces the key workflow rules: clarification can be intentionally skipped, approach is required before coding, code must meaningfully change from the starter before Stage 3 counts as complete, testing remains encouraged but optional, and submission now requires approach, code, and complexity with specific inline guidance for whichever requirement is missing.
+
+Also fixed the Python starter-name mismatch by deriving the live Python starter function name from the canonical question metadata (`question.function_name`) before it reaches the editor, and updated the seed SQL so all published Python stubs use the same canonical camelCase function names. The public test output UI now shows `YOUR OUTPUT` for each case, including `No output due to runtime error` when execution fails and the underlying error message below it.
+
+### Files/routes/components/tables changed
+
+- `app/practice/[questionId]/practice-session.tsx` — Reworked the interview-stage model, added approach-gated editor locking, stage status cards, intentional clarification skip state, Stage 3 meaningful-code detection, submit validation messaging, Python starter-name alignment, and `YOUR OUTPUT` test-result rendering.
+- `components/code-editor.tsx` — Added read-only support so the practice editor can be locked before Stage 2 is complete without changing the Monaco integration.
+- `types/practice.ts` — Updated the interview panel union to the new five-stage flow and added persisted clarification-skip state.
+- `lib/practice-draft.ts` — Added the default `clarificationSkipped` draft field.
+- `supabase/seed/002_seed_questions.sql` — Updated every published Python starter stub to the canonical camelCase function name expected by the runner metadata.
+- `TESTING.md` — Added manual verification coverage for the enforced interview-stage workflow, canonical Python starter names, and `YOUR OUTPUT` runner details.
+- `.graphify/graph.json` and `.graphify/GRAPH_REPORT.md` — Refreshed with `npx graphify update --no-description --no-label .`.
+
+### Workflow rules now implemented
+
+- Stage 1 Clarification: optional, with an explicit skip action that records the stage as intentionally skipped.
+- Stage 2 Approach: required before the editor unlocks, before Run becomes available, and before Submit succeeds.
+- Stage 3 Code Written: unlocked only after Stage 2; marked complete only when the current language's code meaningfully differs from the starter stub after comment/whitespace normalization.
+- Stage 4 Testing Plan / Edge Cases: encouraged but optional; does not block Run or Submit.
+- Stage 5 Submit Review / Complexity: requires approach, meaningful code, and a complexity answer; missing requirements show specific inline guidance.
+
+### Verification
+
+- `npm run lint` passed.
+- `npx tsc --noEmit` passed.
+- `npm run build` failed inside the sandbox with the known Turbopack `Operation not permitted` process/port restriction, then passed when rerun with elevated permissions.
+- `npx graphify update --no-description --no-label .` passed and refreshed the checked-in graph artifacts.
+- Manual browser verification succeeded for unauthenticated question-library and question-detail navigation, the Python language selection path for Balanced Brackets, and the auth redirect from Start Practice to `/login?next=...`.
+
+### Limitations that remain
+
+- Full authenticated manual verification of the practice workspace stages and multi-language runner flow is still blocked in this environment because practice routes require login and creating a fresh test account through `/signup` returned the existing generic error state `Something went wrong. Please try again.` No repo code was changed for auth in this pass.
+- The Python starter-name fix is applied at the practice-session layer and in the seed SQL. Existing remote question rows that still store snake_case Python starters will display correctly in the editor because the session now normalizes them against `question.function_name`, but the underlying remote seed data still needs to be reseeded if you want the database values themselves to match.
+- C++ execution remains unsupported, unchanged from before this task. The output UI changes still apply to the existing C++ error-result path.
+
+### What should happen next
+
+Fix or provide a working test login path so the remaining authenticated manual checks in `TESTING.md` can be exercised end-to-end, especially the locked editor flow, submit validation, and JavaScript/Python/C++ runner result details from the real practice route.
 
 ## 2026-07-01 — Phase 4A Closeout
 
