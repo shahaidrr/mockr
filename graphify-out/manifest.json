@@ -170,8 +170,8 @@
     "semantic_hash": ""
   },
   "documentation.md": {
-    "mtime": 1782879966.7357848,
-    "ast_hash": "021f7da4e9b3c8ce5222335574f9c564",
+    "mtime": 1782881208.6427855,
+    "ast_hash": "dc326f15e29d9a8f402bdb45c0638891",
     "semantic_hash": ""
   },
   "public/file.svg": {
@@ -205,8 +205,8 @@
     "semantic_hash": ""
   },
   "app/practice/[questionId]/practice-session.tsx": {
-    "mtime": 1782878239.4463654,
-    "ast_hash": "594c0f9ac5298d44afc72d8a79de8baf",
+    "mtime": 1782882635.3783433,
+    "ast_hash": "c59af751930d4dd1552a7ee2fd9029dd",
     "semantic_hash": ""
   },
   "app/questions/[slug]/page.tsx": {
@@ -230,8 +230,8 @@
     "semantic_hash": ""
   },
   "app/results/[attemptId]/page.tsx": {
-    "mtime": 1782879294.4139864,
-    "ast_hash": "f53d5cbf49136804a18ea1f1bab54c4a",
+    "mtime": 1782881175.8868182,
+    "ast_hash": "5f4da499fa46866489c2ee652926782b",
     "semantic_hash": ""
   },
   "lib/practice-draft.ts": {
@@ -285,8 +285,8 @@
     "semantic_hash": ""
   },
   "TESTING.md": {
-    "mtime": 1782880041.8332262,
-    "ast_hash": "10a923967c1108c3274caed7beda95d7",
+    "mtime": 1782881241.4386282,
+    "ast_hash": "d907304bb226ff1d7b8986cb7498f6ad",
     "semantic_hash": ""
   },
   "app/signup/page.tsx": {
@@ -295,8 +295,8 @@
     "semantic_hash": ""
   },
   "lib/attempts-service.ts": {
-    "mtime": 1782878239.4569104,
-    "ast_hash": "7f75a8918143ea159261991f9406d08e",
+    "mtime": 1782881119.2810602,
+    "ast_hash": "1b1b785dd11637c49a61f56f381324b9",
     "semantic_hash": ""
   },
   "lib/deterministic-score.ts": {
@@ -327,6 +327,11 @@
   "types/assessment-integrity.ts": {
     "mtime": 1782879896.224807,
     "ast_hash": "dbe03294fc6422f6669c7dc1f5eb9c99",
+    "semantic_hash": ""
+  },
+  "components/assessment/AssessmentIntegrityGuard.tsx": {
+    "mtime": 1782881314.5326738,
+    "ast_hash": "eb01bbe4cacea37e352fd9a7f46452da",
     "semantic_hash": ""
   }
 }
