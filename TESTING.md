@@ -368,6 +368,19 @@ Run tests by visiting the live dev server (`npm run dev`) and following each ste
 - [ ] Submitting a C++ attempt saves a row in `public.scorecards` even though no test runs are created
 - [ ] After submit, the matching row in `public.attempts` has `overall_score` and `result_band` populated
 - [ ] If the scorecard insert fails but the attempt insert succeeds, the user is still navigated to `/results/{attemptId}` without a crash
+- [ ] Before production browser testing, apply `supabase/migrations/002_scorecards_insert_policy.sql` to the real Supabase project; without it, attempts may save but browser-side scorecard inserts may fail due to RLS
+
+### JavaScript failing public tests still persists scorecard
+- [ ] In `/questions`, start a JavaScript practice attempt and intentionally submit code that fails at least one public test
+- [ ] After submit, a row exists in `public.attempts` for the attempt
+- [ ] A linked row exists in `public.code_snapshots` with the submitted JavaScript source
+- [ ] Linked rows exist in `public.test_runs`, including at least one failed public test run
+- [ ] A linked row exists in `public.scorecards`
+- [ ] The matching `public.attempts` row has `overall_score` and `result_band` populated
+- [ ] The results page shows a lower `Code correctness` category score than a fully passing JavaScript attempt
+- [ ] The results page public test summary shows the failed public test count
+- [ ] The dashboard recent attempts row shows the lower score/result band
+- [ ] Browser DevTools confirms hidden test cases are not fetched, exposed, run, or scored
 
 ### Results page — deterministic scorecards
 - [ ] Navigating to a new Phase 4A UUID attempt shows overall score out of 100 and a result band
@@ -376,6 +389,7 @@ Run tests by visiting the live dev server (`npm run dev`) and following each ste
 - [ ] The results page shows strengths, weaknesses, and improvement tasks for a scored UUID attempt
 - [ ] The results page shows the deterministic-scoring limitation note mentioning public tests/interview fields and no AI/hidden-test scoring yet
 - [ ] A pre-Phase-4A saved attempt with no scorecard shows the fallback message: “This attempt was recorded before scorecards were enabled.”
+- [ ] If `attempts.overall_score` or `attempts.result_band` exists but no joined `scorecards` row loads, the results page shows the saved summary score and the message: “A score summary exists, but the detailed scorecard row could not be loaded.”
 
 ### Results page — public test summary and language handling
 - [ ] For a scored JavaScript or Python attempt, the results page shows the saved public test passed/failed summary

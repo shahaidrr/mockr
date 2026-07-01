@@ -115,6 +115,8 @@ export default function ResultsPage({ params, searchParams }: Props) {
   const scorecard = savedAttempt?.scorecard ?? null;
   const overallScore = scorecard?.overall_score ?? savedAttempt?.attempt.overall_score ?? null;
   const resultBand = scorecard?.result_band ?? savedAttempt?.attempt.result_band ?? null;
+  const hasScoreSummaryOnly =
+    Boolean(savedAttempt) && !scorecard && (overallScore !== null || resultBand !== null);
   const publicTestSummary = savedAttempt?.publicTestSummary ?? null;
   const categoryOrder: ScoreCategoryKey[] = [
     "problem_understanding",
@@ -177,7 +179,9 @@ export default function ResultsPage({ params, searchParams }: Props) {
                 ? "Your attempt was saved locally. Full attempt history and AI scorecards will be available in a future phase."
                 : scorecard
                   ? "Your attempt has been saved with a deterministic Phase 4A score based on public tests and the interview fields you completed."
-                  : "Your attempt has been saved. This one was recorded before scorecards were enabled."}
+                  : hasScoreSummaryOnly
+                    ? "Your attempt has been saved with a score summary, but the detailed scorecard row could not be loaded."
+                    : "Your attempt has been saved. This one was recorded before scorecards were enabled."}
             </p>
           )}
 
@@ -228,12 +232,20 @@ export default function ResultsPage({ params, searchParams }: Props) {
                     {overallScore !== null ? `${overallScore}/100` : "Not scored yet"}
                   </p>
                   <p className="mt-1 text-sm text-slate-600">
-                    {resultBand ?? "This attempt was recorded before scorecards were enabled."}
+                    {resultBand ??
+                      (hasScoreSummaryOnly
+                        ? "Score summary saved; result band unavailable."
+                        : "This attempt was recorded before scorecards were enabled.")}
                   </p>
                 </div>
                 {scorecard && (
                   <div className="rounded-full border border-sky-200 bg-sky-50 px-3 py-1 text-xs font-semibold text-sky-700">
                     Deterministic Phase 4A
+                  </div>
+                )}
+                {hasScoreSummaryOnly && (
+                  <div className="rounded-full border border-amber-200 bg-amber-50 px-3 py-1 text-xs font-semibold text-amber-800">
+                    Score summary only
                   </div>
                 )}
               </div>
@@ -392,8 +404,9 @@ export default function ResultsPage({ params, searchParams }: Props) {
 
           {!scorecard && savedAttempt && !fetchError && (
             <div className="mt-6 rounded-[16px] border border-amber-200 bg-amber-50 p-4 text-sm leading-7 text-amber-900">
-              This attempt was recorded before scorecards were enabled. Submit a new attempt to see
-              the Phase 4A deterministic breakdown.
+              {hasScoreSummaryOnly
+                ? "A score summary exists, but the detailed scorecard row could not be loaded. This can happen if scorecard insertion failed or the scorecard was created before detailed scorecard fetching was available."
+                : "This attempt was recorded before scorecards were enabled. Submit a new attempt to see the Phase 4A deterministic breakdown."}
             </div>
           )}
 

@@ -47,6 +47,7 @@
       "types/test-run.ts"
     ],
     "document": [
+      ".graphify/GRAPH_REPORT.md",
       "AGENTS.md",
       "CLAUDE.md",
       "CODEX.md",
@@ -66,17 +67,18 @@
     ],
     "video": []
   },
-  "total_files": 57,
-  "total_words": 66621,
+  "total_files": 58,
+  "total_words": 68080,
   "needs_graph": true,
   "warning": null,
   "skipped_sensitive": [],
   "graphifyignore_patterns": 16,
   "git": {
     "source_owner": "git",
-    "source_hash": "2976802a78bb99c1585127023f9c3f7ca2fbcb91",
+    "source_hash": "a8085512494f3812ab640ace22a8a488b2101c8b",
     "branches": [
       "main",
+      "phase-4a-closeout-validation",
       "phase-4a-deterministic-scorecards"
     ],
     "max_commits": 200,
@@ -88,13 +90,13 @@
     "source": "default-auto",
     "root": ".",
     "git_root": ".",
-    "head": "2976802a78bb99c1585127023f9c3f7ca2fbcb91",
-    "candidate_count": 89,
-    "included_count": 57,
-    "excluded_untracked_count": 8,
-    "excluded_ignored_count": 44848,
+    "head": "a8085512494f3812ab640ace22a8a488b2101c8b",
+    "candidate_count": 95,
+    "included_count": 58,
+    "excluded_untracked_count": 0,
+    "excluded_ignored_count": 44852,
     "excluded_sensitive_count": 0,
-    "missing_committed_count": 2,
+    "missing_committed_count": 0,
     "warnings": [],
     "recommendation": "Use --scope all or graphify.yaml inputs.corpus for a knowledge-base folder."
   }

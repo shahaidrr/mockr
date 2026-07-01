@@ -1,5 +1,50 @@
 # Documentation Log
 
+## 2026-07-01 — Phase 4A Closeout
+
+### What was completed
+
+Closed the remaining Phase 4A validation items without starting Phase 4B. Added the TypeScript 6 deprecation suppression recommended by `tsc`, refined results-page fallback messaging for attempts that have summary score fields but no joined `scorecards` row, expanded manual testing coverage for JavaScript submissions with failing public tests, and documented the required production Supabase scorecards insert-policy migration.
+
+### Files/routes/components/tables changed
+
+- `tsconfig.json` — Added `"ignoreDeprecations": "6.0"` so `baseUrl` remains unchanged while TypeScript 6 no longer fails the build.
+- `app/results/[attemptId]/page.tsx` — Added a score-summary-only state for saved attempts where `attempts.overall_score` or `attempts.result_band` exists but the detailed scorecard row is missing. Full scorecards still show the category breakdown; old attempts with no score still show the pre-scorecard fallback.
+- `TESTING.md` — Added Phase 4A manual coverage for JavaScript attempts with failing public tests still saving attempts, snapshots, public test runs, scorecards, summary fields, lower correctness scoring, dashboard score visibility, and no hidden-test exposure.
+- `documentation.md` — Added this closeout record and migration reminder.
+
+### Supabase migration reminder
+
+`supabase/migrations/002_scorecards_insert_policy.sql` must be applied to the real Supabase project before Phase 4A browser-side scorecard inserts can work in production. Without it, `public.attempts` and related rows may save while `public.scorecards` inserts fail due to RLS.
+
+### Verification
+
+- `npm run lint` passed.
+- `npx tsc --noEmit` passed after the TypeScript config closeout.
+- `npm run build` failed inside the sandbox with the known Turbopack `Operation not permitted` process/port error, then passed when rerun with elevated permissions.
+
+### Commands run
+
+```bash
+npx graphify query "What files are relevant to Phase 4A scorecard persistence, results, dashboard, testing docs, and TypeScript config?"
+npx graphify query "What files are affected by scorecard RLS, failed public test scorecards, and missing-scorecard fallbacks?"
+npx tsc --noEmit
+npm run lint
+npm run build
+npx graphify query "What changed for Phase 4A closeout?"
+npx graphify update --no-description --no-label .
+```
+
+### Limitations that remain
+
+- The closeout does not apply the Supabase migration to production; it only documents that the user must apply `002_scorecards_insert_policy.sql`.
+- Scoring remains deterministic Phase 4A only. No AI scoring, hidden-test execution, server-side execution, C++ execution, Judge0, Piston, or `/api/grade` was added.
+- Hidden tests remain authored in the database but are not fetched, exposed, run, or scored by the app.
+
+### What should happen next
+
+Phase 4A is safe to move forward from once the production Supabase scorecards insert policy migration is applied and the new manual checklist items are exercised in browser testing.
+
 ## 2026-06-30 — Graphify CLI Restored
 
 ### What was completed
