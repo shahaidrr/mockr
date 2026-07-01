@@ -1,16 +1,16 @@
 {
   "schemaVersion": 1,
-  "branchName": "phase-4a-deterministic-scorecards",
+  "branchName": "phase-4a-closeout-validation",
   "worktreePath": "/Users/shahaidrr/Documents/mockr",
   "upstream": null,
   "mergeBase": null,
-  "firstSeenHead": "2976802a78bb99c1585127023f9c3f7ca2fbcb91",
-  "lastSeenHead": "2976802a78bb99c1585127023f9c3f7ca2fbcb91",
-  "lastAnalyzedHead": "2976802a78bb99c1585127023f9c3f7ca2fbcb91",
+  "firstSeenHead": "a8085512494f3812ab640ace22a8a488b2101c8b",
+  "lastSeenHead": "a8085512494f3812ab640ace22a8a488b2101c8b",
+  "lastAnalyzedHead": "a8085512494f3812ab640ace22a8a488b2101c8b",
   "stale": false,
   "staleReason": null,
   "staleSince": null,
   "lifecycleEvent": null,
-  "createdAt": "2026-06-30T06:54:07.622Z",
-  "updatedAt": "2026-06-30T06:59:13.563Z"
+  "createdAt": "2026-07-01T04:00:16.019Z",
+  "updatedAt": "2026-07-01T04:00:16.019Z"
 }

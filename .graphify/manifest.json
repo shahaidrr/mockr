@@ -60,8 +60,8 @@
     "hash": "85a45a75318388b097ebcdaad267d3ba"
   },
   "app/results/[attemptId]/page.tsx": {
-    "mtime": 1782801808327.1277,
-    "hash": "20472152265a1a7486c982f1a682e024"
+    "mtime": 1782878326853.5273,
+    "hash": "f53d5cbf49136804a18ea1f1bab54c4a"
   },
   "app/signup/page.tsx": {
     "mtime": 1782727432441.281,
@@ -192,12 +192,12 @@
     "hash": "f15aaa42d5d299d091b1171097ea56ad"
   },
   "TESTING.md": {
-    "mtime": 1782802671787.5952,
-    "hash": "74b20e40284b98ed62321eb0b7d510d9"
+    "mtime": 1782878341376.8477,
+    "hash": "8394fb936111f88e48960608dab10262"
   },
   "documentation.md": {
-    "mtime": 1782802739527.498,
-    "hash": "10902935967d49b0cf75bef64fa40355"
+    "mtime": 1782878407086.752,
+    "hash": "a7585742c19f7bfc4b0f28ac0780a74b"
   },
   "graphify-out/GRAPH_REPORT.md": {
     "mtime": 1782802059745.3804,
@@ -226,5 +226,9 @@
   "public/window.svg": {
     "mtime": 1782278996976.425,
     "hash": "a2760511c65806022ad20adf74370ff3"
+  },
+  ".graphify/GRAPH_REPORT.md": {
+    "mtime": 1782802753499.1975,
+    "hash": "b29a8afbdb9f3c9eebd75a5e972e466d"
   }
 }

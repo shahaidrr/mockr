@@ -1,25 +1,25 @@
-# Graph Report - .  (2026-06-30)
+# Graph Report - .  (2026-07-01)
 
 ## Corpus Check
-- 57 files · ~66,621 words
+- 58 files · ~68,080 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 253 nodes · 584 edges · 8 communities detected
+- 255 nodes · 637 edges · 8 communities detected
 - Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS
 - Token cost: 0 input · 0 output
-- Edge kinds: contains: 164 · MODIFIES: 123 · ON_BRANCH: 82 · imports: 71 · imports_from: 55 · PARENT_OF: 48 · calls: 30 · references: 9 · triggers: 2
+- Edge kinds: contains: 164 · ON_BRANCH: 129 · MODIFIES: 127 · imports: 71 · imports_from: 55 · PARENT_OF: 50 · calls: 30 · references: 9 · triggers: 2
 
 
 ## Input Scope
 - Requested: auto
 - Resolved: committed (source: default-auto)
-- Included files: 57 · Candidates: 89
-- Excluded: 8 untracked · 44848 ignored · 0 sensitive · 2 missing committed
+- Included files: 58 · Candidates: 95
+- Excluded: 0 untracked · 44852 ignored · 0 sensitive · 0 missing committed
 - Recommendation: Use --scope all or graphify.yaml inputs.corpus for a knowledge-base folder.
 
 ## Graph Freshness
-- Built from Git commit: `2976802`
+- Built from Git commit: `a808551`
 - Compare this hash to `git rev-parse HEAD` before trusting freshness-sensitive graph output.
 ## God Nodes (most connected - your core abstractions)
 1. `calculateDeterministicScorecard()` - 13 edges
@@ -34,50 +34,50 @@
 10. `PublicTestRunSummary` - 5 edges
 
 ## Surprising Connections (you probably didn't know these)
-- `05165f4 Added code editor for practice demo` --ON_BRANCH--> `main`  [EXTRACTED]
-  git → git  _Bridges community 6 → community 0_
-- `26f9ded Merge pull request #1 from shahaidrr/phase-1-v1.0.0` --ON_BRANCH--> `main`  [EXTRACTED]
-  git → git  _Bridges community 3 → community 0_
+- `26f9ded Merge pull request #1 from shahaidrr/phase-1-v1.0.0` --PARENT_OF--> `4664dce Implement Phase 2 JavaScript public test execution`  [EXTRACTED]
+  git → git  _Bridges community 2 → community 4_
 - `28a1956 Implement Phase 1: database-backed question library and practice workspace` --ON_BRANCH--> `main`  [EXTRACTED]
-  git → git  _Bridges community 2 → community 0_
-- `28a1956 Implement Phase 1: database-backed question library and practice workspace` --PARENT_OF--> `f65b270 Refactor /practice/[questionId] into integrated coding workspace`  [EXTRACTED]
-  git → git  _Bridges community 2 → community 3_
-- `2976802 Fix local Graphify workflow and remove wrong dependency` --ON_BRANCH--> `phase-4a-deterministic-scorecards`  [EXTRACTED]
-  git → git  _Bridges community 1 → community 0_
+  git → git  _Bridges community 0 → community 2_
+- `3b7a101 changes to UI/UX, placeholders replaced with values from user connected to supabase; attempt submitted. improved UI, +14 hidden tests for each question and output input` --ON_BRANCH--> `main`  [EXTRACTED]
+  git → git  _Bridges community 1 → community 2_
+- `6b3243c add authentication, dashboard and supabase setup` --ON_BRANCH--> `main`  [EXTRACTED]
+  git → git  _Bridges community 5 → community 2_
+- `c1d2b76 Build MOCKR.AI MVP site skeleton` --PARENT_OF--> `6b97f02 Fix Supabase auth configuration handling`  [EXTRACTED]
+  git → git  _Bridges community 1 → community 5_
 
 ## Communities
 
 ### Community 0 - "Community 0"
-Cohesion: 0.07
-Nodes (45): metadata, FeatureCardProps, navLinks, positioningChips, featureCards, steps, futureCards, dashboardPreviewStats (+37 more)
-
-### Community 5 - "Community 5"
-Cohesion: 0.23
-Nodes (8): SupabaseConfig, getSupabaseKey(), getSupabaseKeyErrorMessage(), getSupabaseConfig(), updateSession(), config, 6b3243c add authentication, dashboard and supabase setup, 6b97f02 Fix Supabase auth configuration handling
-
-### Community 4 - "Community 4"
-Cohesion: 0.10
-Nodes (10): LANGUAGE_LABELS, QuestionSummary, AttemptRowRaw, AttemptRow, DashboardCardProps, StatCardProps, createClient(), 3b7a101 changes to UI/UX, placeholders replaced with values from user connected to supabase; attempt submitted. improved UI, +14 hidden tests for each question and output input (+2 more)
-
-### Community 2 - "Community 2"
-Cohesion: 0.09
-Nodes (24): VALID_MODES, VALID_LANGUAGES, Props, Props, DIFFICULTY_STYLES, LANGUAGE_OPTIONS, Props, metadata (+16 more)
-
-### Community 3 - "Community 3"
-Cohesion: 0.11
-Nodes (29): CodeEditor, INTERVIEW_PANELS, PANEL_LABELS, LANGUAGE_OPTIONS, DIFFICULTY_COLORS, formatValue(), Props, DetailRow() (+21 more)
-
-### Community 6 - "Community 6"
-Cohesion: 0.18
-Nodes (7): LANGUAGES, STARTER_CODE, ActiveTab, SidebarPanel, CodeEditorProps, INTERVIEW_OPTIONS, 05165f4 Added code editor for practice demo
+Cohesion: 0.06
+Nodes (40): 28a1956 Implement Phase 1: database-backed question library and practice workspace, f65b270 Refactor /practice/[questionId] into integrated coding workspace, buildDraftKey(), buildEmptyDraft(), clearDraft(), loadDraft(), saveDraft(), fetchPublicTestCases() (+32 more)
 
 ### Community 1 - "Community 1"
-Cohesion: 0.08
-Nodes (42): LANGUAGE_LABELS, MODE_LABELS, CATEGORY_LABELS, formatDuration(), formatDateTime(), StoredResult, Props, ResultsPage() (+34 more)
+Cohesion: 0.05
+Nodes (23): metadata, 3b7a101 changes to UI/UX, placeholders replaced with values from user connected to supabase; attempt submitted. improved UI, +14 hidden tests for each question and output input, c1d2b76 Build MOCKR.AI MVP site skeleton, c3c34fe fixed vercel connecting issue, d5eca5c Merge pull request #4 from shahaidrr/UI/UX-upgrade, DashboardCardProps, FeatureCardProps, dashboardPreviewStats (+15 more)
+
+### Community 2 - "Community 2"
+Cohesion: 0.11
+Nodes (43): main, phase-4a-closeout-validation, phase-4a-deterministic-scorecards, 05165f4 Added code editor for practice demo, 0aaf552 Merge branch 'main' of https://github.com/shahaidrr/mockr Merge confict resolved to push code editor, 26f9ded Merge pull request #1 from shahaidrr/phase-1-v1.0.0, 2976802 Fix local Graphify workflow and remove wrong dependency, 35516e0 Fixed empty landing page route (+35 more)
+
+### Community 3 - "Community 3"
+Cohesion: 0.12
+Nodes (30): AttemptPublicTestSummary, fetchAttemptById(), SavedAttempt, submitAttempt(), SubmitAttemptArgs, buildLists(), calculateDeterministicScorecard(), clampScore() (+22 more)
+
+### Community 4 - "Community 4"
+Cohesion: 0.15
+Nodes (19): CATEGORY_LABELS, formatDateTime(), formatDuration(), LANGUAGE_LABELS, MODE_LABELS, Props, ResultsPage(), StoredResult (+11 more)
+
+### Community 5 - "Community 5"
+Cohesion: 0.20
+Nodes (8): 6b3243c add authentication, dashboard and supabase setup, 6b97f02 Fix Supabase auth configuration handling, config, getSupabaseConfig(), getSupabaseKey(), getSupabaseKeyErrorMessage(), SupabaseConfig, updateSession()
+
+### Community 6 - "Community 6"
+Cohesion: 0.33
+Nodes (10): attempts_updated_at, auth.users, public.attempt_events, public.attempts, public.code_snapshots, public.question_test_cases, public.questions, public.scorecards (+2 more)
 
 ### Community 7 - "Community 7"
-Cohesion: 0.33
-Nodes (10): public.questions, public.question_test_cases, public.attempts, auth.users, public.attempt_events, public.code_snapshots, public.test_runs, public.scorecards (+2 more)
+Cohesion: 0.25
+Nodes (4): ActiveTab, LANGUAGES, SidebarPanel, STARTER_CODE
 
 ## Knowledge Gaps
 - **60 isolated node(s):** `LANGUAGE_LABELS`, `QuestionSummary`, `AttemptRowRaw`, `AttemptRow`, `metadata` (+55 more)
@@ -86,17 +86,15 @@ Nodes (10): public.questions, public.question_test_cases, public.attempts, auth.
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `createClient()` connect `Community 2` to `Community 0`, `Community 4`, `Community 6`, `Community 5`?**
-  _High betweenness centrality (0.018) - this node is a cross-community bridge._
+- **Why does `createClient()` connect `Community 0` to `Community 1`, `Community 5`, `Community 7`?**
+  _High betweenness centrality (0.016) - this node is a cross-community bridge._
 - **What connects `LANGUAGE_LABELS`, `QuestionSummary`, `AttemptRowRaw` to the rest of the system?**
   _60 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `Community 0` be split into smaller, more focused modules?**
-  _Cohesion score 0.06610259122157588 - nodes in this community are weakly interconnected._
-- **Should `Community 4` be split into smaller, more focused modules?**
-  _Cohesion score 0.09538461538461539 - nodes in this community are weakly interconnected._
-- **Should `Community 2` be split into smaller, more focused modules?**
-  _Cohesion score 0.08534850640113797 - nodes in this community are weakly interconnected._
-- **Should `Community 3` be split into smaller, more focused modules?**
-  _Cohesion score 0.11261261261261261 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.06352087114337568 - nodes in this community are weakly interconnected._
 - **Should `Community 1` be split into smaller, more focused modules?**
-  _Cohesion score 0.08078231292517007 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.05254901960784314 - nodes in this community are weakly interconnected._
+- **Should `Community 2` be split into smaller, more focused modules?**
+  _Cohesion score 0.11294117647058824 - nodes in this community are weakly interconnected._
+- **Should `Community 3` be split into smaller, more focused modules?**
+  _Cohesion score 0.11932773109243698 - nodes in this community are weakly interconnected._
