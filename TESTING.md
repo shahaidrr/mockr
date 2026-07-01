@@ -459,6 +459,35 @@ Run tests by visiting the live dev server (`npm run dev`) and following each ste
 
 ---
 
+## Assessment Integrity Foundation (database only — no frontend UI yet)
+
+These items verify the Supabase migration was applied and the data layer works.
+Apply `supabase/migrations/003_assessment_integrity_foundation.sql` first.
+
+### Migration applied correctly
+- [ ] Open Supabase dashboard → Table Editor: `assessment_integrity_events` table exists with all columns
+- [ ] Open Supabase dashboard → Table Editor: `user_consents` table exists
+- [ ] Open Supabase dashboard → Table Editor: `attempts` table now has `integrity_status`, `integrity_event_count`, `assessment_started_at`, `assessment_submitted_at`, `fullscreen_required`, `fullscreen_active`, `integrity_metadata` columns
+- [ ] Open Supabase dashboard → Database → Views: `assessment_integrity_summary` view exists
+
+### RPC function
+- [ ] Open Supabase dashboard → Database → Functions: `log_assessment_integrity_event` function exists with `SECURITY INVOKER`
+- [ ] Call the RPC from the SQL Editor as an authenticated user with a valid `attempt_id` → returns `{ event_id, integrity_status, integrity_event_count }`
+- [ ] Call the RPC with an `attempt_id` belonging to a different user → returns an access-denied error
+
+### RLS policies
+- [ ] Query `assessment_integrity_events` as an authenticated user → returns only rows where `user_id = auth.uid()`
+- [ ] Attempt to INSERT an integrity event for an attempt owned by a different user → INSERT is rejected by RLS
+- [ ] Query `user_consents` as an authenticated user → returns only own rows
+- [ ] Attempt to INSERT a `user_consents` row with a different `user_id` → INSERT is rejected
+
+### TypeScript helper (browser, not wired to UI yet)
+- [ ] Import `logAssessmentIntegrityEvent` from `lib/assessment-integrity.ts` in a test component → no TypeScript errors
+- [ ] Import `getAssessmentIntegritySummary` from `lib/assessment-integrity.ts` → no TypeScript errors
+- [ ] Import types from `types/assessment-integrity.ts` → all types resolve correctly
+
+---
+
 ## Cross-cutting
 
 - [ ] Refreshing any page while logged in maintains the session

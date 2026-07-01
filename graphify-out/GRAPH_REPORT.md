@@ -1,16 +1,16 @@
-# Graph Report - mockr  (2026-06-30)
+# Graph Report - mockr  (2026-07-01)
 
 ## Corpus Check
-- 55 files · ~35,619 words
+- 58 files · ~40,751 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 445 nodes · 536 edges · 25 communities (21 shown, 4 thin omitted)
+- 514 nodes · 657 edges · 38 communities (34 shown, 4 thin omitted)
 - Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `94e87df6`
+- Built from commit: `9efe1cce`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -31,6 +31,7 @@
 - [[_COMMUNITY_Community 13|Community 13]]
 - [[_COMMUNITY_Community 14|Community 14]]
 - [[_COMMUNITY_Community 15|Community 15]]
+- [[_COMMUNITY_Community 16|Community 16]]
 - [[_COMMUNITY_Community 17|Community 17]]
 - [[_COMMUNITY_Community 18|Community 18]]
 - [[_COMMUNITY_Community 19|Community 19]]
@@ -38,17 +39,29 @@
 - [[_COMMUNITY_Community 21|Community 21]]
 - [[_COMMUNITY_Community 22|Community 22]]
 - [[_COMMUNITY_Community 24|Community 24]]
+- [[_COMMUNITY_Community 25|Community 25]]
+- [[_COMMUNITY_Community 26|Community 26]]
+- [[_COMMUNITY_Community 27|Community 27]]
+- [[_COMMUNITY_Community 28|Community 28]]
+- [[_COMMUNITY_Community 29|Community 29]]
+- [[_COMMUNITY_Community 30|Community 30]]
+- [[_COMMUNITY_Community 31|Community 31]]
+- [[_COMMUNITY_Community 32|Community 32]]
+- [[_COMMUNITY_Community 33|Community 33]]
+- [[_COMMUNITY_Community 34|Community 34]]
+- [[_COMMUNITY_Community 35|Community 35]]
+- [[_COMMUNITY_Community 36|Community 36]]
 
 ## God Nodes (most connected - your core abstractions)
-1. `Documentation Log` - 24 edges
+1. `Documentation Log` - 29 edges
 2. `createClient()` - 19 edges
-3. `compilerOptions` - 17 edges
-4. `Phase 2 Polish — Multi-Language Public Test Runner` - 17 edges
-5. `Phase 2 — JavaScript Public Test Execution` - 17 edges
-6. `MOCKR.AI — Feature Testing Checklist` - 16 edges
-7. `Phase 2 Polish — Multi-Language Public Test Execution` - 13 edges
-8. `2026-06-29 — Agent Instruction Consolidation` - 12 edges
-9. `AGENTS.md — MOCKR.AI Canonical Agent Instructions` - 11 edges
+3. `MOCKR.AI — Feature Testing Checklist` - 19 edges
+4. `compilerOptions` - 17 edges
+5. `Phase 2 Polish — Multi-Language Public Test Runner` - 17 edges
+6. `Phase 2 — JavaScript Public Test Execution` - 17 edges
+7. `calculateDeterministicScorecard()` - 14 edges
+8. `Phase 2 Polish — Multi-Language Public Test Execution` - 13 edges
+9. `2026-06-29 — Agent Instruction Consolidation` - 12 edges
 10. `Landing Header Fix + Phase 3 — Attempt Persistence` - 11 edges
 
 ## Surprising Connections (you probably didn't know these)
@@ -66,7 +79,7 @@
 ## Import Cycles
 - None detected.
 
-## Communities (25 total, 4 thin omitted)
+## Communities (38 total, 4 thin omitted)
 
 ### Community 0 - "Community 0"
 Cohesion: 0.06
@@ -74,7 +87,7 @@ Nodes (32): auth/signout/route.ts, ast_hash, mtime, semantic_hash, dashboard/pag
 
 ### Community 1 - "Community 1"
 Cohesion: 0.08
-Nodes (24): dependencies, @monaco-editor/react, next, react, react-dom, @supabase/ssr, @supabase/supabase-js, devDependencies (+16 more)
+Nodes (25): dependencies, @monaco-editor/react, next, react, react-dom, @supabase/ssr, @supabase/supabase-js, devDependencies (+17 more)
 
 ### Community 2 - "Community 2"
 Cohesion: 0.10
@@ -85,16 +98,16 @@ Cohesion: 0.11
 Nodes (11): FeatureCardProps, dashboardPreviewStats, featureCards, futureCards, LandingPageProps, navLinks, positioningChips, steps (+3 more)
 
 ### Community 4 - "Community 4"
-Cohesion: 0.08
-Nodes (30): Home(), GET(), DemoPracticePage(), fetchPublicTestCases(), fetchPublishedQuestions(), fetchQuestionById(), fetchQuestionBySlug(), PracticePage() (+22 more)
+Cohesion: 0.14
+Nodes (19): Home(), GET(), DemoPracticePage(), fetchPublicTestCases(), fetchPublishedQuestions(), fetchQuestionById(), fetchQuestionBySlug(), PracticePage() (+11 more)
 
 ### Community 5 - "Community 5"
-Cohesion: 0.05
-Nodes (39): 2026-06-28 16:12:00 AEST, 2026-06-28 16:14:00 AEST, 2026-06-28 16:18:00 AEST, 2026-06-28 16:22:00 AEST, 2026-06-28 16:26:00 AEST, 2026-06-28 16:29:21 AEST, 2026-06-28 16:31:00 AEST, 2026-06-28 16:33:00 AEST (+31 more)
+Cohesion: 0.14
+Nodes (13): 2026-06-28 16:12:00 AEST, 2026-06-28 16:14:00 AEST, 2026-06-28 16:18:00 AEST, 2026-06-28 16:22:00 AEST, 2026-06-28 16:26:00 AEST, 2026-06-28 16:29:21 AEST, 2026-06-28 16:31:00 AEST, 2026-06-28 16:33:00 AEST (+5 more)
 
 ### Community 6 - "Community 6"
-Cohesion: 0.10
-Nodes (19): formatDuration(), LANGUAGE_LABELS, MODE_LABELS, Props, ResultsPage(), StoredResult, fetchAttemptById(), fetchRecentAttempts() (+11 more)
+Cohesion: 0.08
+Nodes (24): CATEGORY_LABELS, formatDateTime(), formatDuration(), LANGUAGE_LABELS, MODE_LABELS, Props, ResultsPage(), StoredResult (+16 more)
 
 ### Community 7 - "Community 7"
 Cohesion: 0.22
@@ -105,32 +118,36 @@ Cohesion: 0.20
 Nodes (10): Files Created, Files Modified, New Routes, Overview, Phase 1 — Database-backed Question Library and Practice Workspace, Phase 1 Limitations, Phases Roadmap, Practice Workspace Layout (integrated coding environment) (+2 more)
 
 ### Community 9 - "Community 9"
-Cohesion: 0.11
-Nodes (25): buildDraftKey(), buildEmptyDraft(), clearDraft(), loadDraft(), saveDraft(), runPublicTests(), spawnWorker(), CodeEditor (+17 more)
+Cohesion: 0.07
+Nodes (36): buildDraftKey(), buildEmptyDraft(), clearDraft(), loadDraft(), saveDraft(), runPublicTests(), spawnWorker(), CodeEditor (+28 more)
 
 ### Community 10 - "Community 10"
 Cohesion: 0.50
 Nodes (3): Deploy on Vercel, Getting Started, Learn More
 
 ### Community 11 - "Community 11"
-Cohesion: 0.11
-Nodes (17): 1. Read context first, 2. Query Graphify before touching source files, 3. After meaningful changes — update Graphify, AGENTS.md — MOCKR.AI Canonical Agent Instructions, Before Every Task — Mandatory Orientation, Commit Message Summary, Documentation Workflow, Execution Workflow for all Tasks (+9 more)
+Cohesion: 0.13
+Nodes (14): 1. Read context first, 2. Query Graphify before touching source files, 3. After meaningful changes — update Graphify, After completing each phase or task, After Meaningful Changes, AGENTS.md — MOCKR.AI Canonical Agent Instructions, Before editing — state intent, Before Every Task — Mandatory Orientation (+6 more)
+
+### Community 16 - "Community 16"
+Cohesion: 0.13
+Nodes (14): Agent Instructions, Cross-cutting, Dashboard (`/dashboard`), Hidden Test Cases (data authoring), Instruction file consolidation (2026-06-29), Landing Page (`/`), MOCKR.AI — Feature Testing Checklist, Practice Demo (`/practice/demo`) (+6 more)
 
 ### Community 17 - "Community 17"
-Cohesion: 0.11
-Nodes (21): 2026-06-28 — Coding Workspace UI, 2026-06-29 — Agent Instruction Consolidation, 2026-06-30 — "Start" button in question library scrolls to setup section, Current Limitations, Files changed, Files Changed, Files changed, Issues encountered (+13 more)
+Cohesion: 0.07
+Nodes (34): 2026-06-28 — Coding Workspace UI, 2026-06-29 — Agent Instruction Consolidation, 2026-06-30 — Graphify CLI Restored, 2026-06-30 — Persistent timer across reloads and navigation, 2026-06-30 — "Start" button in question library scrolls to setup section, Current Limitations, Files changed, Files changed (+26 more)
 
 ### Community 18 - "Community 18"
-Cohesion: 0.40
-Nodes (4): AttemptMode, AttemptStatus, ResultBand, SupportedLanguage
+Cohesion: 0.16
+Nodes (25): buildLists(), calculateDeterministicScorecard(), clampScore(), countMatches(), countWords(), getResultBand(), normaliseText(), scoreAlgorithmicApproach() (+17 more)
 
 ### Community 19 - "Community 19"
 Cohesion: 0.18
 Nodes (11): Current Limitations, Date, Landing Header Fix, Landing Header Fix + Phase 3 — Attempt Persistence, Phase 3 Files Changed, Phase 3 Files Created, Phase 3 Polish (same session), Recommended Next Steps (+3 more)
 
 ### Community 20 - "Community 20"
-Cohesion: 0.04
-Nodes (48): Agent Instructions, Assessment Attempt Tracking, Assessment Mode Exit Guard, Assessment Mode — No Side Effects on Practice Mode, Assessment Mode Timer, Auth, Cross-cutting, Dashboard (`/dashboard`) (+40 more)
+Cohesion: 0.12
+Nodes (17): Disable during run, Error Tests — JavaScript, Error Tests — Python, Failing Tests — JavaScript, Failing Tests — Python, No Public Test Cases (edge case), Passing Tests — JavaScript, Passing Tests — Python (+9 more)
 
 ### Community 21 - "Community 21"
 Cohesion: 0.22
@@ -138,31 +155,79 @@ Nodes (9): Assessment Mode Timer, Auth Gate, Draft Saving & Restoration, Intervi
 
 ### Community 22 - "Community 22"
 Cohesion: 0.06
-Nodes (35): C++ Execution Status, Commands run, Confirmations, Confirmations, Current Limitations (Phase 2 initial), Current Limitations (Phase 2 Polish), Date, Date (+27 more)
+Nodes (36): C++ Execution Status, Commands run, Commands run, Confirmations, Confirmations, Current Limitations (Phase 2 initial), Current Limitations (Phase 2 Polish), Date (+28 more)
 
 ### Community 24 - "Community 24"
 Cohesion: 0.14
 Nodes (8): DashboardCardProps, StatCard(), StatCardProps, AttemptRow, AttemptRowRaw, DashboardPage(), LANGUAGE_LABELS, QuestionSummary
 
+### Community 25 - "Community 25"
+Cohesion: 0.22
+Nodes (9): 2026-06-30 — Editor, Timer, and Assessment Session Control, Attempt tracking storage keys, Files changed, How Assessment Mode session control works, How editor behaviour now works, How the timer was fixed, Limitations, What should happen next (+1 more)
+
+### Community 26 - "Community 26"
+Cohesion: 0.25
+Nodes (8): Auth Behaviour — Unchanged, Date, Files Changed, Files Created, Known Limitations, Recommended Next Steps (superseded by Phase 3 below), Summary, UI/UX Redesign — Sign-Up Page, Auth Polish, and Full MVP Flow
+
+### Community 27 - "Community 27"
+Cohesion: 0.29
+Nodes (7): Assessment Attempt Tracking, Assessment Mode Exit Guard, Assessment Mode — No Side Effects on Practice Mode, Assessment Mode Timer, Editor, Timer, and Assessment Session Control, Monaco Editor — No Suggestions, Practice Mode Timer
+
+### Community 28 - "Community 28"
+Cohesion: 0.33
+Nodes (6): 2026-06-29 20:41:32 AEST — Phase 4A Deterministic Scorecards, Files/routes/components/tables changed, Issues encountered and assumptions made, Limitations that remain, What should happen next, What was completed
+
+### Community 29 - "Community 29"
+Cohesion: 0.33
+Nodes (6): 2026-06-29 20:50:00 AEST — Graphify Fallback Repair, Files/routes/components/tables changed, Issues encountered and assumptions made, Limitations that remain, What should happen next, What was completed
+
+### Community 30 - "Community 30"
+Cohesion: 0.33
+Nodes (6): 2026-06-29 21:04:04 AEST — Graphify Dependency Cleanup, Files/routes/components/tables changed, Issues encountered and assumptions made, Limitations that remain, What should happen next, What was completed
+
+### Community 31 - "Community 31"
+Cohesion: 0.33
+Nodes (6): Confirmed counts, Date, Design principles, Hidden Test Authoring — All 7 Questions, Hidden tests by question, Summary
+
+### Community 32 - "Community 32"
+Cohesion: 0.33
+Nodes (6): Dashboard — real attempt history, Phase 3 — Attempt Persistence, Results page — saved attempt, Submit button states, Submit fallback (Supabase unavailable), Submit saves to Supabase
+
+### Community 33 - "Community 33"
+Cohesion: 0.40
+Nodes (5): Assessment Mode timer persists across reloads, Practice and Assessment timers are independent, Practice Mode timer persists across reloads and navigation, Timer Persistence, Timer resets correctly on new attempt
+
+### Community 34 - "Community 34"
+Cohesion: 0.40
+Nodes (5): Auth, Email Confirmation Callback, Login (`/login`), Sign Out, Sign Up (`/signup`)
+
+### Community 35 - "Community 35"
+Cohesion: 0.40
+Nodes (5): Dashboard — score visibility, Phase 4A — Deterministic Scorecards, Results page — deterministic scorecards, Results page — public test summary and language handling, Scorecard persistence
+
+### Community 36 - "Community 36"
+Cohesion: 0.67
+Nodes (3): Graphify Workflow, Rules, Session loop
+
 ## Knowledge Gaps
-- **284 isolated node(s):** `LANGUAGE_LABELS`, `QuestionSummary`, `AttemptRowRaw`, `AttemptRow`, `metadata` (+279 more)
+- **319 isolated node(s):** `LANGUAGE_LABELS`, `QuestionSummary`, `AttemptRowRaw`, `AttemptRow`, `metadata` (+314 more)
   These have ≤1 connection - possible missing edges or undocumented components.
 - **4 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `Documentation Log` connect `Community 5` to `Community 8`, `Community 17`, `Community 19`, `Community 22`?**
-  _High betweenness centrality (0.060) - this node is a cross-community bridge._
+- **Why does `Documentation Log` connect `Community 5` to `Community 36`, `Community 8`, `Community 17`, `Community 19`, `Community 22`, `Community 25`, `Community 26`, `Community 28`, `Community 29`, `Community 30`, `Community 31`?**
+  _High betweenness centrality (0.074) - this node is a cross-community bridge._
 - **Why does `createClient()` connect `Community 4` to `Community 24`, `Community 6`?**
-  _High betweenness centrality (0.039) - this node is a cross-community bridge._
+  _High betweenness centrality (0.036) - this node is a cross-community bridge._
 - **Why does `getSupabaseConfig()` connect `Community 6` to `Community 4`?**
-  _High betweenness centrality (0.019) - this node is a cross-community bridge._
+  _High betweenness centrality (0.023) - this node is a cross-community bridge._
 - **What connects `LANGUAGE_LABELS`, `QuestionSummary`, `AttemptRowRaw` to the rest of the system?**
-  _284 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _319 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `Community 0` be split into smaller, more focused modules?**
   _Cohesion score 0.06060606060606061 - nodes in this community are weakly interconnected._
 - **Should `Community 1` be split into smaller, more focused modules?**
-  _Cohesion score 0.08 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.07692307692307693 - nodes in this community are weakly interconnected._
 - **Should `Community 2` be split into smaller, more focused modules?**
   _Cohesion score 0.09523809523809523 - nodes in this community are weakly interconnected._

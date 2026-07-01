@@ -1,5 +1,128 @@
 # Documentation Log
 
+## 2026-07-01 — Assessment Integrity Database Foundation
+
+### What was completed
+
+Prepared the Supabase data layer for Assessment Integrity Mode. No frontend locked-browser UI was implemented. No webcam, audio, video, screenshot, or photo storage was added.
+
+### Tables / columns created
+
+**`public.attempts` — altered (additive only)**
+
+New columns (all safe defaults; existing rows unaffected):
+
+| Column | Type | Default | Purpose |
+|---|---|---|---|
+| `integrity_status` | `text` | `'clean'` | Current integrity state for the attempt |
+| `integrity_event_count` | `int` | `0` | Running total of all integrity events |
+| `assessment_started_at` | `timestamptz` | `null` | When the user entered assessment mode |
+| `assessment_submitted_at` | `timestamptz` | `null` | When the attempt was submitted in assessment mode |
+| `fullscreen_required` | `boolean` | `false` | Whether fullscreen was required for this attempt |
+| `fullscreen_active` | `boolean` | `false` | Whether fullscreen is currently active |
+| `integrity_metadata` | `jsonb` | `{}` | Arbitrary extra integrity data for future use |
+
+Check constraint added: `integrity_status in ('clean', 'warning', 'flagged', 'compromised')`.
+
+**`public.assessment_integrity_events` — new table**
+
+Append-only log of assessment-environment events. Fields: `id`, `attempt_id`, `user_id`, `event_type`, `severity`, `stage`, `elapsed_seconds`, `occurred_at`, `metadata`, `created_at`. Check constraints on `event_type` (21 allowed values) and `severity` (`info`, `low`, `medium`, `high`). Six indexes.
+
+**`public.user_consents` — new table**
+
+Stores per-user consent records for future modal confirmations. Fields: `id`, `user_id`, `consent_type`, `version`, `consented`, `metadata`, `created_at`. `consent_type = 'assessment_integrity_rules'` is reserved for the assessment rules confirmation modal.
+
+### View created
+
+**`public.assessment_integrity_summary`** — aggregates event counts and current integrity status per attempt. Uses `security_invoker = true` (Postgres 15+) so the underlying RLS on `assessment_integrity_events` and `attempts` applies; each user sees only their own rows.
+
+Columns: `attempt_id`, `user_id`, `total_event_count`, `low_count`, `medium_count`, `high_count`, `last_event_at`, `integrity_status`.
+
+### RPC function
+
+**`public.log_assessment_integrity_event`** — called by the browser client to log one event. Parameters: `p_attempt_id`, `p_event_type`, `p_severity` (default `'info'`), `p_stage`, `p_elapsed_seconds`, `p_metadata`. Returns `{ event_id, integrity_status, integrity_event_count }`. Uses `SECURITY INVOKER` so RLS applies normally; ownership is also verified explicitly before any write.
+
+### Integrity status rules (MVP)
+
+| Condition | Status |
+|---|---|
+| No medium or high events | `clean` |
+| 1 medium event, or 3+ low events | `warning` |
+| 2+ medium events, or 1 high event | `flagged` |
+| 3+ high events | `compromised` |
+
+### Suggested severity mapping
+
+| Severity | Event types |
+|---|---|
+| `info` | `assessment_started`, `fullscreen_entered`, `tab_visible`, `window_focus`, `assessment_resumed`, `assessment_submitted`, `assessment_rules_accepted`, `fullscreen_requested`, `fullscreen_unavailable` |
+| `low` | `copy_attempt`, `paste_attempt`, `context_menu_attempt`, `drag_drop_attempt` |
+| `medium` | `window_blur`, `tab_hidden`, `fullscreen_exit`, `route_change_attempt`, `assessment_paused` |
+| `high` | `page_leave_attempt`, `reload_attempt`, `assessment_abandoned` |
+
+### RLS policy summary
+
+- **`assessment_integrity_events`**: SELECT own rows (`user_id = auth.uid()`); INSERT for own attempts (ownership via `attempts.user_id`); no UPDATE or DELETE (append-only).
+- **`user_consents`**: SELECT and INSERT own rows only.
+- **`attempts`** existing policies unchanged.
+
+### TypeScript files created
+
+- `types/assessment-integrity.ts` — `AssessmentIntegrityStatus`, `AssessmentIntegritySeverity`, `AssessmentIntegrityEventType`, `AssessmentIntegrityEventPayload`, `AssessmentIntegritySummary`, `INTEGRITY_EVENT_SEVERITY` map, `INTEGRITY_STATUS_LABELS` map.
+- `lib/assessment-integrity.ts` — `logAssessmentIntegrityEvent()`, `getAssessmentIntegritySummary()`. Uses the existing browser Supabase client (`lib/supabase/client.ts`). Not wired into the UI yet.
+
+### What this system does NOT do
+
+- This is not a true secure lockdown browser. A normal browser cannot prevent OS-level screenshots, phone photos, second devices, or all external tab/window changes.
+- No webcam, face tracking, eye tracking, screen recording, audio recording, or video storage.
+- No photos or screenshots are stored.
+- Users are never auto-failed for integrity events.
+- Integrity status never claims cheating was proven — it only records observable browser-environment events.
+
+### How the future frontend should integrate
+
+1. User reads and accepts assessment rules → call `logAssessmentIntegrityEvent({ eventType: 'assessment_rules_accepted', severity: 'info' })` and insert a `user_consents` row with `consent_type = 'assessment_integrity_rules'`.
+2. Attempt is created → set `fullscreen_required = true` on the attempt if fullscreen is being enforced.
+3. Frontend requests fullscreen → log `fullscreen_requested`, then `fullscreen_entered` or `fullscreen_unavailable`.
+4. During the session, browser event hooks log: `tab_hidden`/`tab_visible`, `window_blur`/`window_focus`, `page_leave_attempt`, `reload_attempt`, `route_change_attempt`.
+5. On submit → log `assessment_submitted`.
+6. Results page reads `getAssessmentIntegritySummary(attemptId)` and displays the integrity badge using `INTEGRITY_STATUS_LABELS`.
+
+### Supabase migration setup
+
+**If Supabase CLI is configured for this project:**
+
+```bash
+supabase db push
+# or, for local dev stack:
+supabase migration up
+```
+
+**If Supabase CLI is not configured (current state):**
+
+The SQL is prepared but has not been applied to the remote project. To apply manually:
+
+1. Open the Supabase dashboard → SQL Editor.
+2. Copy the full contents of `supabase/migrations/003_assessment_integrity_foundation.sql`.
+3. Paste into the SQL Editor and click Run.
+4. Verify that `attempts`, `assessment_integrity_events`, `user_consents`, and `assessment_integrity_summary` appear in the Table Editor / Schema view.
+
+### `attempt_events` convention note
+
+The existing `attempt_events` table (from migration 001) is not replaced. Assessment integrity events are stored in the dedicated `assessment_integrity_events` table. Important summary events (e.g. `assessment_submitted`) may optionally be mirrored into `attempt_events` later if the implementation already depends on it; do not duplicate every event unless there is a clear reason.
+
+### What should happen next
+
+Phase: implement the frontend Assessment Integrity Mode UI.
+
+1. Add browser event hooks to `practice-session.tsx` for fullscreen, visibility, window focus, and navigation events.
+2. Call `logAssessmentIntegrityEvent` from `lib/assessment-integrity.ts` for each event.
+3. On submit in assessment mode, update `attempts.assessment_submitted_at`.
+4. Show the integrity badge on `app/results/[attemptId]/page.tsx` using `getAssessmentIntegritySummary`.
+5. Apply `003_assessment_integrity_foundation.sql` to the production Supabase project before browser-side writes can work.
+
+---
+
 ## 2026-07-01 — Phase 4A Closeout
 
 ### What was completed
