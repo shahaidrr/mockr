@@ -7,6 +7,7 @@ type CodeEditorProps = {
   code: string;
   language: string;
   onChange: (value: string) => void;
+  readOnly?: boolean;
 };
 
 // Shared interview-mode Monaco options — suppress all suggestions/hints
@@ -35,7 +36,7 @@ const INTERVIEW_OPTIONS: editor.IStandaloneEditorConstructionOptions = {
   codeLens: false,
 };
 
-export default function CodeEditor({ code, language, onChange }: CodeEditorProps) {
+export default function CodeEditor({ code, language, onChange, readOnly = false }: CodeEditorProps) {
   return (
     <Editor
       height="100%"
@@ -51,7 +52,7 @@ export default function CodeEditor({ code, language, onChange }: CodeEditorProps
           Loading editor...
         </div>
       }
-      options={INTERVIEW_OPTIONS}
+      options={{ ...INTERVIEW_OPTIONS, readOnly }}
     />
   );
 }
