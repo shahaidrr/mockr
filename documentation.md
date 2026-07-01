@@ -1,5 +1,53 @@
 # Documentation Log
 
+## 2026-07-01 16:45:32 AEST — Phase 4B Started: DeepSeek Backend Integration
+
+### What was completed
+
+Started Phase 4B by adding a small backend-only DeepSeek provider layer and a dedicated health/test route. This does not touch the real practice submission flow, deterministic scorecards, clarifying-question flow, or any scorecard UI. The new helper is fetch-based, uses DeepSeek's OpenAI-compatible `/chat/completions` format, requests JSON via `response_format: { type: "json_object" }`, and is shaped for later grading use without implementing grading yet.
+
+### Files/routes/components/tables changed
+
+- `lib/ai/deepseek.ts` — Added the server-only DeepSeek config/helper layer, reusable `generateJsonWithDeepSeek()` function, and timeout/API/JSON error handling.
+- `lib/ai/types.ts` — Added shared AI helper types and DeepSeek error-code definitions.
+- `app/api/ai/health/route.ts` — Added a backend-only health/test route that validates configuration, makes a tiny DeepSeek request, parses JSON safely, and returns a sanitized success/failure response.
+- `.env.example` — Added safe placeholder env vars for Supabase and DeepSeek.
+- `TESTING.md` — Added manual checks for the DeepSeek health endpoint.
+
+### DeepSeek provider decision
+
+- Provider selected: DeepSeek
+- Default model: `deepseek-v4-flash`
+- Optional future grading model: `deepseek-v4-pro`
+- Deprecated model names such as `deepseek-chat` and `deepseek-reasoner` were not used.
+
+### Environment variables
+
+- `DEEPSEEK_API_KEY`
+- `DEEPSEEK_BASE_URL=https://api.deepseek.com`
+- `DEEPSEEK_MODEL=deepseek-v4-flash`
+
+### Local testing
+
+1. Add `DEEPSEEK_API_KEY`, `DEEPSEEK_BASE_URL`, and `DEEPSEEK_MODEL` to your local `.env.local`.
+2. Start the app with `npm run dev`.
+3. Open `http://localhost:3000/api/ai/health`.
+4. Expected success response: HTTP `200` with `ok: true`, `provider: "deepseek"`, the configured model name, and a parsed JSON health payload.
+5. Expected failure responses:
+   - missing `DEEPSEEK_API_KEY` → safe JSON error without exposing secrets
+   - DeepSeek `429` → safe JSON rate-limit response
+   - timeout / upstream failure / invalid JSON → safe JSON failure response
+
+### Limitations
+
+- The new route is only a provider connectivity check. It does not integrate with practice submission, rubric grading, clarifying questions, or the scoreboard yet.
+- Testing the success path locally requires a valid `DEEPSEEK_API_KEY` in `.env.local`.
+- The route is intentionally server-side only; no client component imports the DeepSeek helper.
+
+### What should happen next
+
+Phase 4C should wire this provider layer into a dedicated grading service abstraction, then connect that grading service to the attempt submission pipeline behind safe feature boundaries. Do not connect it directly from client components.
+
 ## 2026-07-01 15:35:00 AEST — Stage Action Buttons + Submitted-Approach Gate
 
 ### What was completed
