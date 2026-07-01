@@ -32,8 +32,8 @@
     "hash": "35f7e6a0efcefb6cdb842ff06e79648e"
   },
   "app/practice/[questionId]/practice-session.tsx": {
-    "mtime": 1782802059743.3333,
-    "hash": "594c0f9ac5298d44afc72d8a79de8baf"
+    "mtime": 1782885374323.6003,
+    "hash": "762cb786d1d594201350af40c9b904a0"
   },
   "app/practice/demo/page.tsx": {
     "mtime": 1782625168731.442,
@@ -60,16 +60,16 @@
     "hash": "85a45a75318388b097ebcdaad267d3ba"
   },
   "app/results/[attemptId]/page.tsx": {
-    "mtime": 1782878326853.5273,
-    "hash": "f53d5cbf49136804a18ea1f1bab54c4a"
+    "mtime": 1782885129255.7588,
+    "hash": "5f4da499fa46866489c2ee652926782b"
   },
   "app/signup/page.tsx": {
     "mtime": 1782727432441.281,
     "hash": "e3bc7a6c7480db1f43526f53ea44ae63"
   },
   "components/code-editor.tsx": {
-    "mtime": 1782802059744.3997,
-    "hash": "509f3d71278db6e5306cd2e9a6186e91"
+    "mtime": 1782885140669.5093,
+    "hash": "7cfdff43d6067b6fce57fb3bb09742fa"
   },
   "components/dashboard-card.tsx": {
     "mtime": 1782627077788.327,
@@ -96,16 +96,16 @@
     "hash": "dfa1f5f6a7037bf39dc510f30b180002"
   },
   "lib/attempts-service.ts": {
-    "mtime": 1782801808331.899,
-    "hash": "7f75a8918143ea159261991f9406d08e"
+    "mtime": 1782885129271.52,
+    "hash": "1b1b785dd11637c49a61f56f381324b9"
   },
   "lib/deterministic-score.ts": {
     "mtime": 1782801808332.2083,
     "hash": "5945190b20942b0f5b0c6cd1d3073ba1"
   },
   "lib/practice-draft.ts": {
-    "mtime": 1782725257265.7524,
-    "hash": "e4eb14eae634aff80df1400078a5827a"
+    "mtime": 1782885188443.535,
+    "hash": "dd1ffd9740444fc713a0b9f71b8d75b6"
   },
   "lib/public-test-runner.ts": {
     "mtime": 1782725257265.9634,
@@ -152,16 +152,16 @@
     "hash": "51e1a10061920d6cfae128dbcbbdd742"
   },
   "supabase/seed/002_seed_questions.sql": {
-    "mtime": 1782725257266.5852,
-    "hash": "f90546ef3f0f93d2c96ffec119cdc719"
+    "mtime": 1782885140670.462,
+    "hash": "0be2fa837814e429eedc7659ece6d6f5"
   },
   "types/attempt.ts": {
     "mtime": 1782725257266.7236,
     "hash": "87ea2bb38d1c0887ce275a67fb1bd3eb"
   },
   "types/practice.ts": {
-    "mtime": 1782725257266.806,
-    "hash": "4d6b53dfb2e717c7fa41dc5ef54c7d8f"
+    "mtime": 1782885188275.023,
+    "hash": "aab20d63423e798195a02e02a76714a5"
   },
   "types/question.ts": {
     "mtime": 1782725257266.8816,
@@ -192,20 +192,20 @@
     "hash": "f15aaa42d5d299d091b1171097ea56ad"
   },
   "TESTING.md": {
-    "mtime": 1782878341376.8477,
-    "hash": "8394fb936111f88e48960608dab10262"
+    "mtime": 1782885388005.2014,
+    "hash": "1510acdcb3e8f82729505c51f56f69fd"
   },
   "documentation.md": {
-    "mtime": 1782878407086.752,
-    "hash": "a7585742c19f7bfc4b0f28ac0780a74b"
+    "mtime": 1782885416879.533,
+    "hash": "e2ddff6d4fbaec3a297a133a0c6d0937"
   },
   "graphify-out/GRAPH_REPORT.md": {
-    "mtime": 1782802059745.3804,
-    "hash": "f1769e21026a12739a3ef30eadb1755a"
+    "mtime": 1782885129261.566,
+    "hash": "64faa9e64d46a2ece65fae19000619e7"
   },
   "graphify-out/graph.html": {
-    "mtime": 1782802059747.565,
-    "hash": "eaaae64ab95b4d837d06f221fec96d94"
+    "mtime": 1782885129265.2654,
+    "hash": "5750f1449ab5204b64352e8ed125f6ce"
   },
   "public/file.svg": {
     "mtime": 1782278996974.5767,
@@ -228,7 +228,23 @@
     "hash": "a2760511c65806022ad20adf74370ff3"
   },
   ".graphify/GRAPH_REPORT.md": {
-    "mtime": 1782802753499.1975,
-    "hash": "b29a8afbdb9f3c9eebd75a5e972e466d"
+    "mtime": 1782885140665.9556,
+    "hash": "6eaa2ab30ef86800406f45b5374bf95d"
+  },
+  "components/assessment/AssessmentIntegrityGuard.tsx": {
+    "mtime": 1782885129256.3635,
+    "hash": "eb01bbe4cacea37e352fd9a7f46452da"
+  },
+  "lib/assessment-integrity.ts": {
+    "mtime": 1782885129271.1914,
+    "hash": "5804d4233d8131641dd169dd8278fb29"
+  },
+  "supabase/migrations/003_assessment_integrity_foundation.sql": {
+    "mtime": 1782885129271.7642,
+    "hash": "6beeb08171e9bd249ea68fa1d5974daa"
+  },
+  "types/assessment-integrity.ts": {
+    "mtime": 1782885129272.024,
+    "hash": "dbe03294fc6422f6669c7dc1f5eb9c99"
   }
 }

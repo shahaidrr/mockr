@@ -49,3 +49,26 @@ a {
   background-position: center;
   background-size: 28px 28px;
 }
+
+/* Assessment speech recognition animations */
+@keyframes mockr-mic-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(49, 214, 123, 0.5); }
+  50% { box-shadow: 0 0 0 7px rgba(49, 214, 123, 0); }
+}
+@keyframes mockr-mic-pulse-sm {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(49, 214, 123, 0.5); }
+  50% { box-shadow: 0 0 0 5px rgba(49, 214, 123, 0); }
+}
+@keyframes mockr-field-glow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(49, 214, 123, 0.3); }
+  50% { box-shadow: 0 0 0 3px rgba(49, 214, 123, 0); }
+}
+.mockr-mic-active {
+  animation: mockr-mic-pulse 1.4s ease-in-out infinite;
+}
+.mockr-mic-active-sm {
+  animation: mockr-mic-pulse-sm 1.4s ease-in-out infinite;
+}
+.mockr-field-listening {
+  animation: mockr-field-glow 1.4s ease-in-out infinite;
+}

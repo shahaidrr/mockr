@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import type { Question, Difficulty, SupportedLanguage } from "@/types/question";
@@ -26,9 +26,50 @@ export default function QuestionDetailClient({ question }: Props) {
   const [language, setLanguage] = useState<SupportedLanguage>(
     question.supported_languages[0] ?? "javascript"
   );
+  const [microphoneError, setMicrophoneError] = useState<string | null>(null);
+  const [isStarting, startTransition] = useTransition();
 
-  function handleStart() {
-    router.push(`/practice/${question.id}?mode=${mode}&language=${language}`);
+  async function ensureAssessmentMicrophoneAccess() {
+    if (typeof window === "undefined") return true;
+    if (!("mediaDevices" in navigator) || typeof navigator.mediaDevices.getUserMedia !== "function") {
+      return true;
+    }
+
+    if ("permissions" in navigator && typeof navigator.permissions.query === "function") {
+      try {
+        const permissionStatus = await navigator.permissions.query({
+          name: "microphone" as PermissionName,
+        });
+        if (permissionStatus.state === "granted") {
+          return true;
+        }
+      } catch {
+        // Fall through to getUserMedia for browsers with partial Permissions API support.
+      }
+    }
+
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      stream.getTracks().forEach((track) => track.stop());
+      return true;
+    } catch {
+      setMicrophoneError(
+        "Microphone access was not allowed. Assessment mode will still open, but speech transcription may be unavailable until you enable microphone access in your browser."
+      );
+      return false;
+    }
+  }
+
+  async function handleStart() {
+    setMicrophoneError(null);
+
+    if (mode === "assessment") {
+      await ensureAssessmentMicrophoneAccess();
+    }
+
+    startTransition(() => {
+      router.push(`/practice/${question.id}?mode=${mode}&language=${language}`);
+    });
   }
 
   return (
@@ -240,13 +281,19 @@ export default function QuestionDetailClient({ question }: Props) {
 
         <button
           onClick={handleStart}
+          disabled={isStarting}
           className="mt-8 inline-flex w-full items-center justify-center gap-2 rounded-full border border-slate-950 bg-slate-950 px-5 py-3.5 text-sm font-semibold text-slate-50 shadow-[inset_0_1px_0_rgba(255,255,255,0.14)] transition hover:bg-slate-800"
         >
-          Start practice
+          {isStarting ? "Opening workspace..." : "Start practice"}
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
             <polyline points="9 18 15 12 9 6" />
           </svg>
         </button>
+        {microphoneError && (
+          <p className="mt-3 text-sm leading-6 text-amber-700">
+            {microphoneError}
+          </p>
+        )}
       </div>
     </div>
   );

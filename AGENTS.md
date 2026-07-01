@@ -117,6 +117,8 @@ No separate `typecheck` script — TypeScript errors surface via `npm run build`
 - **Medium or large task:** a short checklist-style plan.
 - **Risky change** (multi-file, auth, database, routing, Graphify, or architecture): stop and wait for explicit user approval before implementing.
 
+After presenting a plan, **always wait for explicit user approval of the steps and subtasks before beginning any implementation.**
+
 ### Task Progress Checklist
 
 For every task, maintain a visible subtask checklist. Use this format:

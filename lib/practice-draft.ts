@@ -34,11 +34,13 @@ export function clearDraft(key: string): void {
 
 export function buildEmptyDraft(
   language: SupportedLanguage,
-  panel: InterviewPanel = "clarification"
+  panel: InterviewPanel = "overview"
 ): PracticeDraft {
   return {
     clarification: "",
+    clarificationSkipped: false,
     approach: "",
+    approachSubmitted: false,
     codeByLanguage: {},
     testingPlan: "",
     edgeCases: "",

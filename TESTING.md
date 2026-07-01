@@ -125,8 +125,11 @@ Run tests by visiting the live dev server (`npm run dev`) and following each ste
 
 ### Monaco Editor
 - [ ] Editor loads with the starter code for the selected language
+- [ ] Python starter code uses the canonical runner function name for the current question (for example, Balanced Brackets shows `def balancedBrackets(s):`)
 - [ ] Editor updates the Monaco language mode when the language changes
 - [ ] Typing in the editor updates the draft in localStorage
+- [ ] Before Stage 2 is completed, the editor is read-only and shows guidance explaining that the approach must be discussed before coding
+- [ ] After entering a non-empty Stage 2 approach, the editor unlocks immediately without reloading the page
 
 ### Draft Saving & Restoration
 - [ ] Refreshing the page restores the code, notes, and panel position
@@ -138,13 +141,44 @@ Run tests by visiting the live dev server (`npm run dev`) and following each ste
 - [ ] Cancelling leaves the draft unchanged
 
 ### Interview Panel (bottom-left)
-- [ ] Panel header shows "Stage 1 of 5 · Clarification" on load
+- [ ] Panel first loads into a workflow overview screen before Stage 1 begins
+- [ ] Overview screen shows all 5 stages with their current status labels before the user starts
+- [ ] Clicking "Begin Stage 1" enters the one-stage-at-a-time interview flow
 - [ ] "›" advances to the next panel; "‹" goes back
+- [ ] "Overview" returns from an active stage back to the overview screen
 - [ ] "‹" is disabled on panel 1; "›" is disabled on panel 5
-- [ ] Clarification, Approach, Testing/Edge Cases, and Complexity panels each show placeholder hint text in the textarea
+- [ ] Stage cards show status labels such as optional, skipped, required, locked, encouraged, completed, or ready
+- [ ] Clarification shows a "Skip clarification" action, marks the stage intentionally skipped, and moves directly to Stage 2
+- [ ] Each active stage shows a clear next/submit action button in addition to the arrow controls
+- [ ] Clarification, Approach, Testing/Edge Cases, and Submit Complexity inputs show the expected placeholder hint text
+- [ ] Long answers can be scrolled inside the current stage input area without clipping content below the panel
 - [ ] Typing in any textarea persists the content on refresh
-- [ ] Submit Review panel shows the checklist of completion items
-- [ ] Checklist ticks green when the corresponding field is filled in
+- [ ] Stage 2 must be explicitly submitted before Stage 3 unlocks
+- [ ] Stage 3 remains locked until Stage 2 Approach has been submitted
+- [ ] Stage 3 becomes completed only after code meaningfully changes from the starter stub
+- [ ] Stage 4 Testing Plan / Edge Cases can stay empty without blocking Run or Submit
+- [ ] Submit Review shows the checklist with Clarification optional/skipped/completed, Approach required, Code written required, Testing plan encouraged, and Complexity required
+- [ ] Submit Review shows inline guidance for each missing required item when submit is attempted too early
+
+### Assessment Mode Stage Flow
+- [ ] Open `/practice/[questionId]?mode=assessment` — the same overview-first stage flow appears before Stage 1 begins
+- [ ] In assessment mode, skipping Clarification moves to Stage 2 and submitting Stage 2 is still required before the editor unlocks
+- [ ] In assessment mode, each stage still shows its clear next/submit action button while the assessment integrity guard remains functional
+
+### Assessment Speech Transcription
+- [ ] On `/questions/[slug]`, choose Assessment Mode and click Start — if microphone access is not already granted, the browser prompts for microphone access before the workspace opens
+- [ ] If microphone permission is already granted, clicking Start in Assessment Mode opens the workspace without an extra browser permission prompt
+- [ ] If microphone permission is denied at the start prompt, the app still opens assessment mode and shows guidance that speech transcription may be unavailable until microphone access is enabled
+- [ ] Open `/practice/[questionId]?mode=assessment` in Chrome or Edge — stages 1, 2, 4, and 5 show read-only answer fields with microphone controls
+- [ ] Click the microphone in Stage 1, allow microphone access, speak a short sentence, then stop — the clarification text is appended and remains in the field
+- [ ] Repeat in Stage 2 and Stage 5 — approach and complexity answers append spoken text without unlocking practice-mode typing
+- [ ] In Stage 4, start recording `Testing Plan`, then click the `Edge Cases` mic while still speaking — only one field shows the active listening state and new transcript chunks land in the newly selected field
+- [ ] Start recording in any assessment speech field, then change to another interview stage — the listening glow/interim transcript stop immediately and no field appears to remain recording
+- [ ] Deny microphone permission in the browser — the active assessment field shows a microphone access error message
+- [ ] After a microphone error (`not allowed` or `no speech`), retry the same field — the old error clears and recording can start cleanly again
+- [ ] Submit an assessment with transcribed answers — the saved attempt and results flow still show the captured clarification, approach, testing, edge-case, and complexity text
+- [ ] Open the same assessment URL in an unsupported browser (for example Firefox or Safari) — the speech UI falls back to manual typing so the required assessment fields can still be completed
+- [ ] Open `/practice/[questionId]?mode=practice` — the same fields are editable textareas and no microphone controls are shown
 
 ### Assessment Mode Timer
 - [ ] Visiting with `?mode=assessment` starts the timer at 0:00
@@ -244,12 +278,14 @@ Run tests by visiting the live dev server (`npm run dev`) and following each ste
 
 ### Run Button — JavaScript
 - [ ] Run button is active (green, enabled) when JavaScript is selected
+- [ ] Run button stays disabled until Stage 2 Approach is completed
 - [ ] Clicking Run shows a spinner and "Running…" label on the button
 - [ ] UI does not freeze while tests are running
 - [ ] After running: output panel shows a summary ("N passed / M failed of X tests")
 - [ ] Each test row shows status badge, label, and runtime
-- [ ] Clicking a test row expands it to show input, expected, and actual output
+- [ ] Clicking a test row expands it to show INPUT, EXPECTED, YOUR OUTPUT, and ERROR when applicable
 - [ ] Values display as readable JSON (not `[object Object]`)
+- [ ] Runtime errors show `YOUR OUTPUT` as `No output due to runtime error`
 
 ### Passing Tests — JavaScript
 - [ ] A correct solution passes all 6 public tests (try `find-matching-pair` with a correct solution)
@@ -258,6 +294,7 @@ Run tests by visiting the live dev server (`npm run dev`) and following each ste
 
 ### Failing Tests — JavaScript
 - [ ] An incorrect solution shows "failed" (red) rows for wrong answers
+- [ ] Wrong-answer rows show the user's returned value under `YOUR OUTPUT`
 - [ ] Expanded row shows expected vs actual output clearly
 
 ### Error Tests — JavaScript
@@ -505,7 +542,8 @@ Run tests by visiting the live dev server (`npm run dev`) and following each ste
 - [ ] Browser that doesn't support Fullscreen API (e.g. some mobile browsers) → assessment starts without fullscreen, fullscreen_unavailable logged, no blocking overlay shown
 - [ ] Fullscreen request rejected by browser (denied permission) → same fallback behaviour as above
 - [ ] User submits with 0 integrity events → no `attempt_events` integrity rows inserted, no integrity summary on results page
-- [ ] App does not request webcam, microphone, or screen-recording permissions at any point
+- [ ] App does not request webcam or screen-recording permissions at any point
+- [ ] App only requests microphone permission when the user explicitly activates an assessment speech field
 
 ---
 

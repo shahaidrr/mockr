@@ -18,22 +18,26 @@ import type { PracticeMode, SupportedLanguage, PracticeDraft, InterviewPanel } f
 import type { PublicTestRunSummary, PublicTestRunResult } from "@/types/test-run";
 import AssessmentIntegrityGuard from "@/components/assessment/AssessmentIntegrityGuard";
 import type { LocalIntegrityEvent } from "@/components/assessment/AssessmentIntegrityGuard";
+import { useSpeechRecognition } from "@/hooks/useSpeechRecognition";
+import SpeechMicButton from "@/components/assessment/SpeechMicButton";
+import SpeechTextareaField from "@/components/assessment/SpeechTextareaField";
 
 const CodeEditor = dynamic(() => import("@/components/code-editor"), { ssr: false });
 
 const INTERVIEW_PANELS: InterviewPanel[] = [
   "clarification",
   "approach",
+  "code",
   "testing",
-  "complexity",
   "submit",
 ];
 
 const PANEL_LABELS: Record<InterviewPanel, string> = {
+  overview: "Workflow Overview",
   clarification: "Clarification",
   approach: "Approach",
-  testing: "Testing & Edge Cases",
-  complexity: "Complexity",
+  code: "Code Written",
+  testing: "Testing Plan & Edge Cases",
   submit: "Submit Review",
 };
 
@@ -60,6 +64,52 @@ function formatValue(value: unknown): string {
   return JSON.stringify(value, null, 0);
 }
 
+function stripCodeComments(code: string, language: SupportedLanguage): string {
+  if (!code) return "";
+
+  if (language === "python") {
+    return code.replace(/#[^\n]*/g, "");
+  }
+
+  return code
+    .replace(/\/\*[\s\S]*?\*\//g, "")
+    .replace(/\/\/[^\n]*/g, "");
+}
+
+function normalizeCodeForComparison(code: string, language: SupportedLanguage): string {
+  return stripCodeComments(code, language).replace(/\s+/g, "");
+}
+
+function hasMeaningfulCodeChange(
+  code: string,
+  starterCode: string,
+  language: SupportedLanguage
+): boolean {
+  const normalizedCurrent = normalizeCodeForComparison(code, language);
+  const normalizedStarter = normalizeCodeForComparison(starterCode, language);
+  return normalizedCurrent.length > 0 && normalizedCurrent !== normalizedStarter;
+}
+
+function alignPythonStarterFunctionName(starterCode: string, functionName: string): string {
+  if (!starterCode || !functionName) return starterCode;
+  return starterCode.replace(/def\s+[A-Za-z_][A-Za-z0-9_]*\s*\(/, `def ${functionName}(`);
+}
+
+function getStarterCode(question: Question, language: SupportedLanguage): string {
+  const rawStarter = question.starter_code?.[language] ?? "";
+  if (language === "python") {
+    return alignPythonStarterFunctionName(rawStarter, question.function_name);
+  }
+  return rawStarter;
+}
+
+function getUserOutputLabel(result: PublicTestRunResult): string {
+  if (result.status === "error") return "No output due to runtime error";
+  if (result.status === "timeout") return "No output due to timeout";
+  if (result.actual === undefined) return "undefined";
+  return formatValue(result.actual);
+}
+
 type Props = {
   question: Question;
   testCases: QuestionTestCase[];
@@ -67,6 +117,8 @@ type Props = {
   initialLanguage: SupportedLanguage;
   userId: string;
 };
+
+type SpeechField = "clarification" | "approach" | "testingPlan" | "edgeCases" | "complexity";
 
 export default function PracticeSession({
   question,
@@ -86,20 +138,9 @@ export default function PracticeSession({
   // Keyed by draftKey so it is scoped to the same user + question + mode.
   const epochKey = `mockr:timer-epoch:${draftKey}`;
 
-  const [draft, setDraft] = useState<PracticeDraft>(() => {
-    // If re-entering assessment after abandonment, ignore saved draft
-    if (isAssessment && typeof window !== "undefined") {
-      const wasAbandoned = sessionStorage.getItem(abandonedKey);
-      if (wasAbandoned) {
-        sessionStorage.removeItem(abandonedKey);
-        clearDraft(draftKey);
-        try { localStorage.removeItem(epochKey); } catch { /* noop */ }
-        return buildEmptyDraft(initialLanguage);
-      }
-    }
-    const saved = loadDraft(draftKey);
-    return saved ?? buildEmptyDraft(initialLanguage);
-  });
+  const [draft, setDraft] = useState<PracticeDraft>(buildEmptyDraft(initialLanguage));
+  const [hasLoadedDraft, setHasLoadedDraft] = useState(false);
+  const hasRestoredDraftRef = useRef(false);
 
   // Timer — persisted across reloads using a localStorage epoch (ms wall-clock).
   // On mount: load the saved epoch for this attempt, or record a new one.
@@ -110,6 +151,65 @@ export default function PracticeSession({
   const sessionStartRef = useRef<number>(0);
   const pendingExitRef  = useRef(false);
   const [timerSeconds, setTimerSeconds] = useState(0);
+
+  useEffect(() => {
+    if (hasRestoredDraftRef.current) return;
+    hasRestoredDraftRef.current = true;
+
+    // Restore browser-only draft state after hydration so the server and client
+    // both start from the same initial markup.
+    let nextDraft: PracticeDraft | null = null;
+
+    if (isAssessment) {
+      const wasAbandoned = sessionStorage.getItem(abandonedKey);
+      if (wasAbandoned) {
+        sessionStorage.removeItem(abandonedKey);
+        clearDraft(draftKey);
+        try { localStorage.removeItem(epochKey); } catch { /* noop */ }
+      } else {
+        const saved = loadDraft(draftKey);
+        if (saved) {
+          const savedPanel = String(saved.currentPanel ?? "clarification");
+          nextDraft = {
+            ...saved,
+            clarificationSkipped: saved.clarificationSkipped ?? false,
+            approachSubmitted: saved.approachSubmitted ?? false,
+            currentPanel:
+              savedPanel === "complexity"
+                ? "submit"
+                : savedPanel === "overview" || INTERVIEW_PANELS.includes(saved.currentPanel as InterviewPanel)
+                  ? (saved.currentPanel as InterviewPanel)
+                  : "overview",
+          } as PracticeDraft;
+        }
+      }
+    } else {
+      const saved = loadDraft(draftKey);
+      if (saved) {
+        const savedPanel = String(saved.currentPanel ?? "clarification");
+        nextDraft = {
+          ...saved,
+          clarificationSkipped: saved.clarificationSkipped ?? false,
+          approachSubmitted: saved.approachSubmitted ?? false,
+          currentPanel:
+            savedPanel === "complexity"
+              ? "submit"
+              : savedPanel === "overview" || INTERVIEW_PANELS.includes(saved.currentPanel as InterviewPanel)
+                ? (saved.currentPanel as InterviewPanel)
+                : "overview",
+        } as PracticeDraft;
+      }
+    }
+
+    const restoreTimer = window.setTimeout(() => {
+      if (nextDraft) {
+        setDraft(nextDraft);
+      }
+      setHasLoadedDraft(true);
+    }, 0);
+
+    return () => window.clearTimeout(restoreTimer);
+  }, [abandonedKey, draftKey, epochKey, initialLanguage, isAssessment]);
 
   useEffect(() => {
     // Runs once on mount — safe to read/write localStorage and the ref here.
@@ -177,6 +277,10 @@ export default function PracticeSession({
   const [isSaving, setIsSaving] = useState(false);
   const [showSubmitWarning, setShowSubmitWarning] = useState(false);
   const [pendingSubmitSummary, setPendingSubmitSummary] = useState<PublicTestRunSummary | null>(null);
+  const [submitErrors, setSubmitErrors] = useState<string[]>([]);
+  const [activeListeningField, setActiveListeningField] = useState<SpeechField | null>(null);
+  const speech = useSpeechRecognition();
+  const stopSpeech = speech.stop;
 
   // When user cancels the native "Leave?" dialog and focus returns, show our exit
   // guard instead — so they stay in the browser and go through the normal exit flow.
@@ -210,11 +314,29 @@ export default function PracticeSession({
     return () => document.removeEventListener("keydown", handleTabClose);
   }, [isAssessment]);
 
+  // Stop speech recognition whenever the stage panel changes (assessment mode only)
+  useEffect(() => {
+    if (!isAssessment) return;
+    stopSpeech();
+  }, [draft.currentPanel, isAssessment, stopSpeech]);
+
   const currentLanguage = draft.selectedLanguage;
-  const starterCode = question.starter_code?.[currentLanguage] ?? "";
+  const starterCode = getStarterCode(question, currentLanguage);
   const currentCode = draft.codeByLanguage[currentLanguage] ?? starterCode;
   const currentPanelIdx = INTERVIEW_PANELS.indexOf(draft.currentPanel);
+  const isOverviewPanel = draft.currentPanel === "overview";
   const isExecutable = currentLanguage === "javascript" || currentLanguage === "python";
+  const hasApproachText = draft.approach.trim().length > 0;
+  const approachCompleted = hasApproachText && !!draft.approachSubmitted;
+  const clarificationCompleted = draft.clarification.trim().length > 0;
+  const clarificationSkipped = !clarificationCompleted && !!draft.clarificationSkipped;
+  const codeWrittenCompleted = hasMeaningfulCodeChange(currentCode, starterCode, currentLanguage);
+  const testingCompleted =
+    draft.testingPlan.trim().length > 0 || draft.edgeCases.trim().length > 0;
+  const complexityCompleted = draft.complexity.trim().length > 0;
+  const editorLocked = !approachCompleted;
+  const usesAssessmentSpeech = isAssessment && speech.isSupported;
+  const showsAssessmentSpeechFallback = isAssessment && !speech.isSupported;
 
   // Persist draft whenever it changes (timer epoch is persisted separately via epochKey)
   const persist = useCallback(
@@ -223,25 +345,89 @@ export default function PracticeSession({
   );
 
   useEffect(() => {
+    if (!hasLoadedDraft) return;
     persist(draft);
-  }, [draft, persist]);
+  }, [draft, hasLoadedDraft, persist]);
 
   function updateDraft(changes: Partial<PracticeDraft>) {
+    if (submitErrors.length > 0) {
+      setSubmitErrors([]);
+    }
     setDraft((prev) => ({ ...prev, ...changes }));
   }
 
   function setCode(code: string) {
+    if (editorLocked) return;
     updateDraft({ codeByLanguage: { ...draft.codeByLanguage, [currentLanguage]: code } });
   }
 
+  function handleClarificationSkip() {
+    updateDraft({
+      clarification: "",
+      clarificationSkipped: true,
+      currentPanel: "approach",
+    });
+  }
+
+  function handleMicToggle(field: SpeechField) {
+    if (activeListeningField === field && speech.isListening) {
+      speech.stop();
+      setActiveListeningField(null);
+    } else {
+      if (submitErrors.length > 0) {
+        setSubmitErrors([]);
+      }
+      speech.stop();
+      setActiveListeningField(field);
+      speech.start((chunk: string) => {
+        setDraft((prev) => {
+          const current = prev[field];
+          return {
+            ...prev,
+            [field]: current.trim().length > 0 ? `${current} ${chunk}` : chunk,
+          };
+        });
+      });
+    }
+  }
+
+  function isSpeechFieldListening(field: SpeechField) {
+    return speech.isListening && activeListeningField === field;
+  }
+
+  function handleClarificationNext() {
+    updateDraft({
+      clarificationSkipped: draft.clarification.trim().length === 0 ? true : false,
+      currentPanel: "approach",
+    });
+  }
+
+  function handleApproachSubmit() {
+    if (!hasApproachText) return;
+    updateDraft({
+      approachSubmitted: true,
+      currentPanel: "code",
+    });
+  }
+
   function goNextPanel() {
+    if (isOverviewPanel) {
+      updateDraft({ currentPanel: INTERVIEW_PANELS[0] });
+      return;
+    }
+    if (draft.currentPanel === "approach" && !approachCompleted) return;
     const next = INTERVIEW_PANELS[currentPanelIdx + 1];
     if (next) updateDraft({ currentPanel: next });
   }
 
   function goPrevPanel() {
+    if (isOverviewPanel) return;
     const prev = INTERVIEW_PANELS[currentPanelIdx - 1];
-    if (prev) updateDraft({ currentPanel: prev });
+    if (prev) {
+      updateDraft({ currentPanel: prev });
+    } else {
+      updateDraft({ currentPanel: "overview" });
+    }
   }
 
   function confirmSwitchLanguage(lang: SupportedLanguage) {
@@ -291,7 +477,7 @@ export default function PracticeSession({
   }
 
   async function handleRun() {
-    if (!isExecutable || isRunning || testCases.length === 0) return;
+    if (!approachCompleted || !isExecutable || isRunning || testCases.length === 0) return;
     setIsRunning(true);
     setTestSummary(null);
     try {
@@ -360,6 +546,18 @@ export default function PracticeSession({
 
   async function handleSubmit() {
     if (isRunning) return;
+
+    const errors: string[] = [];
+    if (!approachCompleted) errors.push("Explain your approach before submitting.");
+    if (!codeWrittenCompleted) errors.push("Write your solution before submitting.");
+    if (!complexityCompleted) errors.push("Add your time and space complexity before submitting.");
+
+    if (errors.length > 0) {
+      setSubmitErrors(errors);
+      return;
+    }
+
+    setSubmitErrors([]);
     if (isExecutable && testCases.length > 0) {
       setIsRunning(true);
       try {
@@ -398,7 +596,9 @@ export default function PracticeSession({
 
   const isPractice = !isAssessment;
   const diffColor = DIFFICULTY_COLORS[question.difficulty] ?? "#9ca3af";
-  const panelProgress = `Stage ${currentPanelIdx + 1} of ${INTERVIEW_PANELS.length} · ${PANEL_LABELS[draft.currentPanel]}`;
+  const panelProgress = isOverviewPanel
+    ? "Interview workflow overview"
+    : `Stage ${currentPanelIdx + 1} of ${INTERVIEW_PANELS.length} · ${PANEL_LABELS[draft.currentPanel]}`;
 
   // ─── Bottom-left interview panel content ────────────────────────────────
 
@@ -414,18 +614,144 @@ export default function PracticeSession({
         "Describe your approach before writing any code. Start with a brute-force solution, then consider optimisations. Explain which data structures you will use and why.",
       assessment: "Describe your approach and the reasoning behind it.",
     },
-    testing: {
-      practice: "Describe how you would test your solution.",
-      assessment: "Describe your testing approach.",
-    },
-    complexity: {
+    code: {
       practice:
-        "Analyse the time and space complexity of your solution. Explain your reasoning for both.",
-      assessment: "State the time and space complexity of your solution.",
+        "Write the implementation after you have explained your plan. In a real interview, this is where you translate your approach into working code while narrating key choices.",
+      assessment:
+        "Implement the solution that matches the approach you described.",
+    },
+    testing: {
+      practice:
+        "List the test cases and edge cases you would use to validate the solution. This is encouraged during practice, but not required for Run or Submit.",
+      assessment: "Describe the test cases and edge cases you would use.",
     },
   };
 
+  const stageItems = [
+    {
+      panel: "clarification" as InterviewPanel,
+      number: 1,
+      title: "Clarification",
+      status: clarificationCompleted ? "completed" : clarificationSkipped ? "skipped" : "optional",
+      note: clarificationCompleted
+        ? "Questions or assumptions captured."
+        : clarificationSkipped
+          ? "Intentionally skipped."
+          : "Optional before coding.",
+    },
+    {
+      panel: "approach" as InterviewPanel,
+      number: 2,
+      title: "Approach",
+      status: approachCompleted ? "completed" : "required",
+      note: approachCompleted
+        ? "Plan submitted. Editor unlocked."
+        : hasApproachText
+          ? "Write-up ready. Submit this stage to unlock coding."
+          : "Required before coding or running tests.",
+    },
+    {
+      panel: "code" as InterviewPanel,
+      number: 3,
+      title: "Code Written",
+      status: !approachCompleted
+        ? "locked"
+        : codeWrittenCompleted
+          ? "completed"
+          : "required",
+      note: !approachCompleted
+        ? "Locked until Stage 2 is submitted."
+        : codeWrittenCompleted
+          ? "Meaningful code has been written."
+          : "Write code beyond the starter stub.",
+    },
+    {
+      panel: "testing" as InterviewPanel,
+      number: 4,
+      title: "Testing Plan",
+      status: testingCompleted ? "completed" : "encouraged",
+      note: testingCompleted
+        ? "Testing notes added."
+        : "Encouraged, but not required for Run or Submit.",
+    },
+    {
+      panel: "submit" as InterviewPanel,
+      number: 5,
+      title: "Submit Review",
+      status:
+        approachCompleted && codeWrittenCompleted && complexityCompleted ? "ready" : "required",
+      note:
+        approachCompleted && codeWrittenCompleted && complexityCompleted
+          ? "Ready to submit."
+          : "Requires approach, code, and complexity.",
+    },
+  ] as const;
+
+  const stageStatusStyles: Record<string, { border: string; background: string; text: string }> = {
+    optional: { border: "#334155", background: "#1e293b55", text: "#94a3b8" },
+    skipped: { border: "#475569", background: "#33415566", text: "#cbd5e1" },
+    required: { border: "#7c3aed66", background: "#312e8155", text: "#c4b5fd" },
+    locked: { border: "#4b5563", background: "#1f293766", text: "#6b7280" },
+    encouraged: { border: "#0ea5e966", background: "#082f4955", text: "#7dd3fc" },
+    completed: { border: "#10b98166", background: "#064e3b66", text: "#6ee7b7" },
+    ready: { border: "#10b98166", background: "#14532d66", text: "#86efac" },
+  };
+
   function renderInterviewPanel() {
+    if (isOverviewPanel) {
+      return (
+        <div className="flex h-full flex-col overflow-hidden">
+          <div className="border-b px-3 py-3" style={{ borderColor: "#3a4048" }}>
+            <p className="text-[10px] font-semibold uppercase tracking-[0.18em]" style={{ color: "#8b9ab0" }}>
+              Interview workflow
+            </p>
+            <p className="mt-2 text-sm leading-6" style={{ color: "#d1d5db" }}>
+              Review the five interview stages before you begin, then step through them one at a time with the arrows or the stage action buttons.
+            </p>
+          </div>
+          <div className="flex-1 overflow-y-auto px-3 py-3">
+            <div className="space-y-2">
+              {stageItems.map((stage) => {
+                const style = stageStatusStyles[stage.status];
+                return (
+                  <div
+                    key={stage.panel}
+                    className="rounded-xl border px-3 py-2"
+                    style={{ borderColor: style.border, background: style.background }}
+                  >
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="text-[11px] font-semibold" style={{ color: "#f1f5f9" }}>
+                        {stage.number}. {stage.title}
+                      </span>
+                      <span
+                        className="rounded px-2 py-0.5 text-[9px] font-semibold uppercase tracking-[0.16em]"
+                        style={{ background: `${style.border}22`, color: style.text }}
+                      >
+                        {stage.status}
+                      </span>
+                    </div>
+                    <p className="mt-1 text-[10px] leading-4" style={{ color: "#94a3b8" }}>
+                      {stage.note}
+                    </p>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+          <div className="border-t p-3" style={{ borderColor: "#3a4048" }}>
+            <button
+              type="button"
+              onClick={() => updateDraft({ currentPanel: "clarification" })}
+              className="w-full rounded px-3 py-2 text-xs font-bold transition hover:brightness-110"
+              style={{ background: "#31d67b", color: "#000" }}
+            >
+              Begin Stage 1 →
+            </button>
+          </div>
+        </div>
+      );
+    }
+
     const promptText =
       PANEL_PROMPTS[draft.currentPanel]?.[isPractice ? "practice" : "assessment"] ?? "";
 
@@ -436,12 +762,81 @@ export default function PracticeSession({
             <p className="flex-shrink-0 px-3 pt-3 text-xs leading-6" style={{ color: "#8b9ab0" }}>
               {promptText}
             </p>
-            <textarea
-              value={draft.clarification}
-              onChange={(e) => updateDraft({ clarification: e.target.value })}
-              placeholder="e.g. Can the array be empty? Are values always integers? What should I return if there is no valid pair?"
-              className="flex-1 resize-none bg-transparent px-3 pb-3 pt-2 text-sm leading-6 text-[#f1f5f9] outline-none placeholder:text-[#3a4048]"
-            />
+            <div className="flex flex-shrink-0 items-center justify-between px-3 pt-2">
+              <span className="text-[10px] uppercase tracking-[0.18em]" style={{ color: "#4b5563" }}>
+                Optional
+              </span>
+              <button
+                type="button"
+                onClick={handleClarificationSkip}
+                className="rounded border px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.16em] transition hover:text-white"
+                style={{ borderColor: "#3a4048", color: "#9ca3af" }}
+              >
+                Skip clarification
+              </button>
+            </div>
+            {usesAssessmentSpeech ? (
+              <div className="flex min-h-0 flex-1 flex-col gap-2 px-3 pb-1 pt-2">
+                <textarea
+                  readOnly
+                  value={draft.clarification}
+                  placeholder="e.g. Can the array be empty? Are values always integers? What should I return if there is no valid pair?"
+                  className="min-h-0 flex-1 resize-none overflow-y-auto rounded border bg-transparent px-3 pb-3 pt-2 text-sm leading-6 text-[#f1f5f9] outline-none placeholder:text-[#3a4048]"
+                  style={{ borderColor: "#3a4048" }}
+                />
+                <div className="flex flex-col items-center gap-1 pb-1">
+                    <SpeechMicButton
+                      isListening={isSpeechFieldListening("clarification")}
+                      isSupported={speech.isSupported}
+                      onClick={() => handleMicToggle("clarification")}
+                      aria-label={isSpeechFieldListening("clarification") ? "Stop recording" : "Start recording clarification"}
+                    />
+                  {isSpeechFieldListening("clarification") && (
+                    <p className="text-[10px]" style={{ color: "#31d67b" }}>
+                      {speech.interimTranscript ? `"${speech.interimTranscript}"` : "Listening…"}
+                    </p>
+                  )}
+                  {speech.error && activeListeningField === "clarification" && (
+                    <p className="text-[10px]" style={{ color: "#f87171" }}>{speech.error}</p>
+                  )}
+                  {!speech.isSupported && (
+                    <p className="text-[10px]" style={{ color: "#6b7280" }}>Speech not supported in this browser</p>
+                  )}
+                </div>
+              </div>
+            ) : (
+              <textarea
+                value={draft.clarification}
+                onChange={(e) =>
+                  updateDraft({
+                    clarification: e.target.value,
+                    clarificationSkipped: e.target.value.trim().length === 0 ? draft.clarificationSkipped : false,
+                  })
+                }
+                placeholder="e.g. Can the array be empty? Are values always integers? What should I return if there is no valid pair?"
+                className="min-h-0 flex-1 resize-none overflow-y-auto bg-transparent px-3 pb-3 pt-2 text-sm leading-6 text-[#f1f5f9] outline-none placeholder:text-[#3a4048]"
+              />
+            )}
+            {showsAssessmentSpeechFallback && (
+              <p className="px-3 pb-2 text-[10px]" style={{ color: "#6b7280" }}>
+                Speech transcription is not supported in this browser. Type your answer manually for assessment mode.
+              </p>
+            )}
+            {clarificationSkipped && (
+              <p className="px-3 pb-3 text-[11px] leading-5" style={{ color: "#9ca3af" }}>
+                Clarification was intentionally skipped for this attempt.
+              </p>
+            )}
+            <div className="flex flex-shrink-0 justify-end px-3 pb-3">
+              <button
+                type="button"
+                onClick={handleClarificationNext}
+                className="rounded px-3 py-2 text-xs font-bold transition hover:brightness-110"
+                style={{ background: "#31d67b", color: "#000" }}
+              >
+                Next: Approach →
+              </button>
+            </div>
           </div>
         );
 
@@ -451,12 +846,106 @@ export default function PracticeSession({
             <p className="flex-shrink-0 px-3 pt-3 text-xs leading-6" style={{ color: "#8b9ab0" }}>
               {promptText}
             </p>
-            <textarea
-              value={draft.approach}
-              onChange={(e) => updateDraft({ approach: e.target.value })}
-              placeholder="e.g. I'll use a hash map to store seen values. For each element I check if the complement exists…"
-              className="flex-1 resize-none bg-transparent px-3 pb-3 pt-2 text-sm leading-6 text-[#f1f5f9] outline-none placeholder:text-[#3a4048]"
-            />
+            <p className="px-3 pt-2 text-[11px] leading-5" style={{ color: "#c4b5fd" }}>
+              Required before coding, running tests, or submitting. Submit this stage to unlock the editor.
+            </p>
+            {usesAssessmentSpeech ? (
+              <div className="flex min-h-0 flex-1 flex-col gap-2 px-3 pb-1 pt-2">
+                <textarea
+                  readOnly
+                  value={draft.approach}
+                  placeholder="e.g. I'll use a hash map to store seen values. For each element I check if the complement exists…"
+                  className="min-h-0 flex-1 resize-none overflow-y-auto rounded border bg-transparent px-3 pb-3 pt-2 text-sm leading-6 text-[#f1f5f9] outline-none placeholder:text-[#3a4048]"
+                  style={{ borderColor: "#3a4048" }}
+                />
+                <div className="flex flex-col items-center gap-1 pb-1">
+                  <SpeechMicButton
+                    isListening={isSpeechFieldListening("approach")}
+                    isSupported={speech.isSupported}
+                    onClick={() => handleMicToggle("approach")}
+                    aria-label={isSpeechFieldListening("approach") ? "Stop recording" : "Start recording approach"}
+                  />
+                  {isSpeechFieldListening("approach") && (
+                    <p className="text-[10px]" style={{ color: "#31d67b" }}>
+                      {speech.interimTranscript ? `"${speech.interimTranscript}"` : "Listening…"}
+                    </p>
+                  )}
+                  {speech.error && activeListeningField === "approach" && (
+                    <p className="text-[10px]" style={{ color: "#f87171" }}>{speech.error}</p>
+                  )}
+                  {!speech.isSupported && (
+                    <p className="text-[10px]" style={{ color: "#6b7280" }}>Speech not supported in this browser</p>
+                  )}
+                </div>
+              </div>
+            ) : (
+              <textarea
+                value={draft.approach}
+                onChange={(e) =>
+                  updateDraft({
+                    approach: e.target.value,
+                    approachSubmitted: e.target.value.trim().length === 0 ? false : draft.approachSubmitted,
+                  })
+                }
+                placeholder="e.g. I'll use a hash map to store seen values. For each element I check if the complement exists…"
+                className="min-h-0 flex-1 resize-none overflow-y-auto bg-transparent px-3 pb-3 pt-2 text-sm leading-6 text-[#f1f5f9] outline-none placeholder:text-[#3a4048]"
+              />
+            )}
+            {showsAssessmentSpeechFallback && (
+              <p className="px-3 pb-2 text-[10px]" style={{ color: "#6b7280" }}>
+                Speech transcription is not supported in this browser. Type your answer manually for assessment mode.
+              </p>
+            )}
+            <div className="flex flex-shrink-0 justify-end px-3 pb-3">
+              <button
+                type="button"
+                onClick={handleApproachSubmit}
+                disabled={!hasApproachText}
+                className="rounded px-3 py-2 text-xs font-bold transition hover:brightness-110 disabled:opacity-50"
+                style={{ background: "#31d67b", color: "#000" }}
+              >
+                Submit Approach →
+              </button>
+            </div>
+          </div>
+        );
+
+      case "code":
+        return (
+          <div className="flex flex-1 flex-col overflow-hidden">
+            <p className="flex-shrink-0 px-3 pt-3 text-xs leading-6" style={{ color: "#8b9ab0" }}>
+              {promptText}
+            </p>
+            <div className="flex-1 px-3 pb-3 pt-3">
+              <div
+                className="rounded-xl border p-3"
+                style={{
+                  borderColor: editorLocked ? "#4b5563" : codeWrittenCompleted ? "#10b98155" : "#3a4048",
+                  background: editorLocked ? "#11182799" : "#161b22",
+                }}
+              >
+                <p className="text-[10px] font-semibold uppercase tracking-[0.18em]" style={{ color: editorLocked ? "#6b7280" : "#8b9ab0" }}>
+                  {editorLocked ? "Locked" : codeWrittenCompleted ? "Completed" : "In progress"}
+                </p>
+                <p className="mt-2 text-[12px] leading-5" style={{ color: editorLocked ? "#9ca3af" : "#d1d5db" }}>
+                  {editorLocked
+                    ? "Explain your approach and submit Stage 2 before coding. In a real interview, you should talk through your plan before implementation."
+                    : codeWrittenCompleted
+                      ? "Meaningful code has been written beyond the starter stub."
+                      : "Use the editor to implement your solution. Stage 3 completes once the code meaningfully changes from the starter stub."}
+                </p>
+              </div>
+            </div>
+            <div className="flex flex-shrink-0 justify-end px-3 pb-3">
+              <button
+                type="button"
+                onClick={() => updateDraft({ currentPanel: "testing" })}
+                className="rounded px-3 py-2 text-xs font-bold transition hover:brightness-110"
+                style={{ background: "#31d67b", color: "#000" }}
+              >
+                Next: Testing Plan →
+              </button>
+            </div>
           </div>
         );
 
@@ -466,54 +955,87 @@ export default function PracticeSession({
             <p className="flex-shrink-0 px-3 pt-3 text-xs leading-6" style={{ color: "#8b9ab0" }}>
               {promptText}
             </p>
-            <textarea
-              value={draft.testingPlan}
-              onChange={(e) => updateDraft({ testingPlan: e.target.value })}
-              placeholder="e.g. I'll test a normal case, an empty input, duplicate values, and a single-element array…"
-              className="flex-1 resize-none bg-transparent px-3 pb-2 pt-2 text-sm leading-6 text-[#f1f5f9] outline-none placeholder:text-[#3a4048]"
-              style={{ borderBottom: "1px solid #3a4048" }}
-            />
-            <p
-              className="flex-shrink-0 px-3 pt-2 text-xs leading-6"
-              style={{ color: "#8b9ab0" }}
-            >
-              List specific edge cases to verify.
-            </p>
-            <textarea
-              value={draft.edgeCases}
-              onChange={(e) => updateDraft({ edgeCases: e.target.value })}
-              placeholder="e.g. Empty array → return null; all same values; negative numbers; very large inputs…"
-              className="flex-1 resize-none bg-transparent px-3 pb-3 pt-2 text-sm leading-6 text-[#f1f5f9] outline-none placeholder:text-[#3a4048]"
-            />
-          </div>
-        );
-
-      case "complexity":
-        return (
-          <div className="flex flex-1 flex-col overflow-hidden">
-            <p className="flex-shrink-0 px-3 pt-3 text-xs leading-6" style={{ color: "#8b9ab0" }}>
-              {promptText}
-            </p>
-            <textarea
-              value={draft.complexity}
-              onChange={(e) => updateDraft({ complexity: e.target.value })}
-              placeholder="e.g. Time: O(n) — one pass through the array. Space: O(n) — hash map stores up to n values."
-              className="flex-1 resize-none bg-transparent px-3 pb-3 pt-2 text-sm leading-6 text-[#f1f5f9] outline-none placeholder:text-[#3a4048]"
-            />
+            <div className="min-h-0 flex-1 overflow-y-auto px-3 pb-3 pt-2">
+              {usesAssessmentSpeech ? (
+                <>
+                  <SpeechTextareaField
+                    label="Testing Plan"
+                    value={draft.testingPlan}
+                    placeholder="e.g. I'll test a normal case, an empty input, duplicate values, and a single-element array…"
+                    isListening={isSpeechFieldListening("testingPlan")}
+                    isSupported={speech.isSupported}
+                    onMicClick={() => handleMicToggle("testingPlan")}
+                    interimTranscript={isSpeechFieldListening("testingPlan") ? speech.interimTranscript : ""}
+                  />
+                  <p className="px-1 pt-3 text-xs leading-6" style={{ color: "#8b9ab0" }}>
+                    List specific edge cases to verify.
+                  </p>
+                  <SpeechTextareaField
+                    label="Edge Cases"
+                    value={draft.edgeCases}
+                    placeholder="e.g. Empty array → return null; all same values; negative numbers; very large inputs…"
+                    isListening={isSpeechFieldListening("edgeCases")}
+                    isSupported={speech.isSupported}
+                    onMicClick={() => handleMicToggle("edgeCases")}
+                    interimTranscript={isSpeechFieldListening("edgeCases") ? speech.interimTranscript : ""}
+                  />
+                  {speech.error && (activeListeningField === "testingPlan" || activeListeningField === "edgeCases") && (
+                    <p className="mt-2 text-[10px]" style={{ color: "#f87171" }}>{speech.error}</p>
+                  )}
+                  {!speech.isSupported && (
+                    <p className="mt-2 text-[10px]" style={{ color: "#6b7280" }}>Speech not supported in this browser</p>
+                  )}
+                </>
+              ) : (
+                <>
+                  <textarea
+                    value={draft.testingPlan}
+                    onChange={(e) => updateDraft({ testingPlan: e.target.value })}
+                    placeholder="e.g. I'll test a normal case, an empty input, duplicate values, and a single-element array…"
+                    className="min-h-[9rem] w-full resize-y overflow-y-auto rounded border bg-transparent px-3 py-2 text-sm leading-6 text-[#f1f5f9] outline-none placeholder:text-[#3a4048]"
+                    style={{ borderColor: "#3a4048" }}
+                  />
+                  <p className="px-1 pt-3 text-xs leading-6" style={{ color: "#8b9ab0" }}>
+                    List specific edge cases to verify.
+                  </p>
+                  <textarea
+                    value={draft.edgeCases}
+                    onChange={(e) => updateDraft({ edgeCases: e.target.value })}
+                    placeholder="e.g. Empty array → return null; all same values; negative numbers; very large inputs…"
+                    className="min-h-[9rem] w-full resize-y overflow-y-auto rounded border bg-transparent px-3 py-2 text-sm leading-6 text-[#f1f5f9] outline-none placeholder:text-[#3a4048]"
+                    style={{ borderColor: "#3a4048" }}
+                  />
+                  {showsAssessmentSpeechFallback && (
+                    <p className="mt-2 text-[10px]" style={{ color: "#6b7280" }}>
+                      Speech transcription is not supported in this browser. Type your testing notes manually for assessment mode.
+                    </p>
+                  )}
+                </>
+              )}
+            </div>
+            <div className="flex flex-shrink-0 justify-end px-3 pb-3">
+              <button
+                type="button"
+                onClick={() => updateDraft({ currentPanel: "submit" })}
+                className="rounded px-3 py-2 text-xs font-bold transition hover:brightness-110"
+                style={{ background: "#31d67b", color: "#000" }}
+              >
+                Next: Submit Review →
+              </button>
+            </div>
           </div>
         );
 
       case "submit": {
-        const hasCode =
-          !!draft.codeByLanguage[currentLanguage] &&
-          draft.codeByLanguage[currentLanguage] !== starterCode;
-
         const checks = [
-          { label: "Clarification", done: !!draft.clarification.trim() },
-          { label: "Approach", done: !!draft.approach.trim() },
-          { label: "Code written", done: hasCode },
-          { label: "Testing plan", done: !!draft.testingPlan.trim() },
-          { label: "Complexity", done: !!draft.complexity.trim() },
+          {
+            label: "Clarification",
+            status: clarificationCompleted ? "completed" : clarificationSkipped ? "skipped" : "optional",
+          },
+          { label: "Approach", status: approachCompleted ? "completed" : "required" },
+          { label: "Code written", status: codeWrittenCompleted ? "completed" : "required" },
+          { label: "Testing plan", status: testingCompleted ? "completed" : "encouraged" },
+          { label: "Complexity", status: complexityCompleted ? "completed" : "required" },
         ];
 
         return (
@@ -521,13 +1043,95 @@ export default function PracticeSession({
             <div className="space-y-1.5">
               {checks.map((c) => (
                 <div key={c.label} className="flex items-center gap-2 text-xs">
-                  <span className={c.done ? "text-[#31d67b]" : "text-[#4b5563]"}>
-                    {c.done ? "✓" : "○"}
+                  <span
+                    className={
+                      c.status === "completed"
+                        ? "text-[#31d67b]"
+                        : c.status === "skipped"
+                          ? "text-[#cbd5e1]"
+                          : c.status === "encouraged"
+                            ? "text-[#7dd3fc]"
+                            : "text-[#c4b5fd]"
+                    }
+                  >
+                    {c.status === "completed" ? "✓" : c.status === "skipped" ? "↷" : "○"}
                   </span>
-                  <span style={{ color: c.done ? "#d1d5db" : "#6b7280" }}>{c.label}</span>
+                  <span style={{ color: c.status === "completed" ? "#d1d5db" : "#94a3b8" }}>
+                    {c.label}
+                  </span>
+                  <span className="text-[10px] uppercase tracking-[0.16em]" style={{ color: stageStatusStyles[c.status].text }}>
+                    {c.status}
+                  </span>
                 </div>
               ))}
             </div>
+
+            <div>
+              <p
+                className="mb-1 text-[10px] font-semibold uppercase tracking-wider"
+                style={{ color: "#8b9ab0" }}
+              >
+                Complexity
+              </p>
+              {usesAssessmentSpeech ? (
+                <div className="flex flex-col gap-2">
+                  <textarea
+                    readOnly
+                    value={draft.complexity}
+                    placeholder="e.g. Time: O(n) — one pass through the array. Space: O(n) — hash map stores up to n values."
+                    className="min-h-24 w-full resize-none rounded border bg-transparent px-3 py-2 text-sm leading-6 text-[#f1f5f9] outline-none placeholder:text-[#3a4048]"
+                    style={{ borderColor: "#3a4048" }}
+                  />
+                  <div className="flex flex-col items-center gap-1">
+                    <SpeechMicButton
+                      isListening={isSpeechFieldListening("complexity")}
+                      isSupported={speech.isSupported}
+                      onClick={() => handleMicToggle("complexity")}
+                      aria-label={isSpeechFieldListening("complexity") ? "Stop recording" : "Start recording complexity"}
+                    />
+                    {isSpeechFieldListening("complexity") && (
+                      <p className="text-[10px]" style={{ color: "#31d67b" }}>
+                        {speech.interimTranscript ? `"${speech.interimTranscript}"` : "Listening…"}
+                      </p>
+                    )}
+                    {speech.error && activeListeningField === "complexity" && (
+                      <p className="text-[10px]" style={{ color: "#f87171" }}>{speech.error}</p>
+                    )}
+                    {!speech.isSupported && (
+                      <p className="text-[10px]" style={{ color: "#6b7280" }}>Speech not supported in this browser</p>
+                    )}
+                  </div>
+                </div>
+              ) : (
+                <>
+                  <textarea
+                    value={draft.complexity}
+                    onChange={(e) => updateDraft({ complexity: e.target.value })}
+                    placeholder="e.g. Time: O(n) — one pass through the array. Space: O(n) — hash map stores up to n values."
+                    className="min-h-24 w-full resize-y rounded border bg-transparent px-3 py-2 text-sm leading-6 text-[#f1f5f9] outline-none placeholder:text-[#3a4048]"
+                    style={{ borderColor: "#3a4048" }}
+                  />
+                  {showsAssessmentSpeechFallback && (
+                    <p className="text-[10px]" style={{ color: "#6b7280" }}>
+                      Speech transcription is not supported in this browser. Type your answer manually for assessment mode.
+                    </p>
+                  )}
+                </>
+              )}
+            </div>
+
+            {submitErrors.length > 0 && (
+              <div
+                className="rounded-lg border px-3 py-2"
+                style={{ borderColor: "#ef444455", background: "#3f1d1d66" }}
+              >
+                {submitErrors.map((message) => (
+                  <p key={message} className="text-[11px] leading-5" style={{ color: "#fca5a5" }}>
+                    {message}
+                  </p>
+                ))}
+              </div>
+            )}
 
             {currentLanguage === "javascript" && (
               <p className="text-[10px] leading-4" style={{ color: "#4b5563" }}>
@@ -873,39 +1477,48 @@ export default function PracticeSession({
 
           {/* BOTTOM-LEFT: Interview panel (~1/3) */}
           <div className="flex flex-1 flex-col overflow-hidden" style={{ minHeight: 0 }}>
-            {/* Panel header with prev/next */}
             <div
-              className="flex flex-shrink-0 items-center justify-between px-3 py-2"
+              className="flex flex-shrink-0 items-center justify-between gap-3 px-3 py-3"
               style={{ borderBottom: "1px solid #3a4048", background: "#24292f" }}
             >
-              <button
-                onClick={goPrevPanel}
-                disabled={currentPanelIdx === 0}
-                className="flex h-5 w-5 items-center justify-center rounded transition hover:text-white disabled:opacity-25"
-                style={{ color: "#9ca3af" }}
-              >
-                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                  <polyline points="15 18 9 12 15 6" />
-                </svg>
-              </button>
-
               <span
                 className="text-[10px] font-semibold uppercase tracking-wider"
                 style={{ color: "#9ca3af" }}
               >
                 {panelProgress}
               </span>
-
-              <button
-                onClick={goNextPanel}
-                disabled={currentPanelIdx === INTERVIEW_PANELS.length - 1}
-                className="flex h-5 w-5 items-center justify-center rounded transition hover:text-white disabled:opacity-25"
-                style={{ color: "#9ca3af" }}
-              >
-                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                  <polyline points="9 18 15 12 9 6" />
-                </svg>
-              </button>
+              <div className="flex items-center gap-1">
+                {!isOverviewPanel && (
+                  <button
+                    type="button"
+                    onClick={() => updateDraft({ currentPanel: "overview" })}
+                    className="rounded border px-2 py-1 text-[10px] font-semibold uppercase tracking-[0.16em] transition hover:text-white"
+                    style={{ borderColor: "#3a4048", color: "#9ca3af" }}
+                  >
+                    Overview
+                  </button>
+                )}
+                <button
+                  onClick={goPrevPanel}
+                  disabled={isOverviewPanel}
+                  className="flex h-5 w-5 items-center justify-center rounded transition hover:text-white disabled:opacity-25"
+                  style={{ color: "#9ca3af" }}
+                >
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <polyline points="15 18 9 12 15 6" />
+                  </svg>
+                </button>
+                <button
+                  onClick={goNextPanel}
+                  disabled={!isOverviewPanel && currentPanelIdx === INTERVIEW_PANELS.length - 1}
+                  className="flex h-5 w-5 items-center justify-center rounded transition hover:text-white disabled:opacity-25"
+                  style={{ color: "#9ca3af" }}
+                >
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <polyline points="9 18 15 12 9 6" />
+                  </svg>
+                </button>
+              </div>
             </div>
 
             {/* Panel content */}
@@ -964,7 +1577,7 @@ export default function PracticeSession({
             {isExecutable ? (
               <button
                 onClick={handleRun}
-                disabled={isRunning || testCases.length === 0}
+                disabled={editorLocked || isRunning || testCases.length === 0}
                 className="flex items-center gap-1.5 rounded px-3 py-1 text-xs font-bold transition hover:brightness-110 active:brightness-90 disabled:cursor-not-allowed disabled:opacity-50"
                 style={{ background: "#31d67b", color: "#000" }}
               >
@@ -999,7 +1612,27 @@ export default function PracticeSession({
 
           {/* Monaco editor (~2/3 of right column) */}
           <div className="flex-[2] overflow-hidden" style={{ minHeight: 0 }}>
-            <CodeEditor code={currentCode} language={currentLanguage} onChange={setCode} />
+            <div className="relative h-full">
+              <CodeEditor
+                code={currentCode}
+                language={currentLanguage}
+                onChange={setCode}
+                readOnly={editorLocked}
+              />
+              {editorLocked && (
+                <div
+                  className="pointer-events-none absolute inset-x-0 top-0 z-10 border-b px-4 py-3"
+                  style={{ borderColor: "#7c3aed44", background: "#111827dd" }}
+                >
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.18em]" style={{ color: "#c4b5fd" }}>
+                    Editor locked until Stage 2 is submitted
+                  </p>
+                  <p className="mt-1 text-sm leading-5" style={{ color: "#d1d5db" }}>
+                    Explain your approach and submit Stage 2 before coding. In a real interview, you should talk through your plan before implementation.
+                  </p>
+                </div>
+              )}
+            </div>
           </div>
 
           {/* Divider */}
@@ -1266,13 +1899,16 @@ function TestResultRow({ result, index }: { result: PublicTestRunResult; index: 
         <div className="space-y-2 p-3" style={{ borderTop: `1px solid ${color}22` }}>
           <DetailRow label="Input" value={result.input} />
           <DetailRow label="Expected" value={result.expected} />
-          {result.status !== "timeout" && result.actual !== undefined && (
-            <DetailRow label="Actual" value={result.actual} highlight={result.status === "failed"} />
-          )}
+          <DetailRow
+            label="Your Output"
+            value={getUserOutputLabel(result)}
+            highlight={result.status === "failed" || result.status === "error" || result.status === "timeout"}
+            preformatted
+          />
           {result.error && (
             <div>
               <p className="mb-1 text-[9px] font-semibold uppercase tracking-wider" style={{ color: "#6b7280" }}>
-                {result.status === "timeout" ? "Message" : "Error"}
+                Error
               </p>
               <p
                 className="font-mono text-[11px] leading-5"
@@ -1292,10 +1928,12 @@ function DetailRow({
   label,
   value,
   highlight,
+  preformatted,
 }: {
   label: string;
   value: unknown;
   highlight?: boolean;
+  preformatted?: boolean;
 }) {
   return (
     <div>
@@ -1306,7 +1944,7 @@ function DetailRow({
         className="font-mono text-[11px] leading-5 break-all"
         style={{ color: highlight ? "#ef4444" : "#d1d5db" }}
       >
-        {formatValue(value)}
+        {preformatted ? String(value) : formatValue(value)}
       </p>
     </div>
   );
