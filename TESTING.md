@@ -45,6 +45,15 @@ Run tests by visiting the live dev server (`npm run dev`) and following each ste
 
 ---
 
+## AI Health Endpoint (`/api/ai/health`)
+
+- [ ] Add `DEEPSEEK_API_KEY`, `DEEPSEEK_BASE_URL=https://api.deepseek.com`, and `DEEPSEEK_MODEL=deepseek-v4-flash` to `.env.local`, start `npm run dev`, then open `/api/ai/health` — response returns HTTP `200` with `ok: true`, `provider: "deepseek"`, and a parsed JSON `health` object
+- [ ] Remove or rename `DEEPSEEK_API_KEY`, reload `/api/ai/health` — response returns a safe JSON error and does not expose the API key value
+- [ ] Temporarily set an invalid `DEEPSEEK_API_KEY`, reload `/api/ai/health` — response returns a safe upstream failure message and does not expose authorization headers or secret values
+- [ ] Temporarily set `DEEPSEEK_MODEL=deepseek-v4-pro`, reload `/api/ai/health` — success response shows the configured model change without requiring any client-side code changes
+
+---
+
 ## Landing Page (`/`)
 
 - [ ] Page loads without error
