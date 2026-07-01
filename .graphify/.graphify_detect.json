@@ -1,6 +1,7 @@
 {
   "files": {
     "code": [
+      "app/api/ai/health/route.ts",
       "app/auth/callback/route.ts",
       "app/auth/signout/route.ts",
       "app/dashboard/page.tsx",
@@ -26,6 +27,8 @@
       "components/site-header.tsx",
       "components/stat-card.tsx",
       "eslint.config.mjs",
+      "lib/ai/deepseek.ts",
+      "lib/ai/types.ts",
       "lib/assessment-integrity.ts",
       "lib/attempts-service.ts",
       "lib/deterministic-score.ts",
@@ -71,19 +74,20 @@
     ],
     "video": []
   },
-  "total_files": 62,
-  "total_words": 87385,
+  "total_files": 65,
+  "total_words": 89360,
   "needs_graph": true,
   "warning": null,
   "skipped_sensitive": [],
   "graphifyignore_patterns": 16,
   "git": {
     "source_owner": "git",
-    "source_hash": "8f31cdd3e29870c281e54d1a77c6150778cd882d",
+    "source_hash": "23676496249c55f9c0a0e26edc9c988d64bb89a2",
     "branches": [
       "main",
-      "phase-4a-closeout-validation",
-      "phase-4a-deterministic-scorecards"
+      "phase-4a-deterministic-scorecards",
+      "phase-4b-2-ai-grading-service",
+      "phase-4b-api-implementation"
     ],
     "max_commits": 200,
     "active_within_days": 30
@@ -94,11 +98,11 @@
     "source": "default-auto",
     "root": ".",
     "git_root": ".",
-    "head": "8f31cdd3e29870c281e54d1a77c6150778cd882d",
-    "candidate_count": 99,
-    "included_count": 62,
-    "excluded_untracked_count": 3,
-    "excluded_ignored_count": 45218,
+    "head": "23676496249c55f9c0a0e26edc9c988d64bb89a2",
+    "candidate_count": 102,
+    "included_count": 65,
+    "excluded_untracked_count": 4,
+    "excluded_ignored_count": 45278,
     "excluded_sensitive_count": 0,
     "missing_committed_count": 0,
     "warnings": [],

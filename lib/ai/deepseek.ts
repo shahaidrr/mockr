@@ -115,6 +115,7 @@ export async function generateJsonWithDeepSeek<
   schemaName,
   model,
   timeoutMs = DEFAULT_TIMEOUT_MS,
+  maxTokens,
 }: GenerateJsonWithDeepSeekArgs): Promise<GenerateJsonWithDeepSeekResult<T>> {
   const config = getDeepSeekConfig();
   const controller = new AbortController();
@@ -129,6 +130,7 @@ export async function generateJsonWithDeepSeek<
       },
       body: JSON.stringify({
         model: model ?? config.model,
+        max_tokens: maxTokens,
         response_format: { type: "json_object" },
         messages: [
           {
