@@ -170,8 +170,8 @@
     "semantic_hash": ""
   },
   "documentation.md": {
-    "mtime": 1782881208.6427855,
-    "ast_hash": "dc326f15e29d9a8f402bdb45c0638891",
+    "mtime": 1782885690.3769948,
+    "ast_hash": "797a2347cf15a5e4d450a75a04f92adc",
     "semantic_hash": ""
   },
   "public/file.svg": {
@@ -332,6 +332,11 @@
   "components/assessment/AssessmentIntegrityGuard.tsx": {
     "mtime": 1782881314.5326738,
     "ast_hash": "eb01bbe4cacea37e352fd9a7f46452da",
+    "semantic_hash": ""
+  },
+  "supabase/migrations/004_speech_transcripts_indexes_and_fixes.sql": {
+    "mtime": 1782885622.0870888,
+    "ast_hash": "36e490b4290b6002ab1607685a793c16",
     "semantic_hash": ""
   }
 }

@@ -1,5 +1,90 @@
 # Documentation Log
 
+## 2026-07-01 — Migration 004: Speech Transcripts, Test Runs Fix, Indexes
+
+### What was completed
+
+Audited all three existing migrations against the live app code (`lib/attempts-service.ts`) and created `supabase/migrations/004_speech_transcripts_indexes_and_fixes.sql`.
+
+### Files changed
+
+- `supabase/migrations/004_speech_transcripts_indexes_and_fixes.sql` — new migration
+
+### What was found (existing state before 004)
+
+Migrations 001–003 already covered:
+
+- `questions`, `question_test_cases`, `attempts`, `attempt_events`, `code_snapshots`, `scorecards` — all columns the app currently inserts exist.
+- `assessment_integrity_events`, `user_consents` — from 003.
+- RLS enabled on all tables; INSERT/SELECT policies on `attempts`, `attempt_events`, `code_snapshots`, `scorecards`.
+
+### What 004 fixes
+
+**A. Silent functional bug — `test_runs` missing INSERT policy**
+
+Migration 001 only created a SELECT policy for `test_runs`. `submitAttempt()` inserts per-test-case rows after every JavaScript/Python submission, but they were failing silently due to RLS violation (the code catches the error and continues). Migration 004 adds the missing INSERT policy using the same EXISTS subquery pattern as the other tables.
+
+**B. `speech_transcripts` table (new)**
+
+Stores speech-to-text transcript text per attempt stage. Raw audio is NOT stored in this MVP. Fields: `id`, `attempt_id`, `user_id`, `stage`, `transcript`, `provider` (default `web_speech_api`), `duration_seconds`, `confidence`, `is_final`, `metadata`, `created_at`. Provider check constraint allows: `web_speech_api`, `openai`, `deepgram`, `assemblyai`, `google`, `manual`. RLS: users can SELECT and INSERT only their own rows; ownership verified via both `user_id = auth.uid()` and `attempts.user_id = auth.uid()`. Three indexes: `attempt_id`, `user_id`, `(attempt_id, stage)`.
+
+**C. Performance indexes (additive, idempotent)**
+
+Added `create index if not exists` on:
+- `attempts` — `user_id`, `question_id`, `(user_id, created_at desc)`, `(user_id, status)`
+- `question_test_cases` — `question_id`, `(question_id, is_hidden)`
+- `attempt_events` — `attempt_id`, `(attempt_id, created_at)`, `event_type`
+- `code_snapshots` — `attempt_id`, `(attempt_id, created_at)`
+- `test_runs` — `attempt_id`, `(attempt_id, created_at)`
+- `scorecards` — `attempt_id`, `created_at desc`
+- `user_consents` — `user_id`, `(user_id, consent_type)`
+
+### RLS summary (all tables)
+
+| Table | SELECT | INSERT | UPDATE | DELETE |
+|---|---|---|---|---|
+| `questions` | Published questions readable by any auth user | — | — | — |
+| `question_test_cases` | Public (non-hidden) test cases for published questions | — | — | — |
+| `attempts` | Own rows only | Own rows only | Own rows only | — |
+| `attempt_events` | Via attempt ownership | Via attempt ownership | — | — |
+| `code_snapshots` | Via attempt ownership | Via attempt ownership | — | — |
+| `test_runs` | Via attempt ownership | Via attempt ownership *(added in 004)* | — | — |
+| `scorecards` | Via attempt ownership | Via attempt ownership (002) | — | — |
+| `assessment_integrity_events` | `user_id = auth.uid()` | `user_id = auth.uid()` + attempt ownership | — | — |
+| `user_consents` | `user_id = auth.uid()` | `user_id = auth.uid()` | — | — |
+| `speech_transcripts` | `user_id = auth.uid()` | `user_id = auth.uid()` + attempt ownership | — | — |
+
+### What is NOT stored (MVP)
+
+- Raw audio, video, or screenshots are never stored.
+- Assessment integrity events are stored in `assessment_integrity_events` (dedicated table from 003) and summarised into `attempt_events` on submit.
+- Speech transcripts store text only — no audio blobs.
+
+### How to apply migration 004 manually
+
+1. Open Supabase dashboard → SQL Editor.
+2. Copy the full contents of `supabase/migrations/004_speech_transcripts_indexes_and_fixes.sql`.
+3. Paste into the SQL Editor and click Run.
+4. Verify `speech_transcripts` appears in the Table Editor and that `test_runs` now has an INSERT policy under Authentication → Policies.
+
+### Known limitations
+
+- Hidden test cases are never fetched or executed by the browser; hidden test RLS (no SELECT for normal users) is enforced by migration 001 and unchanged.
+- No admin role system — all admin/service access uses the Supabase service role key server-side. A proper admin role is future work.
+- Graphify CLI unavailable in this environment — graph not updated.
+- `speech_transcripts` is not yet wired into the frontend; it exists for the next phase of STT integration.
+
+### Verification
+
+- `npm run lint` passed.
+- `npm run build` passed.
+
+### What should happen next
+
+Apply migration 004 to the remote Supabase project (see manual steps above), then begin speech-to-text frontend integration using the `web_speech_api` provider into the assessment workspace stages.
+
+---
+
 ## 2026-07-01 — Assessment Integrity Mode (Frontend)
 
 ### What was completed
