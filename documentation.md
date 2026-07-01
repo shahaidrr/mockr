@@ -1,5 +1,64 @@
 # Documentation Log
 
+## 2026-07-01 — Assessment Integrity Mode (Frontend)
+
+### What was completed
+
+Implemented the browser-side Assessment Integrity Mode on top of the data layer from the previous session. Practice Mode is unchanged.
+
+### Files changed
+
+- `components/assessment/AssessmentIntegrityGuard.tsx` — new component
+- `app/practice/[questionId]/practice-session.tsx` — integrated the guard
+- `lib/attempts-service.ts` — added `integrityEvents` to `SubmitAttemptArgs`, inserts events into `attempt_events` on submit
+- `app/results/[attemptId]/page.tsx` — added integrity summary section for assessment attempts
+
+### What AssessmentIntegrityGuard does
+
+- Shows a required rules confirmation modal before the assessment starts. The workspace is rendered behind the modal but inaccessible.
+- Calls `document.documentElement.requestFullscreen()` when the user accepts the rules.
+- While assessment is active:
+  - Tracks `fullscreenchange` → logs `fullscreen_exit` / `fullscreen_entered`
+  - Tracks `visibilitychange` → logs `tab_hidden` / `tab_visible`
+  - Tracks `window blur/focus` → logs `window_blur` / `window_focus`
+  - Blocks right-click (contextmenu → `context_menu_attempt`)
+  - Blocks drag/drop (drag_drop_attempt)
+  - Logs copy events (copy_attempt; not prevented to avoid breaking Monaco)
+  - Blocks Ctrl+R / Cmd+R / F5 (reload_attempt)
+- If fullscreen exits mid-assessment: shows a blocking overlay. User must click "Return to fullscreen" to continue. Their code and answers are preserved.
+- Floating badge (bottom-right) shows fullscreen state + integrity status + event count while the assessment is live.
+- Exits fullscreen before navigating to results on submit.
+
+### What it does NOT do
+
+- No webcam, screen recording, face tracking, eye tracking, or invasive proctoring.
+- No photos, screenshots, audio, or video storage.
+- Cannot technically prevent screenshots, photos, switching devices, or using a second screen.
+- Does not auto-fail the user for integrity events.
+- Does not claim cheating is detected or proven. UI uses language like "logged as integrity events."
+- Does not affect Practice Mode at all.
+
+### Integrity event storage
+
+On submit, `submitAttempt` inserts:
+1. One `attempt_events` row per integrity event (`event_type = 'integrity_event'`, payload includes type, severity, elapsedSeconds, metadata).
+2. One summary row (`event_type = 'integrity_summary'`, `stage = 'submit'`) with finalStatus, totalEvents, lowCount, mediumCount, highCount.
+
+Status rules (matching DB migration 003): 3+ high → compromised; 1+ high or 2+ medium → flagged; 1+ medium or 3+ low → warning; else → clean.
+
+### Results page
+
+If mode is `assessment` and an `integrity_summary` event exists, the results page shows an "Assessment integrity" section with status, event count, and a disclaimer note.
+
+### Limitations
+
+- Migration 003 (assessment_integrity_foundation.sql) must be applied to the remote Supabase project before integrity events will actually persist. Until then, submit succeeds but the `attempt_events` insert may fail silently.
+- Graphify CLI unavailable in this environment — graph not updated.
+- Fullscreen API availability varies by browser. Safari restricts fullscreen on some elements. The guard has a `fullscreenUnavailable` fallback that allows the assessment to proceed without fullscreen enforcement.
+- The `beforeunload` integrity event (page_leave_attempt) fires on unload but state updates from it will not be submitted (page is navigating away). This is expected — the attempt is abandoned in that case.
+
+---
+
 ## 2026-07-01 — Assessment Integrity Database Foundation
 
 ### What was completed

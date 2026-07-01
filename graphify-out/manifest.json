@@ -150,8 +150,8 @@
     "semantic_hash": ""
   },
   "tsconfig.json": {
-    "mtime": 1782282631.9049587,
-    "ast_hash": "71ffca72a8512dfa39f52a722cdfaaa4",
+    "mtime": 1782879294.415823,
+    "ast_hash": "e14e414049be9b1e18c7504feb5afc4d",
     "semantic_hash": ""
   },
   "AGENTS.md": {
@@ -170,8 +170,8 @@
     "semantic_hash": ""
   },
   "documentation.md": {
-    "mtime": 1782878239.4507027,
-    "ast_hash": "10902935967d49b0cf75bef64fa40355",
+    "mtime": 1782879966.7357848,
+    "ast_hash": "021f7da4e9b3c8ce5222335574f9c564",
     "semantic_hash": ""
   },
   "public/file.svg": {
@@ -230,8 +230,8 @@
     "semantic_hash": ""
   },
   "app/results/[attemptId]/page.tsx": {
-    "mtime": 1782878239.4480948,
-    "ast_hash": "20472152265a1a7486c982f1a682e024",
+    "mtime": 1782879294.4139864,
+    "ast_hash": "f53d5cbf49136804a18ea1f1bab54c4a",
     "semantic_hash": ""
   },
   "lib/practice-draft.ts": {
@@ -285,8 +285,8 @@
     "semantic_hash": ""
   },
   "TESTING.md": {
-    "mtime": 1782878239.444126,
-    "ast_hash": "74b20e40284b98ed62321eb0b7d510d9",
+    "mtime": 1782880041.8332262,
+    "ast_hash": "10a923967c1108c3274caed7beda95d7",
     "semantic_hash": ""
   },
   "app/signup/page.tsx": {
@@ -312,6 +312,21 @@
   "types/scorecard.ts": {
     "mtime": 1782878239.4620395,
     "ast_hash": "48ea8241460da47004bbfaa9c483ab4c",
+    "semantic_hash": ""
+  },
+  "lib/assessment-integrity.ts": {
+    "mtime": 1782879919.8102772,
+    "ast_hash": "5804d4233d8131641dd169dd8278fb29",
+    "semantic_hash": ""
+  },
+  "supabase/migrations/003_assessment_integrity_foundation.sql": {
+    "mtime": 1782879870.0311902,
+    "ast_hash": "6beeb08171e9bd249ea68fa1d5974daa",
+    "semantic_hash": ""
+  },
+  "types/assessment-integrity.ts": {
+    "mtime": 1782879896.224807,
+    "ast_hash": "dbe03294fc6422f6669c7dc1f5eb9c99",
     "semantic_hash": ""
   }
 }

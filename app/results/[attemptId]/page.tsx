@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { fetchAttemptById } from "@/lib/attempts-service";
 import type { SavedAttemptResult } from "@/lib/attempts-service";
 import type { ScoreCategoryKey } from "@/types/scorecard";
+import { createClient } from "@/lib/supabase/client";
 
 const LANGUAGE_LABELS: Record<string, string> = {
   javascript: "JavaScript",
@@ -87,6 +88,13 @@ export default function ResultsPage({ params, searchParams }: Props) {
   const [savedAttempt, setSavedAttempt] = useState<SavedAttemptResult | null>(null);
   const [loading, setLoading] = useState(!isLocal);
   const [fetchError, setFetchError] = useState<string | null>(null);
+  const [integritySummary, setIntegritySummary] = useState<{
+    finalStatus: string;
+    totalEvents: number;
+    lowCount: number;
+    mediumCount: number;
+    highCount: number;
+  } | null>(null);
 
   useEffect(() => {
     if (isLocal) return;
@@ -103,6 +111,30 @@ export default function ResultsPage({ params, searchParams }: Props) {
     return () => {
       cancelled = true;
     };
+  }, [attemptId, isLocal]);
+
+  // Fetch integrity summary for assessment-mode attempts
+  useEffect(() => {
+    if (isLocal) return;
+    const supabase = createClient();
+    supabase
+      .from("attempt_events")
+      .select("payload")
+      .eq("attempt_id", attemptId)
+      .eq("event_type", "integrity_summary")
+      .maybeSingle()
+      .then(({ data }) => {
+        if (data?.payload) {
+          const p = data.payload as {
+            finalStatus: string;
+            totalEvents: number;
+            lowCount: number;
+            mediumCount: number;
+            highCount: number;
+          };
+          setIntegritySummary(p);
+        }
+      });
   }, [attemptId, isLocal]);
 
   const effectiveQuestionId =
@@ -249,6 +281,38 @@ export default function ResultsPage({ params, searchParams }: Props) {
                   </div>
                 )}
               </div>
+            </div>
+          )}
+
+          {/* ── Assessment integrity section ── */}
+          {savedAttempt?.attempt.mode === "assessment" && integritySummary && (
+            <div className="mt-4 rounded-[16px] border border-slate-100 bg-slate-50 p-4">
+              <p className="mb-3 text-[10px] font-semibold uppercase tracking-[0.14em] text-slate-400">
+                Assessment integrity
+              </p>
+              <div className="flex items-center justify-between gap-3">
+                <div>
+                  <p className="text-sm font-medium text-slate-700">Integrity status</p>
+                  <p className="mt-0.5 text-sm font-semibold capitalize text-slate-950">
+                    {integritySummary.finalStatus}
+                  </p>
+                </div>
+                <div>
+                  <p className="text-right text-sm font-medium text-slate-700">Events logged</p>
+                  <p className="mt-0.5 text-right text-sm text-slate-900">
+                    {integritySummary.totalEvents}
+                    {integritySummary.highCount > 0 && (
+                      <span className="ml-1 text-xs text-red-600">
+                        ({integritySummary.highCount} high)
+                      </span>
+                    )}
+                  </p>
+                </div>
+              </div>
+              <p className="mt-3 text-xs leading-5 text-slate-500">
+                Integrity events record observable environment interruptions (tab switches,
+                fullscreen exits, etc.). They do not prove misconduct.
+              </p>
             </div>
           )}
 

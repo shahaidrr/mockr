@@ -459,6 +459,56 @@ Run tests by visiting the live dev server (`npm run dev`) and following each ste
 
 ---
 
+## Assessment Integrity Mode (Frontend)
+
+### Pre-start rules modal
+- [ ] Navigate to a question and select Assessment Mode → the rules modal appears before the workspace is usable
+- [ ] Click "Cancel" → navigates back (browser history back)
+- [ ] Click "Start assessment" → modal disappears and browser requests fullscreen
+
+### Fullscreen enforcement
+- [ ] After accepting rules, browser enters fullscreen (green dot + "Fullscreen" badge appears bottom-right)
+- [ ] Press Esc or otherwise exit fullscreen → workspace is blocked by the "Assessment paused" overlay
+- [ ] Overlay shows "Return to fullscreen" button
+- [ ] Clicking "Return to fullscreen" → browser re-enters fullscreen, workspace becomes usable again
+- [ ] The fullscreen_exit event is reflected in the integrity badge count
+
+### Integrity event detection
+- [ ] Switch to another tab while assessment is active → tab_hidden event logged (badge updates)
+- [ ] Return to tab → tab_visible logged
+- [ ] Click outside the browser window (e.g. Dock/taskbar) → window_blur logged
+- [ ] Press Ctrl+R or Cmd+R → reload is blocked, reload_attempt logged
+- [ ] Right-click anywhere in the workspace → context menu suppressed, context_menu_attempt logged
+- [ ] Drag a file into the workspace → drag/drop blocked, drag_drop_attempt logged
+- [ ] Copy text from the workspace → copy_attempt logged (typing in Monaco editor still works normally)
+
+### Integrity status escalation
+- [ ] 0 non-info events → badge shows "clean" (green)
+- [ ] 1+ medium severity events (e.g. fullscreen_exit) → badge shows "warning" (amber)
+- [ ] 1 high or 2+ medium events → badge shows "flagged" (red)
+- [ ] 3+ high events → badge shows "compromised" (purple)
+
+### Submit and persistence
+- [ ] Submit the assessment → fullscreen exits automatically before navigation
+- [ ] Results page loads → "Assessment integrity" section appears with status and event count
+- [ ] Results page shows disclaimer: "does not prove misconduct"
+- [ ] If no integrity events were logged → integrity section is not shown on results page
+
+### Practice Mode isolation
+- [ ] Navigate to Practice Mode → no rules modal appears
+- [ ] No fullscreen request in Practice Mode
+- [ ] Right-click works normally in Practice Mode
+- [ ] Ctrl+R works normally in Practice Mode
+- [ ] No integrity badge appears in Practice Mode
+
+### Edge cases
+- [ ] Browser that doesn't support Fullscreen API (e.g. some mobile browsers) → assessment starts without fullscreen, fullscreen_unavailable logged, no blocking overlay shown
+- [ ] Fullscreen request rejected by browser (denied permission) → same fallback behaviour as above
+- [ ] User submits with 0 integrity events → no `attempt_events` integrity rows inserted, no integrity summary on results page
+- [ ] App does not request webcam, microphone, or screen-recording permissions at any point
+
+---
+
 ## Assessment Integrity Foundation (database only — no frontend UI yet)
 
 These items verify the Supabase migration was applied and the data layer works.

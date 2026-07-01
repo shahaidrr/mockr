@@ -16,6 +16,8 @@ import { submitAttempt } from "@/lib/attempts-service";
 import type { Question, QuestionExample, QuestionTestCase } from "@/types/question";
 import type { PracticeMode, SupportedLanguage, PracticeDraft, InterviewPanel } from "@/types/practice";
 import type { PublicTestRunSummary, PublicTestRunResult } from "@/types/test-run";
+import AssessmentIntegrityGuard from "@/components/assessment/AssessmentIntegrityGuard";
+import type { LocalIntegrityEvent } from "@/components/assessment/AssessmentIntegrityGuard";
 
 const CodeEditor = dynamic(() => import("@/components/code-editor"), { ssr: false });
 
@@ -106,6 +108,7 @@ export default function PracticeSession({
   // use it as both the ref initial value and the useState initial value without
   // touching a ref during render.
   const sessionStartRef = useRef<number>(0);
+  const pendingExitRef  = useRef(false);
   const [timerSeconds, setTimerSeconds] = useState(0);
 
   useEffect(() => {
@@ -140,17 +143,30 @@ export default function PracticeSession({
     }
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
+  // Integrity event accumulator — collects events logged by AssessmentIntegrityGuard
+  const [integrityEvents, setIntegrityEvents] = useState<LocalIntegrityEvent[]>([]);
+  const handleIntegrityEvent = useCallback((e: LocalIntegrityEvent) => {
+    setIntegrityEvents((prev) => [...prev, e]);
+  }, []);
+
   // Assessment exit guard — warn on browser unload / tab close
   useEffect(() => {
     if (!isAssessment) return;
     function handleBeforeUnload(e: BeforeUnloadEvent) {
       e.preventDefault();
+      pendingExitRef.current = true;
+      handleIntegrityEvent({
+        eventType: "page_leave_attempt",
+        occurredAt: new Date().toISOString(),
+        elapsedSeconds: Math.floor((Date.now() - sessionStartRef.current) / 1000),
+        severity: "high",
+      });
       // Mark as abandoned so re-entry starts fresh
       try { sessionStorage.setItem(abandonedKey, "1"); } catch { /* noop */ }
     }
     window.addEventListener("beforeunload", handleBeforeUnload);
     return () => window.removeEventListener("beforeunload", handleBeforeUnload);
-  }, [isAssessment, abandonedKey]);
+  }, [isAssessment, abandonedKey, handleIntegrityEvent]);
 
   const [startedAt] = useState(() => new Date());
   const [showResetConfirm, setShowResetConfirm] = useState(false);
@@ -161,6 +177,38 @@ export default function PracticeSession({
   const [isSaving, setIsSaving] = useState(false);
   const [showSubmitWarning, setShowSubmitWarning] = useState(false);
   const [pendingSubmitSummary, setPendingSubmitSummary] = useState<PublicTestRunSummary | null>(null);
+
+  // When user cancels the native "Leave?" dialog and focus returns, show our exit
+  // guard instead — so they stay in the browser and go through the normal exit flow.
+  useEffect(() => {
+    if (!isAssessment) return;
+    function handleFocusAfterCancel() {
+      if (!pendingExitRef.current) return;
+      pendingExitRef.current = false;
+      // They chose to stay — clear the abandoned flag set by beforeunload
+      try { sessionStorage.removeItem(abandonedKey); } catch { /* noop */ }
+      setShowExitGuard(true);
+    }
+    window.addEventListener("focus", handleFocusAfterCancel);
+    return () => window.removeEventListener("focus", handleFocusAfterCancel);
+  }, [isAssessment, abandonedKey]);
+
+  // Intercept Cmd+W / Ctrl+W before the browser processes it.
+  // Some Chromium builds honour preventDefault here when inside a fullscreen page,
+  // which lets us show the exit guard instead of closing the tab.
+  // Falls back gracefully to the beforeunload → Cancel → exit-guard flow when
+  // the browser ignores the interception.
+  useEffect(() => {
+    if (!isAssessment) return;
+    function handleTabClose(e: KeyboardEvent) {
+      if ((e.metaKey || e.ctrlKey) && e.key === "w") {
+        e.preventDefault();
+        setShowExitGuard(true);
+      }
+    }
+    document.addEventListener("keydown", handleTabClose);
+    return () => document.removeEventListener("keydown", handleTabClose);
+  }, [isAssessment]);
 
   const currentLanguage = draft.selectedLanguage;
   const starterCode = question.starter_code?.[currentLanguage] ?? "";
@@ -213,24 +261,33 @@ export default function PracticeSession({
   }
 
   function handleReset() {
-    clearDraft(draftKey);
-    try { localStorage.removeItem(epochKey); } catch { /* noop */ }
-    // Write a fresh epoch so the timer restarts immediately from 0
-    const newEpoch = Date.now();
-    try { localStorage.setItem(epochKey, String(newEpoch)); } catch { /* noop */ }
-    sessionStartRef.current = newEpoch;
-    setTimerSeconds(0);
-    setDraft(buildEmptyDraft(initialLanguage));
+    setCode(question.starter_code?.[currentLanguage] ?? "");
     setTestSummary(null);
     setShowResetConfirm(false);
   }
 
-  function handleAssessmentExit() {
+  function handleOpenExitGuard() {
+    if (isAssessment) {
+      handleIntegrityEvent({
+        eventType: "route_change_attempt",
+        occurredAt: new Date().toISOString(),
+        elapsedSeconds: Math.floor((Date.now() - sessionStartRef.current) / 1000),
+        severity: "medium",
+      });
+    }
+    setShowExitGuard(true);
+  }
+
+  async function handleAssessmentExit() {
+    if (typeof document !== "undefined" && document.fullscreenElement) {
+      try { await document.exitFullscreen(); } catch { /* noop */ }
+    }
     // Mark abandoned so re-entry starts fresh, clear draft and timer epoch
     try { sessionStorage.setItem(abandonedKey, "1"); } catch { /* noop */ }
     clearDraft(draftKey);
     try { localStorage.removeItem(epochKey); } catch { /* noop */ }
-    router.push("/questions");
+    // Go back to the question page the user came from (not the questions list)
+    router.back();
   }
 
   async function handleRun() {
@@ -251,6 +308,10 @@ export default function PracticeSession({
   }
 
   async function doNavigateToResults(summary: PublicTestRunSummary | null) {
+    // Exit fullscreen before navigating away (assessment mode)
+    if (typeof document !== "undefined" && document.fullscreenElement) {
+      try { await document.exitFullscreen(); } catch { /* noop */ }
+    }
     // Clear the timer epoch — this attempt is done, next visit starts fresh
     try { localStorage.removeItem(epochKey); } catch { /* noop */ }
     setIsSaving(true);
@@ -271,6 +332,7 @@ export default function PracticeSession({
         testSummary: summary,
         testResults: summary?.results ?? [],
         testCaseIds: testCases.map((tc) => tc.id),
+        integrityEvents: isAssessment ? integrityEvents : [],
       });
       router.push(`/results/${attemptId}?questionId=${question.id}`);
     } catch (err) {
@@ -601,6 +663,12 @@ export default function PracticeSession({
   // ─── Render ─────────────────────────────────────────────────────────────
 
   return (
+    <AssessmentIntegrityGuard
+      active={isAssessment}
+      timerSeconds={timerSeconds}
+      onEvent={handleIntegrityEvent}
+      onStart={() => {}}
+    >
     <div
       className="flex h-screen flex-col overflow-hidden"
       style={{ background: "#1f2328", color: "#fff" }}
@@ -612,7 +680,7 @@ export default function PracticeSession({
       >
         {isAssessment ? (
           <button
-            onClick={() => setShowExitGuard(true)}
+            onClick={handleOpenExitGuard}
             className="flex items-center gap-1 text-xs transition hover:text-white"
             style={{ color: "#6b7280" }}
           >
@@ -1101,9 +1169,11 @@ export default function PracticeSession({
             className="mx-4 max-w-sm rounded-[16px] p-6 shadow-xl"
             style={{ background: "#24292f", border: "1px solid #3a4048" }}
           >
-            <p className="text-sm font-semibold text-white">Reset draft?</p>
+            <p className="text-sm font-semibold text-white">Reset code?</p>
             <p className="mt-2 text-xs leading-5" style={{ color: "#9ca3af" }}>
-              This clears all notes, code, and progress for this question. This cannot be undone.
+              This reloads the starter template for {
+                LANGUAGE_OPTIONS.find((l) => l.id === currentLanguage)?.label ?? currentLanguage
+              }. Your notes and answers will not be affected.
             </p>
             <div className="mt-4 flex gap-3">
               <button
@@ -1125,6 +1195,7 @@ export default function PracticeSession({
         </div>
       )}
     </div>
+    </AssessmentIntegrityGuard>
   );
 }
 

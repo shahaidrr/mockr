@@ -3,6 +3,7 @@ import { calculateDeterministicScorecard } from "@/lib/deterministic-score";
 import type { ResultBand } from "@/types/attempt";
 import type { SavedScorecard } from "@/types/scorecard";
 import type { PublicTestRunResult, PublicTestRunSummary } from "@/types/test-run";
+import type { LocalIntegrityEvent } from "@/components/assessment/AssessmentIntegrityGuard";
 
 export type SavedAttempt = {
   id: string;
@@ -56,6 +57,7 @@ type SubmitAttemptArgs = {
   testSummary: PublicTestRunSummary | null;
   testResults: PublicTestRunResult[];
   testCaseIds: string[];
+  integrityEvents?: LocalIntegrityEvent[];
 };
 
 /**
@@ -183,6 +185,59 @@ export async function submitAttempt(args: SubmitAttemptArgs): Promise<string> {
 
   if (attemptUpdateError) {
     console.error("Failed to update attempt score summary:", attemptUpdateError.message);
+  }
+
+  // Persist assessment integrity events (assessment mode only)
+  if (args.integrityEvents && args.integrityEvents.length > 0) {
+    const eventRows = args.integrityEvents.map((e) => ({
+      attempt_id: attemptId,
+      event_type: "integrity_event",
+      stage: null as string | null,
+      payload: {
+        type: e.eventType,
+        occurredAt: e.occurredAt,
+        elapsedSeconds: e.elapsedSeconds,
+        severity: e.severity,
+        metadata: e.metadata ?? {},
+      },
+    }));
+
+    const { error: eventsError } = await supabase
+      .from("attempt_events")
+      .insert(eventRows);
+    if (eventsError) {
+      console.error("Failed to save integrity events:", eventsError.message);
+    }
+
+    // Summary row — used by the results page to show integrity status
+    const severityCounts = args.integrityEvents.reduce(
+      (acc, e) => {
+        if (e.severity === "low") acc.low++;
+        else if (e.severity === "medium") acc.medium++;
+        else if (e.severity === "high") acc.high++;
+        return acc;
+      },
+      { low: 0, medium: 0, high: 0 }
+    );
+    const { high, medium, low } = severityCounts;
+    const finalStatus =
+      high >= 3 ? "compromised"
+      : high >= 1 || medium >= 2 ? "flagged"
+      : medium >= 1 || low >= 3 ? "warning"
+      : "clean";
+
+    await supabase.from("attempt_events").insert({
+      attempt_id: attemptId,
+      event_type: "integrity_summary",
+      stage: "submit",
+      payload: {
+        finalStatus,
+        totalEvents: args.integrityEvents.length,
+        lowCount: low,
+        mediumCount: medium,
+        highCount: high,
+      },
+    });
   }
 
   return attemptId;
