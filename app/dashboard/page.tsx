@@ -42,6 +42,8 @@ type AttemptRowRaw = {
   status: string;
   submitted_at: string | null;
   time_taken_seconds: number | null;
+  overall_score: number | null;
+  result_band: string | null;
   questions: QuestionSummary | QuestionSummary[] | null;
 };
 
@@ -69,7 +71,7 @@ export default async function DashboardPage() {
   const { data: attemptsRaw } = await supabase
     .from("attempts")
     .select(`
-      id, question_id, language, mode, status, submitted_at, time_taken_seconds,
+      id, question_id, language, mode, status, submitted_at, time_taken_seconds, overall_score, result_band,
       questions (title, slug, topic, difficulty)
     `)
     .eq("status", "submitted")
@@ -196,19 +198,20 @@ export default async function DashboardPage() {
               subtitle="Your last 10 submitted practice sessions."
             >
               <div className="overflow-hidden rounded-[24px] border border-slate-200">
-                <div className="hidden grid-cols-[minmax(0,1.6fr)_minmax(0,0.8fr)_minmax(0,0.7fr)_minmax(0,0.9fr)_minmax(0,0.7fr)] gap-4 border-b border-slate-200 bg-slate-50 px-5 py-4 text-xs font-semibold uppercase tracking-[0.18em] text-slate-500 sm:grid">
+                <div className="hidden grid-cols-[minmax(0,1.5fr)_minmax(0,0.8fr)_minmax(0,0.7fr)_minmax(0,0.9fr)_minmax(0,0.7fr)_minmax(0,1fr)] gap-4 border-b border-slate-200 bg-slate-50 px-5 py-4 text-xs font-semibold uppercase tracking-[0.18em] text-slate-500 sm:grid">
                   <span>Question</span>
                   <span>Topic</span>
                   <span>Language</span>
                   <span>Date</span>
                   <span>Time</span>
+                  <span>Score</span>
                 </div>
 
                 <div className="divide-y divide-slate-200 bg-white">
                   {attempts.map((attempt) => (
                     <div
                       key={attempt.id}
-                      className="grid gap-3 px-5 py-4 sm:grid-cols-[minmax(0,1.6fr)_minmax(0,0.8fr)_minmax(0,0.7fr)_minmax(0,0.9fr)_minmax(0,0.7fr)] sm:items-center sm:gap-4"
+                      className="grid gap-3 px-5 py-4 sm:grid-cols-[minmax(0,1.5fr)_minmax(0,0.8fr)_minmax(0,0.7fr)_minmax(0,0.9fr)_minmax(0,0.7fr)_minmax(0,1fr)] sm:items-center sm:gap-4"
                     >
                       <div>
                         <Link
@@ -219,6 +222,11 @@ export default async function DashboardPage() {
                         </Link>
                         <p className="mt-0.5 text-xs text-slate-500 sm:hidden">
                           {attempt.questions?.topic} · {LANGUAGE_LABELS[attempt.language] ?? attempt.language}
+                        </p>
+                        <p className="mt-0.5 text-xs text-slate-500 sm:hidden">
+                          {attempt.overall_score !== null
+                            ? `${attempt.overall_score}/100 · ${attempt.result_band ?? "Scored"}`
+                            : "Not scored yet"}
                         </p>
                       </div>
                       <p className="hidden text-sm text-slate-600 sm:block">
@@ -233,6 +241,20 @@ export default async function DashboardPage() {
                       <p className="hidden text-sm text-slate-500 sm:block">
                         {formatDuration(attempt.time_taken_seconds)}
                       </p>
+                      <div className="hidden sm:block">
+                        {attempt.overall_score !== null ? (
+                          <>
+                            <p className="text-sm font-semibold text-slate-900">
+                              {attempt.overall_score}/100
+                            </p>
+                            <p className="text-xs text-slate-500">
+                              {attempt.result_band ?? "Scored"}
+                            </p>
+                          </>
+                        ) : (
+                          <p className="text-sm text-slate-500">Not scored yet</p>
+                        )}
+                      </div>
                     </div>
                   ))}
                 </div>
@@ -270,10 +292,10 @@ export default async function DashboardPage() {
         <section className="mt-8">
           <DashboardCard
             title="Coming soon"
-            subtitle="Planned for future phases once AI scoring is implemented."
+            subtitle="Planned for future phases beyond deterministic scoring."
           >
             <div className="grid gap-3 sm:grid-cols-3">
-              {["AI scorecards and feedback", "Score breakdown by category", "Weakness tracking and recommendations"].map((item) => (
+              {["AI scorecards and feedback", "Cross-attempt trend tracking", "Weakness tracking and recommendations"].map((item) => (
                 <div
                   key={item}
                   className="rounded-[22px] border border-slate-200 bg-slate-50 px-4 py-4 text-sm font-medium text-slate-600"

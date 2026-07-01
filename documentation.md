@@ -1,5 +1,165 @@
 # Documentation Log
 
+## 2026-06-30 — Graphify CLI Restored
+
+### What was completed
+
+Pulled `origin/main` into `phase-4a-deterministic-scorecards`, resolved the documentation/instruction merge conflicts in the working tree, and replaced the temporary repo-local Graphify fallback with the real Graphify CLI package. Installed `@sentropic/graphify` as a dev dependency so `npx graphify query`, `npx graphify explain`, `npx graphify path`, and `npx graphify update --no-description --no-label .` can run as intended from the repo root.
+
+### Files/routes/components/tables changed
+
+- `package.json` and `package-lock.json` — Added `@sentropic/graphify` as a dev dependency; npm removed the stale unrelated `node_modules/graphify` package during install.
+- `AGENTS.md` — Updated mandatory Graphify workflow to use `npx graphify ...` instead of `./scripts/graphify`.
+- `.codex/hooks.json` and `.claude/settings.json` — Updated Graphify reminders to point agents at `npx graphify`.
+- `TESTING.md` — Replaced the fallback-specific Graphify checklist with real CLI checks.
+- `scripts/graphify` and `scripts/graphify-cli.js` — Removed the temporary query-only fallback scripts.
+- `.graphify/` — Regenerated the real Graphify graph artifacts with the installed CLI.
+- `.gitignore` — Added ignore rules for `.graphify` cache and generated assistant-instruction folders.
+
+### Limitations that remain
+
+- The `git pull origin main` merge has been resolved in file contents, but the repo rule says not to run `git add`, so the user must stage the resolved files to clear Git's unmerged index state.
+- `npm install --save-dev @sentropic/graphify` reported 15 audit findings from the dependency tree and an engine warning because this environment uses Node `v20.17.0` while one dependency asks for Node `^20.19.0 || ^22.13.0 || >=24`. I did not run `npm audit fix` because that can make unrelated dependency changes.
+- `npx graphify portable-check .` still flags `/practice/[questionId]` inside `.graphify/graph.json` as an absolute path. This appears to be a false positive caused by the Next.js dynamic route string, not a local filesystem path.
+
+### Issues encountered and assumptions made
+
+- npm registry research showed the package named `graphify` is an unrelated 2015 random graph generator with no CLI binary.
+- The intended current Graphify package is `@sentropic/graphify`; it exposes the `graphify` binary and supersedes the older `graphifyy` package.
+- I assumed `npx graphify` is the safest repo-local invocation because the binary is installed in `node_modules/.bin` and is not necessarily on every shell's global `PATH`.
+
+### Commands run
+
+```bash
+git pull origin main
+npm search graphify --json
+npm view @sentropic/graphify name version bin description repository homepage --json
+npm install --save-dev @sentropic/graphify
+npx graphify --help
+npx graphify query "What files are relevant to Phase 4A scorecard persistence, results, dashboard, testing docs, and TypeScript config?"
+npx graphify explain "practice-session.tsx"
+npx graphify path "practice-session.tsx" "attempts-service.ts"
+npx graphify check-update .
+npx graphify update .
+npx graphify update --no-description --no-label .
+npx graphify portable-check .
+npm run lint
+npx tsc --noEmit
+```
+
+### Verification
+
+- `npx graphify --help` passed and showed the real `@sentropic/graphify` CLI command list.
+- `npx graphify query ...`, `npx graphify explain "practice-session.tsx"`, and `npx graphify path "practice-session.tsx" "attempts-service.ts"` passed.
+- `npx graphify update --no-description --no-label .` passed and regenerated `.graphify/`.
+- `npx graphify check-update .` passed after removing stale assistant-instruction outputs.
+- `npm run lint` passed.
+- `npx tsc --noEmit` still fails only on the known TypeScript 6 `baseUrl` deprecation in `tsconfig.json`; this is deferred to Phase 4A closeout.
+- `npx graphify portable-check .` still fails only on `/practice/[questionId]` being detected as an absolute path in `.graphify/graph.json`; this appears to be a false positive for a Next.js route string.
+
+### What should happen next
+
+- Run `npx graphify update --no-description --no-label .` after future structural/code changes unless semantic labels/descriptions are intentionally being filled.
+- Stage the resolved merge files manually, then continue with Phase 4A closeout.
+
+## 2026-06-29 21:04:04 AEST — Graphify Dependency Cleanup
+
+### What was completed
+
+Removed the misleading `graphify` dependency from `package.json` and `package-lock.json`. The repo now relies on the checked-in `./scripts/graphify` fallback instead of an unrelated npm package that never provided the expected CLI.
+
+### Files/routes/components/tables changed
+
+- `package.json` — Removed `"graphify": "^1.0.0"` from runtime dependencies.
+- `package-lock.json` — Removed the root `graphify` dependency entry and the `node_modules/graphify` lock entry.
+- `scripts/graphify-cli.js` — Updated `doctor` output so it reports manifest state correctly and distinguishes between a removed dependency and a stale installed copy still present in `node_modules`.
+
+### Limitations that remain
+
+- `node_modules/graphify` still exists on disk from the earlier install. It is now stale and no longer referenced by the manifests, but it will remain until dependencies are reinstalled or `node_modules` is refreshed.
+- `./scripts/graphify update .` is still unsupported in fallback mode because the real external Graphify CLI is not installed.
+
+### Issues encountered and assumptions made
+
+- The previous `doctor` implementation looked only at `node_modules/graphify`, which produced a misleading warning even after the manifest dependency was removed. That was corrected to inspect both `package.json` and `node_modules`.
+- I left the stale installed package in `node_modules` because the repo instructions do not justify destructive cleanup here, and the manifest-level fix is the part that affects future installs and future work.
+- Required Graphify post-change refresh was attempted via `./scripts/graphify update .` and correctly reported that fallback mode cannot regenerate `graphify-out/`.
+
+### What should happen next
+
+- On the next normal dependency refresh, run the project’s preferred install command so the stale `node_modules/graphify` directory disappears.
+- If full graph regeneration becomes necessary, install the real Graphify CLI outside the repo or teach the fallback to delegate when one is available.
+
+## 2026-06-29 20:50:00 AEST — Graphify Fallback Repair
+
+### What was completed
+
+Investigated why Graphify commands were failing in this environment and added a repo-local fallback CLI for future sessions. The root issue is that `package.json` currently references an unrelated npm package named `graphify` that has no CLI binary, so bare `graphify` and `npx graphify` cannot work here. Added `./scripts/graphify` with working `query`, `explain`, `path`, and `doctor` commands over the checked-in `graphify-out/graph.json`, and updated repo instructions/hooks to point at the local command instead of the missing global binary.
+
+### Files/routes/components/tables changed
+
+- `scripts/graphify-cli.js` — New Node-based fallback CLI for Graphify orientation commands.
+- `scripts/graphify` — Executable wrapper for the fallback CLI.
+- `AGENTS.md` — Updated Graphify commands to use `./scripts/graphify` and documented that `update` may be unsupported in fallback mode.
+- `.codex/hooks.json` — Updated the Graphify reminder to reference `./scripts/graphify query`.
+- `.claude/settings.json` — Updated Claude-side Graphify reminders to reference `graphify-out/graph.json` and `./scripts/graphify`.
+- `documentation.md` — Updated workflow text to use the repo-local Graphify command and recorded the environment issue/fix.
+
+### Limitations that remain
+
+- `./scripts/graphify update .` is intentionally read-only and exits with a clear unsupported message. It does not regenerate `graphify-out/` because the real external Graphify CLI is still not installed in this environment.
+- Historical documentation entries still mention older `graphify` commands where they describe what happened at the time; those are left intact as historical records.
+- `package.json` and `package-lock.json` still contain the unrelated `graphify` dependency. I did not rewrite them because they were already user-modified and this fallback avoids depending on them.
+
+### Issues encountered and assumptions made
+
+- The `graphify` npm package installed in `node_modules` is `graphify@1.0.0`, a random graph generator with no CLI `bin`, not the repository’s intended Graphify tool.
+- Existing hooks and agent instructions assumed a global `graphify` binary on `PATH`, which is why every mandatory Graphify step was failing with `command not found`.
+- I assumed a local read-only fallback is preferable to keeping the repo in a permanently broken state while leaving full graph regeneration for a later environment-level fix.
+
+### What should happen next
+
+- Use `./scripts/graphify query ...`, `./scripts/graphify explain ...`, and `./scripts/graphify path ...` for future code orientation in this repo.
+- If full graph regeneration is required, install the real Graphify CLI outside the repo and then decide whether to replace the fallback or teach it to delegate to the real binary when present.
+- If the user wants, the next cleanup step is to remove or replace the misleading `graphify` npm dependency after confirming it is not needed for anything else.
+
+## 2026-06-29 20:41:32 AEST — Phase 4A Deterministic Scorecards
+
+### What was completed
+
+Implemented Phase 4A deterministic scorecards for persisted attempts. Submitting an attempt now calculates a deterministic rubric-based scorecard, writes it to `public.scorecards`, updates `public.attempts.overall_score` and `public.attempts.result_band`, shows the saved score breakdown on the results page, and surfaces score/result-band data in dashboard attempt history.
+
+### Files/routes/components/tables changed
+
+- `types/scorecard.ts` — Added shared scorecard, feedback, and deterministic scoring input/output types.
+- `lib/deterministic-score.ts` — Added pure `calculateDeterministicScorecard()` helper with deterministic v1 heuristics for all eight rubric categories, overall weighting, result bands, and structured strengths/weaknesses/improvement tasks.
+- `lib/attempts-service.ts` — Extended `submitAttempt()` to calculate and insert scorecards and update attempt score summary fields without making scorecard failure fatal. Extended saved-attempt fetches to include scorecard and public test summary data.
+- `app/results/[attemptId]/page.tsx` — Reworked persisted UUID results to show submitted time, overall score, result band, category breakdown, public test summary, strengths, weaknesses, improvement tasks, and clear deterministic-scoring limitations. Older saved attempts without scorecards now show a friendly fallback instead of failing.
+- `app/dashboard/page.tsx` — Recent attempts table now shows saved score/result-band data and a “Not scored yet” fallback for pre-Phase-4A attempts.
+- `supabase/migrations/002_scorecards_insert_policy.sql` — Added the missing `INSERT` RLS policy for `public.scorecards`, which is required for browser-side authenticated writes.
+- `public.scorecards` — now written on submit.
+- `public.attempts` — now updated on submit with `overall_score` and `result_band`.
+
+### Limitations that remain
+
+- Scoring is deterministic only. No AI, no hidden-test execution, and no static analysis are included.
+- Code quality is estimated with simple heuristics only and should be treated as conservative.
+- C++ remains editor-only. Attempts are scored, but correctness is explicitly unverified because execution is not supported yet.
+- Older attempts created before this phase will not have a `scorecards` row; the UI now handles that case intentionally.
+- `graphify update .` could not be run because the `graphify` CLI is not installed on `PATH` in this environment (`zsh:1: command not found: graphify`).
+
+### Issues encountered and assumptions made
+
+- The repo’s required Graphify command is unavailable in this shell even though graph artifacts already exist, so graph refresh/query steps had to fall back to the checked-in graph outputs and could not be regenerated.
+- `npm run build` failed inside the sandbox with a Turbopack environment error: `Operation not permitted (os error 1)` while creating a process/binding to a port. Re-running the exact build command with elevated permissions succeeded.
+- The existing schema already matched the Phase 4A prompt except for the missing `scorecards` insert policy, so a small RLS migration was added instead of altering table structure.
+
+### What should happen next
+
+- Manually test scorecard persistence for JavaScript, Python, and C++ submits using the new `TESTING.md` checklist.
+- In a later phase, move hidden-test execution and richer grading to a server-side sandbox while keeping the deterministic helper as a baseline/fallback.
+- Restore a working Graphify CLI in the development environment so the graph can be refreshed after structural changes.
+
 ## 2026-06-30 — Persistent timer across reloads and navigation
 
 ### What was completed
@@ -167,22 +327,22 @@ No further instruction-file work needed. Next task should be a product feature (
 
 This project uses [Graphify](https://github.com/graphifyy/graphifyy) as a shared knowledge graph so Claude Code, Codex, and human collaborators can understand the codebase before making changes.
 
-**Output location:** `graphify-out/` — commit `graph.json`, `graph.html`, `GRAPH_REPORT.md`, and `manifest.json`. Do not commit `graphify-out/cache/` or `graphify-out/cost.json`.
+**Output location:** `.graphify/` — commit core graph artifacts such as `graph.json`, `GRAPH_REPORT.md`, `manifest.json`, and `scope.json`. Do not commit `.graphify/cache/`, `.graphify/cost.json`, or generated assistant instruction folders.
 
-**Visualiser:** Open `graphify-out/graph.html` in a browser to inspect nodes, links, routes, and component relationships.
+**Visualiser:** Use the installed Graphify CLI (`npx graphify studio`, `npx graphify export`, or related commands) when a visual export is needed.
 
 ### Session loop
 
 1. `git pull`
-2. Read `documentation.md` and `graphify-out/GRAPH_REPORT.md`
+2. Read `documentation.md` and `.graphify/GRAPH_REPORT.md`
 3. Query the graph before touching code:
    ```bash
-   graphify query "What files are relevant to this task?"
-   graphify query "What components, routes, and utilities may be affected?"
+   npx graphify query "What files are relevant to this task?"
+   npx graphify query "What components, routes, and utilities may be affected?"
    ```
 4. Make focused changes.
 5. Update `documentation.md`.
-6. Update the graph: `graphify update .`
+6. Update the graph: `npx graphify update --no-description --no-label .`
 7. Commit code, docs, and graph together.
 
 ### Rules

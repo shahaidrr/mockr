@@ -1,10 +1,11 @@
 "use client";
 
-import React, { use, useState, useEffect } from "react";
+import React, { use, useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { fetchAttemptById } from "@/lib/attempts-service";
-import type { SavedAttempt } from "@/lib/attempts-service";
+import type { SavedAttemptResult } from "@/lib/attempts-service";
+import type { ScoreCategoryKey } from "@/types/scorecard";
 
 const LANGUAGE_LABELS: Record<string, string> = {
   javascript: "JavaScript",
@@ -17,11 +18,33 @@ const MODE_LABELS: Record<string, string> = {
   assessment: "Assessment",
 };
 
+const CATEGORY_LABELS: Record<ScoreCategoryKey, string> = {
+  problem_understanding: "Problem understanding",
+  communication: "Communication",
+  algorithmic_approach: "Algorithmic approach",
+  code_correctness: "Code correctness",
+  code_quality: "Code quality",
+  testing_debugging: "Testing and debugging",
+  complexity_analysis: "Complexity analysis",
+  hints_followups: "Hints and follow-ups",
+};
+
 function formatDuration(seconds: number | null): string {
   if (!seconds) return "—";
   const m = Math.floor(seconds / 60);
   const s = seconds % 60;
   return m > 0 ? `${m}m ${s}s` : `${s}s`;
+}
+
+function formatDateTime(iso: string | null): string {
+  if (!iso) return "—";
+  return new Date(iso).toLocaleString("en-AU", {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+    hour: "numeric",
+    minute: "2-digit",
+  });
 }
 
 type StoredResult = {
@@ -48,7 +71,6 @@ export default function ResultsPage({ params, searchParams }: Props) {
 
   const isLocal = attemptId.startsWith("local-");
 
-  // For local fallback attempts, read session storage
   const [storedResult] = useState<StoredResult | null>(() => {
     if (!isLocal || typeof window === "undefined") return null;
     try {
@@ -62,12 +84,7 @@ export default function ResultsPage({ params, searchParams }: Props) {
     }
   });
 
-  // For real Supabase attempts, fetch from DB
-  const [savedAttempt, setSavedAttempt] = useState<{
-    attempt: SavedAttempt;
-    questionTitle: string;
-    questionSlug: string;
-  } | null>(null);
+  const [savedAttempt, setSavedAttempt] = useState<SavedAttemptResult | null>(null);
   const [loading, setLoading] = useState(!isLocal);
   const [fetchError, setFetchError] = useState<string | null>(null);
 
@@ -83,29 +100,57 @@ export default function ResultsPage({ params, searchParams }: Props) {
       }
       setLoading(false);
     });
-    return () => { cancelled = true; };
+    return () => {
+      cancelled = true;
+    };
   }, [attemptId, isLocal]);
 
-  // Derive display values
-  const effectiveQuestionId = questionId ?? savedAttempt?.attempt.question_id ?? storedResult?.questionId;
+  const effectiveQuestionId =
+    questionId ?? savedAttempt?.attempt.question_id ?? storedResult?.questionId;
   const questionTitle = savedAttempt?.questionTitle ?? storedResult?.questionTitle;
   const language = savedAttempt?.attempt.language ?? storedResult?.language;
   const mode = savedAttempt?.attempt.mode;
   const timeTaken = savedAttempt?.attempt.time_taken_seconds ?? null;
+  const submittedAt = savedAttempt?.attempt.submitted_at ?? null;
+  const scorecard = savedAttempt?.scorecard ?? null;
+  const overallScore = scorecard?.overall_score ?? savedAttempt?.attempt.overall_score ?? null;
+  const resultBand = scorecard?.result_band ?? savedAttempt?.attempt.result_band ?? null;
+  const publicTestSummary = savedAttempt?.publicTestSummary ?? null;
+  const categoryOrder: ScoreCategoryKey[] = [
+    "problem_understanding",
+    "communication",
+    "algorithmic_approach",
+    "code_correctness",
+    "code_quality",
+    "testing_debugging",
+    "complexity_analysis",
+    "hints_followups",
+  ];
 
-  // Loading state
   if (loading) {
     return (
       <main className="flex min-h-screen items-center justify-center px-6 py-10">
         <div className="w-full max-w-lg">
           <div className="rounded-[36px] border border-slate-200 bg-white p-10 shadow-[0_36px_120px_-56px_rgba(15,23,42,0.4)]">
             <div className="flex h-14 w-14 items-center justify-center rounded-full bg-slate-100">
-              <svg className="animate-spin text-slate-400" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <svg
+                className="animate-spin text-slate-400"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
                 <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" />
               </svg>
             </div>
             <p className="mt-6 text-lg font-semibold text-slate-950">Saving your attempt…</p>
-            <p className="mt-2 text-sm text-slate-500">Hang on while we record your submission.</p>
+            <p className="mt-2 text-sm text-slate-500">
+              Hang on while we record your submission.
+            </p>
           </div>
         </div>
       </main>
@@ -114,10 +159,8 @@ export default function ResultsPage({ params, searchParams }: Props) {
 
   return (
     <main className="flex min-h-screen items-center justify-center px-6 py-10">
-      <div className="w-full max-w-lg">
+      <div className="w-full max-w-3xl">
         <div className="rounded-[36px] border border-slate-200 bg-white p-10 shadow-[0_36px_120px_-56px_rgba(15,23,42,0.4)]">
-
-          {/* Icon */}
           <div className="flex h-14 w-14 items-center justify-center rounded-full bg-emerald-50 text-2xl">
             {isLocal ? "📋" : "✅"}
           </div>
@@ -132,11 +175,12 @@ export default function ResultsPage({ params, searchParams }: Props) {
             <p className="mt-3 text-base leading-7 text-slate-600">
               {isLocal
                 ? "Your attempt was saved locally. Full attempt history and AI scorecards will be available in a future phase."
-                : "Your attempt has been saved. Full AI scorecards and score breakdowns are coming in a future phase."}
+                : scorecard
+                  ? "Your attempt has been saved with a deterministic Phase 4A score based on public tests and the interview fields you completed."
+                  : "Your attempt has been saved. This one was recorded before scorecards were enabled."}
             </p>
           )}
 
-          {/* Saved attempt metadata */}
           {savedAttempt && (
             <div className="mt-5 space-y-2 rounded-[16px] border border-slate-100 bg-slate-50 p-4">
               <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-slate-400">
@@ -150,7 +194,9 @@ export default function ResultsPage({ params, searchParams }: Props) {
               )}
               <div className="flex items-start justify-between gap-2">
                 <p className="text-sm font-medium text-slate-700">Language</p>
-                <p className="text-sm text-slate-900">{LANGUAGE_LABELS[language ?? ""] ?? language}</p>
+                <p className="text-sm text-slate-900">
+                  {LANGUAGE_LABELS[language ?? ""] ?? language}
+                </p>
               </div>
               {mode && (
                 <div className="flex items-start justify-between gap-2">
@@ -158,6 +204,10 @@ export default function ResultsPage({ params, searchParams }: Props) {
                   <p className="text-sm text-slate-900">{MODE_LABELS[mode] ?? mode}</p>
                 </div>
               )}
+              <div className="flex items-start justify-between gap-2">
+                <p className="text-sm font-medium text-slate-700">Submitted</p>
+                <p className="text-right text-sm text-slate-900">{formatDateTime(submittedAt)}</p>
+              </div>
               {timeTaken !== null && (
                 <div className="flex items-start justify-between gap-2">
                   <p className="text-sm font-medium text-slate-700">Time taken</p>
@@ -167,7 +217,135 @@ export default function ResultsPage({ params, searchParams }: Props) {
             </div>
           )}
 
-          {/* Local fallback summary (sessionStorage) */}
+          {savedAttempt && !fetchError && (
+            <div className="mt-4 rounded-[16px] border border-slate-100 bg-slate-50 p-4">
+              <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+                <div>
+                  <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-slate-400">
+                    Score summary
+                  </p>
+                  <p className="mt-2 text-3xl font-semibold tracking-tight text-slate-950">
+                    {overallScore !== null ? `${overallScore}/100` : "Not scored yet"}
+                  </p>
+                  <p className="mt-1 text-sm text-slate-600">
+                    {resultBand ?? "This attempt was recorded before scorecards were enabled."}
+                  </p>
+                </div>
+                {scorecard && (
+                  <div className="rounded-full border border-sky-200 bg-sky-50 px-3 py-1 text-xs font-semibold text-sky-700">
+                    Deterministic Phase 4A
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+
+          {scorecard && (
+            <>
+              <div className="mt-4 rounded-[16px] border border-slate-100 bg-slate-50 p-4">
+                <p className="mb-3 text-[10px] font-semibold uppercase tracking-[0.14em] text-slate-400">
+                  Category breakdown
+                </p>
+                <div className="grid gap-3 sm:grid-cols-2">
+                  {categoryOrder.map((key) => (
+                    <div key={key} className="rounded-[14px] border border-white bg-white px-3 py-3">
+                      <div className="flex items-center justify-between gap-3">
+                        <p className="text-sm font-medium text-slate-700">{CATEGORY_LABELS[key]}</p>
+                        <p className="text-sm font-semibold text-slate-950">{scorecard[key]}/10</p>
+                      </div>
+                      <p className="mt-1 text-xs leading-5 text-slate-500">
+                        {scorecard.feedback.category_explanations[key]}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="mt-4 rounded-[16px] border border-slate-100 bg-slate-50 p-4">
+                <p className="mb-3 text-[10px] font-semibold uppercase tracking-[0.14em] text-slate-400">
+                  Public test summary
+                </p>
+                {publicTestSummary?.executable ? (
+                  <>
+                    <div className="mb-2 flex flex-wrap items-center gap-2">
+                      <span className="rounded-full border border-green-200 bg-green-50 px-2.5 py-0.5 text-xs font-semibold text-green-700">
+                        {publicTestSummary.passed} passed
+                      </span>
+                      {publicTestSummary.failed > 0 && (
+                        <span className="rounded-full border border-red-200 bg-red-50 px-2.5 py-0.5 text-xs font-semibold text-red-700">
+                          {publicTestSummary.failed} failed
+                        </span>
+                      )}
+                      <span className="text-xs text-slate-400">
+                        of {publicTestSummary.total} public test
+                        {publicTestSummary.total !== 1 ? "s" : ""}
+                      </span>
+                    </div>
+                    <p className="text-xs leading-6 text-slate-500">
+                      Hidden tests are not executed or included in this score yet.
+                    </p>
+                  </>
+                ) : (
+                  <p className="text-sm leading-7 text-slate-600">
+                    C++ execution is not supported yet, so code correctness could not be verified
+                    for this attempt.
+                  </p>
+                )}
+              </div>
+
+              <div className="mt-4 rounded-[16px] border border-slate-100 bg-slate-50 p-4">
+                <p className="text-sm leading-7 text-slate-600">
+                  This is a deterministic Phase 4A score based on public tests and completed
+                  interview fields. AI feedback and hidden-test scoring are not included yet.
+                </p>
+                <ul className="mt-3 space-y-1 text-sm text-slate-500">
+                  {scorecard.feedback.limitations.map((item) => (
+                    <li key={item}>{item}</li>
+                  ))}
+                </ul>
+              </div>
+
+              {scorecard.strengths.length > 0 && (
+                <div className="mt-4 rounded-[16px] border border-slate-100 bg-slate-50 p-4">
+                  <p className="mb-3 text-[10px] font-semibold uppercase tracking-[0.14em] text-slate-400">
+                    Strengths
+                  </p>
+                  <ul className="space-y-2 text-sm text-slate-700">
+                    {scorecard.strengths.map((item) => (
+                      <li key={item}>{item}</li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
+              {scorecard.weaknesses.length > 0 && (
+                <div className="mt-4 rounded-[16px] border border-slate-100 bg-slate-50 p-4">
+                  <p className="mb-3 text-[10px] font-semibold uppercase tracking-[0.14em] text-slate-400">
+                    Weaknesses
+                  </p>
+                  <ul className="space-y-2 text-sm text-slate-700">
+                    {scorecard.weaknesses.map((item) => (
+                      <li key={item}>{item}</li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
+              {scorecard.improvement_tasks.length > 0 && (
+                <div className="mt-4 rounded-[16px] border border-slate-100 bg-slate-50 p-4">
+                  <p className="mb-3 text-[10px] font-semibold uppercase tracking-[0.14em] text-slate-400">
+                    Improvement tasks
+                  </p>
+                  <ul className="space-y-2 text-sm text-slate-700">
+                    {scorecard.improvement_tasks.map((item) => (
+                      <li key={item}>{item}</li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </>
+          )}
+
           {isLocal && storedResult?.summary && (
             <div className="mt-4 rounded-[16px] border border-slate-100 bg-slate-50 p-4">
               <p className="mb-3 text-[10px] font-semibold uppercase tracking-[0.14em] text-slate-400">
@@ -197,7 +375,8 @@ export default function ResultsPage({ params, searchParams }: Props) {
                   </span>
                 )}
                 <span className="text-xs text-slate-400">
-                  of {storedResult.summary.total} public test{storedResult.summary.total !== 1 ? "s" : ""}
+                  of {storedResult.summary.total} public test
+                  {storedResult.summary.total !== 1 ? "s" : ""}
                 </span>
               </div>
               <p className="text-[11px] text-slate-400">
@@ -206,38 +385,18 @@ export default function ResultsPage({ params, searchParams }: Props) {
             </div>
           )}
 
-          {/* Attempt ID */}
           <div className="mt-4 rounded-[12px] border border-slate-100 bg-slate-50 px-4 py-3">
             <p className="text-xs text-slate-400">Attempt ID</p>
             <p className="mt-0.5 break-all font-mono text-xs text-slate-600">{attemptId}</p>
           </div>
 
-          {/* Coming soon */}
-          <div className="mt-6 space-y-2">
-            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-400">
-              Coming in future phases
-            </p>
-            {[
-              "AI scorecard — code, reasoning, testing, communication",
-              "Score breakdown by category",
-              "Recommendations based on past attempts",
-              "Comparison across your attempt history",
-            ].map((item) => (
-              <div
-                key={item}
-                className="flex items-center gap-3 rounded-[12px] border border-slate-100 bg-slate-50 px-4 py-3 text-sm text-slate-500"
-              >
-                <span className="flex h-4 w-4 flex-shrink-0 items-center justify-center rounded-full border border-slate-200 text-slate-300">
-                  <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                    <circle cx="12" cy="12" r="10" />
-                  </svg>
-                </span>
-                {item}
-              </div>
-            ))}
-          </div>
+          {!scorecard && savedAttempt && !fetchError && (
+            <div className="mt-6 rounded-[16px] border border-amber-200 bg-amber-50 p-4 text-sm leading-7 text-amber-900">
+              This attempt was recorded before scorecards were enabled. Submit a new attempt to see
+              the Phase 4A deterministic breakdown.
+            </div>
+          )}
 
-          {/* Actions */}
           <div className="mt-8 flex flex-col gap-3">
             {effectiveQuestionId && (
               <button

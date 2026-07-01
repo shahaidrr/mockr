@@ -24,27 +24,37 @@ Before making changes, read:
 
 - `AGENTS.md` (this file)
 - `documentation.md` — implementation log and current limitations
-- `graphify-out/GRAPH_REPORT.md` — for broad architecture review or structural edits
+- `.graphify/GRAPH_REPORT.md` — for broad architecture review or structural edits
 
 Do not rely on assumptions from prior sessions if the repo or documentation says otherwise.
 
 ### 2. Query Graphify before touching source files
 
-`graphify-out/graph.json` exists. Before reading source files, running grep/find, or exploring the codebase, run:
+`.graphify/graph.json` exists. Before reading source files, running grep/find, or exploring the codebase, run:
 
 ```bash
-graphify query "<your question about the task>"
-graphify explain "<concept or file name>"
-graphify path "<ComponentA>" "<ComponentB>"
+npx graphify query "<your question about the task>"
+npx graphify explain "<concept or file name>"
+npx graphify path "<ComponentA>" "<ComponentB>"
 ```
 
-These return a focused subgraph — far fewer tokens than reading raw files. Read specific source lines only after Graphify has oriented you, or when editing/debugging specific lines.
+These return a focused subgraph — far fewer tokens than reading raw files. The real Graphify CLI is installed as the `@sentropic/graphify` dev dependency, so use `npx graphify ...` from the repo root. Read specific source lines only after Graphify has oriented you, or when editing/debugging specific lines.
 
 **Skip Graphify only if:** the user explicitly says not to use it, or the task is about fixing stale graph output.
 
-Dirty `graphify-out/` files are normal after hooks or incremental updates — not a reason to skip.
+Dirty `.graphify/` files are normal after hooks or incremental updates — not a reason to skip.
 
-If `graphify-out/wiki/index.md` exists, use it for broad navigation instead of raw source browsing.
+If `.graphify/wiki/index.md` exists, use it for broad navigation instead of raw source browsing.
+
+### 3. After meaningful changes — update Graphify
+
+After any change that affects file structure, routes, components, dependencies, auth, database structure, architecture, or UI flows:
+
+```bash
+npx graphify update --no-description --no-label .
+```
+
+If Graphify reports an environment or dependency issue, record that limitation in `documentation.md` instead of pretending the graph was refreshed.
 
 ---
 
@@ -52,7 +62,7 @@ If `graphify-out/wiki/index.md` exists, use it for broad navigation instead of r
 
 After any change that affects file structure, routes, components, dependencies, auth, database structure, architecture, or UI flows, do all of the following:
 
-1. Run `graphify update .` (AST-only — no API cost)
+1. Run `npx graphify update --no-description --no-label .` (AST-only — no API cost)
 2. Update `documentation.md` with: date/time (AEST), what was completed, files/routes/components/tables changed, limitations that remain, issues and assumptions, what should happen next. Keep entries concise; do not remove historical context unless clearly replaced.
 3. Update `TESTING.md` — add `[ ]` checkbox items at the level of _go here, do this, expect that_. Do not mark items `[x]` yourself. Update existing items if behaviour changed; remove items if a feature was removed.
 4. Run checks in order:

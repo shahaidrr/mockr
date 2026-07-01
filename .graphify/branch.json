@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "branchName": "phase-4a-deterministic-scorecards",
+  "worktreePath": "/Users/shahaidrr/Documents/mockr",
+  "upstream": null,
+  "mergeBase": null,
+  "firstSeenHead": "2976802a78bb99c1585127023f9c3f7ca2fbcb91",
+  "lastSeenHead": "2976802a78bb99c1585127023f9c3f7ca2fbcb91",
+  "lastAnalyzedHead": "2976802a78bb99c1585127023f9c3f7ca2fbcb91",
+  "stale": false,
+  "staleReason": null,
+  "staleSince": null,
+  "lifecycleEvent": null,
+  "createdAt": "2026-06-30T06:54:07.622Z",
+  "updatedAt": "2026-06-30T06:59:13.563Z"
+}

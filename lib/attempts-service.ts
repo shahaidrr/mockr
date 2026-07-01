@@ -1,4 +1,7 @@
 import { createClient } from "@/lib/supabase/client";
+import { calculateDeterministicScorecard } from "@/lib/deterministic-score";
+import type { ResultBand } from "@/types/attempt";
+import type { SavedScorecard } from "@/types/scorecard";
 import type { PublicTestRunResult, PublicTestRunSummary } from "@/types/test-run";
 
 export type SavedAttempt = {
@@ -18,6 +21,23 @@ export type SavedAttempt = {
   submitted_at: string | null;
   time_taken_seconds: number | null;
   hints_used: number;
+  overall_score: number | null;
+  result_band: ResultBand | null;
+};
+
+export type AttemptPublicTestSummary = {
+  passed: number;
+  failed: number;
+  total: number;
+  executable: boolean;
+};
+
+export type SavedAttemptResult = {
+  attempt: SavedAttempt;
+  questionTitle: string;
+  questionSlug: string;
+  scorecard: SavedScorecard | null;
+  publicTestSummary: AttemptPublicTestSummary | null;
 };
 
 type SubmitAttemptArgs = {
@@ -113,6 +133,58 @@ export async function submitAttempt(args: SubmitAttemptArgs): Promise<string> {
     }
   }
 
+  const scorecard = calculateDeterministicScorecard({
+    language: args.language as "javascript" | "python" | "cpp",
+    mode: args.mode as "practice" | "assessment",
+    clarification: args.clarification,
+    approach: args.approach,
+    testingPlan: args.testingPlan,
+    edgeCases: args.edgeCases,
+    complexityAnswer: args.complexity,
+    finalCode: args.finalCode,
+    testSummary: args.testSummary,
+    testResults: args.testResults,
+    hintsUsed: 0,
+    timeTakenSeconds: args.timerSeconds > 0 ? args.timerSeconds : null,
+    isExecutable: args.language === "javascript" || args.language === "python",
+  });
+
+  const { error: scorecardError } = await supabase.from("scorecards").insert({
+    attempt_id: attemptId,
+    overall_score: scorecard.overall_score,
+    result_band: scorecard.result_band,
+    problem_understanding: scorecard.problem_understanding,
+    communication: scorecard.communication,
+    algorithmic_approach: scorecard.algorithmic_approach,
+    code_correctness: scorecard.code_correctness,
+    code_quality: scorecard.code_quality,
+    testing_debugging: scorecard.testing_debugging,
+    complexity_analysis: scorecard.complexity_analysis,
+    hints_followups: scorecard.hints_followups,
+    strengths: scorecard.strengths,
+    weaknesses: scorecard.weaknesses,
+    improvement_tasks: scorecard.improvement_tasks,
+    feedback: scorecard.feedback,
+    rubric_version: scorecard.rubric_version,
+    model_used: scorecard.model_used,
+  });
+
+  if (scorecardError) {
+    console.error("Failed to save scorecard:", scorecardError.message);
+  }
+
+  const { error: attemptUpdateError } = await supabase
+    .from("attempts")
+    .update({
+      overall_score: scorecard.overall_score,
+      result_band: scorecard.result_band,
+    })
+    .eq("id", attemptId);
+
+  if (attemptUpdateError) {
+    console.error("Failed to update attempt score summary:", attemptUpdateError.message);
+  }
+
   return attemptId;
 }
 
@@ -120,11 +192,7 @@ export async function submitAttempt(args: SubmitAttemptArgs): Promise<string> {
  * Fetches a single attempt with the question title for the results page.
  * Returns null if not found or not owned by the current user (RLS handles this).
  */
-export async function fetchAttemptById(attemptId: string): Promise<{
-  attempt: SavedAttempt;
-  questionTitle: string;
-  questionSlug: string;
-} | null> {
+export async function fetchAttemptById(attemptId: string): Promise<SavedAttemptResult | null> {
   const supabase = createClient();
 
   const { data, error } = await supabase
@@ -133,8 +201,17 @@ export async function fetchAttemptById(attemptId: string): Promise<{
       id, user_id, question_id, mode, language, status,
       clarification, approach, testing_plan, edge_cases,
       complexity_answer, final_code, started_at, submitted_at,
-      time_taken_seconds, hints_used,
-      questions (title, slug)
+      time_taken_seconds, hints_used, overall_score, result_band,
+      questions (title, slug),
+      scorecards (
+        id, attempt_id, overall_score, result_band,
+        problem_understanding, communication, algorithmic_approach,
+        code_correctness, code_quality, testing_debugging,
+        complexity_analysis, hints_followups,
+        strengths, weaknesses, improvement_tasks, feedback,
+        rubric_version, model_used, created_at
+      ),
+      test_runs (passed)
     `)
     .eq("id", attemptId)
     .single();
@@ -142,9 +219,21 @@ export async function fetchAttemptById(attemptId: string): Promise<{
   if (error || !data) return null;
 
   type QuestionRef = { title: string; slug: string };
-  type RowRaw = SavedAttempt & { questions: QuestionRef | QuestionRef[] | null };
+  type ScorecardRow = SavedScorecard | SavedScorecard[] | null;
+  type TestRunRow = { passed: boolean | null };
+  type RowRaw = SavedAttempt & {
+    questions: QuestionRef | QuestionRef[] | null;
+    scorecards: ScorecardRow;
+    test_runs: TestRunRow[] | null;
+  };
   const row = data as RowRaw;
   const q = Array.isArray(row.questions) ? (row.questions[0] ?? null) : row.questions;
+  const scorecard = Array.isArray(row.scorecards) ? (row.scorecards[0] ?? null) : row.scorecards;
+  const testRuns = row.test_runs ?? [];
+  const passed = testRuns.filter((run) => run.passed === true).length;
+  const failed = testRuns.filter((run) => run.passed !== true).length;
+  const total = testRuns.length;
+
   return {
     attempt: {
       id: row.id,
@@ -163,9 +252,21 @@ export async function fetchAttemptById(attemptId: string): Promise<{
       submitted_at: row.submitted_at,
       time_taken_seconds: row.time_taken_seconds,
       hints_used: row.hints_used,
+      overall_score: row.overall_score,
+      result_band: row.result_band,
     },
     questionTitle: q?.title ?? "Unknown question",
     questionSlug: q?.slug ?? "",
+    scorecard,
+    publicTestSummary:
+      total > 0 || row.language === "javascript" || row.language === "python"
+        ? {
+            passed,
+            failed,
+            total,
+            executable: row.language === "javascript" || row.language === "python",
+          }
+        : null,
   };
 }
 
@@ -185,13 +286,15 @@ export async function fetchRecentAttempts(limit = 10): Promise<Array<{
   status: string;
   submitted_at: string | null;
   time_taken_seconds: number | null;
+  overall_score: number | null;
+  result_band: ResultBand | null;
 }>> {
   const supabase = createClient();
 
   const { data, error } = await supabase
     .from("attempts")
     .select(`
-      id, question_id, language, mode, status, submitted_at, time_taken_seconds,
+      id, question_id, language, mode, status, submitted_at, time_taken_seconds, overall_score, result_band,
       questions (title, slug, topic, difficulty)
     `)
     .eq("status", "submitted")
@@ -209,6 +312,8 @@ export async function fetchRecentAttempts(limit = 10): Promise<Array<{
     status: string;
     submitted_at: string | null;
     time_taken_seconds: number | null;
+    overall_score: number | null;
+    result_band: ResultBand | null;
     questions: QSummary | QSummary[] | null;
   };
 
@@ -226,6 +331,8 @@ export async function fetchRecentAttempts(limit = 10): Promise<Array<{
       status: row.status,
       submitted_at: row.submitted_at,
       time_taken_seconds: row.time_taken_seconds,
+      overall_score: row.overall_score,
+      result_band: row.result_band,
     };
   });
 }
