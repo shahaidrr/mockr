@@ -62,6 +62,213 @@ Apply migration 004 in Supabase SQL Editor if not done. Then run assessment mode
 
 ---
 
+## 2026-07-01 17:02:54 AEST — Phase 4B.2: Isolated AI Grading Service
+
+### What was completed
+
+Started Phase 4B.2 by adding a dedicated AI grading service abstraction and a new authenticated isolated grading route at `/api/ai/grade`. This reuses the existing DeepSeek backend helper, asks the model for JSON-only rubric feedback, validates the model response, and then combines that AI output with backend-only deterministic correctness scoring and fixed score caps. The route returns a structured grading result but does not save anything to the database and does not alter the real practice submit flow, results page, scorecard UI, clarifying-question behaviour, or any live interviewer logic.
+
+### Files/routes/components/tables changed
+
+- `lib/ai/types.ts` — Extended the shared DeepSeek helper args to support a token limit.
+- `lib/ai/deepseek.ts` — Added `max_tokens` passthrough for JSON grading responses.
+- `lib/ai/grading-schema.ts` — Added strict grading input/result types, manual request validation, AI-response validation, and a safe sample payload.
+- `lib/ai/grading-prompts.ts` — Added the isolated grading system/user prompt builders with explicit responsible-AI constraints.
+- `lib/ai/grading.ts` — Added `gradeAttemptWithAI()`, deterministic code-correctness calculation, weighted hybrid scoring, and backend score caps.
+- `app/api/ai/grade/route.ts` — Added an authenticated POST-only grading route with safe validation and provider error handling.
+- `TESTING.md` — Added manual checks for the isolated AI grading route and a sample fetch payload.
+
+### What the new route does
+
+- Requires an authenticated user through the existing server-side Supabase auth pattern.
+- Accepts a structured attempt payload with question metadata, interview notes, final code, and public/hidden test summaries.
+- Sends a JSON-only grading request to DeepSeek for the non-correctness rubric categories.
+- Validates and clamps the returned rubric categories before using them.
+- Calculates `code_correctness` in backend logic from supplied test outcomes instead of trusting the model.
+- Calculates the final weighted score and result band in backend logic.
+- Returns the structured grading result as JSON without exposing prompts, secrets, or API keys.
+
+### What the new route intentionally does NOT do yet
+
+- It does not save grading results into `attempts`, `scorecards`, or any other database table.
+- It does not replace the Phase 4A deterministic scorecard path used by the real submit flow.
+- It does not change the results page UI.
+- It does not change the practice workspace, clarifying questions, or any live interviewer behaviour.
+- It does not reveal hidden test case contents to the model.
+
+### Score calculation rules
+
+Weights:
+
+- Problem understanding and clarification: `10%`
+- Explanation and communication: `15%`
+- Algorithmic approach: `20%`
+- Code correctness: `25%`
+- Code quality: `10%`
+- Testing and debugging: `10%`
+- Complexity analysis: `5%`
+- Response to hints and follow-ups: `5%`
+
+Result bands:
+
+- `0–39`: Needs significant improvement
+- `40–54`: Below expected level
+- `55–69`: Borderline
+- `70–84`: Meets expected level
+- `85–100`: Strong performance
+
+### Score caps
+
+- If no meaningful final code is provided, overall score cannot exceed `39`.
+- If all core tests fail, overall score cannot exceed `45`.
+- If hidden test pass rate is below `50%`, overall score cannot exceed `69`.
+- If the complexity answer is empty, `complexity_analysis` is forced to `0/10`.
+- If edge cases are empty, `testing_debugging` is capped at `5/10`.
+- If hints used is `3` or more, `hints_followups` is capped at `5/10`.
+
+### Local testing
+
+Authenticated browser-session test:
+
+```js
+fetch("/api/ai/grade", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({
+    question: {
+      title: "Balanced Brackets",
+      topic: "Stacks",
+      difficulty: "easy",
+      problemStatement:
+        "Given a string of brackets, return true if every opening bracket is closed in the correct order.",
+      expectedComplexity: {
+        time: "O(n)",
+        space: "O(n)",
+        notes: "A stack-based approach is expected."
+      },
+      rubricNotes: [
+        "Reward clear justification for using a stack.",
+        "Penalise missing edge-case discussion for empty input."
+      ]
+    },
+    attempt: {
+      mode: "practice",
+      language: "javascript",
+      clarificationNotes:
+        "I would confirm whether non-bracket characters can appear and whether an empty string should return true.",
+      approachExplanation:
+        "I would scan once, push opening brackets onto a stack, and pop when I see a matching closer.",
+      testingPlan:
+        "I would test empty input, a simple balanced pair, nested brackets, and an early mismatch.",
+      edgeCases:
+        "Empty string, single opening bracket, nested mixed bracket types.",
+      complexityAnswer:
+        "Time O(n), space O(n) in the worst case because of the stack.",
+      finalCode:
+        "function balancedBrackets(s) {\\n  const pairs = { ')': '(', ']': '[', '}': '{' };\\n  const stack = [];\\n  for (const char of s) {\\n    if (char === '(' || char === '[' || char === '{') stack.push(char);\\n    else if (pairs[char]) {\\n      if (stack.pop() !== pairs[char]) return false;\\n    }\\n  }\\n  return stack.length === 0;\\n}",
+      timeTakenSeconds: 780,
+      hintsUsed: 1,
+      runCount: 3
+    },
+    publicTests: {
+      passed: 3,
+      failed: 1,
+      total: 4,
+      timedOut: false,
+      results: [
+        { label: "empty string", status: "passed", error: null, durationMs: 2 },
+        { label: "simple pair", status: "passed", error: null, durationMs: 1 },
+        { label: "nested case", status: "passed", error: null, durationMs: 1 },
+        { label: "mismatch case", status: "failed", error: null, durationMs: 1 }
+      ]
+    },
+    hiddenTests: {
+      passed: 4,
+      failed: 1,
+      total: 5,
+      timedOut: false,
+      results: [
+        { label: null, status: "passed", error: null, durationMs: 1 },
+        { label: null, status: "passed", error: null, durationMs: 1 },
+        { label: null, status: "passed", error: null, durationMs: 1 },
+        { label: null, status: "passed", error: null, durationMs: 1 },
+        { label: null, status: "failed", error: null, durationMs: 1 }
+      ]
+    }
+  })
+})
+  .then((res) => res.json())
+  .then(console.log);
+```
+
+Expected success shape:
+
+- `ok: true`
+- `grading.overall_score`
+- `grading.result_band`
+- rubric category objects including `score`, `evidence`, and `improvement`
+- `grading.feedback.caps_applied`
+- `grading.model_used`
+
+### Limitations
+
+- This route depends on a valid logged-in browser session plus the existing DeepSeek environment variables.
+- The route grades from supplied payload data only; it does not fetch or verify a real attempt row yet.
+- Hidden test case contents are intentionally not passed through to the model, only hidden result summaries.
+- AI summary quality can vary; backend validation and scoring caps limit misuse, but this is still not the final production grading flow.
+
+### What should happen next
+
+Phase 4B.3 should connect this isolated grading service to a backend-only attempt-grading orchestration layer, then gate any real persistence or UI adoption behind explicit review so the current practice flow remains stable until approved.
+
+## 2026-07-01 16:45:32 AEST — Phase 4B Started: DeepSeek Backend Integration
+
+### What was completed
+
+Started Phase 4B by adding a small backend-only DeepSeek provider layer and a dedicated health/test route. This does not touch the real practice submission flow, deterministic scorecards, clarifying-question flow, or any scorecard UI. The new helper is fetch-based, uses DeepSeek's OpenAI-compatible `/chat/completions` format, requests JSON via `response_format: { type: "json_object" }`, and is shaped for later grading use without implementing grading yet.
+
+### Files/routes/components/tables changed
+
+- `lib/ai/deepseek.ts` — Added the server-only DeepSeek config/helper layer, reusable `generateJsonWithDeepSeek()` function, and timeout/API/JSON error handling.
+- `lib/ai/types.ts` — Added shared AI helper types and DeepSeek error-code definitions.
+- `app/api/ai/health/route.ts` — Added a backend-only health/test route that validates configuration, makes a tiny DeepSeek request, parses JSON safely, and returns a sanitized success/failure response.
+- `.env.example` — Added safe placeholder env vars for Supabase and DeepSeek.
+- `TESTING.md` — Added manual checks for the DeepSeek health endpoint.
+
+### DeepSeek provider decision
+
+- Provider selected: DeepSeek
+- Default model: `deepseek-v4-flash`
+- Optional future grading model: `deepseek-v4-pro`
+- Deprecated model names such as `deepseek-chat` and `deepseek-reasoner` were not used.
+
+### Environment variables
+
+- `DEEPSEEK_API_KEY`
+- `DEEPSEEK_BASE_URL=https://api.deepseek.com`
+- `DEEPSEEK_MODEL=deepseek-v4-flash`
+
+### Local testing
+
+1. Add `DEEPSEEK_API_KEY`, `DEEPSEEK_BASE_URL`, and `DEEPSEEK_MODEL` to your local `.env.local`.
+2. Start the app with `npm run dev`.
+3. Open `http://localhost:3000/api/ai/health`.
+4. Expected success response: HTTP `200` with `ok: true`, `provider: "deepseek"`, the configured model name, and a parsed JSON health payload.
+5. Expected failure responses:
+   - missing `DEEPSEEK_API_KEY` → safe JSON error without exposing secrets
+   - DeepSeek `429` → safe JSON rate-limit response
+   - timeout / upstream failure / invalid JSON → safe JSON failure response
+
+### Limitations
+
+- The new route is only a provider connectivity check. It does not integrate with practice submission, rubric grading, clarifying questions, or the scoreboard yet.
+- Testing the success path locally requires a valid `DEEPSEEK_API_KEY` in `.env.local`.
+- The route is intentionally server-side only; no client component imports the DeepSeek helper.
+
+### What should happen next
+
+Phase 4C should wire this provider layer into a dedicated grading service abstraction, then connect that grading service to the attempt submission pipeline behind safe feature boundaries. Do not connect it directly from client components.
+
 ## 2026-07-01 15:35:00 AEST — Stage Action Buttons + Submitted-Approach Gate
 
 ### What was completed

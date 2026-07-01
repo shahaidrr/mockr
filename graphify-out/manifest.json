@@ -60,8 +60,8 @@
     "semantic_hash": ""
   },
   "components/code-editor.tsx": {
-    "mtime": 1782878239.4493763,
-    "ast_hash": "509f3d71278db6e5306cd2e9a6186e91",
+    "mtime": 1782886203.1360748,
+    "ast_hash": "7cfdff43d6067b6fce57fb3bb09742fa",
     "semantic_hash": ""
   },
   "components/dashboard-card.tsx": {
@@ -155,8 +155,8 @@
     "semantic_hash": ""
   },
   "AGENTS.md": {
-    "mtime": 1782878239.4422653,
-    "ast_hash": "f02202ea69de1b6226561fe7218aa9fd",
+    "mtime": 1782885998.2875504,
+    "ast_hash": "1f81f9e6a338361e38353a6fec7fbfbc",
     "semantic_hash": ""
   },
   "CLAUDE.md": {
@@ -170,8 +170,8 @@
     "semantic_hash": ""
   },
   "documentation.md": {
-    "mtime": 1782885690.3769948,
-    "ast_hash": "797a2347cf15a5e4d450a75a04f92adc",
+    "mtime": 1782893816.970355,
+    "ast_hash": "adf5e421055a2c6799f861b45537e73f",
     "semantic_hash": ""
   },
   "public/file.svg": {
@@ -205,8 +205,8 @@
     "semantic_hash": ""
   },
   "app/practice/[questionId]/practice-session.tsx": {
-    "mtime": 1782882635.3783433,
-    "ast_hash": "c59af751930d4dd1552a7ee2fd9029dd",
+    "mtime": 1782893423.5512245,
+    "ast_hash": "f19266793a518b9958bb7ebf7e3f9c47",
     "semantic_hash": ""
   },
   "app/questions/[slug]/page.tsx": {
@@ -215,8 +215,8 @@
     "semantic_hash": ""
   },
   "app/questions/[slug]/question-detail-client.tsx": {
-    "mtime": 1782878239.4468305,
-    "ast_hash": "271d6ca3275b1778522bfc0b376d9dda",
+    "mtime": 1782893796.7508295,
+    "ast_hash": "1a14876a13b320e516a79057a09e74e7",
     "semantic_hash": ""
   },
   "app/questions/page.tsx": {
@@ -235,8 +235,8 @@
     "semantic_hash": ""
   },
   "lib/practice-draft.ts": {
-    "mtime": 1782700787.0082521,
-    "ast_hash": "e4eb14eae634aff80df1400078a5827a",
+    "mtime": 1782886203.1388018,
+    "ast_hash": "dd1ffd9740444fc713a0b9f71b8d75b6",
     "semantic_hash": ""
   },
   "lib/questions-service.ts": {
@@ -250,8 +250,8 @@
     "semantic_hash": ""
   },
   "supabase/seed/002_seed_questions.sql": {
-    "mtime": 1782647584.7963612,
-    "ast_hash": "f90546ef3f0f93d2c96ffec119cdc719",
+    "mtime": 1782886203.1401048,
+    "ast_hash": "0be2fa837814e429eedc7659ece6d6f5",
     "semantic_hash": ""
   },
   "types/attempt.ts": {
@@ -260,8 +260,8 @@
     "semantic_hash": ""
   },
   "types/practice.ts": {
-    "mtime": 1782700787.0092466,
-    "ast_hash": "4d6b53dfb2e717c7fa41dc5ef54c7d8f",
+    "mtime": 1782886203.1410406,
+    "ast_hash": "aab20d63423e798195a02e02a76714a5",
     "semantic_hash": ""
   },
   "types/question.ts": {
@@ -285,8 +285,8 @@
     "semantic_hash": ""
   },
   "TESTING.md": {
-    "mtime": 1782881241.4386282,
-    "ast_hash": "d907304bb226ff1d7b8986cb7498f6ad",
+    "mtime": 1782893809.0398695,
+    "ast_hash": "dfaaa789a45890ad96471c212a682917",
     "semantic_hash": ""
   },
   "app/signup/page.tsx": {
@@ -337,6 +337,21 @@
   "supabase/migrations/004_speech_transcripts_indexes_and_fixes.sql": {
     "mtime": 1782885622.0870888,
     "ast_hash": "36e490b4290b6002ab1607685a793c16",
+    "semantic_hash": ""
+  },
+  "components/assessment/SpeechMicButton.tsx": {
+    "mtime": 1782889472.0242872,
+    "ast_hash": "6615cb2f6d51191b8bf92894bd902ea9",
+    "semantic_hash": ""
+  },
+  "components/assessment/SpeechTextareaField.tsx": {
+    "mtime": 1782889482.048439,
+    "ast_hash": "2072b15184c2d2b54eab926daf890dc9",
+    "semantic_hash": ""
+  },
+  "hooks/useSpeechRecognition.ts": {
+    "mtime": 1782893361.7317896,
+    "ast_hash": "5b72caa40c026c8f8efebaa522b70066",
     "semantic_hash": ""
   }
 }

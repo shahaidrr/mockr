@@ -1,16 +1,16 @@
 # Graph Report - mockr  (2026-07-01)
 
 ## Corpus Check
-- 63 files · ~48,449 words
+- 66 files · ~54,677 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 590 nodes · 765 edges · 45 communities (41 shown, 4 thin omitted)
+- 641 nodes · 837 edges · 53 communities (49 shown, 4 thin omitted)
 - Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `86383017`
+- Built from commit: `b8d98c8f`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -58,26 +58,34 @@
 - [[_COMMUNITY_Community 42|Community 42]]
 - [[_COMMUNITY_Community 43|Community 43]]
 - [[_COMMUNITY_Community 44|Community 44]]
+- [[_COMMUNITY_Community 45|Community 45]]
+- [[_COMMUNITY_Community 46|Community 46]]
+- [[_COMMUNITY_Community 47|Community 47]]
+- [[_COMMUNITY_Community 48|Community 48]]
+- [[_COMMUNITY_Community 49|Community 49]]
+- [[_COMMUNITY_Community 50|Community 50]]
+- [[_COMMUNITY_Community 51|Community 51]]
+- [[_COMMUNITY_Community 52|Community 52]]
 
 ## God Nodes (most connected - your core abstractions)
-1. `Documentation Log` - 33 edges
+1. `Documentation Log` - 39 edges
 2. `MOCKR.AI — Feature Testing Checklist` - 21 edges
 3. `createClient()` - 19 edges
 4. `compilerOptions` - 18 edges
 5. `Phase 2 Polish — Multi-Language Public Test Runner` - 17 edges
 6. `Phase 2 — JavaScript Public Test Execution` - 17 edges
 7. `2026-07-01 — Assessment Integrity Database Foundation` - 16 edges
-8. `calculateDeterministicScorecard()` - 14 edges
+8. `2026-07-01 — Migration 004: Speech Transcripts, Test Runs Fix, Indexes` - 14 edges
 9. `2026-06-30 — Graphify CLI Restored` - 14 edges
-10. `Phase 2 Polish — Multi-Language Public Test Execution` - 13 edges
+10. `calculateDeterministicScorecard()` - 14 edges
 
 ## Surprising Connections (you probably didn't know these)
-- `DashboardPage()` --calls--> `createClient()`  [EXTRACTED]
-  app/dashboard/page.tsx → lib/supabase/server.ts
 - `GET()` --calls--> `createClient()`  [EXTRACTED]
   app/auth/callback/route.ts → lib/supabase/server.ts
 - `POST()` --calls--> `createClient()`  [EXTRACTED]
   app/auth/signout/route.ts → lib/supabase/server.ts
+- `DashboardPage()` --calls--> `createClient()`  [EXTRACTED]
+  app/dashboard/page.tsx → lib/supabase/server.ts
 - `Home()` --calls--> `createClient()`  [EXTRACTED]
   app/page.tsx → lib/supabase/server.ts
 - `DemoPracticePage()` --calls--> `createClient()`  [EXTRACTED]
@@ -86,7 +94,7 @@
 ## Import Cycles
 - None detected.
 
-## Communities (45 total, 4 thin omitted)
+## Communities (53 total, 4 thin omitted)
 
 ### Community 0 - "Community 0"
 Cohesion: 0.06
@@ -105,16 +113,16 @@ Cohesion: 0.11
 Nodes (11): FeatureCardProps, dashboardPreviewStats, featureCards, futureCards, LandingPageProps, navLinks, positioningChips, steps (+3 more)
 
 ### Community 4 - "Community 4"
-Cohesion: 0.11
-Nodes (23): Home(), GET(), DemoPracticePage(), fetchPublicTestCases(), fetchPublishedQuestions(), fetchQuestionById(), fetchQuestionBySlug(), config (+15 more)
+Cohesion: 0.08
+Nodes (26): Home(), GET(), DashboardCardProps, StatCard(), StatCardProps, AttemptRow, AttemptRowRaw, DashboardPage() (+18 more)
 
 ### Community 5 - "Community 5"
 Cohesion: 0.14
 Nodes (13): 2026-06-28 16:12:00 AEST, 2026-06-28 16:14:00 AEST, 2026-06-28 16:18:00 AEST, 2026-06-28 16:22:00 AEST, 2026-06-28 16:26:00 AEST, 2026-06-28 16:29:21 AEST, 2026-06-28 16:31:00 AEST, 2026-06-28 16:33:00 AEST (+5 more)
 
 ### Community 6 - "Community 6"
-Cohesion: 0.14
-Nodes (8): DashboardCardProps, StatCard(), StatCardProps, AttemptRow, AttemptRowRaw, DashboardPage(), LANGUAGE_LABELS, QuestionSummary
+Cohesion: 0.11
+Nodes (21): fetchPublishedQuestions(), fetchQuestionBySlug(), metadata, QuestionsPage(), DIFFICULTY_STYLES, LANGUAGE_LABELS, Props, generateMetadata() (+13 more)
 
 ### Community 7 - "Community 7"
 Cohesion: 0.22
@@ -125,8 +133,8 @@ Cohesion: 0.20
 Nodes (10): Files Created, Files Modified, New Routes, Overview, Phase 1 — Database-backed Question Library and Practice Workspace, Phase 1 Limitations, Phases Roadmap, Practice Workspace Layout (integrated coding environment) (+2 more)
 
 ### Community 9 - "Community 9"
-Cohesion: 0.07
-Nodes (39): buildDraftKey(), buildEmptyDraft(), clearDraft(), loadDraft(), saveDraft(), runPublicTests(), spawnWorker(), Props (+31 more)
+Cohesion: 0.08
+Nodes (37): Props, SpeechMicButton(), Props, SpeechTextareaField(), SpeechHook, useSpeechRecognition(), buildDraftKey(), buildEmptyDraft() (+29 more)
 
 ### Community 10 - "Community 10"
 Cohesion: 0.50
@@ -145,8 +153,8 @@ Cohesion: 0.14
 Nodes (14): 2026-07-01 — Assessment Integrity Database Foundation, `attempt_events` convention note, How the future frontend should integrate, Integrity status rules (MVP), RLS policy summary, RPC function, Suggested severity mapping, Supabase migration setup (+6 more)
 
 ### Community 18 - "Community 18"
-Cohesion: 0.15
-Nodes (26): buildLists(), calculateDeterministicScorecard(), clampScore(), countMatches(), countWords(), getResultBand(), normaliseText(), scoreAlgorithmicApproach() (+18 more)
+Cohesion: 0.07
+Nodes (42): CATEGORY_LABELS, formatDateTime(), formatDuration(), LANGUAGE_LABELS, MODE_LABELS, Props, ResultsPage(), StoredResult (+34 more)
 
 ### Community 19 - "Community 19"
 Cohesion: 0.18
@@ -157,8 +165,8 @@ Cohesion: 0.12
 Nodes (17): Disable during run, Error Tests — JavaScript, Error Tests — Python, Failing Tests — JavaScript, Failing Tests — Python, No Public Test Cases (edge case), Passing Tests — JavaScript, Passing Tests — Python (+9 more)
 
 ### Community 21 - "Community 21"
-Cohesion: 0.22
-Nodes (9): Assessment Mode Timer, Auth Gate, Draft Saving & Restoration, Interview Panel (bottom-left), Language Tabs, Monaco Editor, Practice Workspace (`/practice/[questionId]`), Question Loading (+1 more)
+Cohesion: 0.18
+Nodes (11): Assessment Mode Stage Flow, Assessment Mode Timer, Assessment Speech Transcription, Auth Gate, Draft Saving & Restoration, Interview Panel (bottom-left), Language Tabs, Monaco Editor (+3 more)
 
 ### Community 22 - "Community 22"
 Cohesion: 0.07
@@ -173,32 +181,32 @@ Cohesion: 0.22
 Nodes (9): 2026-06-30 — Editor, Timer, and Assessment Session Control, Attempt tracking storage keys, Files changed, How Assessment Mode session control works, How editor behaviour now works, How the timer was fixed, Limitations, What should happen next (+1 more)
 
 ### Community 26 - "Community 26"
-Cohesion: 0.25
-Nodes (8): 2026-06-28 — Coding Workspace UI, Current Limitations, Files Changed, Languages Supported (editor UI only), Not Yet Implemented (future additions), Purpose, Suggested Next Steps (superseded by Phase 1), UI-Only — No Execution
+Cohesion: 0.22
+Nodes (9): 2026-06-28 — Coding Workspace UI, Current Limitations, Files changed, Files Changed, Languages Supported (editor UI only), Not Yet Implemented (future additions), Purpose, Suggested Next Steps (superseded by Phase 1) (+1 more)
 
 ### Community 27 - "Community 27"
 Cohesion: 0.29
 Nodes (7): Assessment Attempt Tracking, Assessment Mode Exit Guard, Assessment Mode — No Side Effects on Practice Mode, Assessment Mode Timer, Editor, Timer, and Assessment Session Control, Monaco Editor — No Suggestions, Practice Mode Timer
 
 ### Community 28 - "Community 28"
-Cohesion: 0.06
-Nodes (39): 2026-06-30 — Graphify CLI Restored, 2026-07-01 — Migration 004: Speech Transcripts, Test Runs Fix, Indexes, 2026-07-01 — Phase 4A Closeout, Auth Behaviour — Unchanged, Commands run, Commands run, Commands run, Date (+31 more)
+Cohesion: 0.25
+Nodes (8): Commands run, Commands run, Environment variables required, Graphify, Known risks and concerns, Manual checks performed, Phase 2 Polish Test Report / Issues and Concerns, Tests that could not be performed
 
 ### Community 29 - "Community 29"
 Cohesion: 0.33
 Nodes (6): 2026-06-29 20:50:00 AEST — Graphify Fallback Repair, Files/routes/components/tables changed, Issues encountered and assumptions made, Limitations that remain, What should happen next, What was completed
 
 ### Community 30 - "Community 30"
-Cohesion: 0.33
-Nodes (6): 2026-06-29 21:04:04 AEST — Graphify Dependency Cleanup, Files/routes/components/tables changed, Issues encountered and assumptions made, Limitations that remain, What should happen next, What was completed
+Cohesion: 0.18
+Nodes (11): 2026-06-29 21:04:04 AEST — Graphify Dependency Cleanup, 2026-07-01 14:42:00 AEST — Interview Panel Follow-up: Overview First, Single-Stage Flow, Files/routes/components/tables changed, Files/routes/components/tables changed, Issues encountered and assumptions made, Limitations that remain, Verification, What should happen next (+3 more)
 
 ### Community 31 - "Community 31"
 Cohesion: 0.33
 Nodes (6): Confirmed counts, Date, Design principles, Hidden Test Authoring — All 7 Questions, Hidden tests by question, Summary
 
 ### Community 32 - "Community 32"
-Cohesion: 0.07
-Nodes (33): AssessmentIntegrityGuard(), computeStatus(), Counts, EVENT_SEVERITY, LocalIntegrityEvent, Props, STATUS_STYLE, CATEGORY_LABELS (+25 more)
+Cohesion: 0.15
+Nodes (17): AssessmentIntegrityGuard(), computeStatus(), Counts, EVENT_SEVERITY, LocalIntegrityEvent, Props, STATUS_STYLE, getAssessmentIntegritySummary() (+9 more)
 
 ### Community 33 - "Community 33"
 Cohesion: 0.33
@@ -238,28 +246,60 @@ Nodes (8): 2026-07-01 — Assessment Integrity Mode (Frontend), Files changed, I
 
 ### Community 43 - "Community 43"
 Cohesion: 0.29
-Nodes (7): 2026-06-30 — Persistent timer across reloads and navigation, Files changed, Files changed, How it works, Limitations, What should happen next, What was completed
+Nodes (7): 2026-06-30 — Persistent timer across reloads and navigation, Files changed, How it works, Limitations, Limitations, What should happen next, What was completed
 
 ### Community 44 - "Community 44"
+Cohesion: 0.22
+Nodes (10): 2026-06-30 — "Start" button in question library scrolls to setup section, 2026-07-01 18:06:06 AEST — Remote Supabase 003/004 Applied + Speech Lifecycle Fixes, Files changed, Limitations, Limitations / notes, Verification, What should happen next, What should happen next (+2 more)
+
+### Community 45 - "Community 45"
+Cohesion: 0.22
+Nodes (9): Auth Behaviour — Unchanged, Date, Files Changed, Files Created, Known limitations, Known Limitations, Recommended Next Steps (superseded by Phase 3 below), Summary (+1 more)
+
+### Community 46 - "Community 46"
+Cohesion: 0.25
+Nodes (8): 2026-06-30 — Graphify CLI Restored, Commands run, Files/routes/components/tables changed, Issues encountered and assumptions made, Limitations that remain, Verification, What should happen next, What was completed
+
+### Community 47 - "Community 47"
+Cohesion: 0.25
+Nodes (8): 2026-07-01 — Migration 004: Speech Transcripts, Test Runs Fix, Indexes, How to apply migration 004 manually, RLS summary (all tables), Verification, What 004 fixes, What is NOT stored (MVP), What should happen next, What was found (existing state before 004)
+
+### Community 48 - "Community 48"
+Cohesion: 0.25
+Nodes (8): 2026-07-01 — Phase 4A Closeout, Files/routes/components/tables changed, Files/routes/components/tables changed, Limitations that remain, Supabase migration reminder, Verification, What should happen next, What was completed
+
+### Community 49 - "Community 49"
 Cohesion: 0.29
-Nodes (7): 2026-06-30 — "Start" button in question library scrolls to setup section, Files changed, Limitations, Limitations, What should happen next, What should happen next, What was completed
+Nodes (7): 2026-07-01 14:29:37 AEST — Practice Workspace Interview Workflow + Runner Bugfix Pass, Files/routes/components/tables changed, Limitations that remain, Verification, What should happen next, What was completed, Workflow rules now implemented
+
+### Community 50 - "Community 50"
+Cohesion: 0.40
+Nodes (5): 2026-07-01 15:13:00 AEST — Practice Workspace Hydration Mismatch Fix, Files/routes/components/tables changed, Verification, What should happen next, What was completed
+
+### Community 51 - "Community 51"
+Cohesion: 0.40
+Nodes (5): 2026-07-01 15:35:00 AEST — Stage Action Buttons + Submitted-Approach Gate, Files/routes/components/tables changed, Merge note, What should happen next, What was completed
+
+### Community 52 - "Community 52"
+Cohesion: 0.40
+Nodes (5): 2026-07-01 AEST — Assessment Voice Transcription (Stages 1, 2, 4, 5), Files/routes/components/tables changed, Limitations / notes, What should happen next, What was completed
 
 ## Knowledge Gaps
-- **370 isolated node(s):** `LANGUAGE_LABELS`, `QuestionSummary`, `AttemptRowRaw`, `AttemptRow`, `metadata` (+365 more)
+- **401 isolated node(s):** `Product Identity`, `1. Read context first`, `2. Query Graphify before touching source files`, `3. After meaningful changes — update Graphify`, `After Meaningful Changes` (+396 more)
   These have ≤1 connection - possible missing edges or undocumented components.
 - **4 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `Documentation Log` connect `Community 5` to `Community 33`, `Community 36`, `Community 8`, `Community 41`, `Community 42`, `Community 43`, `Community 44`, `Community 17`, `Community 19`, `Community 22`, `Community 25`, `Community 26`, `Community 28`, `Community 29`, `Community 30`, `Community 31`?**
-  _High betweenness centrality (0.089) - this node is a cross-community bridge._
-- **Why does `createClient()` connect `Community 4` to `Community 9`, `Community 6`?**
-  _High betweenness centrality (0.031) - this node is a cross-community bridge._
-- **Why does `getSupabaseConfig()` connect `Community 4` to `Community 32`?**
-  _High betweenness centrality (0.023) - this node is a cross-community bridge._
-- **What connects `LANGUAGE_LABELS`, `QuestionSummary`, `AttemptRowRaw` to the rest of the system?**
-  _370 weakly-connected nodes found - possible documentation gaps or missing edges._
+- **Why does `Documentation Log` connect `Community 5` to `Community 8`, `Community 17`, `Community 19`, `Community 22`, `Community 25`, `Community 26`, `Community 29`, `Community 30`, `Community 31`, `Community 33`, `Community 36`, `Community 41`, `Community 42`, `Community 43`, `Community 44`, `Community 45`, `Community 46`, `Community 47`, `Community 48`, `Community 49`, `Community 50`, `Community 51`, `Community 52`?**
+  _High betweenness centrality (0.106) - this node is a cross-community bridge._
+- **Why does `createClient()` connect `Community 4` to `Community 6`?**
+  _High betweenness centrality (0.029) - this node is a cross-community bridge._
+- **Why does `getSupabaseConfig()` connect `Community 4` to `Community 18`?**
+  _High betweenness centrality (0.020) - this node is a cross-community bridge._
+- **What connects `Product Identity`, `1. Read context first`, `2. Query Graphify before touching source files` to the rest of the system?**
+  _401 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `Community 0` be split into smaller, more focused modules?**
   _Cohesion score 0.06060606060606061 - nodes in this community are weakly interconnected._
 - **Should `Community 1` be split into smaller, more focused modules?**

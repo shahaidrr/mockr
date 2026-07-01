@@ -192,12 +192,12 @@
     "hash": "f15aaa42d5d299d091b1171097ea56ad"
   },
   "TESTING.md": {
-    "mtime": 1782885388005.2014,
-    "hash": "1510acdcb3e8f82729505c51f56f69fd"
+    "mtime": 1782889427367.2913,
+    "hash": "7e07998e6e9050c24fb6b2e27e780761"
   },
   "documentation.md": {
-    "mtime": 1782885416879.533,
-    "hash": "e2ddff6d4fbaec3a297a133a0c6d0937"
+    "mtime": 1782889427136.156,
+    "hash": "e54c8e0f5ed17531cf11bf85c02f9555"
   },
   "graphify-out/GRAPH_REPORT.md": {
     "mtime": 1782885129261.566,
@@ -228,8 +228,8 @@
     "hash": "a2760511c65806022ad20adf74370ff3"
   },
   ".graphify/GRAPH_REPORT.md": {
-    "mtime": 1782885140665.9556,
-    "hash": "6eaa2ab30ef86800406f45b5374bf95d"
+    "mtime": 1782888362109.8635,
+    "hash": "c19035383857f74747dcac34c49564f0"
   },
   "components/assessment/AssessmentIntegrityGuard.tsx": {
     "mtime": 1782885129256.3635,
@@ -246,5 +246,17 @@
   "types/assessment-integrity.ts": {
     "mtime": 1782885129272.024,
     "hash": "dbe03294fc6422f6669c7dc1f5eb9c99"
+  },
+  "app/api/ai/health/route.ts": {
+    "mtime": 1782888322628.0803,
+    "hash": "12e959731f191764ebfcf8f58c0f43b7"
+  },
+  "lib/ai/deepseek.ts": {
+    "mtime": 1782889354135.4404,
+    "hash": "4caf2f87c9aa7769a713409c4eae09ea"
+  },
+  "lib/ai/types.ts": {
+    "mtime": 1782889321169.19,
+    "hash": "8b908a3009fd85593d70d749a34b54d9"
   }
 }
