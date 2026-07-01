@@ -172,7 +172,7 @@ export default function QuestionDetailClient({ question }: Props) {
       )}
 
       {/* Start practice card */}
-      <div className="rounded-[24px] border border-slate-200 bg-white p-8 shadow-sm">
+      <div id="practice-setup" className="rounded-[24px] border border-slate-200 bg-white p-8 shadow-sm">
         <h2 className="text-sm font-semibold uppercase tracking-[0.18em] text-slate-500">
           Start practising
         </h2>

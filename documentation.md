@@ -1,5 +1,67 @@
 # Documentation Log
 
+## 2026-06-30 — Graphify CLI Restored
+
+### What was completed
+
+Pulled `origin/main` into `phase-4a-deterministic-scorecards`, resolved the documentation/instruction merge conflicts in the working tree, and replaced the temporary repo-local Graphify fallback with the real Graphify CLI package. Installed `@sentropic/graphify` as a dev dependency so `npx graphify query`, `npx graphify explain`, `npx graphify path`, and `npx graphify update --no-description --no-label .` can run as intended from the repo root.
+
+### Files/routes/components/tables changed
+
+- `package.json` and `package-lock.json` — Added `@sentropic/graphify` as a dev dependency; npm removed the stale unrelated `node_modules/graphify` package during install.
+- `AGENTS.md` — Updated mandatory Graphify workflow to use `npx graphify ...` instead of `./scripts/graphify`.
+- `.codex/hooks.json` and `.claude/settings.json` — Updated Graphify reminders to point agents at `npx graphify`.
+- `TESTING.md` — Replaced the fallback-specific Graphify checklist with real CLI checks.
+- `scripts/graphify` and `scripts/graphify-cli.js` — Removed the temporary query-only fallback scripts.
+- `.graphify/` — Regenerated the real Graphify graph artifacts with the installed CLI.
+- `.gitignore` — Added ignore rules for `.graphify` cache and generated assistant-instruction folders.
+
+### Limitations that remain
+
+- The `git pull origin main` merge has been resolved in file contents, but the repo rule says not to run `git add`, so the user must stage the resolved files to clear Git's unmerged index state.
+- `npm install --save-dev @sentropic/graphify` reported 15 audit findings from the dependency tree and an engine warning because this environment uses Node `v20.17.0` while one dependency asks for Node `^20.19.0 || ^22.13.0 || >=24`. I did not run `npm audit fix` because that can make unrelated dependency changes.
+- `npx graphify portable-check .` still flags `/practice/[questionId]` inside `.graphify/graph.json` as an absolute path. This appears to be a false positive caused by the Next.js dynamic route string, not a local filesystem path.
+
+### Issues encountered and assumptions made
+
+- npm registry research showed the package named `graphify` is an unrelated 2015 random graph generator with no CLI binary.
+- The intended current Graphify package is `@sentropic/graphify`; it exposes the `graphify` binary and supersedes the older `graphifyy` package.
+- I assumed `npx graphify` is the safest repo-local invocation because the binary is installed in `node_modules/.bin` and is not necessarily on every shell's global `PATH`.
+
+### Commands run
+
+```bash
+git pull origin main
+npm search graphify --json
+npm view @sentropic/graphify name version bin description repository homepage --json
+npm install --save-dev @sentropic/graphify
+npx graphify --help
+npx graphify query "What files are relevant to Phase 4A scorecard persistence, results, dashboard, testing docs, and TypeScript config?"
+npx graphify explain "practice-session.tsx"
+npx graphify path "practice-session.tsx" "attempts-service.ts"
+npx graphify check-update .
+npx graphify update .
+npx graphify update --no-description --no-label .
+npx graphify portable-check .
+npm run lint
+npx tsc --noEmit
+```
+
+### Verification
+
+- `npx graphify --help` passed and showed the real `@sentropic/graphify` CLI command list.
+- `npx graphify query ...`, `npx graphify explain "practice-session.tsx"`, and `npx graphify path "practice-session.tsx" "attempts-service.ts"` passed.
+- `npx graphify update --no-description --no-label .` passed and regenerated `.graphify/`.
+- `npx graphify check-update .` passed after removing stale assistant-instruction outputs.
+- `npm run lint` passed.
+- `npx tsc --noEmit` still fails only on the known TypeScript 6 `baseUrl` deprecation in `tsconfig.json`; this is deferred to Phase 4A closeout.
+- `npx graphify portable-check .` still fails only on `/practice/[questionId]` being detected as an absolute path in `.graphify/graph.json`; this appears to be a false positive for a Next.js route string.
+
+### What should happen next
+
+- Run `npx graphify update --no-description --no-label .` after future structural/code changes unless semantic labels/descriptions are intentionally being filled.
+- Stage the resolved merge files manually, then continue with Phase 4A closeout.
+
 ## 2026-06-29 21:04:04 AEST — Graphify Dependency Cleanup
 
 ### What was completed
@@ -98,6 +160,124 @@ Implemented Phase 4A deterministic scorecards for persisted attempts. Submitting
 - In a later phase, move hidden-test execution and richer grading to a server-side sandbox while keeping the deterministic helper as a baseline/fallback.
 - Restore a working Graphify CLI in the development environment so the graph can be refreshed after structural changes.
 
+## 2026-06-30 — Persistent timer across reloads and navigation
+
+### What was completed
+
+The practice and assessment timers now persist across page reloads, tab navigation, and returning to the same attempt. The timer only resets when the user submits their attempt, resets their draft, or (in assessment mode) abandons the session.
+
+### How it works
+
+A `localStorage` key `mockr:timer-epoch:{draftKey}` stores the wall-clock epoch (milliseconds) when the current attempt started. On component mount, the `useEffect` reads the saved epoch (or writes a new one if none exists). The interval derives elapsed seconds as `Date.now() - epoch`, so the timer resumes from the correct value after any reload or return visit.
+
+The epoch key is cleared in four places:
+1. **Submit** (`doNavigateToResults`) — attempt is done; next visit starts fresh.
+2. **Reset draft** (`handleReset`) — writes a new epoch immediately so the timer restarts at 0.
+3. **Assessment exit** (`handleAssessmentExit`) — abandoned session; re-entry starts fresh.
+4. **Assessment re-entry after abandonment** (draft init `useState`) — clears any stale epoch.
+
+The `draftKey` (`mockr:draft:{userId}:{questionId}:{mode}`) scopes the epoch to the same user + question + mode, so switching mode (practice ↔ assessment) correctly gives each a separate timer.
+
+### Files changed
+
+- `app/practice/[questionId]/practice-session.tsx` — added `epochKey` constant; timer `useEffect` reads/writes `localStorage`; `handleReset` clears and resets epoch; `doNavigateToResults` clears epoch on submit; `handleAssessmentExit` clears epoch; assessment abandoned-flag path clears epoch; `persist` callback no longer forces `timerSeconds: 0`.
+
+### Limitations
+
+- On first render after a reload, the timer briefly shows `0` for up to 1 second before the first interval tick corrects it to the true elapsed value. This is a consequence of the React linter rule banning synchronous `setState` inside `useEffect` bodies — the correction happens within one tick and is visually negligible.
+- The epoch is stored in `localStorage` which can be cleared by the user. If cleared, the timer starts from 0 on next visit (same behaviour as a brand new attempt).
+- Assessment mode's `beforeunload` handler sets the abandoned flag in `sessionStorage` but does not have time to clear the epoch key on hard tab-close — however, the abandoned-flag path clears the epoch on re-entry, so the timer still resets correctly.
+
+### What should happen next
+
+No further timer work needed for the MVP. Future: wire `time_taken_seconds` from the persisted epoch to the Supabase `attempts` table on submit (currently uses the in-memory `timerSeconds` state, which is already correct since the epoch gives the right elapsed at submit time).
+
+## 2026-06-30 — "Start" button in question library scrolls to setup section
+
+### What was completed
+
+- Renamed "Start practice" → "Start" on each question card in the question library (`/questions`).
+- "Start" now navigates to `/questions/[slug]#practice-setup` — the same question detail page as "View", but anchored directly to the mode/language/start setup section at the bottom.
+- Added `id="practice-setup"` to the setup card in `question-detail-client.tsx` so the anchor has a stable target.
+- "View" is unchanged and continues to navigate to `/questions/[slug]` (no anchor).
+
+### Files changed
+
+- `app/questions/question-library-client.tsx` — button label "Start practice" → "Start"; href `/practice/${q.id}` → `/questions/${q.slug}#practice-setup`
+- `app/questions/[slug]/question-detail-client.tsx` — added `id="practice-setup"` to the setup card `<div>`
+
+### Limitations
+
+- Hash-based scroll relies on the browser's native anchor behaviour. On slower connections the page may finish painting before the scroll fires; this is standard browser behaviour and not specific to Next.js.
+- The anchor scroll is instant (no smooth-scroll animation) unless the user has `scroll-behavior: smooth` set globally — the current `globals.css` sets `scroll-behavior: smooth`, so it will animate on supported browsers.
+
+### What should happen next
+
+No further work needed for this feature.
+
+## 2026-06-30 — Editor, Timer, and Assessment Session Control
+
+### What was completed
+
+1. **Disabled all editor suggestions/hints** in both Practice and Assessment modes — squiggly error markers remain, but hover tooltips, autocomplete, parameter hints, lightbulb code actions, and code lens are all suppressed.
+2. **Fixed the Practice Mode timer** — replaced a mode-gated `setInterval` (assessment-only) with a single stable interval using a start-epoch ref. Timer now runs in both modes, never drifts, never creates multiple intervals, and never resets on re-renders.
+3. **Added Assessment Mode session control and attempt tracking** — leaving Assessment Mode via the in-app back button now shows a confirmation modal ("Leaving the interview?"). Confirming clears the draft and sets a `sessionStorage` flag. On re-entry, the flag is detected and the draft is discarded so the user must start fresh. Browser tab-close/reload triggers the native `beforeunload` prompt. Attempt count per question is tracked in `localStorage`.
+
+### Files changed
+
+- `components/code-editor.tsx` — Removed `disableSuggestions` prop (was conditional; now all options are always applied). Added `hover: {enabled:false}`, `lightbulb: {enabled: 'off'}`, `codeLens: false`. Typed the options object as `editor.IStandaloneEditorConstructionOptions` for type safety. Now a single interview-mode config shared by all editor instances.
+- `app/practice/[questionId]/practice-session.tsx` — Multiple changes:
+  - Added `useRef` import.
+  - Added `isAssessment`, `abandonedKey`, `attemptCountKey` constants derived from props.
+  - Draft initialisation now checks `sessionStorage` for the abandoned flag; clears draft if set.
+  - Replaced `timerSeconds` init from draft (stale across page loads) with `useState(0)`.
+  - Replaced the assessment-only timer `useEffect` with a single stable interval using `sessionStartRef` (epoch ref). Timer shows in **both** modes — blue for practice, red for assessment.
+  - Draft persistence no longer saves `timerSeconds` (always saves 0) — timer is session-scoped.
+  - Added assessment attempt count tracking in `localStorage` (`mockr:assessment:attempts:{userId}:{questionId}`).
+  - Added `beforeunload` event listener for assessment mode (marks `sessionStorage` abandoned flag).
+  - Added `showExitGuard` state and `handleAssessmentExit` function.
+  - Top-bar "← Questions" link replaced with a button in assessment mode that opens the exit guard modal.
+  - Added exit guard modal ("Leaving the interview?" with "Leave & abandon" / "Stay" buttons).
+  - Removed `disableSuggestions` prop from `<CodeEditor>` usage.
+  - `isPractice` now derives from `isAssessment` (same logic, cleaner).
+
+### How editor behaviour now works
+
+All Monaco editor instances use `INTERVIEW_OPTIONS` — a single shared constant typed as `IStandaloneEditorConstructionOptions`. Red squiggly underlines are preserved (diagnostics are unaffected). All IntelliSense surfaces are suppressed: `quickSuggestions: false`, `suggestOnTriggerCharacters: false`, `parameterHints: {enabled: false}`, `wordBasedSuggestions: 'off'`, `inlineSuggest: {enabled: false}`, `hover: {enabled: false}`, `lightbulb: {enabled: 'off'}`, `codeLens: false`.
+
+### How the timer was fixed
+
+Old approach: `setInterval` inside a `useEffect([initialMode])` — only ran in assessment mode, and `timerSeconds` was loaded from the persisted draft on page reload (wrong). New approach: `sessionStartRef.current = Date.now()` is set in a `useEffect([], [])` (once on mount). A single `setInterval` ticks every 1 second and sets `timerSeconds = floor((Date.now() - sessionStartRef.current) / 1000)`. No drift. No dependency on changing state inside the interval. Timer always starts at 0 on mount. Timer is shown in both modes.
+
+### How Assessment Mode session control works
+
+| Event | Behaviour |
+|---|---|
+| User clicks "← Questions" in assessment mode | Exit guard modal shown |
+| Confirms exit | `sessionStorage.setItem(abandonedKey, "1")`, draft cleared, `router.push("/questions")` |
+| Cancels exit | Modal dismissed, session continues |
+| Browser tab close / reload | Native `beforeunload` prompt shown; `sessionStorage` flag set |
+| Re-entering the question in assessment mode | Flag detected → draft discarded → fresh attempt |
+| Assessment mode mount | Attempt count incremented in `localStorage` |
+
+### Attempt tracking storage keys
+
+- `mockr:assessment:abandoned:{questionId}` — `sessionStorage`, string `"1"` when abandoned
+- `mockr:assessment:attempts:{userId}:{questionId}` — `localStorage`, integer count of starts
+
+### Limitations
+
+- The `beforeunload` flag is set before the browser confirms — if the user cancels the browser prompt and stays, the abandoned flag is already set. On page reload (cancel scenario), the next attempt will start fresh. This is conservative and intentional.
+- Assessment exit guard only covers the in-app "← Questions" button. Other in-app `<Link>` components elsewhere (e.g. the MOCKR.AI logo) are not guarded — these don't exist in the current workspace top bar, so this is not a current issue.
+- Attempt count increments on component mount; if the component mounts twice in strict mode dev, the count will be off by one in development only.
+- No server-side attempt tracking — counts are localStorage only; clearing browser storage resets them.
+
+### What should happen next
+
+- Wire attempt tracking to Supabase `attempts` table (currently stored in localStorage only).
+- Consider adding a visual attempt count badge on the question detail page.
+- Phase 4B: server-side hidden test execution once a sandbox provider is chosen.
+
 ## 2026-06-29 — Agent Instruction Consolidation
 
 ### What was completed
@@ -147,22 +327,22 @@ No further instruction-file work needed. Next task should be a product feature (
 
 This project uses [Graphify](https://github.com/graphifyy/graphifyy) as a shared knowledge graph so Claude Code, Codex, and human collaborators can understand the codebase before making changes.
 
-**Output location:** `graphify-out/` — commit `graph.json`, `graph.html`, `GRAPH_REPORT.md`, and `manifest.json`. Do not commit `graphify-out/cache/` or `graphify-out/cost.json`.
+**Output location:** `.graphify/` — commit core graph artifacts such as `graph.json`, `GRAPH_REPORT.md`, `manifest.json`, and `scope.json`. Do not commit `.graphify/cache/`, `.graphify/cost.json`, or generated assistant instruction folders.
 
-**Visualiser:** Open `graphify-out/graph.html` in a browser to inspect nodes, links, routes, and component relationships.
+**Visualiser:** Use the installed Graphify CLI (`npx graphify studio`, `npx graphify export`, or related commands) when a visual export is needed.
 
 ### Session loop
 
 1. `git pull`
-2. Read `documentation.md` and `graphify-out/GRAPH_REPORT.md`
+2. Read `documentation.md` and `.graphify/GRAPH_REPORT.md`
 3. Query the graph before touching code:
    ```bash
-   ./scripts/graphify query "What files are relevant to this task?"
-   ./scripts/graphify query "What components, routes, and utilities may be affected?"
+   npx graphify query "What files are relevant to this task?"
+   npx graphify query "What components, routes, and utilities may be affected?"
    ```
 4. Make focused changes.
 5. Update `documentation.md`.
-6. Update the graph: `./scripts/graphify update .`
+6. Update the graph: `npx graphify update --no-description --no-label .`
 7. Commit code, docs, and graph together.
 
 ### Rules

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import { useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
 import Link from "next/link";
@@ -76,18 +76,85 @@ export default function PracticeSession({
   const router = useRouter();
   const draftKey = buildDraftKey(userId, question.id, initialMode);
 
+  // Assessment mode: detect re-entry after abandonment and start fresh
+  const isAssessment = initialMode === "assessment";
+  const abandonedKey = `mockr:assessment:abandoned:${question.id}`;
+  const attemptCountKey = `mockr:assessment:attempts:${userId}:${question.id}`;
+  // Timer persistence: store the wall-clock epoch (ms) when this attempt started.
+  // Keyed by draftKey so it is scoped to the same user + question + mode.
+  const epochKey = `mockr:timer-epoch:${draftKey}`;
+
   const [draft, setDraft] = useState<PracticeDraft>(() => {
+    // If re-entering assessment after abandonment, ignore saved draft
+    if (isAssessment && typeof window !== "undefined") {
+      const wasAbandoned = sessionStorage.getItem(abandonedKey);
+      if (wasAbandoned) {
+        sessionStorage.removeItem(abandonedKey);
+        clearDraft(draftKey);
+        try { localStorage.removeItem(epochKey); } catch { /* noop */ }
+        return buildEmptyDraft(initialLanguage);
+      }
+    }
     const saved = loadDraft(draftKey);
     return saved ?? buildEmptyDraft(initialLanguage);
   });
 
-  const [timerSeconds, setTimerSeconds] = useState(() => {
-    const saved = loadDraft(draftKey);
-    return saved?.timerSeconds ?? 0;
-  });
+  // Timer — persisted across reloads using a localStorage epoch (ms wall-clock).
+  // On mount: load the saved epoch for this attempt, or record a new one.
+  // The interval derives elapsed seconds from Date.now() - epoch, so it never drifts.
+  // Load (or create) the persisted epoch outside the component hook chain so we can
+  // use it as both the ref initial value and the useState initial value without
+  // touching a ref during render.
+  const sessionStartRef = useRef<number>(0);
+  const [timerSeconds, setTimerSeconds] = useState(0);
+
+  useEffect(() => {
+    // Runs once on mount — safe to read/write localStorage and the ref here.
+    let epoch: number;
+    try {
+      const saved = localStorage.getItem(epochKey);
+      epoch = saved ? parseInt(saved, 10) : Date.now();
+      if (!saved) localStorage.setItem(epochKey, String(epoch));
+    } catch {
+      epoch = Date.now();
+    }
+    sessionStartRef.current = epoch;
+    // Tick every second — first tick fires after 1s, so the display starts at 0
+    // then corrects itself to the true elapsed value on the first interval fire.
+    const interval = setInterval(() => {
+      setTimerSeconds(Math.floor((Date.now() - sessionStartRef.current) / 1000));
+    }, 1000);
+    return () => clearInterval(interval);
+    // epochKey is a mount-time constant (derived from draftKey which is also stable);
+    // adding it to deps would cause the effect to never re-run differently in practice.
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // Track assessment attempt count
+  useEffect(() => {
+    if (!isAssessment) return;
+    try {
+      const prev = parseInt(localStorage.getItem(attemptCountKey) ?? "0", 10);
+      localStorage.setItem(attemptCountKey, String(prev + 1));
+    } catch {
+      // localStorage unavailable
+    }
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // Assessment exit guard — warn on browser unload / tab close
+  useEffect(() => {
+    if (!isAssessment) return;
+    function handleBeforeUnload(e: BeforeUnloadEvent) {
+      e.preventDefault();
+      // Mark as abandoned so re-entry starts fresh
+      try { sessionStorage.setItem(abandonedKey, "1"); } catch { /* noop */ }
+    }
+    window.addEventListener("beforeunload", handleBeforeUnload);
+    return () => window.removeEventListener("beforeunload", handleBeforeUnload);
+  }, [isAssessment, abandonedKey]);
 
   const [startedAt] = useState(() => new Date());
   const [showResetConfirm, setShowResetConfirm] = useState(false);
+  const [showExitGuard, setShowExitGuard] = useState(false);
   const [langSwitchTarget, setLangSwitchTarget] = useState<SupportedLanguage | null>(null);
   const [testSummary, setTestSummary] = useState<PublicTestRunSummary | null>(null);
   const [isRunning, setIsRunning] = useState(false);
@@ -101,22 +168,15 @@ export default function PracticeSession({
   const currentPanelIdx = INTERVIEW_PANELS.indexOf(draft.currentPanel);
   const isExecutable = currentLanguage === "javascript" || currentLanguage === "python";
 
-  // Assessment mode timer
-  useEffect(() => {
-    if (initialMode !== "assessment") return;
-    const interval = setInterval(() => setTimerSeconds((s) => s + 1), 1000);
-    return () => clearInterval(interval);
-  }, [initialMode]);
-
-  // Persist draft whenever it changes
+  // Persist draft whenever it changes (timer epoch is persisted separately via epochKey)
   const persist = useCallback(
-    (d: PracticeDraft, t: number) => saveDraft(draftKey, { ...d, timerSeconds: t }),
+    (d: PracticeDraft) => saveDraft(draftKey, d),
     [draftKey]
   );
 
   useEffect(() => {
-    persist(draft, timerSeconds);
-  }, [draft, timerSeconds, persist]);
+    persist(draft);
+  }, [draft, persist]);
 
   function updateDraft(changes: Partial<PracticeDraft>) {
     setDraft((prev) => ({ ...prev, ...changes }));
@@ -154,10 +214,23 @@ export default function PracticeSession({
 
   function handleReset() {
     clearDraft(draftKey);
-    setDraft(buildEmptyDraft(initialLanguage));
+    try { localStorage.removeItem(epochKey); } catch { /* noop */ }
+    // Write a fresh epoch so the timer restarts immediately from 0
+    const newEpoch = Date.now();
+    try { localStorage.setItem(epochKey, String(newEpoch)); } catch { /* noop */ }
+    sessionStartRef.current = newEpoch;
     setTimerSeconds(0);
+    setDraft(buildEmptyDraft(initialLanguage));
     setTestSummary(null);
     setShowResetConfirm(false);
+  }
+
+  function handleAssessmentExit() {
+    // Mark abandoned so re-entry starts fresh, clear draft and timer epoch
+    try { sessionStorage.setItem(abandonedKey, "1"); } catch { /* noop */ }
+    clearDraft(draftKey);
+    try { localStorage.removeItem(epochKey); } catch { /* noop */ }
+    router.push("/questions");
   }
 
   async function handleRun() {
@@ -178,6 +251,8 @@ export default function PracticeSession({
   }
 
   async function doNavigateToResults(summary: PublicTestRunSummary | null) {
+    // Clear the timer epoch — this attempt is done, next visit starts fresh
+    try { localStorage.removeItem(epochKey); } catch { /* noop */ }
     setIsSaving(true);
     try {
       const attemptId = await submitAttempt({
@@ -259,7 +334,7 @@ export default function PracticeSession({
     return `${m}:${sec.toString().padStart(2, "0")}`;
   }
 
-  const isPractice = initialMode === "practice";
+  const isPractice = !isAssessment;
   const diffColor = DIFFICULTY_COLORS[question.difficulty] ?? "#9ca3af";
   const panelProgress = `Stage ${currentPanelIdx + 1} of ${INTERVIEW_PANELS.length} · ${PANEL_LABELS[draft.currentPanel]}`;
 
@@ -535,16 +610,29 @@ export default function PracticeSession({
         className="flex flex-shrink-0 items-center gap-3 px-4 py-2.5"
         style={{ background: "#24292f", borderBottom: "1px solid #3a4048" }}
       >
-        <Link
-          href="/questions"
-          className="flex items-center gap-1 text-xs transition hover:text-white"
-          style={{ color: "#6b7280" }}
-        >
-          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-            <polyline points="15 18 9 12 15 6" />
-          </svg>
-          Questions
-        </Link>
+        {isAssessment ? (
+          <button
+            onClick={() => setShowExitGuard(true)}
+            className="flex items-center gap-1 text-xs transition hover:text-white"
+            style={{ color: "#6b7280" }}
+          >
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <polyline points="15 18 9 12 15 6" />
+            </svg>
+            Questions
+          </button>
+        ) : (
+          <Link
+            href="/questions"
+            className="flex items-center gap-1 text-xs transition hover:text-white"
+            style={{ color: "#6b7280" }}
+          >
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <polyline points="15 18 9 12 15 6" />
+            </svg>
+            Questions
+          </Link>
+        )}
 
         <div className="h-3.5 w-px flex-shrink-0" style={{ background: "#3a4048" }} />
 
@@ -568,14 +656,12 @@ export default function PracticeSession({
           {initialMode}
         </span>
 
-        {initialMode === "assessment" && (
-          <span
-            className="flex-shrink-0 font-mono text-sm font-semibold tabular-nums"
-            style={{ color: "#f87171" }}
-          >
-            {formatTime(timerSeconds)}
-          </span>
-        )}
+        <span
+          className="flex-shrink-0 font-mono text-sm font-semibold tabular-nums"
+          style={{ color: isAssessment ? "#f87171" : "#38bdf8" }}
+        >
+          {formatTime(timerSeconds)}
+        </span>
 
         <span
           className="flex-shrink-0 rounded px-2 py-0.5 font-mono text-[10px] font-semibold"
@@ -845,7 +931,7 @@ export default function PracticeSession({
 
           {/* Monaco editor (~2/3 of right column) */}
           <div className="flex-[2] overflow-hidden" style={{ minHeight: 0 }}>
-            <CodeEditor code={currentCode} language={currentLanguage} onChange={setCode} disableSuggestions />
+            <CodeEditor code={currentCode} language={currentLanguage} onChange={setCode} />
           </div>
 
           {/* Divider */}
@@ -953,6 +1039,55 @@ export default function PracticeSession({
                 style={{ background: "#31d67b", color: "#000" }}
               >
                 {isSaving ? "Saving…" : "Submit anyway"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ── Assessment exit guard modal ── */}
+      {showExitGuard && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 px-4">
+          <div
+            className="w-full max-w-sm rounded-[16px] p-6 shadow-xl"
+            style={{ background: "#24292f", border: "1px solid #7c3aed55" }}
+          >
+            {/* Icon + heading */}
+            <div className="flex items-start gap-3">
+              <div
+                className="mt-0.5 flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full"
+                style={{ background: "#7c3aed22" }}
+              >
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" />
+                  <line x1="12" y1="9" x2="12" y2="13" />
+                  <line x1="12" y1="17" x2="12.01" y2="17" />
+                </svg>
+              </div>
+              <div>
+                <p className="text-sm font-semibold text-white">Leaving the interview?</p>
+                <p className="mt-1.5 text-xs leading-5" style={{ color: "#9ca3af" }}>
+                  This attempt will be marked as abandoned. Your code and notes will not be saved,
+                  and you will need to start from scratch if you return.
+                </p>
+              </div>
+            </div>
+
+            {/* Actions */}
+            <div className="mt-5 flex gap-2.5">
+              <button
+                onClick={() => setShowExitGuard(false)}
+                className="flex-1 rounded-lg px-3 py-2 text-xs font-semibold transition hover:brightness-110"
+                style={{ background: "#3a4048", color: "#d1d5db" }}
+              >
+                Stay in interview
+              </button>
+              <button
+                onClick={handleAssessmentExit}
+                className="flex-1 rounded-lg px-3 py-2 text-xs font-semibold text-white transition hover:brightness-110"
+                style={{ background: "#ef4444" }}
+              >
+                Walk out
               </button>
             </div>
           </div>

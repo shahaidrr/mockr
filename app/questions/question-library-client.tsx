@@ -137,10 +137,10 @@ export default function QuestionLibraryClient({ questions }: Props) {
                   View
                 </Link>
                 <Link
-                  href={`/practice/${q.id}`}
+                  href={`/questions/${q.slug}#practice-setup`}
                   className="flex-1 rounded-full border border-slate-950 bg-slate-950 px-4 py-2 text-center text-sm font-semibold text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.14)] transition hover:bg-slate-800"
                 >
-                  Start practice
+                  Start
                 </Link>
               </div>
             </div>

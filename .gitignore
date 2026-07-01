@@ -47,3 +47,8 @@ next-env.d.ts
 graphify-out/cache/
 graphify-out/cost.json
 graphify/cost.json
+.graphify/cache/
+.graphify/cost.json
+.graphify/.graphify_describe_pending
+.graphify/description-instructions/
+.graphify/label-instructions/

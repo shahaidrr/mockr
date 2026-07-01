@@ -14,94 +14,65 @@ This is the single source of truth for all coding agents (Claude Code, Codex, an
 - This is a preparation and coaching tool, not an employer-facing hiring or candidate-rejection system.
 - Keep the MVP simple, maintainable, and focused. Do not overbuild.
 
+---
+
 ## Before Every Task — Mandatory Orientation
 
 ### 1. Read context first
 
 Before making changes, read:
+
 - `AGENTS.md` (this file)
 - `documentation.md` — implementation log and current limitations
-- `graphify-out/GRAPH_REPORT.md` — for broad architecture review or structural edits
+- `.graphify/GRAPH_REPORT.md` — for broad architecture review or structural edits
 
 Do not rely on assumptions from prior sessions if the repo or documentation says otherwise.
 
 ### 2. Query Graphify before touching source files
 
-`graphify-out/graph.json` exists. Before reading source files, running grep/find, or exploring the codebase, run:
+`.graphify/graph.json` exists. Before reading source files, running grep/find, or exploring the codebase, run:
 
 ```bash
-./scripts/graphify query "<your question about the task>"
-./scripts/graphify explain "<concept or file name>"
-./scripts/graphify path "<ComponentA>" "<ComponentB>"
+npx graphify query "<your question about the task>"
+npx graphify explain "<concept or file name>"
+npx graphify path "<ComponentA>" "<ComponentB>"
 ```
 
-These return a focused subgraph — far fewer tokens than reading raw files. In this repo, `./scripts/graphify` is a checked-in fallback over `graphify-out/graph.json`, so `query`, `explain`, and `path` work even when the external Graphify CLI is not installed. Read specific source lines only after Graphify has oriented you, or when editing/debugging specific lines.
+These return a focused subgraph — far fewer tokens than reading raw files. The real Graphify CLI is installed as the `@sentropic/graphify` dev dependency, so use `npx graphify ...` from the repo root. Read specific source lines only after Graphify has oriented you, or when editing/debugging specific lines.
 
 **Skip Graphify only if:** the user explicitly says not to use it, or the task is about fixing stale graph output.
 
-Dirty `graphify-out/` files are normal after hooks or incremental updates — not a reason to skip.
+Dirty `.graphify/` files are normal after hooks or incremental updates — not a reason to skip.
 
-If `graphify-out/wiki/index.md` exists, use it for broad navigation instead of raw source browsing.
+If `.graphify/wiki/index.md` exists, use it for broad navigation instead of raw source browsing.
 
 ### 3. After meaningful changes — update Graphify
 
 After any change that affects file structure, routes, components, dependencies, auth, database structure, architecture, or UI flows:
 
 ```bash
-./scripts/graphify update .
+npx graphify update --no-description --no-label .
 ```
 
-If the fallback reports that update is unsupported, record that limitation in `documentation.md` instead of pretending the graph was refreshed.
+If Graphify reports an environment or dependency issue, record that limitation in `documentation.md` instead of pretending the graph was refreshed.
 
 ---
 
-## Documentation Workflow
+## After Meaningful Changes
 
-Update `documentation.md` after every meaningful change. Each entry must include:
+After any change that affects file structure, routes, components, dependencies, auth, database structure, architecture, or UI flows, do all of the following:
 
-- **Date/time** (AEST)
-- **What was completed**
-- **Files/routes/components/tables changed**
-- **Limitations that remain**
-- **Issues encountered and assumptions made**
-- **What should happen next**
-
-Keep entries concise but useful for future developers. Do not remove historical context unless it is clearly outdated and replaced with better current information.
-
----
-
-## Testing Workflow
-
-Update `TESTING.md` after every feature implementation, route addition, component change, data flow change, or auth/database change.
-
-Rules:
-- Add a new section (or sub-section) under the appropriate area in `TESTING.md`.
-- Each new item must be a `[ ]` checkbox with a concrete, one-step manual test.
-- Write at the level of: *go here, do this, expect that*.
-- Do not mark items `[x]` yourself — only the user marks items tested.
-- If you modify an existing feature, update its existing test items to reflect the new behaviour.
-- If you remove a feature, remove its test items.
-
-Example format:
-```
-### My New Feature
-- [ ] Navigating to `/foo` shows the new panel
-- [ ] Clicking "Do thing" triggers X and shows Y
-- [ ] Error state: if Z is missing, shows message "..."
-```
-
-### Running checks
-
-After changes, run the available scripts in order:
+1. Run `npx graphify update --no-description --no-label .` (AST-only — no API cost)
+2. Update `documentation.md` with: date/time (AEST), what was completed, files/routes/components/tables changed, limitations that remain, issues and assumptions, what should happen next. Keep entries concise; do not remove historical context unless clearly replaced.
+3. Update `TESTING.md` — add `[ ]` checkbox items at the level of _go here, do this, expect that_. Do not mark items `[x]` yourself. Update existing items if behaviour changed; remove items if a feature was removed.
+4. Run checks in order:
 
 ```bash
 npm run lint    # ESLint
-npm run build   # TypeScript check + production build (both run together)
+npm run build   # TypeScript check + production build
 ```
 
-No separate `typecheck` script exists — TypeScript errors surface via `npm run build`.
-
-If a command fails due to environment setup, missing env vars, or pre-existing unrelated issues, record the exact error in `documentation.md` and `TESTING.md`. Do not claim tests passed unless they actually passed.
+No separate `typecheck` script — TypeScript errors surface via `npm run build`. Record any failure caused by environment setup or pre-existing issues in `documentation.md` and `TESTING.md`.
 
 ---
 
@@ -110,7 +81,7 @@ If a command fails due to environment setup, missing env vars, or pre-existing u
 - **Never** run `git add`, `git commit`, `git push`, or stage files.
 - You may use `git status`, `git diff`, and `git log` for inspection only.
 - The user will review, stage, commit, and push manually.
-- At the end of a task, report changed files and recommended next git commands — do not run them.
+- At the end of a task, report changed files and provide a **Suggested commit message:** — one concise sentence describing the actual changes. Do not invent changes that were not made.
 
 ---
 
@@ -128,11 +99,9 @@ If a command fails due to environment setup, missing env vars, or pre-existing u
 
 ## Implementation Standards
 
-- Follow the existing Next.js App Router structure.
-- This project uses **Next.js 16** — APIs, conventions, and file structure may differ from training data. Check `node_modules/next/dist/docs/` before writing code. Heed deprecation notices.
+- This project uses **Next.js 16** App Router — APIs and conventions may differ from training data. Check `node_modules/next/dist/docs/` before writing code. Heed deprecation notices.
 - Keep TypeScript types clear and reusable.
 - Prefer existing components, utilities, styles, and conventions over new ones.
-- Do not create duplicate systems if a working pattern already exists.
 - Avoid unnecessary dependencies and large rewrites.
 - Keep UI consistent with the current clean SaaS / student-friendly direction.
 - Handle loading, empty, and error states where practical.
@@ -140,22 +109,38 @@ If a command fails due to environment setup, missing env vars, or pre-existing u
 
 ---
 
-## Execution Workflow for Large Tasks
+## Execution Workflow
 
-When a task is large, break it into clearly defined phases. After each phase:
+### Before editing — state intent
 
-1. Stop and present: what was completed, files changed, issues or limitations, what the next phase involves.
-2. Wait for explicit user approval before continuing.
-3. Each phase must be independently understandable and testable where possible.
+- **Small task:** one sentence describing the intended change.
+- **Medium or large task:** a short checklist-style plan.
+- **Risky change** (multi-file, auth, database, routing, Graphify, or architecture): stop and wait for explicit user approval before implementing.
 
-Do not continue automatically through all phases without user confirmation.
+### Task Progress Checklist
 
----
+For every task, maintain a visible subtask checklist. Use this format:
 
-## Scope Rules
+```
+### Task Progress
+- [x] ~~Completed subtask~~
+- [*] Current subtask being worked on
+- [ ] Next incomplete subtask
+```
 
-- Keep changes scoped to the user's task.
-- Do not implement product features unless the task asks for them.
-- Do not refactor unrelated code.
-- Prefer small, maintainable implementations over broad rewrites.
-- Do not design for hypothetical future requirements.
+Rules: one `[*]` at a time; completed subtasks use `[x] ~~strikethrough~~`; do not mark complete unless actually done.
+
+### After completing each phase or task
+
+Stop for user review and provide only:
+
+- The updated Task Progress Checklist
+- Files/routes/components changed
+- Issues, blockers, or limitations
+- What was launched or shown in the preview/dev panel (or how to verify manually if nothing to launch)
+- How the user can manually test the result
+- For large/multi-phase tasks: what approval is needed before continuing
+
+Wait for explicit user approval before continuing to the next phase or doing any follow-up work.
+
+If the task cannot be launched in the preview/dev panel (missing env vars, build errors, auth restrictions, etc.), explain the blocker and document it in `documentation.md` and `TESTING.md`.

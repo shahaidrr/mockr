@@ -1,0 +1,230 @@
+{
+  "app/auth/callback/route.ts": {
+    "mtime": 1782628637062.4875,
+    "hash": "6406b955a734a01f01643ca1250aed8e"
+  },
+  "app/auth/signout/route.ts": {
+    "mtime": 1782286095488.0466,
+    "hash": "d6128620c3eaa0320d737061d61fd288"
+  },
+  "app/dashboard/page.tsx": {
+    "mtime": 1782801808325.9475,
+    "hash": "6125fa413f4e5d3619140fec008c3b57"
+  },
+  "app/landingPage/page.tsx": {
+    "mtime": 1782627227524.054,
+    "hash": "6e281518adfd560db9d9ba6c59d5d62d"
+  },
+  "app/layout.tsx": {
+    "mtime": 1782627574939.8164,
+    "hash": "17984c899f6ac0fab23977da4d3b8307"
+  },
+  "app/login/page.tsx": {
+    "mtime": 1782727432439.3823,
+    "hash": "cbfaf8aca613bac7e3c85e46d1929418"
+  },
+  "app/page.tsx": {
+    "mtime": 1782727432439.6504,
+    "hash": "ee4b3aded3381c607908b10f4856ae70"
+  },
+  "app/practice/[questionId]/page.tsx": {
+    "mtime": 1782725257257.7239,
+    "hash": "35f7e6a0efcefb6cdb842ff06e79648e"
+  },
+  "app/practice/[questionId]/practice-session.tsx": {
+    "mtime": 1782802059743.3333,
+    "hash": "594c0f9ac5298d44afc72d8a79de8baf"
+  },
+  "app/practice/demo/page.tsx": {
+    "mtime": 1782625168731.442,
+    "hash": "53dda9093761211aff90911dbc9b4edc"
+  },
+  "app/practice/demo/practice-workspace.tsx": {
+    "mtime": 1782632593089.7375,
+    "hash": "8bc48cd8779d7905ab7203b9ba1d78cd"
+  },
+  "app/questions/[slug]/page.tsx": {
+    "mtime": 1782725257258.346,
+    "hash": "9e9045806b44c22c3ad33412353481f9"
+  },
+  "app/questions/[slug]/question-detail-client.tsx": {
+    "mtime": 1782802059743.6116,
+    "hash": "271d6ca3275b1778522bfc0b376d9dda"
+  },
+  "app/questions/page.tsx": {
+    "mtime": 1782725257258.5276,
+    "hash": "6a0aa2ed68c63a4e9b0f2da11143fb65"
+  },
+  "app/questions/question-library-client.tsx": {
+    "mtime": 1782802059743.926,
+    "hash": "85a45a75318388b097ebcdaad267d3ba"
+  },
+  "app/results/[attemptId]/page.tsx": {
+    "mtime": 1782801808327.1277,
+    "hash": "20472152265a1a7486c982f1a682e024"
+  },
+  "app/signup/page.tsx": {
+    "mtime": 1782727432441.281,
+    "hash": "e3bc7a6c7480db1f43526f53ea44ae63"
+  },
+  "components/code-editor.tsx": {
+    "mtime": 1782802059744.3997,
+    "hash": "509f3d71278db6e5306cd2e9a6186e91"
+  },
+  "components/dashboard-card.tsx": {
+    "mtime": 1782627077788.327,
+    "hash": "a845be85db285e98d4f9ff21a1e7e07b"
+  },
+  "components/feature-card.tsx": {
+    "mtime": 1782627077265.3022,
+    "hash": "ff60b8f1aa0c5681112920bc02cee330"
+  },
+  "components/landing-page.tsx": {
+    "mtime": 1782727432441.504,
+    "hash": "9d2808a7958da9b3f6da18c25ce127b8"
+  },
+  "components/site-header.tsx": {
+    "mtime": 1782630015569.8757,
+    "hash": "e60ae4c7f5c2670f76576fe5c7b6437b"
+  },
+  "components/stat-card.tsx": {
+    "mtime": 1782627077590.9446,
+    "hash": "25f2c15d14fe03de48fa77b059b6834f"
+  },
+  "eslint.config.mjs": {
+    "mtime": 1782278996974.8088,
+    "hash": "dfa1f5f6a7037bf39dc510f30b180002"
+  },
+  "lib/attempts-service.ts": {
+    "mtime": 1782801808331.899,
+    "hash": "7f75a8918143ea159261991f9406d08e"
+  },
+  "lib/deterministic-score.ts": {
+    "mtime": 1782801808332.2083,
+    "hash": "5945190b20942b0f5b0c6cd1d3073ba1"
+  },
+  "lib/practice-draft.ts": {
+    "mtime": 1782725257265.7524,
+    "hash": "e4eb14eae634aff80df1400078a5827a"
+  },
+  "lib/public-test-runner.ts": {
+    "mtime": 1782725257265.9634,
+    "hash": "4f1a0e3653a72b15f9c348427eefbcf8"
+  },
+  "lib/questions-service.ts": {
+    "mtime": 1782725257266.0388,
+    "hash": "d150e0d8f9b590026e00174f0fe80940"
+  },
+  "lib/supabase/client.ts": {
+    "mtime": 1782628189968.807,
+    "hash": "3efcbffa9389c737a44e868837f6c009"
+  },
+  "lib/supabase/config.ts": {
+    "mtime": 1782628189839.1343,
+    "hash": "07ac585218b40d46288799f824f833b6"
+  },
+  "lib/supabase/proxy.ts": {
+    "mtime": 1782628190220.1292,
+    "hash": "d14e2d27e5d46c4a1ace8d1071d7764f"
+  },
+  "lib/supabase/server.ts": {
+    "mtime": 1782628190095.4736,
+    "hash": "2a6c323f2cc0585795a04919b3b4d26b"
+  },
+  "next.config.ts": {
+    "mtime": 1782278996975.639,
+    "hash": "9b77af189a21a7a64e4bd7a426f64176"
+  },
+  "postcss.config.mjs": {
+    "mtime": 1782278996975.6575,
+    "hash": "239f3ebf717465dc636818a1a619398d"
+  },
+  "proxy.ts": {
+    "mtime": 1782286095490.8335,
+    "hash": "bcdb05e6270d6932a5e9df1fff26482d"
+  },
+  "supabase/migrations/001_question_practice_foundation_clean.sql": {
+    "mtime": 1782725257266.254,
+    "hash": "e6249d06bba3c4f4eb2dfbd8a6adcb37"
+  },
+  "supabase/migrations/002_scorecards_insert_policy.sql": {
+    "mtime": 1782801808333.0269,
+    "hash": "51e1a10061920d6cfae128dbcbbdd742"
+  },
+  "supabase/seed/002_seed_questions.sql": {
+    "mtime": 1782725257266.5852,
+    "hash": "f90546ef3f0f93d2c96ffec119cdc719"
+  },
+  "types/attempt.ts": {
+    "mtime": 1782725257266.7236,
+    "hash": "87ea2bb38d1c0887ce275a67fb1bd3eb"
+  },
+  "types/practice.ts": {
+    "mtime": 1782725257266.806,
+    "hash": "4d6b53dfb2e717c7fa41dc5ef54c7d8f"
+  },
+  "types/question.ts": {
+    "mtime": 1782725257266.8816,
+    "hash": "715501788d7b04b135cdcbc1f98096da"
+  },
+  "types/scorecard.ts": {
+    "mtime": 1782801808333.2708,
+    "hash": "48ea8241460da47004bbfaa9c483ab4c"
+  },
+  "types/test-run.ts": {
+    "mtime": 1782725257266.9702,
+    "hash": "882e0c7cb937389290f6c064cf9c7ad0"
+  },
+  "AGENTS.md": {
+    "mtime": 1782802666056.1506,
+    "hash": "f02202ea69de1b6226561fe7218aa9fd"
+  },
+  "CLAUDE.md": {
+    "mtime": 1782728968845.4375,
+    "hash": "5c27369b226fcf2be8a6cfe52224e767"
+  },
+  "CODEX.md": {
+    "mtime": 1782728968845.6396,
+    "hash": "f08d9ae518cef8c5538d8d6a31296dd3"
+  },
+  "README.md": {
+    "mtime": 1782278996974.6272,
+    "hash": "f15aaa42d5d299d091b1171097ea56ad"
+  },
+  "TESTING.md": {
+    "mtime": 1782802671787.5952,
+    "hash": "74b20e40284b98ed62321eb0b7d510d9"
+  },
+  "documentation.md": {
+    "mtime": 1782802739527.498,
+    "hash": "10902935967d49b0cf75bef64fa40355"
+  },
+  "graphify-out/GRAPH_REPORT.md": {
+    "mtime": 1782802059745.3804,
+    "hash": "f1769e21026a12739a3ef30eadb1755a"
+  },
+  "graphify-out/graph.html": {
+    "mtime": 1782802059747.565,
+    "hash": "eaaae64ab95b4d837d06f221fec96d94"
+  },
+  "public/file.svg": {
+    "mtime": 1782278996974.5767,
+    "hash": "d09f95206c3fa0bb9bd9fefabfd0ea71"
+  },
+  "public/globe.svg": {
+    "mtime": 1782278996976.227,
+    "hash": "2aaafa6a49b6563925fe440891e32717"
+  },
+  "public/next.svg": {
+    "mtime": 1782278996976.4395,
+    "hash": "8e061864f388b47f33a1c3780831193e"
+  },
+  "public/vercel.svg": {
+    "mtime": 1782278996976.2898,
+    "hash": "c0af2f507b369b085b35ef4bbe3bcf1e"
+  },
+  "public/window.svg": {
+    "mtime": 1782278996976.425,
+    "hash": "a2760511c65806022ad20adf74370ff3"
+  }
+}
