@@ -52,6 +52,19 @@ Run tests by visiting the live dev server (`npm run dev`) and following each ste
 - [ ] Temporarily set an invalid `DEEPSEEK_API_KEY`, reload `/api/ai/health` — response returns a safe upstream failure message and does not expose authorization headers or secret values
 - [ ] Temporarily set `DEEPSEEK_MODEL=deepseek-v4-pro`, reload `/api/ai/health` — success response shows the configured model change without requiring any client-side code changes
 
+## AI Grading Endpoint (`/api/ai/grade`)
+
+- [ ] Keep `DEEPSEEK_API_KEY`, `DEEPSEEK_BASE_URL=https://api.deepseek.com`, and `DEEPSEEK_MODEL=deepseek-v4-flash` in `.env.local`, log into the app in the same browser session, then POST the sample payload from `documentation.md` to `/api/ai/grade` — response returns HTTP `200` with `ok: true`, `grading.overall_score`, `grading.result_band`, rubric category objects, and `grading.feedback.caps_applied`
+- [ ] Open a logged-out browser or private window, POST the same payload to `/api/ai/grade` — response returns HTTP `401` with a safe `unauthorized` error
+- [ ] While logged in, POST `{}` to `/api/ai/grade` — response returns HTTP `400` with an `invalid_body` error
+- [ ] While logged in, change `attempt.mode` in the payload to an invalid value such as `"internship"` and POST again — response returns HTTP `400` with a safe validation error
+- [ ] While logged in, remove `question.title` or replace `publicTests.results` with a non-array value and POST again — response returns HTTP `400` with a safe validation error
+- [ ] While logged in, submit a payload with an empty `complexityAnswer`, empty `edgeCases`, and `hintsUsed: 3` or more — response still succeeds, `complexity_analysis.score` is `0`, `testing_debugging.score` does not exceed `5`, and `hints_followups.score` does not exceed `5`
+- [ ] While logged in, submit a payload with no meaningful final code and confirm the response `overall_score` does not exceed `39`
+- [ ] While logged in, submit a payload where all public and hidden tests fail and confirm the response `overall_score` does not exceed `45`
+- [ ] While logged in, submit a payload where hidden test pass rate is below `50%` and confirm the response `overall_score` does not exceed `69`
+- [ ] Known limitation check: `/api/ai/grade` returns a structured grade only and does not update the real practice submission flow, saved scorecards, or results UI
+
 ---
 
 ## Landing Page (`/`)

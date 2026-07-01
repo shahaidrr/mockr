@@ -6,6 +6,7 @@ export type GenerateJsonWithDeepSeekArgs = {
   schemaName: string;
   model?: string;
   timeoutMs?: number;
+  maxTokens?: number;
 };
 
 export type GenerateJsonWithDeepSeekResult<T extends JsonObject = JsonObject> = {
