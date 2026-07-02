@@ -13,17 +13,41 @@ export type ScoreCategoryKey =
 
 export type ScoreCategoryBreakdown = Record<ScoreCategoryKey, number>;
 
+export type ScoreCategoryFeedback = {
+  evidence: string;
+  improvement: string;
+};
+
 export type ScorecardFeedback = {
-  phase: "Phase 4A deterministic scoring";
-  scoring_method: "deterministic_v1";
+  phase: string;
+  scoring_method: string;
   limitations: string[];
   public_tests: {
     passed: number;
     failed: number;
     total: number;
-    executable: boolean;
+    executable?: boolean;
+    timedOut?: boolean;
   };
-  category_explanations: Record<ScoreCategoryKey, string>;
+  hidden_tests?: {
+    passed: number;
+    failed: number;
+    total: number;
+    status?: string;
+  } | null;
+  category_explanations?: Partial<Record<ScoreCategoryKey, string>>;
+  category_feedback?: Partial<Record<ScoreCategoryKey, ScoreCategoryFeedback>>;
+  recommended_next_topic?: string;
+  summary?: string;
+  caps_applied?: string[];
+  grading_metadata?: {
+    mode?: AttemptMode;
+    language?: SupportedLanguage;
+    hints_used?: number;
+    run_count?: number | null;
+    time_taken_seconds?: number | null;
+    hidden_tests_status?: string;
+  };
 };
 
 export type DeterministicScoreInput = {
@@ -61,7 +85,26 @@ export type DeterministicScoreOutput = {
   model_used: null;
 };
 
-export type SavedScorecard = DeterministicScoreOutput & {
+export type PersistedScorecard = {
+  overall_score: number;
+  result_band: ResultBand;
+  problem_understanding: number;
+  communication: number;
+  algorithmic_approach: number;
+  code_correctness: number;
+  code_quality: number;
+  testing_debugging: number;
+  complexity_analysis: number;
+  hints_followups: number;
+  strengths: string[];
+  weaknesses: string[];
+  improvement_tasks: string[];
+  feedback: ScorecardFeedback;
+  rubric_version: string;
+  model_used: string | null;
+};
+
+export type SavedScorecard = PersistedScorecard & {
   id: string;
   attempt_id: string;
   created_at: string;

@@ -13,6 +13,7 @@ import {
 } from "@/lib/practice-draft";
 import { runPublicTests } from "@/lib/public-test-runner";
 import { submitAttempt } from "@/lib/attempts-service";
+import { SubmitPracticeAttemptError } from "@/lib/attempt-submission";
 import type { Question, QuestionExample, QuestionTestCase } from "@/types/question";
 import type { PracticeMode, SupportedLanguage, PracticeDraft, InterviewPanel } from "@/types/practice";
 import type { PublicTestRunSummary, PublicTestRunResult } from "@/types/test-run";
@@ -270,9 +271,11 @@ export default function PracticeSession({
   const [testSummary, setTestSummary] = useState<PublicTestRunSummary | null>(null);
   const [isRunning, setIsRunning] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
+  const [runCount, setRunCount] = useState(0);
   const [showSubmitWarning, setShowSubmitWarning] = useState(false);
   const [pendingSubmitSummary, setPendingSubmitSummary] = useState<PublicTestRunSummary | null>(null);
   const [submitErrors, setSubmitErrors] = useState<string[]>([]);
+  const hintsUsed = 0;
 
   // When user cancels the native "Leave?" dialog and focus returns, show our exit
   // guard instead — so they stay in the browser and go through the normal exit flow.
@@ -446,18 +449,16 @@ export default function PracticeSession({
         testCases,
       });
       setTestSummary(summary);
+      setRunCount((count) => count + 1);
     } finally {
       setIsRunning(false);
     }
   }
 
-  async function doNavigateToResults(summary: PublicTestRunSummary | null) {
-    // Exit fullscreen before navigating away (assessment mode)
-    if (typeof document !== "undefined" && document.fullscreenElement) {
-      try { await document.exitFullscreen(); } catch { /* noop */ }
-    }
-    // Clear the timer epoch — this attempt is done, next visit starts fresh
-    try { localStorage.removeItem(epochKey); } catch { /* noop */ }
+  async function doNavigateToResults(
+    summary: PublicTestRunSummary | null,
+    submissionRunCount = runCount
+  ) {
     setIsSaving(true);
     try {
       const attemptId = await submitAttempt({
@@ -474,29 +475,38 @@ export default function PracticeSession({
         startedAt,
         timerSeconds,
         testSummary: summary,
-        testResults: summary?.results ?? [],
-        testCaseIds: testCases.map((tc) => tc.id),
+        hintsUsed,
+        runCount: submissionRunCount,
         integrityEvents: isAssessment ? integrityEvents : [],
       });
+      if (typeof document !== "undefined" && document.fullscreenElement) {
+        try { await document.exitFullscreen(); } catch { /* noop */ }
+      }
+      try { localStorage.removeItem(epochKey); } catch { /* noop */ }
       router.push(`/results/${attemptId}?questionId=${question.id}`);
     } catch (err) {
-      // Fall back to local ID if Supabase save fails — don't block the user
-      console.error("Failed to save attempt:", err);
-      const fallbackId = `local-${Date.now()}`;
-      try {
-        sessionStorage.setItem(
-          "mockr_last_result",
-          JSON.stringify({
-            questionTitle: question.title,
-            questionId: question.id,
-            language: currentLanguage,
-            summary,
-          })
+      console.error("Failed to submit attempt:", err);
+
+      if (
+        err instanceof SubmitPracticeAttemptError &&
+        err.attemptSaved &&
+        err.attemptId
+      ) {
+        if (typeof document !== "undefined" && document.fullscreenElement) {
+          try { await document.exitFullscreen(); } catch { /* noop */ }
+        }
+        try { localStorage.removeItem(epochKey); } catch { /* noop */ }
+        router.push(
+          `/results/${err.attemptId}?questionId=${question.id}&grading=failed`
         );
-      } catch {
-        // sessionStorage unavailable
+        return;
       }
-      router.push(`/results/${fallbackId}?questionId=${question.id}`);
+
+      setSubmitErrors([
+        err instanceof Error
+          ? err.message
+          : "We couldn't submit your attempt right now. Please try again.",
+      ]);
     } finally {
       setIsSaving(false);
     }
@@ -526,12 +536,13 @@ export default function PracticeSession({
           testCases,
         });
         setTestSummary(summary);
+        setRunCount((count) => count + 1);
         if (summary.failed > 0 || summary.timedOut) {
           setPendingSubmitSummary(summary);
           setShowSubmitWarning(true);
           return;
         }
-        doNavigateToResults(summary);
+        doNavigateToResults(summary, runCount + 1);
       } finally {
         setIsRunning(false);
       }
@@ -967,7 +978,7 @@ export default function PracticeSession({
               className="w-full rounded px-3 py-2 text-xs font-bold transition hover:brightness-110 active:brightness-90 disabled:opacity-50"
               style={{ background: "#31d67b", color: "#000" }}
             >
-              {isSaving ? "Saving…" : isRunning ? "Running tests…" : "Submit Attempt →"}
+              {isSaving ? "Generating feedback…" : isRunning ? "Running tests…" : "Submit Attempt →"}
             </button>
           </div>
         );
@@ -1551,7 +1562,7 @@ export default function PracticeSession({
                 className="w-full rounded px-3 py-2 text-xs font-bold transition hover:brightness-110 disabled:opacity-50"
                 style={{ background: "#31d67b", color: "#000" }}
               >
-                {isSaving ? "Saving…" : "Submit anyway"}
+                {isSaving ? "Generating feedback…" : "Submit anyway"}
               </button>
             </div>
           </div>

@@ -1,3 +1,5 @@
+import "server-only";
+
 import { DeepSeekError, generateJsonWithDeepSeek } from "@/lib/ai/deepseek";
 import {
   type GradeAttemptAiResponse,
@@ -237,14 +239,13 @@ function applyOverallCaps(
 
 function buildLimitations(input: GradeAttemptInput): string[] {
   const limitations = [
-    "The route is isolated and does not save the result to the real attempt or scorecard tables yet.",
     "Code correctness is computed from supplied test results rather than trusting the model.",
     "The AI output is validated and clamped before use.",
     "Hidden test case contents are not sent to the model.",
   ];
 
   if (input.hiddenTests === null) {
-    limitations.push("Hidden test results were not supplied for this request.");
+    limitations.push("Hidden tests were not available for this grading run.");
   }
 
   return limitations;
@@ -276,7 +277,7 @@ export async function gradeAttemptWithAI(
     recommended_next_topic: ai.recommended_next_topic,
     summary: ai.summary,
     feedback: {
-      phase: "Phase 4B.2 isolated AI grading",
+      phase: "Phase 4B AI grading",
       scoring_method: "ai_hybrid_v1",
       limitations: buildLimitations(input),
       caps_applied: [

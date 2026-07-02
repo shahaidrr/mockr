@@ -1,5 +1,126 @@
 # Documentation Log
 
+## 2026-07-02 14:03:00 AEST — Phase 4B.3: Real Practice Submission Wired to AI Grading + Persistence
+
+### What was completed
+
+Wired the real practice submission flow into the existing AI grading service and persistence path without changing the scorecards table shape. Real practice submissions now go through a new authenticated server route, which validates the payload, verifies the question and known public test case IDs, persists the attempt and related rows, calls `gradeAttemptWithAI()` server-side, saves the final scorecard to Supabase, and then returns the real saved attempt ID for the existing results page.
+
+The browser workspace no longer inserts attempts and scorecards directly through the client Supabase SDK during real submit. Instead, it calls the new server route and shows a clearer loading state while feedback is being generated. The results page now renders the saved AI-backed scorecard data from persistence, using richer AI metadata stored inside `scorecards.feedback`.
+
+### Files/routes/components/tables changed
+
+- `app/api/attempts/submit/route.ts` — New authenticated real submission route that validates payloads, verifies the question/public tests, persists attempts/code snapshots/test runs/integrity events, calls `gradeAttemptWithAI()`, and saves the final scorecard.
+- `lib/attempt-submission.ts` — New shared browser/server submission payload types, request validation, normalized public-test summary handling, and browser route-call helper.
+- `lib/attempts-service.ts` — Real submit now calls the new server route instead of directly inserting deterministic scorecards from the browser; results-page fetch helpers remain here.
+- `app/practice/[questionId]/practice-session.tsx` — Real submit flow now sends the attempt to the server route, tracks `runCount`, prevents duplicate submits during grading, shows `Generating feedback…`, and routes to the saved attempt even if grading failed after the attempt row was persisted.
+- `app/results/[attemptId]/page.tsx` — Results page now renders saved AI-backed scorecard metadata from `scorecards.feedback`, including per-category evidence/improvements, summary, recommended next topic, caps applied, and subtle grading metadata, while still supporting older deterministic scorecards.
+- `types/scorecard.ts` — Broadened persisted scorecard typings so saved rows can represent both older deterministic and newer AI-backed scorecards.
+- `lib/ai/grading.ts` — Removed the old “isolated route only” limitation wording so the grading service can be used in the real server submission path.
+- `lib/ai/grading-schema.ts` — Broadened the feedback phase typing to support the live grading path.
+
+### SQL / schema decision
+
+- No new SQL migration was added in Phase 4B.3.
+- No manual Supabase SQL is required for this phase.
+- The existing `scorecards` table shape was kept, as approved.
+
+### Where AI metadata is stored
+
+Richer AI grading metadata is stored inside `public.scorecards.feedback` JSONB for this phase, including:
+
+- `category_feedback` — per-category `evidence` and `improvement`
+- `category_explanations` — evidence-only summary per category for backward compatibility
+- `recommended_next_topic`
+- `summary`
+- `caps_applied`
+- `public_tests`
+- `hidden_tests` (currently `null`)
+- `grading_metadata`
+- `limitations`
+- `phase`
+- `scoring_method`
+
+First-class scorecard columns continue to store:
+
+- `overall_score`
+- `result_band`
+- `problem_understanding`
+- `communication`
+- `algorithmic_approach`
+- `code_correctness`
+- `code_quality`
+- `testing_debugging`
+- `complexity_analysis`
+- `hints_followups`
+- `strengths`
+- `weaknesses`
+- `improvement_tasks`
+- `model_used`
+- `rubric_version`
+
+### Hidden-test decision applied
+
+Hidden tests were deferred as instructed.
+
+- No hidden test runner was added.
+- No untrusted candidate code is executed on the main Next.js server.
+- No hidden test case contents are sent to the browser.
+- No hidden test case contents are sent to DeepSeek.
+- The live grading path passes `hiddenTests: null` into the grading service.
+- Hidden-test-specific caps are not applied when hidden results are unavailable.
+- Results UI explicitly states that hidden tests were deferred in Phase 4B.3.
+
+### Real submission flow now works like this
+
+1. Practice workspace runs the existing browser public tests on submit for executable languages.
+2. Browser sends the real attempt payload to `POST /api/attempts/submit`.
+3. Server validates auth and payload shape.
+4. Server verifies the question exists and the submitted public test case IDs match the known public test cases for that question.
+5. Server persists the attempt row first, then code snapshot and public `test_runs`.
+6. Server calls `gradeAttemptWithAI()` directly.
+7. Server persists the saved scorecard into `public.scorecards`.
+8. Browser navigates to `/results/[attemptId]`.
+9. Results page loads the real saved scorecard row and renders it.
+
+### Failure handling
+
+- If the user is not authenticated, the submission route returns `401`.
+- If the payload is malformed, the submission route returns `400`.
+- If the question cannot be found, the route returns `404`.
+- If the attempt row saves but AI grading or scorecard persistence fails, the route returns a safe error response with the saved `attemptId` and `attemptSaved: true`.
+- In that partial-failure case, the browser navigates to the saved results page with `?grading=failed`, and the results page shows a clear “feedback unavailable” state instead of fake results.
+- Retry support for grading failures is not implemented yet.
+
+### Validation performed
+
+- `npx tsc --noEmit` passed.
+- `npm run lint` passed.
+- `npx graphify update --no-description --no-label .` passed and refreshed `.graphify/graph.json` plus `GRAPH_REPORT.md`.
+- `npm run build` could not complete in this environment because Next.js failed while creating its lockfile with `No space left on device (os error 28)`. This is a local disk-capacity blocker, not a reported application code error.
+- `GET /api/ai/health` returned HTTP `200` successfully against the running local dev server.
+- Logged-out `POST /api/ai/grade` returned HTTP `401` safely.
+- Logged-out `POST /api/attempts/submit` returned HTTP `401` safely.
+
+### Post-implementation hardening
+
+- Tightened `POST /api/attempts/submit` so executable submissions must include exactly one result for each known public test case ID. Duplicate or incomplete client-submitted public test summaries are rejected.
+- Added `import "server-only"` guards to the DeepSeek provider and grading modules so the backend-only AI code cannot be imported into client bundles.
+
+### Browser / credential limitation
+
+The requested browser E2E login flow could not be completed in this environment because:
+
+- `MOCKR_E2E_EMAIL` was not configured
+- `MOCKR_E2E_PASSWORD` was not configured
+- Playwright was not installed locally
+
+So the authenticated browser submission flow and authenticated invalid-payload API tests still need manual verification once those env vars are available.
+
+### What should happen next
+
+Phase 4B.4 should add a safe retry/regrade path for attempts that were saved successfully but failed before scorecard persistence completed. Hidden-test-backed scoring and any secure server-side execution pipeline remain future work and should be designed separately from the main Next.js server process.
+
 ## 2026-07-01 17:02:54 AEST — Phase 4B.2: Isolated AI Grading Service
 
 ### What was completed

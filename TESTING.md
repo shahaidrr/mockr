@@ -63,7 +63,25 @@ Run tests by visiting the live dev server (`npm run dev`) and following each ste
 - [ ] While logged in, submit a payload with no meaningful final code and confirm the response `overall_score` does not exceed `39`
 - [ ] While logged in, submit a payload where all public and hidden tests fail and confirm the response `overall_score` does not exceed `45`
 - [ ] While logged in, submit a payload where hidden test pass rate is below `50%` and confirm the response `overall_score` does not exceed `69`
-- [ ] Known limitation check: `/api/ai/grade` returns a structured grade only and does not update the real practice submission flow, saved scorecards, or results UI
+- [ ] Known limitation check: `/api/ai/grade` remains an isolated logged-in grading route for direct verification; the real practice submission flow now saves attempts and scorecards through `/api/attempts/submit`
+
+## Real Submission + Persisted AI Results
+
+- [ ] Keep `DEEPSEEK_API_KEY`, `DEEPSEEK_BASE_URL=https://api.deepseek.com`, and `DEEPSEEK_MODEL=deepseek-v4-flash` configured, log into the app, open a real practice session at `/practice/[questionId]?mode=practice`, complete the required approach/code/complexity fields, and submit — button disables during grading, shows `Generating feedback…`, and eventually navigates to `/results/[attemptId]`
+- [ ] In a JavaScript or Python practice session with public tests available, submit without a final public test run payload being available only by tampering in DevTools — `POST /api/attempts/submit` returns HTTP `400` because executable submissions require the final public test summary
+- [ ] While logged out, `POST /api/attempts/submit` with `{}` returns HTTP `401` and a safe `unauthorized` error
+- [ ] While logged in, `POST /api/attempts/submit` with `{}` returns HTTP `400` and a safe `invalid_body` error
+- [ ] While logged in, submit a real executable practice attempt whose public tests all fail — saved results show a real persisted scorecard and the final score does not exceed `45`
+- [ ] While logged in, submit a real attempt with no meaningful final code — saved results show a real persisted scorecard and the final score does not exceed `39`
+- [ ] While logged in, submit a real attempt with an empty complexity answer, empty edge cases, and `hintsUsed` of `3` or more if/when hints become wired — persisted scorecard shows complexity forced to `0`, testing/debugging capped at `5`, and hints/follow-ups capped at `5`
+- [ ] After a successful real submission, hard-refresh `/results/[attemptId]` — the saved scorecard still loads from Supabase and does not duplicate rows on refresh
+- [ ] Results page for a new AI-backed submission shows overall score, result band, public test summary, category scores, category evidence, category improvement recommendations, strengths, weaknesses, improvement tasks, caps applied, and subtle grading metadata
+- [ ] Results page for an older deterministic attempt still renders without crashing and still shows the older deterministic explanation style
+- [ ] If grading fails after the attempt row saves, the app navigates to `/results/[attemptId]?grading=failed` and shows a clear “feedback unavailable” state instead of fake AI feedback
+- [ ] Hidden-test limitation check: the saved results page does not claim hidden tests were run, and no hidden test case contents or hidden expected outputs are shown
+- [ ] `/api/ai/grade` still works as an isolated logged-in testing route after the real submit integration
+- [ ] `/api/ai/health` still returns a safe success/failure response after the real submit integration
+- [ ] `/practice/demo` still behaves normally after the real submit integration, including no broken navigation or shared-component regressions
 
 ---
 

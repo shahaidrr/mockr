@@ -32,8 +32,8 @@
     "hash": "35f7e6a0efcefb6cdb842ff06e79648e"
   },
   "app/practice/[questionId]/practice-session.tsx": {
-    "mtime": 1782885374323.6003,
-    "hash": "762cb786d1d594201350af40c9b904a0"
+    "mtime": 1782961157730.691,
+    "hash": "3c5455b81f46dae901b116e0e2925fe3"
   },
   "app/practice/demo/page.tsx": {
     "mtime": 1782625168731.442,
@@ -60,8 +60,8 @@
     "hash": "85a45a75318388b097ebcdaad267d3ba"
   },
   "app/results/[attemptId]/page.tsx": {
-    "mtime": 1782885129255.7588,
-    "hash": "5f4da499fa46866489c2ee652926782b"
+    "mtime": 1782961165803.5723,
+    "hash": "a43d055acb7e0c8add67d4ca17f56453"
   },
   "app/signup/page.tsx": {
     "mtime": 1782727432441.281,
@@ -96,8 +96,8 @@
     "hash": "dfa1f5f6a7037bf39dc510f30b180002"
   },
   "lib/attempts-service.ts": {
-    "mtime": 1782885129271.52,
-    "hash": "1b1b785dd11637c49a61f56f381324b9"
+    "mtime": 1782961005269.0059,
+    "hash": "0eec38b9bbf089b5dd5c36e24db0bd85"
   },
   "lib/deterministic-score.ts": {
     "mtime": 1782801808332.2083,
@@ -168,8 +168,8 @@
     "hash": "715501788d7b04b135cdcbc1f98096da"
   },
   "types/scorecard.ts": {
-    "mtime": 1782801808333.2708,
-    "hash": "48ea8241460da47004bbfaa9c483ab4c"
+    "mtime": 1782961191523.6475,
+    "hash": "9df6d3f7ba695257edc570cb547d6727"
   },
   "types/test-run.ts": {
     "mtime": 1782725257266.9702,
@@ -192,12 +192,12 @@
     "hash": "f15aaa42d5d299d091b1171097ea56ad"
   },
   "TESTING.md": {
-    "mtime": 1782889427367.2913,
-    "hash": "7e07998e6e9050c24fb6b2e27e780761"
+    "mtime": 1782961621620.902,
+    "hash": "31796b3cf342ea2389b36e959d96b6fb"
   },
   "documentation.md": {
-    "mtime": 1782889427136.156,
-    "hash": "e54c8e0f5ed17531cf11bf85c02f9555"
+    "mtime": 1782961483406.9019,
+    "hash": "8391fda17f6c0d511fd8140aa9d44324"
   },
   "graphify-out/GRAPH_REPORT.md": {
     "mtime": 1782885129261.566,
@@ -228,8 +228,8 @@
     "hash": "a2760511c65806022ad20adf74370ff3"
   },
   ".graphify/GRAPH_REPORT.md": {
-    "mtime": 1782888362109.8635,
-    "hash": "c19035383857f74747dcac34c49564f0"
+    "mtime": 1782889437719.4768,
+    "hash": "1a5f53108d6eb091776a9764fe2ff566"
   },
   "components/assessment/AssessmentIntegrityGuard.tsx": {
     "mtime": 1782885129256.3635,
@@ -252,11 +252,27 @@
     "hash": "12e959731f191764ebfcf8f58c0f43b7"
   },
   "lib/ai/deepseek.ts": {
-    "mtime": 1782889354135.4404,
-    "hash": "4caf2f87c9aa7769a713409c4eae09ea"
+    "mtime": 1782961621352.9624,
+    "hash": "7acab22c5f0f295fd1d7084e0c37398a"
   },
   "lib/ai/types.ts": {
     "mtime": 1782889321169.19,
     "hash": "8b908a3009fd85593d70d749a34b54d9"
+  },
+  "app/api/ai/grade/route.ts": {
+    "mtime": 1782889354409.2524,
+    "hash": "4ee0d8301b99f0e1c9e10132c63dca1e"
+  },
+  "lib/ai/grading-prompts.ts": {
+    "mtime": 1782889321439.6567,
+    "hash": "4977db19accddc48bc93d52d9b4c78df"
+  },
+  "lib/ai/grading-schema.ts": {
+    "mtime": 1782961130681.0566,
+    "hash": "b4ea614e32f278216ad794b692b1ab68"
+  },
+  "lib/ai/grading.ts": {
+    "mtime": 1782961621487.8418,
+    "hash": "0bf72cb33473799d4c233f2455c48a26"
   }
 }

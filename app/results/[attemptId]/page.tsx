@@ -62,12 +62,12 @@ type StoredResult = {
 
 type Props = {
   params: Promise<{ attemptId: string }>;
-  searchParams: Promise<{ questionId?: string }>;
+  searchParams: Promise<{ questionId?: string; grading?: string }>;
 };
 
 export default function ResultsPage({ params, searchParams }: Props) {
   const { attemptId } = use(params);
-  const { questionId } = use(searchParams);
+  const { questionId, grading } = use(searchParams);
   const router = useRouter();
 
   const isLocal = attemptId.startsWith("local-");
@@ -144,12 +144,37 @@ export default function ResultsPage({ params, searchParams }: Props) {
   const mode = savedAttempt?.attempt.mode;
   const timeTaken = savedAttempt?.attempt.time_taken_seconds ?? null;
   const submittedAt = savedAttempt?.attempt.submitted_at ?? null;
+  const publicTestSummary = savedAttempt?.publicTestSummary ?? null;
   const scorecard = savedAttempt?.scorecard ?? null;
+  const scorecardFeedback = scorecard?.feedback ?? null;
+  const isAiScorecard = scorecardFeedback?.scoring_method === "ai_hybrid_v1";
+  const persistedPublicTests = scorecardFeedback?.public_tests;
+  const displayPublicTestSummary =
+    persistedPublicTests
+      ? {
+          passed: persistedPublicTests.passed,
+          failed: persistedPublicTests.failed,
+          total: persistedPublicTests.total,
+          executable:
+            persistedPublicTests.executable ??
+            (savedAttempt?.attempt.language === "javascript" ||
+              savedAttempt?.attempt.language === "python"),
+          timedOut: persistedPublicTests.timedOut ?? false,
+        }
+      : publicTestSummary
+        ? {
+            ...publicTestSummary,
+            timedOut: false,
+          }
+        : null;
   const overallScore = scorecard?.overall_score ?? savedAttempt?.attempt.overall_score ?? null;
   const resultBand = scorecard?.result_band ?? savedAttempt?.attempt.result_band ?? null;
   const hasScoreSummaryOnly =
     Boolean(savedAttempt) && !scorecard && (overallScore !== null || resultBand !== null);
-  const publicTestSummary = savedAttempt?.publicTestSummary ?? null;
+  const gradingFailed = grading === "failed";
+  const capsApplied = scorecardFeedback?.caps_applied ?? [];
+  const recommendedNextTopic = scorecardFeedback?.recommended_next_topic ?? null;
+  const aiSummary = scorecardFeedback?.summary ?? null;
   const categoryOrder: ScoreCategoryKey[] = [
     "problem_understanding",
     "communication",
@@ -210,10 +235,14 @@ export default function ResultsPage({ params, searchParams }: Props) {
               {isLocal
                 ? "Your attempt was saved locally. Full attempt history and AI scorecards will be available in a future phase."
                 : scorecard
-                  ? "Your attempt has been saved with a deterministic Phase 4A score based on public tests and the interview fields you completed."
-                  : hasScoreSummaryOnly
-                    ? "Your attempt has been saved with a score summary, but the detailed scorecard row could not be loaded."
-                    : "Your attempt has been saved. This one was recorded before scorecards were enabled."}
+                  ? isAiScorecard
+                    ? "Your attempt has been saved with AI-assisted feedback and backend-controlled scoring based on your public test results and interview fields."
+                    : "Your attempt has been saved with a deterministic Phase 4A score based on public tests and the interview fields you completed."
+                  : gradingFailed
+                    ? "Your attempt was saved, but feedback generation did not complete. The saved attempt details are shown below."
+                    : hasScoreSummaryOnly
+                      ? "Your attempt has been saved with a score summary, but the detailed scorecard row could not be loaded."
+                      : "Your attempt has been saved. This one was recorded before scorecards were enabled."}
             </p>
           )}
 
@@ -272,12 +301,17 @@ export default function ResultsPage({ params, searchParams }: Props) {
                 </div>
                 {scorecard && (
                   <div className="rounded-full border border-sky-200 bg-sky-50 px-3 py-1 text-xs font-semibold text-sky-700">
-                    Deterministic Phase 4A
+                    {isAiScorecard ? "AI Grading Phase 4B.3" : "Deterministic Phase 4A"}
                   </div>
                 )}
                 {hasScoreSummaryOnly && (
                   <div className="rounded-full border border-amber-200 bg-amber-50 px-3 py-1 text-xs font-semibold text-amber-800">
                     Score summary only
+                  </div>
+                )}
+                {gradingFailed && !scorecard && (
+                  <div className="rounded-full border border-amber-200 bg-amber-50 px-3 py-1 text-xs font-semibold text-amber-800">
+                    Feedback unavailable
                   </div>
                 )}
               </div>
@@ -330,8 +364,15 @@ export default function ResultsPage({ params, searchParams }: Props) {
                         <p className="text-sm font-semibold text-slate-950">{scorecard[key]}/10</p>
                       </div>
                       <p className="mt-1 text-xs leading-5 text-slate-500">
-                        {scorecard.feedback.category_explanations[key]}
+                        {scorecardFeedback?.category_feedback?.[key]?.evidence ??
+                          scorecardFeedback?.category_explanations?.[key] ??
+                          "No category evidence was saved for this score."}
                       </p>
+                      {scorecardFeedback?.category_feedback?.[key]?.improvement && (
+                        <p className="mt-2 text-xs leading-5 text-slate-700">
+                          Improve: {scorecardFeedback.category_feedback[key]?.improvement}
+                        </p>
+                      )}
                     </div>
                   ))}
                 </div>
@@ -341,24 +382,31 @@ export default function ResultsPage({ params, searchParams }: Props) {
                 <p className="mb-3 text-[10px] font-semibold uppercase tracking-[0.14em] text-slate-400">
                   Public test summary
                 </p>
-                {publicTestSummary?.executable ? (
+                {displayPublicTestSummary?.executable ? (
                   <>
                     <div className="mb-2 flex flex-wrap items-center gap-2">
                       <span className="rounded-full border border-green-200 bg-green-50 px-2.5 py-0.5 text-xs font-semibold text-green-700">
-                        {publicTestSummary.passed} passed
+                        {displayPublicTestSummary.passed} passed
                       </span>
-                      {publicTestSummary.failed > 0 && (
+                      {displayPublicTestSummary.failed > 0 && (
                         <span className="rounded-full border border-red-200 bg-red-50 px-2.5 py-0.5 text-xs font-semibold text-red-700">
-                          {publicTestSummary.failed} failed
+                          {displayPublicTestSummary.failed} failed
+                        </span>
+                      )}
+                      {displayPublicTestSummary.timedOut && (
+                        <span className="rounded-full border border-purple-200 bg-purple-50 px-2.5 py-0.5 text-xs font-semibold text-purple-700">
+                          timed out
                         </span>
                       )}
                       <span className="text-xs text-slate-400">
-                        of {publicTestSummary.total} public test
-                        {publicTestSummary.total !== 1 ? "s" : ""}
+                        of {displayPublicTestSummary.total} public test
+                        {displayPublicTestSummary.total !== 1 ? "s" : ""}
                       </span>
                     </div>
                     <p className="text-xs leading-6 text-slate-500">
-                      Hidden tests are not executed or included in this score yet.
+                      {isAiScorecard
+                        ? "Hidden tests were deferred in Phase 4B.3 and are not included in this score yet."
+                        : "Hidden tests are not executed or included in this score yet."}
                     </p>
                   </>
                 ) : (
@@ -371,15 +419,25 @@ export default function ResultsPage({ params, searchParams }: Props) {
 
               <div className="mt-4 rounded-[16px] border border-slate-100 bg-slate-50 p-4">
                 <p className="text-sm leading-7 text-slate-600">
-                  This is a deterministic Phase 4A score based on public tests and completed
-                  interview fields. AI feedback and hidden-test scoring are not included yet.
+                  {isAiScorecard
+                    ? "This score uses AI-assisted rubric feedback with backend-controlled scoring and public-test-backed correctness. Hidden-test-backed scoring remains a future phase."
+                    : "This is a deterministic Phase 4A score based on public tests and completed interview fields. AI feedback and hidden-test scoring are not included yet."}
                 </p>
                 <ul className="mt-3 space-y-1 text-sm text-slate-500">
-                  {scorecard.feedback.limitations.map((item) => (
+                  {scorecardFeedback?.limitations?.map((item) => (
                     <li key={item}>{item}</li>
                   ))}
                 </ul>
               </div>
+
+              {aiSummary && (
+                <div className="mt-4 rounded-[16px] border border-slate-100 bg-slate-50 p-4">
+                  <p className="mb-3 text-[10px] font-semibold uppercase tracking-[0.14em] text-slate-400">
+                    Summary
+                  </p>
+                  <p className="text-sm leading-7 text-slate-700">{aiSummary}</p>
+                </div>
+              )}
 
               {scorecard.strengths.length > 0 && (
                 <div className="mt-4 rounded-[16px] border border-slate-100 bg-slate-50 p-4">
@@ -417,6 +475,50 @@ export default function ResultsPage({ params, searchParams }: Props) {
                       <li key={item}>{item}</li>
                     ))}
                   </ul>
+                </div>
+              )}
+
+              {recommendedNextTopic && (
+                <div className="mt-4 rounded-[16px] border border-slate-100 bg-slate-50 p-4">
+                  <p className="mb-3 text-[10px] font-semibold uppercase tracking-[0.14em] text-slate-400">
+                    Recommended next topic
+                  </p>
+                  <p className="text-sm text-slate-700">{recommendedNextTopic}</p>
+                </div>
+              )}
+
+              {capsApplied.length > 0 && (
+                <div className="mt-4 rounded-[16px] border border-slate-100 bg-slate-50 p-4">
+                  <p className="mb-3 text-[10px] font-semibold uppercase tracking-[0.14em] text-slate-400">
+                    Score caps applied
+                  </p>
+                  <ul className="space-y-2 text-sm text-slate-700">
+                    {capsApplied.map((item) => (
+                      <li key={item}>{item}</li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
+              {isAiScorecard && (
+                <div className="mt-4 rounded-[16px] border border-slate-100 bg-slate-50 p-4">
+                  <p className="mb-3 text-[10px] font-semibold uppercase tracking-[0.14em] text-slate-400">
+                    Grading metadata
+                  </p>
+                  <div className="space-y-2 text-sm text-slate-700">
+                    <div className="flex items-start justify-between gap-2">
+                      <p className="font-medium text-slate-600">Scoring method</p>
+                      <p className="text-right">{scorecardFeedback?.scoring_method ?? "—"}</p>
+                    </div>
+                    <div className="flex items-start justify-between gap-2">
+                      <p className="font-medium text-slate-600">Rubric version</p>
+                      <p className="text-right">{scorecard.rubric_version}</p>
+                    </div>
+                    <div className="flex items-start justify-between gap-2">
+                      <p className="font-medium text-slate-600">Model</p>
+                      <p className="text-right">{scorecard.model_used ?? "Not recorded"}</p>
+                    </div>
+                  </div>
                 </div>
               )}
             </>
@@ -468,9 +570,11 @@ export default function ResultsPage({ params, searchParams }: Props) {
 
           {!scorecard && savedAttempt && !fetchError && (
             <div className="mt-6 rounded-[16px] border border-amber-200 bg-amber-50 p-4 text-sm leading-7 text-amber-900">
-              {hasScoreSummaryOnly
-                ? "A score summary exists, but the detailed scorecard row could not be loaded. This can happen if scorecard insertion failed or the scorecard was created before detailed scorecard fetching was available."
-                : "This attempt was recorded before scorecards were enabled. Submit a new attempt to see the Phase 4A deterministic breakdown."}
+              {gradingFailed
+                ? "This attempt was saved, but AI feedback generation did not complete. Retry support for grading failures has not been added yet."
+                : hasScoreSummaryOnly
+                  ? "A score summary exists, but the detailed scorecard row could not be loaded. This can happen if scorecard insertion failed or the scorecard was created before detailed scorecard fetching was available."
+                  : "This attempt was recorded before scorecards were enabled. Submit a new attempt to see the saved score breakdown."}
             </div>
           )}
 

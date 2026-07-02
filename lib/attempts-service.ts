@@ -1,9 +1,11 @@
 import { createClient } from "@/lib/supabase/client";
-import { calculateDeterministicScorecard } from "@/lib/deterministic-score";
+import {
+  submitAttempt as submitAttemptRequest,
+  type SubmissionIntegrityEvent,
+} from "@/lib/attempt-submission";
 import type { ResultBand } from "@/types/attempt";
 import type { SavedScorecard } from "@/types/scorecard";
-import type { PublicTestRunResult, PublicTestRunSummary } from "@/types/test-run";
-import type { LocalIntegrityEvent } from "@/components/assessment/AssessmentIntegrityGuard";
+import type { PublicTestRunSummary } from "@/types/test-run";
 
 export type SavedAttempt = {
   id: string;
@@ -55,9 +57,9 @@ type SubmitAttemptArgs = {
   startedAt: Date;
   timerSeconds: number;
   testSummary: PublicTestRunSummary | null;
-  testResults: PublicTestRunResult[];
-  testCaseIds: string[];
-  integrityEvents?: LocalIntegrityEvent[];
+  hintsUsed: number;
+  runCount: number | null;
+  integrityEvents?: SubmissionIntegrityEvent[];
 };
 
 /**
@@ -65,182 +67,25 @@ type SubmitAttemptArgs = {
  * Returns the saved attempt ID on success, or throws.
  */
 export async function submitAttempt(args: SubmitAttemptArgs): Promise<string> {
-  const supabase = createClient();
-
-  // 1. Insert attempt row
-  const { data: attempt, error: attemptError } = await supabase
-    .from("attempts")
-    .insert({
-      user_id: args.userId,
-      question_id: args.questionId,
-      mode: args.mode,
-      language: args.language,
-      status: "submitted",
-      clarification: args.clarification || null,
-      approach: args.approach || null,
-      testing_plan: args.testingPlan || null,
-      edge_cases: args.edgeCases || null,
-      complexity_answer: args.complexity || null,
-      final_code: args.finalCode || null,
-      started_at: args.startedAt.toISOString(),
-      submitted_at: new Date().toISOString(),
-      time_taken_seconds: args.timerSeconds > 0 ? args.timerSeconds : null,
-      hints_used: 0,
-    })
-    .select("id")
-    .single();
-
-  if (attemptError || !attempt) {
-    throw new Error(attemptError?.message ?? "Failed to save attempt.");
-  }
-
-  const attemptId = attempt.id as string;
-
-  // 2. Insert code snapshot
-  const { data: snapshot, error: snapshotError } = await supabase
-    .from("code_snapshots")
-    .insert({
-      attempt_id: attemptId,
-      language: args.language,
-      source_code: args.finalCode || "",
-      stage: "submit",
-    })
-    .select("id")
-    .single();
-
-  if (snapshotError || !snapshot) {
-    // Non-fatal: attempt is saved, log and continue
-    console.error("Failed to save code snapshot:", snapshotError?.message);
-  }
-
-  const snapshotId = snapshot?.id as string | undefined;
-
-  // 3. Insert test run rows (only if we have results and matched case IDs)
-  if (args.testResults.length > 0 && args.testCaseIds.length === args.testResults.length) {
-    const testRunRows = args.testResults.map((r, i) => ({
-      attempt_id: attemptId,
-      code_snapshot_id: snapshotId ?? null,
-      question_test_case_id: args.testCaseIds[i] ?? null,
-      passed: r.status === "passed",
-      actual_output: r.actual !== undefined ? r.actual : null,
-      expected_output: r.expected !== undefined ? r.expected : null,
-      execution_time_ms: r.durationMs ?? null,
-      error_message: r.error ?? null,
-    }));
-
-    const { error: testRunError } = await supabase.from("test_runs").insert(testRunRows);
-
-    if (testRunError) {
-      console.error("Failed to save test runs:", testRunError.message);
-    }
-  }
-
-  const scorecard = calculateDeterministicScorecard({
-    language: args.language as "javascript" | "python" | "cpp",
+  const response = await submitAttemptRequest({
+    questionId: args.questionId,
     mode: args.mode as "practice" | "assessment",
+    language: args.language as "javascript" | "python" | "cpp",
     clarification: args.clarification,
     approach: args.approach,
     testingPlan: args.testingPlan,
     edgeCases: args.edgeCases,
-    complexityAnswer: args.complexity,
+    complexity: args.complexity,
     finalCode: args.finalCode,
-    testSummary: args.testSummary,
-    testResults: args.testResults,
-    hintsUsed: 0,
-    timeTakenSeconds: args.timerSeconds > 0 ? args.timerSeconds : null,
-    isExecutable: args.language === "javascript" || args.language === "python",
+    startedAt: args.startedAt.toISOString(),
+    timerSeconds: args.timerSeconds,
+    publicTestSummary: args.testSummary,
+    hintsUsed: args.hintsUsed,
+    runCount: args.runCount,
+    integrityEvents: args.integrityEvents ?? [],
   });
 
-  const { error: scorecardError } = await supabase.from("scorecards").insert({
-    attempt_id: attemptId,
-    overall_score: scorecard.overall_score,
-    result_band: scorecard.result_band,
-    problem_understanding: scorecard.problem_understanding,
-    communication: scorecard.communication,
-    algorithmic_approach: scorecard.algorithmic_approach,
-    code_correctness: scorecard.code_correctness,
-    code_quality: scorecard.code_quality,
-    testing_debugging: scorecard.testing_debugging,
-    complexity_analysis: scorecard.complexity_analysis,
-    hints_followups: scorecard.hints_followups,
-    strengths: scorecard.strengths,
-    weaknesses: scorecard.weaknesses,
-    improvement_tasks: scorecard.improvement_tasks,
-    feedback: scorecard.feedback,
-    rubric_version: scorecard.rubric_version,
-    model_used: scorecard.model_used,
-  });
-
-  if (scorecardError) {
-    console.error("Failed to save scorecard:", scorecardError.message);
-  }
-
-  const { error: attemptUpdateError } = await supabase
-    .from("attempts")
-    .update({
-      overall_score: scorecard.overall_score,
-      result_band: scorecard.result_band,
-    })
-    .eq("id", attemptId);
-
-  if (attemptUpdateError) {
-    console.error("Failed to update attempt score summary:", attemptUpdateError.message);
-  }
-
-  // Persist assessment integrity events (assessment mode only)
-  if (args.integrityEvents && args.integrityEvents.length > 0) {
-    const eventRows = args.integrityEvents.map((e) => ({
-      attempt_id: attemptId,
-      event_type: "integrity_event",
-      stage: null as string | null,
-      payload: {
-        type: e.eventType,
-        occurredAt: e.occurredAt,
-        elapsedSeconds: e.elapsedSeconds,
-        severity: e.severity,
-        metadata: e.metadata ?? {},
-      },
-    }));
-
-    const { error: eventsError } = await supabase
-      .from("attempt_events")
-      .insert(eventRows);
-    if (eventsError) {
-      console.error("Failed to save integrity events:", eventsError.message);
-    }
-
-    // Summary row — used by the results page to show integrity status
-    const severityCounts = args.integrityEvents.reduce(
-      (acc, e) => {
-        if (e.severity === "low") acc.low++;
-        else if (e.severity === "medium") acc.medium++;
-        else if (e.severity === "high") acc.high++;
-        return acc;
-      },
-      { low: 0, medium: 0, high: 0 }
-    );
-    const { high, medium, low } = severityCounts;
-    const finalStatus =
-      high >= 3 ? "compromised"
-      : high >= 1 || medium >= 2 ? "flagged"
-      : medium >= 1 || low >= 3 ? "warning"
-      : "clean";
-
-    await supabase.from("attempt_events").insert({
-      attempt_id: attemptId,
-      event_type: "integrity_summary",
-      stage: "submit",
-      payload: {
-        finalStatus,
-        totalEvents: args.integrityEvents.length,
-        lowCount: low,
-        mediumCount: medium,
-        highCount: high,
-      },
-    });
-  }
-
-  return attemptId;
+  return response.attemptId;
 }
 
 /**

@@ -90,7 +90,7 @@ export type GradeAttemptResult = Record<GradeAttemptCategoryKey, GradeAttemptCat
   recommended_next_topic: string;
   summary: string;
   feedback: {
-    phase: "Phase 4B.2 isolated AI grading";
+    phase: string;
     scoring_method: "ai_hybrid_v1";
     limitations: string[];
     caps_applied: string[];
