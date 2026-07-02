@@ -1,5 +1,33 @@
 # Documentation Log
 
+## 2026-07-02 16:48:00 AEST — Phase 4B.3 Verification + Responsible-AI Hardening
+
+### What was completed
+
+Ran a full Phase 4B.3 verification-and-fix pass after the original implementation. Production validation now passes again when run outside the sandbox, authenticated browser E2E was completed against a real local Chrome session, and the real submit flow was verified through to a saved AI-backed results page with refresh persistence.
+
+During verification, added a responsible-AI safeguard in the grading response parser so model output that makes hiring/job-outcome claims is sanitized before it can be persisted or rendered. Also added a missing `server-only` guard to the grading schema module.
+
+### Verification results
+
+- `npm run lint` passed.
+- `npx tsc --noEmit` passed.
+- `npm run build` passed outside the sandbox. The prior failure was confirmed to be a sandbox process/port restriction, not a repo defect.
+- Authenticated browser E2E passed in Chrome against `localhost:3000`.
+- Real practice submit created a saved attempt and redirected to `/results/[attemptId]`.
+- Duplicate submit protection held during grading: browser instrumentation showed exactly one `/api/attempts/submit` fetch.
+- Results refresh kept the same persisted attempt and score summary visible.
+- Logged-in invalid `POST /api/attempts/submit` returned safe `400` JSON with `invalid_body`.
+
+### Files changed
+
+- `lib/ai/grading-schema.ts` — added `server-only` and sanitized AI-generated strings/lists that would otherwise make hiring or job-outcome claims.
+
+### Remaining limitations
+
+- Some API verification steps still required browser-session fetches because localhost requests from the shell remained unreliable in this environment even when the dev server was healthy in Chrome.
+- Hidden tests remain intentionally deferred in Phase 4B.3 and were not exercised in this verification pass.
+
 ## 2026-07-02 14:03:00 AEST — Phase 4B.3: Real Practice Submission Wired to AI Grading + Persistence
 
 ### What was completed

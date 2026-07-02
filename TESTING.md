@@ -64,6 +64,7 @@ Run tests by visiting the live dev server (`npm run dev`) and following each ste
 - [ ] While logged in, submit a payload where all public and hidden tests fail and confirm the response `overall_score` does not exceed `45`
 - [ ] While logged in, submit a payload where hidden test pass rate is below `50%` and confirm the response `overall_score` does not exceed `69`
 - [ ] Known limitation check: `/api/ai/grade` remains an isolated logged-in grading route for direct verification; the real practice submission flow now saves attempts and scorecards through `/api/attempts/submit`
+- [ ] While logged in, submit an `/api/ai/grade` payload whose summary or category text tries to predict hiring or job outcomes — the saved/returned text is sanitized back to observable interview behaviour language instead of preserving the claim
 
 ## Real Submission + Persisted AI Results
 

@@ -192,12 +192,12 @@
     "hash": "f15aaa42d5d299d091b1171097ea56ad"
   },
   "TESTING.md": {
-    "mtime": 1782961621620.902,
-    "hash": "31796b3cf342ea2389b36e959d96b6fb"
+    "mtime": 1782973967286.0664,
+    "hash": "6de6b51e2e8a84bc26b2dd53e84e1dd7"
   },
   "documentation.md": {
-    "mtime": 1782961483406.9019,
-    "hash": "8391fda17f6c0d511fd8140aa9d44324"
+    "mtime": 1782973967057.0605,
+    "hash": "237b43a7bb78728dcd0ab214c547944b"
   },
   "graphify-out/GRAPH_REPORT.md": {
     "mtime": 1782885129261.566,
@@ -228,8 +228,8 @@
     "hash": "a2760511c65806022ad20adf74370ff3"
   },
   ".graphify/GRAPH_REPORT.md": {
-    "mtime": 1782889437719.4768,
-    "hash": "1a5f53108d6eb091776a9764fe2ff566"
+    "mtime": 1782973984679.0188,
+    "hash": "46ba8faf27dab68d6f6b5826c75c5c10"
   },
   "components/assessment/AssessmentIntegrityGuard.tsx": {
     "mtime": 1782885129256.3635,
@@ -268,11 +268,19 @@
     "hash": "4977db19accddc48bc93d52d9b4c78df"
   },
   "lib/ai/grading-schema.ts": {
-    "mtime": 1782961130681.0566,
-    "hash": "b4ea614e32f278216ad794b692b1ab68"
+    "mtime": 1782973943757.0903,
+    "hash": "46085fc15672f1c7e2506a8e9c2d8e58"
   },
   "lib/ai/grading.ts": {
     "mtime": 1782961621487.8418,
     "hash": "0bf72cb33473799d4c233f2455c48a26"
+  },
+  "app/api/attempts/submit/route.ts": {
+    "mtime": 1782961523521.155,
+    "hash": "0de3e9b57f2901563f43d9ec57b20626"
+  },
+  "lib/attempt-submission.ts": {
+    "mtime": 1782961295790.2393,
+    "hash": "b258c5a83463304076fa5d201834942c"
   }
 }

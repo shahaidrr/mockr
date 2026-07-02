@@ -1,3 +1,5 @@
+import "server-only";
+
 import type { AttemptMode, ResultBand, SupportedLanguage } from "@/types/attempt";
 import type { Difficulty } from "@/types/question";
 import type { JsonObject } from "@/lib/ai/types";
@@ -164,6 +166,31 @@ function readString(value: unknown, path: string): string {
 
 function readOptionalString(value: unknown, fallback = ""): string {
   return typeof value === "string" ? value : fallback;
+}
+
+const OUTCOME_CLAIM_PATTERN =
+  /\b(job offer|offer from|hiring probability|probability of getting|chance of getting|likely to be hired|would be hired|will get (the )?(job|role|offer)|get rejected|be rejected|guarantee(?:d)? (a )?(job|offer|hire)|pass (a|the) real interview)\b/i;
+
+function sanitizeModelText(value: string, fallback: string): string {
+  const trimmed = value.trim();
+
+  if (!trimmed) {
+    return fallback;
+  }
+
+  if (OUTCOME_CLAIM_PATTERN.test(trimmed)) {
+    return fallback;
+  }
+
+  return trimmed;
+}
+
+function sanitizeModelStringList(values: string[], fallback: string): string[] {
+  const sanitized = values
+    .map((value) => sanitizeModelText(value, ""))
+    .filter((value) => value.length > 0);
+
+  return sanitized.length > 0 ? sanitized : [fallback];
 }
 
 function readNullableString(value: unknown, path: string): string | null {
@@ -361,10 +388,16 @@ function parseAiCategory(
 
   return {
     score: clampTenPointScore(raw.score),
-    evidence: readOptionalString(raw.evidence, "No evidence was returned."),
-    improvement: readOptionalString(
-      raw.improvement,
-      "No improvement suggestion was returned."
+    evidence: sanitizeModelText(
+      readOptionalString(raw.evidence, "No evidence was returned."),
+      "Feedback was adjusted to stay focused on observable interview behaviour."
+    ),
+    improvement: sanitizeModelText(
+      readOptionalString(
+        raw.improvement,
+        "No improvement suggestion was returned."
+      ),
+      "Add a more concrete explanation of your reasoning and test coverage."
     ),
   };
 }
@@ -381,22 +414,37 @@ export function parseAiGradeAttemptResponse(
 
   return {
     ...categories,
-    strengths: Array.isArray(value.strengths)
-      ? value.strengths.filter((item): item is string => typeof item === "string")
-      : [],
-    weaknesses: Array.isArray(value.weaknesses)
-      ? value.weaknesses.filter((item): item is string => typeof item === "string")
-      : [],
-    improvement_tasks: Array.isArray(value.improvement_tasks)
-      ? value.improvement_tasks.filter((item): item is string => typeof item === "string")
-      : [],
-    recommended_next_topic: readOptionalString(
-      value.recommended_next_topic,
+    strengths: sanitizeModelStringList(
+      Array.isArray(value.strengths)
+        ? value.strengths.filter((item): item is string => typeof item === "string")
+        : [],
+      "Clear attempt structure and observable reasoning were present."
+    ),
+    weaknesses: sanitizeModelStringList(
+      Array.isArray(value.weaknesses)
+        ? value.weaknesses.filter((item): item is string => typeof item === "string")
+        : [],
+      "There is still room to make the explanation and validation more explicit."
+    ),
+    improvement_tasks: sanitizeModelStringList(
+      Array.isArray(value.improvement_tasks)
+        ? value.improvement_tasks.filter((item): item is string => typeof item === "string")
+        : [],
+      "Practise explaining the approach, complexity, and validation plan more explicitly."
+    ),
+    recommended_next_topic: sanitizeModelText(
+      readOptionalString(
+        value.recommended_next_topic,
+        "Strengthen core data structures and algorithm fundamentals."
+      ),
       "Strengthen core data structures and algorithm fundamentals."
     ),
-    summary: readOptionalString(
-      value.summary,
-      "The attempt has been graded, but the AI summary response was incomplete."
+    summary: sanitizeModelText(
+      readOptionalString(
+        value.summary,
+        "The attempt has been graded, but the AI summary response was incomplete."
+      ),
+      "The attempt was graded using observable interview behaviour and available test evidence."
     ),
   };
 }
