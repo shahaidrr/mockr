@@ -60,8 +60,8 @@
     "hash": "85a45a75318388b097ebcdaad267d3ba"
   },
   "app/results/[attemptId]/page.tsx": {
-    "mtime": 1782961165803.5723,
-    "hash": "a43d055acb7e0c8add67d4ca17f56453"
+    "mtime": 1782975287866.3186,
+    "hash": "ec67625331b086961da20ff4e8118f1c"
   },
   "app/signup/page.tsx": {
     "mtime": 1782727432441.281,
@@ -96,8 +96,8 @@
     "hash": "dfa1f5f6a7037bf39dc510f30b180002"
   },
   "lib/attempts-service.ts": {
-    "mtime": 1782961005269.0059,
-    "hash": "0eec38b9bbf089b5dd5c36e24db0bd85"
+    "mtime": 1782975118642.5837,
+    "hash": "e039e306c02c657b82ec7388d7006217"
   },
   "lib/deterministic-score.ts": {
     "mtime": 1782801808332.2083,
@@ -168,8 +168,8 @@
     "hash": "715501788d7b04b135cdcbc1f98096da"
   },
   "types/scorecard.ts": {
-    "mtime": 1782961191523.6475,
-    "hash": "9df6d3f7ba695257edc570cb547d6727"
+    "mtime": 1782975111169.8044,
+    "hash": "cf2aa55ee9356b050a6e1f5af057396b"
   },
   "types/test-run.ts": {
     "mtime": 1782725257266.9702,
@@ -192,12 +192,12 @@
     "hash": "f15aaa42d5d299d091b1171097ea56ad"
   },
   "TESTING.md": {
-    "mtime": 1782973967286.0664,
-    "hash": "6de6b51e2e8a84bc26b2dd53e84e1dd7"
+    "mtime": 1782976635923.8103,
+    "hash": "fdd059685f0d795630ef17e98eae7b90"
   },
   "documentation.md": {
-    "mtime": 1782973967057.0605,
-    "hash": "237b43a7bb78728dcd0ab214c547944b"
+    "mtime": 1782976635783.291,
+    "hash": "43c32558dd441dc0ed6ef9b0f3c0b9f1"
   },
   "graphify-out/GRAPH_REPORT.md": {
     "mtime": 1782885129261.566,
@@ -228,8 +228,8 @@
     "hash": "a2760511c65806022ad20adf74370ff3"
   },
   ".graphify/GRAPH_REPORT.md": {
-    "mtime": 1782973984679.0188,
-    "hash": "46ba8faf27dab68d6f6b5826c75c5c10"
+    "mtime": 1782974067150.1924,
+    "hash": "b1ced869e6a47ed59480f1569cc2301f"
   },
   "components/assessment/AssessmentIntegrityGuard.tsx": {
     "mtime": 1782885129256.3635,
@@ -276,8 +276,8 @@
     "hash": "0bf72cb33473799d4c233f2455c48a26"
   },
   "app/api/attempts/submit/route.ts": {
-    "mtime": 1782961523521.155,
-    "hash": "0de3e9b57f2901563f43d9ec57b20626"
+    "mtime": 1782975123973.148,
+    "hash": "76c558df98ec9ee0d41059ecbeeb679e"
   },
   "lib/attempt-submission.ts": {
     "mtime": 1782961295790.2393,

@@ -19,16 +19,16 @@ export type ScoreCategoryFeedback = {
 };
 
 export type ScorecardFeedback = {
-  phase: string;
-  scoring_method: string;
-  limitations: string[];
-  public_tests: {
+  phase?: string;
+  scoring_method?: string;
+  limitations?: string[];
+  public_tests?: {
     passed: number;
     failed: number;
     total: number;
     executable?: boolean;
     timedOut?: boolean;
-  };
+  } | null;
   hidden_tests?: {
     passed: number;
     failed: number;
@@ -99,7 +99,7 @@ export type PersistedScorecard = {
   strengths: string[];
   weaknesses: string[];
   improvement_tasks: string[];
-  feedback: ScorecardFeedback;
+  feedback: ScorecardFeedback | null;
   rubric_version: string;
   model_used: string | null;
 };

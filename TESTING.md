@@ -83,6 +83,12 @@ Run tests by visiting the live dev server (`npm run dev`) and following each ste
 - [ ] `/api/ai/grade` still works as an isolated logged-in testing route after the real submit integration
 - [ ] `/api/ai/health` still returns a safe success/failure response after the real submit integration
 - [ ] `/practice/demo` still behaves normally after the real submit integration, including no broken navigation or shared-component regressions
+- [ ] Open a saved AI-backed result such as `/results/[attemptId]` after Phase 4B.4 — page shows overall score, result band, question title, topic, difficulty, mode, language, submitted time, and time taken
+- [ ] On the same saved AI-backed result, verify the Technical summary explicitly says correctness is public-test-backed only, hidden tests were deferred/not run, and hidden test contents are never shown
+- [ ] On the same saved AI-backed result, each rubric category shows a numeric score plus both `Evidence` and `How to improve`
+- [ ] Open an older deterministic result after Phase 4B.4 — page still renders without crashing and shows safe fallback text where evidence or recommendations were never stored
+- [ ] Open a grading-failed result such as `/results/[attemptId]?grading=failed` where no scorecard exists — page shows saved attempt basics, a clear read-only failure message, and no fabricated AI feedback
+- [ ] Hard-refresh the Phase 4B.4 results page — the same persisted scorecard data re-renders and the refresh does not create a new scorecard row
 
 ---
 

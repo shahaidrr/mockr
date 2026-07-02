@@ -1,16 +1,16 @@
 {
   "schemaVersion": 1,
-  "branchName": "phase-4b-3-wire-ai-grading-persistence",
+  "branchName": "phase-4b-4-scorecard-polish-reliability",
   "worktreePath": "/Users/shahaidrr/Documents/mockr",
-  "upstream": "origin/phase-4b-3-wire-ai-grading-persistence",
-  "mergeBase": "f26208b19e17c6b6684c8104a6394d11570d7010",
-  "firstSeenHead": "4bee40826a207200bab61b0350ae6c05de1b0277",
-  "lastSeenHead": "f26208b19e17c6b6684c8104a6394d11570d7010",
-  "lastAnalyzedHead": "f26208b19e17c6b6684c8104a6394d11570d7010",
+  "upstream": null,
+  "mergeBase": null,
+  "firstSeenHead": "ab497d2ec501946952dff2026b9443771ba22725",
+  "lastSeenHead": "ab497d2ec501946952dff2026b9443771ba22725",
+  "lastAnalyzedHead": "ab497d2ec501946952dff2026b9443771ba22725",
   "stale": false,
   "staleReason": null,
   "staleSince": null,
   "lifecycleEvent": null,
-  "createdAt": "2026-07-02T03:07:16.790Z",
-  "updatedAt": "2026-07-02T06:34:27.251Z"
+  "createdAt": "2026-07-02T07:17:28.769Z",
+  "updatedAt": "2026-07-02T07:17:28.769Z"
 }

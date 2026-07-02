@@ -39,6 +39,8 @@ export type SavedAttemptResult = {
   attempt: SavedAttempt;
   questionTitle: string;
   questionSlug: string;
+  questionTopic: string;
+  questionDifficulty: string;
   scorecard: SavedScorecard | null;
   publicTestSummary: AttemptPublicTestSummary | null;
 };
@@ -102,7 +104,7 @@ export async function fetchAttemptById(attemptId: string): Promise<SavedAttemptR
       clarification, approach, testing_plan, edge_cases,
       complexity_answer, final_code, started_at, submitted_at,
       time_taken_seconds, hints_used, overall_score, result_band,
-      questions (title, slug),
+      questions (title, slug, topic, difficulty),
       scorecards (
         id, attempt_id, overall_score, result_band,
         problem_understanding, communication, algorithmic_approach,
@@ -118,7 +120,7 @@ export async function fetchAttemptById(attemptId: string): Promise<SavedAttemptR
 
   if (error || !data) return null;
 
-  type QuestionRef = { title: string; slug: string };
+  type QuestionRef = { title: string; slug: string; topic: string; difficulty: string };
   type ScorecardRow = SavedScorecard | SavedScorecard[] | null;
   type TestRunRow = { passed: boolean | null };
   type RowRaw = SavedAttempt & {
@@ -157,6 +159,8 @@ export async function fetchAttemptById(attemptId: string): Promise<SavedAttemptR
     },
     questionTitle: q?.title ?? "Unknown question",
     questionSlug: q?.slug ?? "",
+    questionTopic: q?.topic ?? "",
+    questionDifficulty: q?.difficulty ?? "",
     scorecard,
     publicTestSummary:
       total > 0 || row.language === "javascript" || row.language === "python"

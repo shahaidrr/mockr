@@ -139,7 +139,7 @@ function buildScorecardFeedback(
   ) as Record<ScoreCategoryKey, string>;
 
   return {
-    phase: "Phase 4B.3 live AI grading",
+    phase: "Phase 4B.4 live AI grading",
     scoring_method: grading.feedback.scoring_method,
     limitations: [
       ...grading.feedback.limitations,

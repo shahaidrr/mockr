@@ -1,5 +1,44 @@
 # Documentation Log
 
+## 2026-07-02 17:16:26 AEST — Phase 4B.4 Results Polish + Reliability Verification
+
+### What was completed
+
+Started and verified Phase 4B.4 on branch `phase-4b-4-scorecard-polish-reliability`. The results page was reworked to render saved AI scorecards in a clearer evidence-first layout, while still handling older deterministic scorecards and incomplete rows safely.
+
+Added a small scorecard-feedback helper layer so the UI can read persisted `scorecards.feedback` defensively. The saved attempt fetch now includes question topic and difficulty, and the results page now shows overall performance metadata, a public-test-backed technical summary, per-category evidence plus improvement guidance, narrative follow-up sections, and subtle reliability metadata. The page also now shows explicit read-only states for missing/failed feedback instead of fabricating AI output.
+
+### Files changed
+
+- `lib/scorecard-feedback.ts` — new helper module for safe category feedback, caps, limitations, public-test summaries, hidden-test status, phase marker, and summary extraction from persisted scorecards.
+- `types/scorecard.ts` — widened persisted feedback typing so older or partial scorecards remain renderable.
+- `lib/attempts-service.ts` — results fetch now includes question topic and difficulty.
+- `app/results/[attemptId]/page.tsx` — restructured results UI for evidence-first display, safer older-scorecard fallbacks, clearer hidden-test/public-test disclosures, and safe grading-failure messaging.
+- `app/api/attempts/submit/route.ts` — new scorecards created through the live route now store `phase: "Phase 4B.4 live AI grading"` in feedback metadata.
+
+### Verification results
+
+- `npm run lint` passed.
+- `npx tsc --noEmit` passed.
+- `npm run build` passed outside the sandbox. The sandbox-only port/process restriction still affects local build/dev execution inside the restricted shell.
+- `/api/ai/health` returned `200` with `ok: true` and no secret exposure.
+- Logged-out `POST /api/ai/grade` returned `401`.
+- Logged-out `POST /api/attempts/submit` returned `401`.
+- Authenticated browser verification succeeded for login, dashboard load, saved AI results rendering, results refresh persistence, grading-failed fallback state, and `/practice/demo`.
+- Saved AI results at `/results/4278e319-99ed-49f7-bde8-0357e989042f` rendered the new Phase 4B.4 sections correctly, including public-test-backed disclosure, hidden-test deferral disclosure, per-category evidence/improvement text, recommended next topic, summary, limitations, and saved metadata.
+- Grading-failed state at `/results/e6153305-5590-442c-813f-37fbe4ee96de?grading=failed` stayed read-only, showed saved attempt basics, and did not fabricate feedback.
+
+### Compatibility and reliability notes
+
+- Older deterministic scorecards now fall back safely when category feedback, recommendations, caps, public test metadata, or summaries were not stored.
+- `scorecards.feedback` remains the source of truth for richer AI metadata in this phase. No SQL migration was needed.
+- Dashboard remained compatible with persisted AI scorecards and still showed recent attempt score/result information correctly.
+
+### Remaining limitations
+
+- Authenticated browser E2E did not complete a fresh end-to-end submit in this pass because Monaco editor automation in the local browser session remained unreliable: accessibility-backed text replacement repeatedly corrupted the code buffer even after reset. Login, dashboard, results, refresh, failure-state, and demo-route verification still completed successfully in Zen after Chrome proved unstable.
+- Hidden tests remain deferred. Results explicitly say correctness is public-test-backed only and hidden test contents remain private.
+
 ## 2026-07-02 16:48:00 AEST — Phase 4B.3 Verification + Responsible-AI Hardening
 
 ### What was completed
